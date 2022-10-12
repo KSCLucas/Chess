@@ -10,3 +10,7 @@
 
 ###nochmehrinfos
 >>>>>>> branch 'main' of https://github.com/KSCLucas/Chess.git
+ 
+ 
+ 
+###AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

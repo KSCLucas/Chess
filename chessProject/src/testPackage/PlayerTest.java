@@ -1,5 +1,7 @@
 package testPackage;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @comment import fehlt noch
  * @author Lucas Noack
  */
-public class PlayerTest {
+class PlayerTest {
 
   /**
    * Geben positiven Testwert ({@code Piece.value}) richtigen Datentyps und
@@ -22,8 +24,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("increaseScoreCorrectInput")
-  public void increaseScoreCorrectInputTest() {
-
+  void increaseScoreCorrectInputTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -37,8 +39,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("increaseScoreWrongDataType")
-  public void increaseScoreWrongDataTypeTest() {
-
+  void increaseScoreWrongDataTypeTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -52,8 +54,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("increaseScoreNull")
-  public void increaseScoreNullTest() {
-
+  void increaseScoreNullTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -68,8 +70,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("increaseScoreNegative")
-  public void increaseScoreNegativeTest() {
-
+  void increaseScoreNegativeTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -84,8 +86,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("addTakenPieceCorrectInput")
-  public void addTakenPieceCorrectInputTest() {
-
+  void addTakenPieceCorrectInputTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -100,8 +102,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("addTakenPieceNull")
-  public void addTakenPieceNullTest() {
-
+  void addTakenPieceNullTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -119,7 +121,8 @@ public class PlayerTest {
    */
   @Test
   @DisplayName("setToInitSuccess")
-  public void setToInitSuccessTest() {
+  void setToInitSuccessTest() {
+    fail("Not yet implemented");
 
   }
 

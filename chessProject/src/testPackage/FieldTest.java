@@ -1,7 +1,9 @@
 package testPackage;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testet die {@code Field}-Klasse
@@ -9,7 +11,13 @@ import org.junit.jupiter.api.DisplayName;
  * @comment Ersterstellung
  * @author Lucas Noack
  */
-public class FieldTest {
+class FieldTest {
+
+  @Test
+  void test() {
+    fail("Not yet implemented");
+  }
+
   /**
    * Baut ein {@code Field}-Objekt mit einer {@code currentGameState}-Hashmap,
    * welche nicht der Startmap entspricht. Es wird erwartet, dass die
@@ -22,7 +30,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("initializeHashmapSuccess")
-  public void initializeHashmapSuccessTest() {
+  void initializeHashmapSuccessTest() {
+    fail("Not yet implemented");
 
   }
 
@@ -40,7 +49,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("updateHashmapSuccess")
-  public void updateHashmapSuccessTest() {
+  void updateHashmapSuccessTest() {
+    fail("Not yet implemented");
 
   }
 
@@ -55,7 +65,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("resetCurrentTurnSuccess")
-  public void resetCurrentTurnSuccessTest() {
+  void resetCurrentTurnSuccessTest() {
+    fail("Not yet implemented");
 
   }
 
@@ -70,8 +81,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("increaseCurrentTurnSuccess")
-  public void increaseCurrentTurnSuccessTest() {
-
+  void increaseCurrentTurnSuccessTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -85,8 +96,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("increaseCurrentTurnBlockZeroTest")
-  public void increaseCurrentTurnBlockZeroTest() {
-
+  void increaseCurrentTurnBlockZeroTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -100,8 +111,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("increaseCurrentTurnBlockNegative")
-  public void increaseCurrentTurnBlockNegativeTest() {
-
+  void increaseCurrentTurnBlockNegativeTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -115,8 +126,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("increaseCurrentTurnNull")
-  public void increaseCurrentTurnNullTest() {
-
+  void increaseCurrentTurnNullTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -131,8 +142,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("checkForWinnerSuccess")
-  public void checkForWinnerSuccessTest() {
-
+  void checkForWinnerSuccessTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -147,8 +158,8 @@ public class FieldTest {
    */
   @Test
   @DisplayName("checkForWinnerNoCheckmate")
-  public void checkForWinnerNoCheckmateTest() {
-
+  void checkForWinnerNoCheckmateTest() {
+    fail("Not yet implemented");
   }
 
   /**
@@ -164,7 +175,7 @@ public class FieldTest {
    */
   @Test
   @DisplayName("checkForWinnerBothKingsCheckmate")
-  public void checkForWinnerBothKingsCheckmateTest() {
-
+  void checkForWinnerBothKingsCheckmateTest() {
+    fail("Not yet implemented");
   }
 }

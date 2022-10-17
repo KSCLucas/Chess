@@ -6,6 +6,7 @@ public class HelloTest {
     
     System.out.println("Hello, Goodbye");
     System.out.println(" O haha reingeschaut");
+    System.out.println(" schwanz");
   }
 
 }

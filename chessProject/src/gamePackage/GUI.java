@@ -23,6 +23,14 @@ public class GUI {
     this.posClickedPiece = posClickedPiece;
   }
 
+  public String getPosClickedPiece() {
+    return posClickedPiece;
+  }
+
+  public void setPosClickedPiece(String posClickedPiece) {
+    this.posClickedPiece = posClickedPiece;
+  }
+
   /**
    * Setzt alle Spielfiguren auf Anfangspos, loescht Historie, setzt
    * Spielerdaten zurück (Punkte, geschlagene Figuren, NICHT Farbe und Name)
@@ -97,8 +105,9 @@ public class GUI {
   }
 
   /**
-   * Auf der Basis der @code Field.currentGameState-Hashmap werden Position und
-   * Sprite der Spielfiguren ausgelesen und auf dem jeweiligen Feld angezeigt
+   * Auf der Basis der {@code Field.currentGameState}-Hashmap werden Position
+   * und Sprite der Spielfiguren ausgelesen und auf dem jeweiligen Feld
+   * angezeigt
    * 
    * @param void
    * @return void
@@ -147,7 +156,7 @@ public class GUI {
   }
 
   /**
-   * Faerbt die Felder entsprechend der @code Piece.legalMoveMap gruen (darf
+   * Faerbt die Felder entsprechend der {@code Piece.legalMoveMap} gruen (darf
    * ziehen), rot (schlagen) oder garnicht (darf nicht ziehen)
    * 
    * @param void

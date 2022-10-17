@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
  * @comment import fehlt noch
  * @author Lucas Noack
  */
-
 public class PlayerTest {
 
   /**
@@ -21,9 +20,8 @@ public class PlayerTest {
    * @tested {@code Player.increaseScore()}
    * @author Lucas Noack
    */
-  
   @Test
-  @DisplayName ("increaseScoreCorrectInput")
+  @DisplayName("increaseScoreCorrectInput")
   public void increaseScoreCorrectInputTest() {
 
   }
@@ -38,7 +36,7 @@ public class PlayerTest {
    * @author Lucas Noack
    */
   @Test
-  @DisplayName ("increaseScoreWrongDataType")
+  @DisplayName("increaseScoreWrongDataType")
   public void increaseScoreWrongDataTypeTest() {
 
   }
@@ -53,7 +51,7 @@ public class PlayerTest {
    * @author Lucas Noack
    */
   @Test
-  @DisplayName ("increaseScoreNull")
+  @DisplayName("increaseScoreNull")
   public void increaseScoreNullTest() {
 
   }
@@ -69,7 +67,7 @@ public class PlayerTest {
    * @author Lucas Noack
    */
   @Test
-  @DisplayName ("increaseScoreNegative")
+  @DisplayName("increaseScoreNegative")
   public void increaseScoreNegativeTest() {
 
   }
@@ -85,7 +83,7 @@ public class PlayerTest {
    * @author Lucas Noack
    */
   @Test
-  @DisplayName ("addTakenPieceCorrectInput")
+  @DisplayName("addTakenPieceCorrectInput")
   public void addTakenPieceCorrectInputTest() {
 
   }
@@ -120,7 +118,7 @@ public class PlayerTest {
    * @author Lucas Noack
    */
   @Test
-  @DisplayName ("setToInitSuccess")
+  @DisplayName("setToInitSuccess")
   public void setToInitSuccessTest() {
 
   }

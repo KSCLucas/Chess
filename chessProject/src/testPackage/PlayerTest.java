@@ -1,5 +1,15 @@
 package testPackage;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Testet die {@code Player}-Klasse
+ * 
+ * @comment import fehlt noch
+ * @author Lucas Noack
+ */
+
 public class PlayerTest {
 
   /**
@@ -11,6 +21,9 @@ public class PlayerTest {
    * @tested {@code Player.increaseScore()}
    * @author Lucas Noack
    */
+  
+  @Test
+  @DisplayName ("increaseScoreCorrectInput")
   public void increaseScoreCorrectInputTest() {
 
   }
@@ -24,6 +37,8 @@ public class PlayerTest {
    * @tested {@code Player.increaseScore()}
    * @author Lucas Noack
    */
+  @Test
+  @DisplayName ("increaseScoreWrongDataType")
   public void increaseScoreWrongDataTypeTest() {
 
   }
@@ -37,6 +52,8 @@ public class PlayerTest {
    * @tested {@code Player.increaseScore()}
    * @author Lucas Noack
    */
+  @Test
+  @DisplayName ("increaseScoreNull")
   public void increaseScoreNullTest() {
 
   }
@@ -51,6 +68,8 @@ public class PlayerTest {
    * @comment geloest durch {@code math.abs()}
    * @author Lucas Noack
    */
+  @Test
+  @DisplayName ("increaseScoreNegative")
   public void increaseScoreNegativeTest() {
 
   }
@@ -65,6 +84,8 @@ public class PlayerTest {
    * @comment Testbar durch erwartete Eigenschaften (z.B. {@code Piece.name})
    * @author Lucas Noack
    */
+  @Test
+  @DisplayName ("addTakenPieceCorrectInput")
   public void addTakenPieceCorrectInputTest() {
 
   }
@@ -79,7 +100,8 @@ public class PlayerTest {
    * @comment Testbar durch erwartete Eigenschaften (z.B. {@code Piece.name})
    * @author Lucas Noack
    */
-
+  @Test
+  @DisplayName("addTakenPieceNull")
   public void addTakenPieceNullTest() {
 
   }
@@ -97,6 +119,8 @@ public class PlayerTest {
    *          {@code NullPointerException} achten bei {@code Player.takenPiece}
    * @author Lucas Noack
    */
+  @Test
+  @DisplayName ("setToInitSuccess")
   public void setToInitSuccessTest() {
 
   }

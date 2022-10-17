@@ -150,9 +150,11 @@ public class FieldTest {
   public void checkForWinnerNoCheckmateTest() {
 
   }
+
   /**
    * Baut 2 {@code King}-Objekte, bei denen {@code this.isInCheckmate = true}
-   * und {@code this.colour = 'w' & 'b'}. Erwartet eine {@code OnlyOneWinnerException}.
+   * und {@code this.colour = 'w' & 'b'}. Erwartet eine
+   * {@code OnlyOneWinnerException}.
    * 
    * @param void
    * @return void

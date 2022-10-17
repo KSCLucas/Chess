@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Testet die {@code Player}-Klasse
  * 
- * @comment import fehlt noch
  * @author Lucas Noack
  */
 class PlayerTest {

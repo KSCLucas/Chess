@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Testet die {@code Field}-Klasse
  * 
- * @comment Ersterstellung
  * @author Lucas Noack
  */
 class FieldTest {

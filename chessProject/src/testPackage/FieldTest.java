@@ -169,12 +169,12 @@ class FieldTest {
    * @param void
    * @return void
    * @tested {@code Player.checkForWinner()}
-   * @comment {@code OnlyOneWinnerException} muss noch erstellt werden.
    * @author Lucas Noack
    */
   @Test
   @DisplayName("checkForWinnerBothKingsCheckmate")
   void checkForWinnerBothKingsCheckmateTest() {
     fail("Not yet implemented");
+    //TODO {@code OnlyOneWinnerException} muss noch erstellt werden.
   }
 }

@@ -15,6 +15,38 @@ public class Player {
   private char                 colour;
   private int                  score;
   private ArrayList<Character> takenPiece;
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public char getColour() {
+    return colour;
+  }
+
+  public void setColour(char colour) {
+    this.colour = colour;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public ArrayList<Character> getTakenPiece() {
+    return takenPiece;
+  }
+
+  public void setTakenPiece(ArrayList<Character> takenPiece) {
+    this.takenPiece = takenPiece;
+  }
+
   /**
    * fügt this.takenPiece das geschlagene Piece hinzu und ruft increaseScore auf
    * 

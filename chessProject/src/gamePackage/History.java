@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 
  * @comment Grundgerüst
  * @author Toni Gropper
- * @since 17.10.2022
+ * @since 18.10.2022
  */
 public class History {
 
@@ -17,8 +17,36 @@ public class History {
     return FENs;
   }
 
-  public void setFENs(ArrayList<String> fENs) {
-    FENs = fENs;
+  public void setFENs(ArrayList<String> FENs) {
+    this.FENs = FENs;
   }
 
+  /**
+   * fügt einen FEN-String mit FENs.add() der Liste hinzu
+   * 
+   * @param String
+   * @return void
+   * @throws
+   * @comment Grundgerüst
+   * @author Toni Gropper
+   */
+  public void addEntry(String FEN) {
+  FENs.add(FEN);
+  
+  }
+  
+
+  /**
+   * returned FEN an Index int aus FENs. Falls es den Index nicht gibt, wird
+   * IndexOutOfBoundsException geworfen
+   * 
+   * @param int
+   * @return String
+   * @throws IndexOutOfBoundsException
+   * @comment Grundgerüst
+   * @author Toni Gropper
+   */
+  public String getEntryAtIndex() {
+    return null;
+  }
 }

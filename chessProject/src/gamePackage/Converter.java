@@ -20,7 +20,7 @@ public class Converter {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public HashMap<String, Object> convertHashToFEN() {
+  public static String convertHashToFEN(HashMap<String, Object> gameState) {
 
     return null;
 
@@ -35,7 +35,7 @@ public class Converter {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public String convertFENToHash() {
+  public static HashMap<String, Object> convertFENToHash(String gamestate) {
 
     return null;
   }
@@ -49,7 +49,7 @@ public class Converter {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public String convertFENToHistory() {
+  public static String convertFENToHistory(String historyString) {
 
     return null;
   }

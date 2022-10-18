@@ -24,8 +24,7 @@ public class Player {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public Object addTakenPiece() {
-    return null;
+  public void addTakenPiece(Object Piece) {
   }
 
   /**
@@ -37,8 +36,7 @@ public class Player {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public int increaseScore() {
-    return 0;
+  public void increaseScore(int score) {
   }
 
   /**

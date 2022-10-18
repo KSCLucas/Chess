@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Pawn.
  * 
  * @author PKamps
+ * @see Piece
  */
 public class Pawn extends Piece {
 

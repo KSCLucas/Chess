@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Die Piece-Klasse stellt einen Constructor und wichtige Methoden für jede
- * Spielfigur.
+ * Die {@code Piece}-Klasse stellt einen Constructor und wichtige Methoden für
+ * jede Spielfigur.
  * 
  * @comment Die Hashmap wird parallel zum Constructor aufgebaut.
  * @author PKamps
  */
 public abstract class Piece {
 
-  private char                          name;
+  private String                        name;
   private char                          colour;
   private int                           value;
   private boolean                       isMoveRepeatable;
@@ -23,7 +23,7 @@ public abstract class Piece {
   private HashMap<String, String>       legalMoveMap;
 
   /**
-   * Parametisierter Constructor für ein Piece.
+   * Parametisierter Constructor für ein {@code Piece}.
    * 
    * @param name
    * @param colour
@@ -34,7 +34,7 @@ public abstract class Piece {
    * @param skin
    * @author PKamps
    */
-  public Piece(char name, char colour, int value, boolean isMoveRepeatable, String position,
+  public Piece(String name, char colour, int value, boolean isMoveRepeatable, String position,
       ArrayList<ArrayList<Integer>> moveSet, Image skin) {
     this.name = name;
     this.colour = colour;
@@ -50,11 +50,11 @@ public abstract class Piece {
 
   }
 
-  public char getName() {
+  public String getName() {
     return name;
   }
 
-  public void setName(char name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -70,16 +70,8 @@ public abstract class Piece {
     return value;
   }
 
-  public void setValue(int value) {
-    this.value = value;
-  }
-
   public boolean isMoveRepeatable() {
     return isMoveRepeatable;
-  }
-
-  public void setMoveRepeatable(boolean isMoveRepeatable) {
-    this.isMoveRepeatable = isMoveRepeatable;
   }
 
   public String getPosition() {
@@ -92,10 +84,6 @@ public abstract class Piece {
 
   public ArrayList<ArrayList<Integer>> getMoveSet() {
     return moveSet;
-  }
-
-  public void setMoveSet(ArrayList<ArrayList<Integer>> moveSet) {
-    this.moveSet = moveSet;
   }
 
   public Image getSkin() {
@@ -141,5 +129,5 @@ public abstract class Piece {
   public void createLegalMoveMap() throws PieceOutOfBoundsException {
 
   }
-  
+
 }

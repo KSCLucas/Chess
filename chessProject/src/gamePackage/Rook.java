@@ -1,38 +1,34 @@
 package gamePackage;
 
 import java.awt.Image;
-import java.util.ArrayList;
 
 /**
- * Die Rook-Klasse stellt einen Constructor und wichtige Methoden für jeden
- * Rook.
+ * Die {@code Rook}-Klasse stellt einen Constructor und wichtige Methoden für
+ * jeden {@code Rook}.
  * 
  * @author PKamps
+ * @see Piece
  */
 public class Rook extends Piece {
-  
-  // TODO Spezifisches {@code moveSet} mit MoveSetBuilder (noch zu bauen)
-  // produzieren.
+
   private char    castleSide;
   private boolean canCastle;
   private boolean hasMoved;
 
   /**
-   * Ruft parametisierten Constructor von Piece auf und setzt
-   * {@code this.castleSide}, {@code this.canCastle} und {@code this.hasMoved}.
+   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
+   * {@code value}, {@code isMoveRepeatable}, {@code castleSide},
+   * {@code canCastle} und {@code hasMoved}.
    * 
    * @param name
    * @param colour
-   * @param value
-   * @param isMoveRepeatable
    * @param position
-   * @param moveSet
    * @param skin
+   * @param castleSide
    * @author PKamps
    */
-  public Rook(char name, char colour, int value, boolean isMoveRepeatable, String position,
-      ArrayList<ArrayList<Integer>> moveSet, Image skin, char castleSide) {
-    super(name, colour, value, isMoveRepeatable, position, moveSet, skin);
+  public Rook(String name, char colour, String position, Image skin, char castleSide) {
+    super(name, colour, 5, true, position, MoveSetSupplier.supplyRookMoveSet(), skin);
     this.castleSide = castleSide;
     this.canCastle = false;
     this.hasMoved = false;

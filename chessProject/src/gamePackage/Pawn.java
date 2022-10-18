@@ -1,40 +1,33 @@
 package gamePackage;
 
 import java.awt.Image;
-import java.util.ArrayList;
 
 /**
- * Die Pawn-Klasse stellt einen Constructor und wichtige Methoden für jeden
- * Pawn.
+ * Die {@code Pawn}-Klasse stellt einen Constructor und wichtige Methoden für
+ * jeden {@code Pawn}.
  * 
  * @author PKamps
  * @see Piece
  */
 public class Pawn extends Piece {
 
-  // TODO Spezifisches {@code moveSet} mit MoveSetBuilder (noch zu bauen)
-  // produzieren.
   private boolean isEnPassentable;
   private boolean isPromotable;
   private boolean hasMoved;
 
   /**
-   * Ruft parametisierten Constructor von Piece auf und setzt
-   * {@code this.isEnPassantable}, {@code this.isPromotable} und
-   * {@code this.hasMoved}.
+   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
+   * {@code value}, {@code isMoveRepeatable}, {@code moveSet},
+   * {@code isEnPassantable}, {@code isPromotable} und {@code hasMoved}.
    * 
    * @param name
    * @param colour
-   * @param value
-   * @param isMoveRepeatable
    * @param position
-   * @param moveSet
    * @param skin
    * @author PKamps
    */
-  public Pawn(char name, char colour, int value, boolean isMoveRepeatable, String position,
-      ArrayList<ArrayList<Integer>> moveSet, Image skin) {
-    super(name, colour, value, isMoveRepeatable, position, moveSet, skin);
+  public Pawn(String name, char colour, String position, Image skin) {
+    super(name, colour, 1, false, position, MoveSetSupplier.supplyPawnMoveSet(), skin);
     this.isEnPassentable = false;
     this.isPromotable = false;
     this.hasMoved = false;
@@ -87,6 +80,18 @@ public class Pawn extends Piece {
   }
 
   /**
+   * Überschreibt {@code createLegalMoveMap} von {@code Piece}.
+   * 
+   * @return void
+   * @author PKamps
+   * @see Piece.createLegalMoveMap
+   */
+  @Override
+  public void createLegalMoveMap() {
+
+  }
+
+  /**
    * Prüft, ob sich der Pawn um zwei Felder bewegt hat. Umgesetzt mit der
    * Differenz von {@code this.position} und {@code targetPosition}.
    * 
@@ -94,7 +99,7 @@ public class Pawn extends Piece {
    * @return void
    * @author PKamps
    */
-  public void checkForenPassant(String targetPosition) {
+  public void checkForEnPassant(String targetPosition) {
 
   }
 

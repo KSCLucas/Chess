@@ -1,32 +1,27 @@
 package gamePackage;
 
 import java.awt.Image;
-import java.util.ArrayList;
 
 /**
- * Die Queen-Klasse stellt einen Constructor für jede Queen.
+ * Die {@code Queen}-Klasse stellt einen Constructor für jede {@code Queen}.
  * 
  * @author PKamps
+ * @see Piece
  */
 public class Queen extends Piece {
-  
-  // TODO Spezifisches {@code moveSet} mit MoveSetBuilder (noch zu bauen)
-  // produzieren.
+
   /**
-   * Ruft parametisierten Constructor von Piece auf.
+   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
+   * {@code value}, {@code isMoveRepeatable} und {@code moveSet}.
    * 
    * @param name
    * @param colour
-   * @param value
-   * @param isMoveRepeatable
    * @param position
-   * @param moveSet
    * @param skin
    * @author PKamps
    */
-  public Queen(char name, char colour, int value, boolean isMoveRepeatable, String position,
-      ArrayList<ArrayList<Integer>> moveSet, Image skin) {
-    super(name, colour, value, isMoveRepeatable, position, moveSet, skin);
+  public Queen(String name, char colour, String position, Image skin) {
+    super(name, colour, 9, true, position, MoveSetSupplier.supplyQueenMoveSet(), skin);
   }
 
 }

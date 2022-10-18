@@ -24,7 +24,9 @@ public class GUI {
   }
 
   public String getPosClickedPiece() {
+
     return posClickedPiece;
+
   }
 
   public void setPosClickedPiece(String posClickedPiece) {

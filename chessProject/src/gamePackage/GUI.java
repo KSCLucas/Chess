@@ -9,7 +9,7 @@ package gamePackage;
  */
 public class GUI {
 
-  public String posClickedPiece;
+  private String posClickedPiece;
 
   /**
    * Konstruktor für GUI-Klasse

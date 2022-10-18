@@ -1,6 +1,6 @@
 package gamePackage;
 
-public class HelloTest {
+public class Main {
 
   public static void main(String[] args) {
     

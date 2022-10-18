@@ -1,6 +1,7 @@
 package gamePackage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * speichert alle vergangenen Züge als eigene FEN
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class History {
 
-  private ArrayList<String> FENs;
+  private ArrayList<String> FENs = new ArrayList<>(Arrays.asList("john", "paul", "lucas"));
 
   public ArrayList<String> getFENs() {
     return FENs;
@@ -30,11 +31,12 @@ public class History {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
+
   public void addEntry(String FEN) {
-  FENs.add(FEN);
-  
+
+    FENs.add(FEN);
+
   }
-  
 
   /**
    * returned FEN an Index int aus FENs. Falls es den Index nicht gibt, wird
@@ -46,7 +48,9 @@ public class History {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public String getEntryAtIndex() {
+  public String getEntryAtIndex(int posEntry) {
+
     return null;
+
   }
 }

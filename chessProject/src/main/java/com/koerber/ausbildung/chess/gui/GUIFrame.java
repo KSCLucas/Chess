@@ -37,7 +37,11 @@ public class GUIFrame {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setBounds(100, 100, 450, 300);
+    frame.setResizable(false);
+    frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//    frame.setUndecorated(true);
+  
+//    frame.setBounds(0, 0, 1920, 1080);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 

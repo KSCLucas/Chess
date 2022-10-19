@@ -5,7 +5,7 @@ import java.awt.Image;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
- * Die {@code Knight}-Klasse stellt einen Constructor für jeden {@code Knight}.
+ * The {@code Knight} class contains a constructor every {@code Knight}.
  * 
  * @author PKamps
  * @see Piece
@@ -13,8 +13,8 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 public class Knight extends Piece {
 
   /**
-   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
-   * {@code value}, {@code isMoveRepeatable} und {@code moveSet}.
+   * Calls parameterized constructor of {@code Piece} and sets {@code value},
+   * {@code isMoveRepeatable} and {@code moveSet}.
    * 
    * @param name
    * @param colour

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Die {@code MoveSetSupplier}-Klasse bietet statische Methoden, die das
- * jeweilige {@code MoveSet} der Spielfigur in dem Methodennamen.
+ * The {@code MoveSetSupplier} class contains static methods, which provide the
+ * {@code MoveSet} for each type of {@code Piece}.
  * 
  * @author PKamps
  */
 public abstract class MoveSetSupplier {
 
   /**
-   * Baut {@code pawnMoveSet}.
+   * Provides {@code pawnMoveSet}.
    * 
    * @return pawnMoveSet
    */
@@ -36,7 +36,7 @@ public abstract class MoveSetSupplier {
   }
 
   /**
-   * Baut {@code kingMoveSet}.
+   * Provides {@code kingMoveSet}.
    * 
    * @return kingMoveSet
    */
@@ -64,7 +64,7 @@ public abstract class MoveSetSupplier {
   }
 
   /**
-   * Baut {@code rookMoveSet}.
+   * Provides {@code rookMoveSet}.
    * 
    * @return rookMoveSet
    */
@@ -84,7 +84,7 @@ public abstract class MoveSetSupplier {
   }
 
   /**
-   * Baut {@code knightMoveSet}.
+   * Provides {@code knightMoveSet}.
    * 
    * @return knightMoveSet
    */
@@ -112,7 +112,7 @@ public abstract class MoveSetSupplier {
   }
 
   /**
-   * Baut {@code bishopMoveSet}.
+   * Provides {@code bishopMoveSet}.
    * 
    * @return bishopMoveSet
    */
@@ -132,7 +132,7 @@ public abstract class MoveSetSupplier {
   }
 
   /**
-   * Baut {@code queenMoveSet}.
+   * Provides {@code queenMoveSet}.
    * 
    * @return queenMoveSet
    */

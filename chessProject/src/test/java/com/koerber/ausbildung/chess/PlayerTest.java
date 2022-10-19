@@ -6,15 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Player}-Klasse
+ * Tests the {@code Player} class.
  * 
  * @author Lucas Noack
  */
 class PlayerTest {
 
   /**
-   * Geben positiven Testwert ({@code Piece.value}) richtigen Datentyps und
-   * erwarten {@code Player.score} + Testwert
+   * Give positive test value ({@code Piece.value}) of correct data type and
+   * expect {@code Player.score} + test value.
    * 
    * @param void
    * @return void
@@ -28,8 +28,8 @@ class PlayerTest {
   }
 
   /**
-   * Geben falschen Datentyp und erwarten Fehlermeldung ({@code
-   * IllegalArgumentException})
+   * Give wrong data type and expect error message
+   * ({@code IllegalArgumentException}).
    * 
    * @param void
    * @return void
@@ -43,8 +43,7 @@ class PlayerTest {
   }
 
   /**
-   * Geben {@code null} und erwarten Fehlermeldung
-   * ({@code NullPointerException})
+   * Enter {@code null} and expect error message ({@code NullPointerException}).
    * 
    * @param void
    * @return void
@@ -58,13 +57,13 @@ class PlayerTest {
   }
 
   /**
-   * Geben negativen Testwert ( {@code Piece.value}) und erwarten {@code
-   * Player.score} + Testwert
+   * Enter negative test value ( {@code Piece.value}) and expect
+   * {@code Player.score} + test value.
    * 
    * @param void
    * @return void
    * @tested {@code Player.increaseScore()}
-   * @comment geloest durch {@code math.abs()}
+   * @comment solve with {@code math.abs()}
    * @author Lucas Noack
    */
   @Test
@@ -74,13 +73,13 @@ class PlayerTest {
   }
 
   /**
-   * Geben Testobjekt der Klasse {@code Piece} und erwarten, dass es erfolgreich
-   * zu {@code Player.takenPieces} hinzugefügt wird
+   * Give test object of {@code Piece} class and expect it to be successfully
+   * added to {@code Player.takenPieces}.
    * 
    * @param void
    * @return void
    * @tested {@code Player.addTakenPiece()}
-   * @comment Testbar durch erwartete Eigenschaften (z.B. {@code Piece.name})
+   * @comment Testable by expected properties (e.g. {@code Piece.name}).
    * @author Lucas Noack
    */
   @Test
@@ -90,13 +89,12 @@ class PlayerTest {
   }
 
   /**
-   * geben {@code null} und erwarten Fehlermeldung (
-   * {@code NullPointerException})
+   * Enter {@code null} and expect error message ({@code NullPointerException}).
    * 
    * @param void
    * @return void
    * @tested {@code Player.addTakenPiece()}
-   * @comment Testbar durch erwartete Eigenschaften (z.B. {@code Piece.name})
+   * @comment Testable by expected properties (e.g. {@code Piece.name})
    * @author Lucas Noack
    */
   @Test
@@ -106,16 +104,16 @@ class PlayerTest {
   }
 
   /**
-   * Baut {@code Player}-Objekt mit Testwerten und erwarten, dass nach
-   * durchfuehren von {@code setToInitPlayer.score} auf 0 und
-   * {@code Player.takenPieces} leer ist
+   * Builds {@code Player} object with test values and expect that after
+   * performing {@code setToInitPlayer.score} to 0 and
+   * {@code Player.takenPieces} is empty.
    * 
    * @param void
    * @return void
    * @tested {@code Player.setToInit()}
-   * @comment {@code Player.name} und {@code Player.colour} bleiben gleich und
-   *          werden nicht zurück gesetzt / moeglicherweise auf
-   *          {@code NullPointerException} achten bei {@code Player.takenPiece}
+   * @comment {@code Player.name} and {@code Player.color} remain the same and
+   *          are not reset / possibly watch out for
+   *          {@code NullPointerException} on {@code Player.takenPiece}.
    * @author Lucas Noack
    */
   @Test

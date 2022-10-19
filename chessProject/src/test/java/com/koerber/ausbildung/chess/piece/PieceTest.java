@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Piece}-Klasse
+ * Tests the {@code Piece} class.
  * 
  * @author Lucas Noack
  */
@@ -19,8 +19,8 @@ class PieceTest {
   }
 
   /**
-   * Baut {@code Piece}-Objekt mit Testwerten und erwartet auf Basis der
-   * Testwerte eine korrekte {@code Piece.legalMoveMap}
+   * Builds {@code Piece} object with test values and expects a correct
+   * {@code Piece.legalMoveMap} based on the test values.
    * 
    * @param void
    * @return void
@@ -34,8 +34,8 @@ class PieceTest {
   }
 
   /**
-   * Baut ein {@code Piece}-Objekt mit Testwerten und erwarte auf Basis der
-   * Testwerte eine {@code PieceOutOfBoundsException}
+   * Builds a {@code Piece} object with test values and expects a
+   * {@code PieceOutOfBoundsException} based on the test values.
    * 
    * @param void
    * @return void
@@ -49,9 +49,9 @@ class PieceTest {
   }
 
   /**
-   * Baut ein {@code Piece}-Objekt mit Testwerten und erwarte auf Basis der
-   * Testwerte eine {@code Piece.legalMoveMap} mit nur illegalen
-   * Zugmöglichkeiten
+   * Builds a {@code Piece} object with test values and expects a
+   * {@code Piece.legalMoveMap} with only illegal move options based on the test
+   * values.
    * 
    * @param void
    * @return void
@@ -65,10 +65,10 @@ class PieceTest {
   }
 
   /**
-   * Baut ein {@code Piece}-Objekt mit Testwerten und erwarte auf Basis der
-   * Testwerte eine {@code Piece.legalMoveMap}. Es werden zufaellig Nullpointer
-   * in der {@code legalMoveMap} gestreut. Erwartet wird
-   * {@code NullPointerException}
+   * Builds a {@code Piece} object with test values and expects a
+   * {@code Piece.legalMoveMap} based on the test values. Randomly scatters null
+   * pointers in the {@code legalMoveMap}. Expected is
+   * {@code NullPointerException}.
    * 
    * @param void
    * @return void
@@ -82,7 +82,7 @@ class PieceTest {
   }
 
   /**
-   * Erwartet, dass {@code Piece.position =} target Position.
+   * Expects {@code Piece.position =} target Position.
    * 
    * @param void
    * @return void
@@ -96,13 +96,12 @@ class PieceTest {
   }
 
   /**
-   * Erwartet, dass sich {@code Piece.position} nicht aendert
+   * Expects {@code Piece.position} not to change.
    * 
    * @param void
    * @return void
    * @tested {@code movePiece()}
-   * @comment target Position kann frei gewaehlt werden (Move muss durchfuehrbar
-   *          sein).
+   * @comment target Position can be freely selected (move must be executable).
    * @author Lucas Noack
    */
   @Test
@@ -112,13 +111,13 @@ class PieceTest {
   }
 
   /**
-   * Erwartet, dass sich {@code Piece.position} nicht aendert
+   * Expects {@code Piece.position} not to change.
    * 
    * @param void
    * @return void
    * @tested {@code movePiece()}
-   * @comment target Position kann frei gewaehlt werden (Move darf nicht
-   *          durchfuehrbar sein).
+   * @comment target Position can be freely selected (move must not be
+   *          executable).
    * @author Lucas Noack
    */
   @Test
@@ -128,13 +127,13 @@ class PieceTest {
   }
 
   /**
-   * Erwartet, dass sich {@code Piece.position} nicht aendert
+   * Expects {@code Piece.position} not to change.
    * 
    * @param void
    * @return void
    * @tested {@code movePiece()}
-   * @comment target Position liegt ausßerhalb des Spielfelds (z.B. H12),
-   *          schließt auch {@code null} als Key ein.
+   * @comment target Position is outside the field (e.g. H12), also includes
+   *          {@code null} as key.
    * @author Lucas Noack
    */
   @Test
@@ -144,13 +143,13 @@ class PieceTest {
   }
 
   /**
-   * Erwartet, dass sich {@code Piece.position =} target position &
-   * {@code enemyPiece.position = "xy"}
+   * Expects {@code Piece.position =} target position &
+   * {@code enemyPiece.position = "xy"}.
    * 
    * @param void
    * @return void
    * @tested {@code movePiece()}
-   * @comment "xy" zaehlt als nicht auf dem Spielfeld befindlich
+   * @comment "xy" counts as not being on the pitch.
    * @author Lucas Noack
    */
   @Test

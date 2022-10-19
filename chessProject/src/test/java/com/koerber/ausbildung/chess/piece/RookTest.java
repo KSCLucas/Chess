@@ -6,16 +6,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Rook}-Klasse
+ * Tests the {@code Rook} class.
  * 
  * @author Lucas Noack
  */
 class RookTest {
 
   /**
-   * Baut ein {@code Rook}-Objekt mit Ausgangstestwerten. Dann setzt man
-   * {@code Rook.position} auf einen andere legalen Wert und erwartet, dass
-   * {@code Rook.hasMoved = true}
+   * Builds a {@code Rook} object with initial test values. Then set
+   * {@code Rook.position} to another legal value and expect
+   * {@code Rook.hasMoved = true}.
    * 
    * @param void
    * @return void
@@ -29,8 +29,8 @@ class RookTest {
   }
 
   /**
-   * Baut ein {@code Rook}-Objekt mit Ausgangstestwerten. Man ändert
-   * {@code Rook.position} nicht und erwartet, dass{@code Rook.hasMoved = false}
+   * Builds a {@code Rook} object with initial test values. Don't
+   * change{@code Rook.position} and expect{@code Rook.hasMoved = false}.
    * 
    * @param void
    * @return void
@@ -45,9 +45,9 @@ class RookTest {
   }
 
   /**
-   * Baut {@code Rook}-Objekt mit Ausgangstestwerten. Alle Felder zwischen Rook
-   * und King sind leer ("###"). Man erwartet, dass
-   * {@code Rook.canCastle = true}
+   * Builds {@code Rook} object with initial test values. All fields between Rook
+   * and King are empty ("###"). It is expected that
+   * {@code Rook.canCastle = true}.
    * 
    * @param void
    * @return void
@@ -61,9 +61,9 @@ class RookTest {
   }
 
   /**
-   * Baut ein {@code Rook}-Objekt mit Ausgangstestwerten. Nicht alle Felder sind
-   * leer oder Rook hat sich schon bewegt. Man erwartet, dass
-   * {@code Rook.canCastel = false}
+   * Builds a {@code Rook} object with initial test values. Not all fields are
+   * empty or Rook has already moved. It is expected that
+   * {@code Rook.canCastel = false}.
    * 
    * @param void
    * @return void

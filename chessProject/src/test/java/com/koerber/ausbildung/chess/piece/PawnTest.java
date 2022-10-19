@@ -6,15 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Pawn}-Klasse
+ * Tests the {@code Pawn} class.
  * 
  * @author Lucas Noack
  */
 class PawnTest {
   /**
-   * Baut ein {@code Pawn}-Objekt mit Testwerten (z.B.
-   * {@code Pawn.colour = 'w' & Pawn.position = "A8"} und erwartet, dass
-   * {@code Piece.isPromotable = true}
+   * Builds a {@code Pawn} object with test values (e.g.
+   * {@code Pawn.color = 'w' & Pawn.position = "A8"} and expects
+   * {@code Piece.isPromotable = true}.
    * 
    * @param void
    * @return void
@@ -28,10 +28,10 @@ class PawnTest {
   }
 
   /**
-   * Baut ein {@code Pawn}-Objekt mit Testwerten (z.B.
-   * {@code Pawn.colour = 'w' & Pawn.position = "A3"} und erwartet, dass
-   * {@code Piece.isPromotable = false}. Das gleiche gilt für
-   * {@code Pawn.postion = null}
+   * Builds a {@code Pawn} object with test values (e.g.
+   * {@code Pawn.color = 'w' & Pawn.position = "A3"} and expects
+   * {@code Piece.isPromotable = false}. The same is true for
+   * {@code Pawn.postion = null}.
    * 
    * @param void
    * @return void
@@ -45,9 +45,9 @@ class PawnTest {
   }
 
   /**
-   * Baut ein {@code Pawn}-Objekt mit Ausgangstestwerten. Dann setzt man
-   * {@code Pawn.position} auf einen andere legalen Wert und erwartet, dass
-   * {@code Pawn.hasMoved = true}
+   * Builds a {@code Pawn} object with initial test values. Then set
+   * {@code Pawn.position} to another legal value and expect
+   * {@code Pawn.hasMoved = true}.
    * 
    * @param void
    * @return void
@@ -61,8 +61,8 @@ class PawnTest {
   }
 
   /**
-   * Baut ein {@code Pawn}-Objekt mit Ausgangstestwerten. Man ändert
-   * {@code Pawn.position} nicht und erwartet, dass{@code Pawn.hasMoved = false}
+   * Builds a {@code Pawn} object with initial test values. One does not change
+   * {@code Pawn.position} and expects{@code Pawn.hasMoved = false}.
    * 
    * @param void
    * @return void
@@ -77,9 +77,9 @@ class PawnTest {
   }
 
   /**
-   * Baut ein {@code Pawn}-Objekt mit Ausgangstestwerten. Man ändert
-   * {@code Pawn.position} um 2 Felder und erwartet,
-   * dass{@code Pawn.isEnPassantable = true}
+   * Builds a {@code Pawn} object with initial test values. You change
+   * {@code Pawn.position} by 2 fields and
+   * expect{@code Pawn.isEnPassantable = true}.
    * 
    * @param void
    * @return void
@@ -93,9 +93,9 @@ class PawnTest {
   }
 
   /**
-   * Baut ein {@code Pawn}-Objekt mit Ausgangstestwerten. Man ändert
-   * {@code Pawn.position} um nicht 2 Felder und erwartet,
-   * dass{@code Pawn.isEnPassantable = false}
+   * Builds a {@code Pawn} object with initial test values. You change
+   * {@code Pawn.position} by not 2 fields and
+   * expect{@code Pawn.isEnPassantable = false}.
    * 
    * @param void
    * @return void

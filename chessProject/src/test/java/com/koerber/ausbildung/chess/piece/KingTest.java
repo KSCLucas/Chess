@@ -6,16 +6,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code King}-Klasse
+ * Tests the {@code King} class.
  * 
  * @author Lucas Noack
  */
 class KingTest {
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Dann setzt man
-   * {@code King.position} auf einen andere legalen Wert und erwartet, dass
-   * {@code King.hasMoved = true}
+   * Builds a {@code King} object with initial test values. Then set
+   * {@code King.position} to another legal value and expect
+   * {@code King.hasMoved = true}.
    * 
    * @param void
    * @return void
@@ -29,8 +29,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Man ändert
-   * {@code King.position} nicht und erwartet, dass{@code King.hasMoved = false}
+   * Builds a {@code King} object with initial test values. One does not change
+   * {@code King.position} and expects{@code King.hasMoved = false}.
    * 
    * @param void
    * @return void
@@ -45,9 +45,9 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Setzt Mockturmwert auf
-   * {@code true} für {@code Rook.canCastleSide = 's' / 'l'}. Man erwartet:
-   * {@code King.canCastleShort = true & King.canCastleLong = true}.
+   * Builds a {@code King} object with initial test values. Sets mock tower
+   * value to @code true} for {@code Rook.canCastleSide = 's' / 'l'}. One
+   * expects: {@code King.canCastleShort = true & King.canCastleLong = true}.
    * 
    * @param void
    * @return void
@@ -61,8 +61,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Setzt Mockturmwert auf
-   * {@code true} für {@code Rook.canCastleSide = 'l'}. Man erwartet:
+   * Builds a {@code King} object with initial test values. Sets mock tower
+   * value to {@code true} for {@code Rook.canCastleSide = 'l'}. One expects:
    * {@code King.canCastleShort = false & King.canCastleLong = true}.
    * 
    * @param void
@@ -77,9 +77,9 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Setzt Mockturmwert auf
-   * {@code true} für {@code Rook.canCastleSide = 's'}. Man erwartet:
-   * {@code King.canCastleShort = true & King.canCastleLong = false}.
+   * Builds a {@code King} object with initial test values. Sets mock tower
+   * value to {@code true} for {@code Rook.canCastleSide = 'l'}. One expects:
+   * {@code King.canCastleShort = false & King.canCastleLong = true}.
    * 
    * @param void
    * @return void
@@ -93,9 +93,9 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten. Setzt Mockturmwert auf
-   * {@code false} für {@code Rook.canCastleSide = 's' / 'l'}. Man erwartet:
-   * {@code King.canCastleShort = false & King.canCastleLong = false}.
+   * Builds a {@code King} object with initial test values. Sets mock tower
+   * value to {@code false} for {@code Rook.canCastleSide = 's' / 'l'}. One
+   * expects: {@code King.canCastleShort = false & King.canCastleLong = false}.
    * 
    * @param void
    * @return void
@@ -109,8 +109,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten und setzt diesen ins
-   * Schach. Man erwartet {@code King.isInCheck = true}.
+   * Builds a {@code King} object with initial test values and puts it in check.
+   * One expects {@code King.isInCheck = true}.
    * 
    * @param void
    * @return void
@@ -124,8 +124,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten und setzt diesen nicht
-   * ins Schach. Man erwartet {@code King.isInCheck = false}.
+   * Builds a {@code King} object with initial test values and does not put it
+   * in check. One expects {@code King.isInCheck = false}.
    * 
    * @param void
    * @return void
@@ -139,8 +139,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten und setzt diesen ins
-   * Schachmatt. Man erwartet {@code King.isCheckmate = true}.
+   * Builds a {@code King} object with initial test values and puts it in
+   * checkmate. One expects {@code King.isCheckmate = true}.
    * 
    * @param void
    * @return void
@@ -154,8 +154,8 @@ class KingTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt mit Ausgangstestwerten und setzt diesen nicht
-   * ins Schachmatt. Man erwartet {@code King.isCheckmate = false}.
+   * Builds a {@code King} object with initial test values and does not put it
+   * in checkmate. One expects {@code King.isCheckmate = false}.
    * 
    * @param void
    * @return void

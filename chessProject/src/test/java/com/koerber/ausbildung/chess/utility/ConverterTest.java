@@ -6,14 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Converter}-Klasse
+ * Tests the {@code Converter} class.
  * 
  * @author Lucas Noack
  */
 class ConverterTest {
 
   /**
-   * Gebe eine Hashmap vor und erwarte den richtigen FEN-String.
+   * Specify a hashmap and expect the correct FEN string.
    * 
    * @param void
    * @return void
@@ -27,8 +27,8 @@ class ConverterTest {
   }
 
   /**
-   * Geben eine Hashmap mit {@code null} vor und erwarten eine
-   * {@code NullPointerException}
+   * Provide a hashmap with {@code null} and expect a
+   * {@code NullPointerException}.
    * 
    * @param void
    * @return void
@@ -42,8 +42,8 @@ class ConverterTest {
   }
 
   /**
-   * Geben eine Hashmap in der falschen Groeﬂe vor (schlieﬂt leere Hashmap ein).
-   * Es wird eine {@code WrongSizeException} erwartet.
+   * Provide a hashmap of the wrong size (includes empty hashmap). A
+   * {@code WrongSizeException} is expected.
    * 
    * @param void
    * @return void
@@ -54,11 +54,11 @@ class ConverterTest {
   @DisplayName("convertHashToFENMapWrongSize")
   void convertHashToFENMapWrongSizeTest() {
     fail("Not yet implemented");
-    // TODO WrongSizeException implementieren
+    // TODO implement WrongSizeException
   }
 
   /**
-   * Geben einen FEN-String vor und erwarte die richtige Hashmap.
+   * Provide a FEN string and expect the correct hashmap.
    * 
    * @param void
    * @return void
@@ -72,8 +72,7 @@ class ConverterTest {
   }
 
   /**
-   * Geben einen {@code null}-String vor und erwarten eine
-   * {@code NullPointerException}.
+   * Provide a {@code null} string and expect a {@code NullPointerException}.
    * 
    * @param void
    * @return void
@@ -87,8 +86,8 @@ class ConverterTest {
   }
 
   /**
-   * Geben einen String der falschen Groeﬂe und (schlieﬂ leeren String ein) vor.
-   * Erwartet wird eine {@code WrongSizeException}.
+   * Provide a string of the wrong size (includes empty string) . A
+   * {@code WrongSizeException} is expected.
    * 
    * @param void
    * @return void
@@ -102,7 +101,7 @@ class ConverterTest {
   }
 
   /**
-   * Gebe einen FEN-String vor und erwarte einen richtigen History-String.
+   * Specify a FEN string and expect a proper history string.
    * 
    * @param void
    * @return void
@@ -116,8 +115,7 @@ class ConverterTest {
   }
 
   /**
-   * Geben einen {@code null}-String vor und erwarte eine
-   * {@code NullPointerException}.
+   * Provide a {@code null} string and expect a {@code NullPointerException}.
    * 
    * @param void
    * @return void
@@ -131,8 +129,8 @@ class ConverterTest {
   }
 
   /**
-   * Gebe einen String der falschen Groeﬂe (schlieﬂt leeren String ein) vor.
-   * Erwartet wird eine {@code WrongSizeException}.
+   * Provide a string of the wrong size (includes empty string). A
+   * {@code WrongSizeException} is expected.
    * 
    * @param void
    * @return void

@@ -1,8 +1,8 @@
 package com.koerber.ausbildung.chess.gui;
 
 /**
- * GUI-Klasse stellt das gesamte GUI. Sie kommuniziert mit der Field- &
- * Player-Klasse.
+ * GUI class provides the entire GUI. It communicates with the Field & Player
+ * class.
  * 
  * @comment Ersterstellung
  * @author Lucas Noack
@@ -12,11 +12,10 @@ public class GUI {
   private String posClickedPiece;
 
   /**
-   * Konstruktor für GUI-Klasse
+   * Constructor for GUI class
    * 
    * @param String
    * @return void
-   * @comment
    * @author Lucas Noack
    */
   public GUI(String posClickedPiece) {
@@ -34,12 +33,11 @@ public class GUI {
   }
 
   /**
-   * Setzt alle Spielfiguren auf Anfangspos, loescht Historie, setzt
-   * Spielerdaten zurück (Punkte, geschlagene Figuren, NICHT Farbe und Name)
+   * Sets all game pieces to initial pos, clears history, resets player data
+   * (points, pieces beaten, NOT color and name).
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void startNewGame() {
@@ -47,11 +45,10 @@ public class GUI {
   }
 
   /**
-   * Stellt den Spielstand vor dem letzten Spielzug zurück
+   * Resets the score before the last move of the game.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void undoLastTurn() {
@@ -59,11 +56,10 @@ public class GUI {
   }
 
   /**
-   * Zeigt den in der Historie angewaehlten Spielstand an
+   * Displays the game state selected in the history.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void jumpToSelctedFEN() {
@@ -71,11 +67,10 @@ public class GUI {
   }
 
   /**
-   * Geht aus der Historieanzeige zurück in das aktive Spiel
+   * Goes from the history display back to the active game.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void jumptToLiveGame() {
@@ -83,11 +78,10 @@ public class GUI {
   }
 
   /**
-   * Geht einen (1) Schritt/Zug in der Historie nach vorn
+   * Goes one (1) step/move forward in history.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void forwardInHistory() {
@@ -95,11 +89,10 @@ public class GUI {
   }
 
   /**
-   * Geht einen (1) Schritt/Zug in der Historie zurück
+   * Goes back one (1) step/move in history.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void backwardInHistory() {
@@ -107,13 +100,12 @@ public class GUI {
   }
 
   /**
-   * Auf der Basis der {@code Field.currentGameState}-Hashmap werden Position
-   * und Sprite der Spielfiguren ausgelesen und auf dem jeweiligen Feld
-   * angezeigt
+   * Based on the {@code Field.currentGameState} hashmap, the position and
+   * sprite of the game pieces are read out and displayed on the respective
+   * field.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void hashmapToGameState() {
@@ -121,11 +113,10 @@ public class GUI {
   }
 
   /**
-   * Gibt Koordinaten des angeklickten (Drag) Felds als String zurück
+   * Returns coordinates of the clicked (drag) field as string.
    * 
    * @param void
    * @return String
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public String getClickedFieldString() {
@@ -133,11 +124,10 @@ public class GUI {
   }
 
   /**
-   * Gibt Koordinaten des losgelassenen Klick (Drop) Felds als String zurück
+   * Returns coordinates of the released click (drop) field as string.
    * 
    * @param void
    * @return String
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public String getReleasedFieldString() {
@@ -145,12 +135,11 @@ public class GUI {
   }
 
   /**
-   * Nimmt die Positionsdaten der gezogenen Figur und erstellt Historieneintrag
-   * (Startposition -> Zielposition | Sprite geschlagener Figur)
+   * Takes the position data of the dragged figure and creates history entry
+   * (start position -> target position | sprite of hit figure).
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void createNewHistroyEntry() {
@@ -158,12 +147,11 @@ public class GUI {
   }
 
   /**
-   * Faerbt die Felder entsprechend der {@code Piece.legalMoveMap} gruen (darf
-   * ziehen), rot (schlagen) oder garnicht (darf nicht ziehen)
+   * Colors the fields according to the {@code Piece.legalMoveMap} green (may
+   * move), red (hit) or not at all (may not move).
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void highlightLegalMove() {
@@ -171,12 +159,11 @@ public class GUI {
   }
 
   /**
-   * Zeigt den Gewinner als Popup an und lockt das Game, nur noch Historie
-   * anschaubar
+   * Displays the winner as a popup and lures the game, only history viewable.
    * 
    * @param void
    * @return void
-   * @comment game lock = jeder Move illegal
+   * @comment game lock = every move illegal
    * @author Lucas Noack
    */
   public void showWinnerPopup() {
@@ -184,11 +171,10 @@ public class GUI {
   }
 
   /**
-   * Zeigt den Sprite der geschlagenen Spielfiguren im Spielerbereich an
+   * Displays the sprite of the beaten game pieces in the player area.
    * 
    * @param void
    * @return void
-   * @comment Ersterstellung
    * @author Lucas Noack
    */
   public void displayTakenPieces() {
@@ -196,11 +182,11 @@ public class GUI {
   }
 
   /**
-   * Fragt für Spielernamen der jeweiligen Seiten und belegt Player.name
+   * Asks for player names of the respective pages and occupies Player.name.
    * 
    * @param void
    * @return void
-   * @comment Default Namen: WHITE & BLACK
+   * @comment Default names: WHITE & BLACK
    * @author Lucas Noack
    */
   public void askForPlayerName() {

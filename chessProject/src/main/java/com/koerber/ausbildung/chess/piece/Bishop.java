@@ -23,7 +23,7 @@ public class Bishop extends Piece {
    * @author PKamps
    */
   public Bishop(String name, char colour, String position, Image skin) {
-    super(name, colour, 3, true, position, MoveSetSupplier.supplyBishopMoveSet(), skin);
+    super(name, colour, 3, true, position, MoveSetSupplier.getBishopMoveSet(), skin);
   }
 
 }

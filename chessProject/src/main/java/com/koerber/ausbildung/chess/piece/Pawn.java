@@ -29,7 +29,7 @@ public class Pawn extends Piece {
    * @author PKamps
    */
   public Pawn(String name, char colour, String position, Image skin) {
-    super(name, colour, 1, false, position, MoveSetSupplier.supplyPawnMoveSet(), skin);
+    super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), skin);
     this.isEnPassentable = false;
     this.isPromotable = false;
     this.hasMoved = false;

@@ -16,7 +16,7 @@ public abstract class MoveSetSupplier {
    * 
    * @return pawnMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyPawnMoveSet() {
+  public static ArrayList<ArrayList<Integer>> getPawnMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(0, 2));
     ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(1, 1));
@@ -40,7 +40,7 @@ public abstract class MoveSetSupplier {
    * 
    * @return kingMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyKingMoveSet() {
+  public static ArrayList<ArrayList<Integer>> getKingMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 1));
     ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(0, 1));
@@ -68,7 +68,7 @@ public abstract class MoveSetSupplier {
    * 
    * @return rookMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyRookMoveSet() {
+  public static ArrayList<ArrayList<Integer>> getRookMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 0));
     ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(0, -1));
@@ -88,7 +88,7 @@ public abstract class MoveSetSupplier {
    * 
    * @return knightMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyKnightMoveSet() {
+  public static ArrayList<ArrayList<Integer>> getKnightMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(-1, 2));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 2));
     ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(2, 1));
@@ -116,7 +116,7 @@ public abstract class MoveSetSupplier {
    * 
    * @return bishopMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyBishopMoveSet() {
+  public static ArrayList<ArrayList<Integer>> getBishopMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(1, 1));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, -1));
     ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(-1, -1));
@@ -136,8 +136,8 @@ public abstract class MoveSetSupplier {
    * 
    * @return queenMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> supplyQueenMoveSet() {
-    ArrayList<ArrayList<Integer>> queenMoveSet = supplyKingMoveSet();
+  public static ArrayList<ArrayList<Integer>> getQueenMoveSet() {
+    ArrayList<ArrayList<Integer>> queenMoveSet = getKingMoveSet();
 
     return queenMoveSet;
   }

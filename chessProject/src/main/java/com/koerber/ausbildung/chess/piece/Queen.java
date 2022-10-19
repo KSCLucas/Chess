@@ -23,7 +23,7 @@ public class Queen extends Piece {
    * @author PKamps
    */
   public Queen(String name, char colour, String position, Image skin) {
-    super(name, colour, 9, true, position, MoveSetSupplier.supplyQueenMoveSet(), skin);
+    super(name, colour, 9, true, position, MoveSetSupplier.getQueenMoveSet(), skin);
   }
 
 }

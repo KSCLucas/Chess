@@ -33,7 +33,7 @@ public class King extends Piece {
    * @author PKamps
    */
   public King(String name, char colour, String position, Image skin) {
-    super(name, colour, 999, false, position, MoveSetSupplier.supplyKingMoveSet(), skin);
+    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), skin);
     this.isInCheck = false;
     this.isCheckmate = false;
     this.canCastleShort = false;

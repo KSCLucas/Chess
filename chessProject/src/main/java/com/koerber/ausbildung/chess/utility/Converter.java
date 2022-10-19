@@ -3,21 +3,21 @@ package com.koerber.ausbildung.chess.utility;
 import java.util.HashMap;
 
 /**
- * Dient als Funktionssammlung verschiedener Converter-Methoden
+ * Serves as a collection of functions for various converter methods *
  * 
- * @comment Grundgerüst
+ * @comment base-structure
  * @author Toni Gropper
- * @since 17.10.2022
+ * @since 19.10.2022
  */
 public class Converter {
 
   /**
-   * konvertiert HashMap mit Objekten in einen String der FEN-Notation
+   * converts HashMap containing objects to a string in FEN notation *
    * 
    * @param HashMap
    * @return String
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public static String convertHashToFEN(HashMap<String, Object> gameState) {
@@ -27,12 +27,12 @@ public class Converter {
   }
 
   /**
-   * konvertiert den FEN-String in eine HashMap
+   * converts the FEN string to a HashMap *
    * 
    * @param String
    * @return HashMap
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public static HashMap<String, Object> convertFENToHash(String gamestate) {
@@ -41,7 +41,7 @@ public class Converter {
   }
 
   /**
-   * konvertiert FEN-String in einen History-String
+   * converts FEN string to history string *
    * 
    * @param String
    * @return String

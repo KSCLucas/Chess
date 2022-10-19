@@ -3,12 +3,12 @@ package com.koerber.ausbildung.chess;
 import java.util.ArrayList;
 
 /**
- * Representiert den Spieler mit seinem Namen, Farbe, Punktestand und den
- * geschlagenen gegnerischen Figuren
+ * represents Player having a name, a colour, a score and the opponents taken
+ * Pieces
  * 
- * @comment Grundgerüst, statt public Object sollte public Piece stehen
+ * @comment base-structure
  * @author Toni Gropper
- * @since 17.10.2022
+ * @since 19.10.2022
  */
 public class Player {
   private String               name;
@@ -48,36 +48,36 @@ public class Player {
   }
 
   /**
-   * fügt this.takenPiece das geschlagene Piece hinzu und ruft increaseScore auf
+   * adds taken Pieces to this.takenPiece and opens increaseScore
    * 
    * @param Object Piece
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void addTakenPiece(Object Piece) {
   }
 
   /**
-   * this.score + int; der int-Wert entspricht dem Piece-Wert
+   * this.score + int; int-Wert is equivalent to Piece-Wert
    * 
    * @param int
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void increaseScore(int score) {
   }
 
   /**
-   * setzt alle Attribute auf Initialisierungswerte zurück
+   * resets all attributes to initialization values
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void setToInit() {

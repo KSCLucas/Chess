@@ -1,4 +1,4 @@
-package com.koerber.ausbildung.chess;
+package com.koerber.ausbildung.chess.utility;
 
 import static org.junit.jupiter.api.Assertions.*;
 

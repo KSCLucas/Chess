@@ -1,8 +1,11 @@
-package com.koerber.ausbildung.chess.piece;
+package com.koerber.ausbildung.chess.utility;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.piece.King;
+import com.koerber.ausbildung.chess.piece.Pawn;
+import com.koerber.ausbildung.chess.piece.Rook;
 
-public class ObjectFactory {
+public class ObjectFactoryForTest {
   public static Pawn getPawn() {
     Pawn testPiece = new Pawn("p1w", 'w', "A2", null);
 

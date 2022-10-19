@@ -1,4 +1,4 @@
-package com.koerber.ausbildung.chess;
+package com.koerber.ausbildung.chess.gui;
 
 /**
  * GUI-Klasse stellt das gesamte GUI. Sie kommuniziert mit der Field- &

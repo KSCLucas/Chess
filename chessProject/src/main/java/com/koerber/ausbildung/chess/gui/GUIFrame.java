@@ -1,4 +1,4 @@
-package com.koerber.ausbildung.chess;
+package com.koerber.ausbildung.chess.gui;
 
 import java.awt.EventQueue;
 

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class PawnTest {
   /**
    * Builds a {@code Pawn} object with test values (e.g.
-   * {@code Pawn.color = 'w' & Pawn.position = "A8"} and expects
+   * {@code Pawn.color = 'w' & Pawn.position = "A8"}) and expects
    * {@code Piece.isPromotable = true}.
    * 
    * @param void
@@ -29,7 +29,7 @@ class PawnTest {
 
   /**
    * Builds a {@code Pawn} object with test values (e.g.
-   * {@code Pawn.color = 'w' & Pawn.position = "A3"} and expects
+   * {@code Pawn.color = 'w' & Pawn.position = "A3"}) and expects
    * {@code Piece.isPromotable = false}. The same is true for
    * {@code Pawn.postion = null}.
    * 

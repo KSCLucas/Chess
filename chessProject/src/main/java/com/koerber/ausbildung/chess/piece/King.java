@@ -5,8 +5,8 @@ import java.awt.Image;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
- * Die {@code King}-Klasse stellt einen Constructor und wichtige Methoden für
- * jeden {@code King}.
+ * The {@code King} class contains a constructor as well as methods for every
+ * {@code King}.
  * 
  * @author PKamps
  * @see Piece
@@ -20,10 +20,9 @@ public class King extends Piece {
   private boolean hasMoved;
 
   /**
-   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
-   * {@code value}, {@code isMoveRepeatable}, {@code moveSet},
-   * {@code isInCheck}, {@code isCheckmate},
-   * {@code canCastleShort}, {@code canCastleLong} und
+   * Calls parameterized constructor of {@code Piece} and sets {@code value},
+   * {@code isMoveRepeatable}, {@code moveSet}, {@code isInCheck},
+   * {@code isCheckmate}, {@code canCastleShort}, {@code canCastleLong} and
    * {@code hasMoved}.
    * 
    * @param name
@@ -82,10 +81,9 @@ public class King extends Piece {
   }
 
   /**
-   * Prüft, ob {@code this.hasMoved} = {@code false} und ruft {@code canCastle}
-   * der Rooks der selben Farbe auf. Setzt danach {@code this.canCastleShort}
-   * und {@code this.canCastleLong} entsprechend auf {@code true}, falls Castle
-   * möglich ist.
+   * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
+   * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and
+   * {@code canCastleLong} to {@code true}, if castleing is possible.
    * 
    * @return void
    * @author PKamps
@@ -95,8 +93,7 @@ public class King extends Piece {
   }
 
   /**
-   * Setzt {@code this.hasMoved} auf {@code true}, wenn sich
-   * {@code this.position} ändert.
+   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
    * 
    * @return void
    * @author PKamps
@@ -106,7 +103,7 @@ public class King extends Piece {
   }
 
   /**
-   * Prüft, ob King im Schach steht.
+   * Checks, if {@code King} is in check.
    * 
    * @return void
    * @author PKamps
@@ -116,7 +113,7 @@ public class King extends Piece {
   }
 
   /**
-   * Prüft, ob King Schachmatt ist.
+   * Checks, if {@code King} is in checkmate.
    * 
    * @return void
    * @author PKamps

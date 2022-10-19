@@ -5,7 +5,7 @@ import java.awt.Image;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
- * Die {@code Queen}-Klasse stellt einen Constructor für jede {@code Queen}.
+ * The {@code Queen} class contains a constructor every {@code Queen}.
  * 
  * @author PKamps
  * @see Piece
@@ -13,8 +13,8 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 public class Queen extends Piece {
 
   /**
-   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
-   * {@code value}, {@code isMoveRepeatable} und {@code moveSet}.
+   * Calls parameterized constructor of {@code Piece} and sets {@code value},
+   * {@code isMoveRepeatable} and {@code moveSet}.
    * 
    * @param name
    * @param colour

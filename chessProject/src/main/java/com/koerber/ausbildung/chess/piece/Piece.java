@@ -7,10 +7,10 @@ import java.util.HashMap;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
- * Die {@code Piece}-Klasse stellt einen Constructor und wichtige Methoden für
- * jede Spielfigur.
+ * The {@code Piece} class contains a constructor as well as methods for every
+ * {@code Piece}.
  * 
- * @comment Die Hashmap wird parallel zum Constructor aufgebaut.
+ * @comment The {@code legalMoveMap} is built parallel to the constructor.
  * @author PKamps
  */
 public abstract class Piece {
@@ -25,7 +25,7 @@ public abstract class Piece {
   private HashMap<String, String>       legalMoveMap;
 
   /**
-   * Parametisierter Constructor für ein {@code Piece}.
+   * Parameterized constructor for a {@code Piece}.
    * 
    * @param name
    * @param colour
@@ -105,10 +105,11 @@ public abstract class Piece {
   }
 
   /**
-   * Bewegt Spielfigur zur {@code targetPosition}, wenn diese legal ist. Ruft
-   * dafür {@code createLegalMoveMap} auf. Überprüft dafür den Wert für den Key
-   * {@code targetPosition}. Befindet sich eine gegnerische Figur auf dem
-   * legalen Feld, wird die {@code position} dieser Figur auf "xy" gesetzt.
+   * Calls the {@code createLegalMoveMap} method. Moves {@code Piece} to
+   * {@code targetPosition}, if {@code targetPosition} is legal. Checks legality
+   * by checking the value for the key {@code targetPosition}. If there is an
+   * opposing {@code Piece} on {@code targetPosition}, it sets {@code position}
+   * of that {@code Piece} to "xy".
    * 
    * @param targetPosition
    * @return void
@@ -120,9 +121,9 @@ public abstract class Piece {
   }
 
   /**
-   * Erstellt auf Basis von {@code this.position} eine HashMap mit den Werten
-   * "fff" für nicht legal, "ttt" für legal und "hhh" für das mögliche Schlagen
-   * einer Spielfigur.
+   * Provides a HashMap based on {@code position} with the following values:
+   * "fff" for not legal, "ttt" for legal and "hhh" for an opposing takeable
+   * {@code Piece}.
    * 
    * @return void
    * @throws PieceOutOfBoundsException

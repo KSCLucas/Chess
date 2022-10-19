@@ -5,8 +5,8 @@ import java.awt.Image;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
- * Die {@code Rook}-Klasse stellt einen Constructor und wichtige Methoden für
- * jeden {@code Rook}.
+ * The {@code Rook} class contains a constructor as well as methods for every
+ * {@code Rook}.
  * 
  * @author PKamps
  * @see Piece
@@ -18,9 +18,9 @@ public class Rook extends Piece {
   private boolean hasMoved;
 
   /**
-   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
-   * {@code value}, {@code isMoveRepeatable}, {@code castleSide},
-   * {@code canCastle} und {@code hasMoved}.
+   * Calls parameterized constructor of {@code Piece} and sets {@code value},
+   * {@code isMoveRepeatable}, {@code castleSide}, {@code canCastle} and
+   * {@code hasMoved}.
    * 
    * @param name
    * @param colour
@@ -61,9 +61,9 @@ public class Rook extends Piece {
   }
 
   /**
-   * Prüft, ob {@code this.hasMoved} = {@code false}, falls ja, werden die
-   * Felder neben dem Turm geprüft. Falls alle Felder zwischen Rook und King
-   * leer sind, wird {@code this.canCastle} = {@code true} gesetzt.
+   * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
+   * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
+   * {@code King} and {@code Rook} is empty.
    * 
    * @return void
    * @author PKamps
@@ -73,8 +73,7 @@ public class Rook extends Piece {
   }
 
   /**
-   * Setzt {@code this.hasMoved} auf {@code true}, wenn sich
-   * {@code this.position} ändert.
+   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
    * 
    * @return void
    * @author PKamps

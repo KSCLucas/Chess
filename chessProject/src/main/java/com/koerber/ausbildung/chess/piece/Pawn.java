@@ -5,8 +5,8 @@ import java.awt.Image;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
- * Die {@code Pawn}-Klasse stellt einen Constructor und wichtige Methoden für
- * jeden {@code Pawn}.
+ * The {@code Pawn} class contains a constructor as well as methods for every
+ * {@code Pawn}.
  * 
  * @author PKamps
  * @see Piece
@@ -18,9 +18,9 @@ public class Pawn extends Piece {
   private boolean hasMoved;
 
   /**
-   * Ruft parametisierten Constructor von {@code Piece} auf und setzt
-   * {@code value}, {@code isMoveRepeatable}, {@code moveSet},
-   * {@code isEnPassantable}, {@code isPromotable} und {@code hasMoved}.
+   * Calls parameterized constructor of {@code Piece} and sets {@code value},
+   * {@code isMoveRepeatable}, {@code moveSet}, {@code isEnPassantable},
+   * {@code isPromotable} and {@code hasMoved}.
    * 
    * @param name
    * @param colour
@@ -60,8 +60,8 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Prüft, ob {@code this.position} 1 oder 8 beinhaltet. Setzt
-   * {@code this.isPromotable} auf {@code true}, wenn es der Fall ist.
+   * If {@code position} contains a one or an eight, set {@code isPromotable} to
+   * {@code true}.
    * 
    * @return void
    * @author PKamps
@@ -71,8 +71,7 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Setzt {@code this.hasMoved} auf {@code true}, wenn sich
-   * {@code this.position} ändert.
+   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
    * 
    * @return void
    * @author PKamps
@@ -82,7 +81,7 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Überschreibt {@code createLegalMoveMap} von {@code Piece}.
+   * Overrides {@code createLegalMoveMap} of {@code Piece}.
    * 
    * @return void
    * @author PKamps
@@ -94,8 +93,8 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Prüft, ob sich der Pawn um zwei Felder bewegt hat. Umgesetzt mit der
-   * Differenz von {@code this.position} und {@code targetPosition}.
+   * If {@code Pawn} has moved two tiles, set {@code isEnPassantable} =
+   * {@code true}.
    * 
    * @param targetPosition
    * @return void

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testet die {@code Field}-Klasse
+ * Tests the {@code Field} class.
  * 
  * @author Lucas Noack
  */
@@ -18,9 +18,9 @@ class FieldTest {
   }
 
   /**
-   * Baut ein {@code Field}-Objekt mit einer {@code currentGameState}-Hashmap,
-   * welche nicht der Startmap entspricht. Es wird erwartet, dass die
-   * resultierende Hashmap gleich der Startpositionshashmap ist.
+   * Builds a {@code Field} object with a {@code currentGameState} hashmap that
+   * is not the same as the startmap. The resulting hashmap is expected to be
+   * equal to the start position hashmap.
    * 
    * @param void
    * @return void
@@ -35,11 +35,11 @@ class FieldTest {
   }
 
   /**
-   * Baut ein {@code Piece}-Objekt nit Testparametern und legt dieses in eine
-   * Beispielhashmap. Mit Hilfe zweier Positionsparametern (Ursprungspos des
-   * {@code Piece} und Zielpos des {@code Piece}. Vergleichen der beiden
-   * Positionen nach Ausführung von {@code updateHashmap} und erwarten, dass in
-   * Zielpos das {@code Piece} steht und in der Ursprungspos {@code "###"}.
+   * Builds a {@code Piece} object with test parameters and places it in a
+   * sample hashmap. Using two position parameters (origin pos of the
+   * {@code Piece} and destination pos of the {@code Piece}. Compare the two
+   * positions after executing {@code updateHashmap} and expect the
+   * {@code Piece} to be in the target pos and {@code "###"} in the source pos.
    * 
    * @param void
    * @return void
@@ -54,7 +54,7 @@ class FieldTest {
   }
 
   /**
-   * Baut {@code Field}-Objekt mit {@code this.currentTurn != 1}. Erwartet, dass
+   * Builds {@code Field} object with {@code this.currentTurn != 1}. Expects
    * {@code this.currentTurn = 1}.
    * 
    * @param void
@@ -70,7 +70,7 @@ class FieldTest {
   }
 
   /**
-   * Baut {@code Piece} mit {@code this.currentTurn = 5}. Erwartet, dass
+   * Builds {@code Piece} with {@code this.currentTurn = 5}. Expects
    * {@code this.currentTurn = 6}.
    * 
    * @param void
@@ -85,7 +85,7 @@ class FieldTest {
   }
 
   /**
-   * Baut {@code Piece}-Objekt mit {@code this.currentTurn = 0} und erwartet
+   * Builds {@code Piece} object with {@code this.currentTurn = 0} and expects
    * {@code IllegalArgumentException}.
    * 
    * @param void
@@ -100,8 +100,8 @@ class FieldTest {
   }
 
   /**
-   * Baut {@code Field}-Objekt mit {@code this.currentTurn = -1} und erwartet
-   * {@code IllegalArgumentException}.
+   * Builds {@code Field} object with {@code this.currentTurn = -1} and
+   * expects{@code IllegalArgumentException}.
    * 
    * @param void
    * @return void
@@ -115,8 +115,8 @@ class FieldTest {
   }
 
   /**
-   * Baut {@code Field}-Objekt mit {@code this.currentTurn = null} und erwartet
-   * eine {@code NullPointerException}
+   * Builds {@code Field} object with {@code this.currentTurn = null} and
+   * expects a {@code NullPointerException}.
    * 
    * @param void
    * @return void
@@ -130,9 +130,8 @@ class FieldTest {
   }
 
   /**
-   * Baut ein {@code King}-Objekt, das {@code this.isInCheckmate = true} und
-   * {@code this.colour = 'w'} setzt. Erwartet, dass
-   * {@code Field.whoWinner = 'b'}
+   * Builds a {@code King} object that sets {@code this.isInCheckmate = true}
+   * and {@code this.color = 'w'}. Expects {@code Field.whoWinner = 'b'}.
    * 
    * @param void
    * @return void
@@ -146,9 +145,8 @@ class FieldTest {
   }
 
   /**
-   * Baut 2 {@code King}-Objekte, bei denen {@code this.isInCheckmate = false}
-   * und {@code this.colour = 'w' & 'b'}. Erwartet,
-   * dass{@code Field.whoWinner = 'n'}
+   * Builds 2 {@code King} objects where {@code this.isInCheckmate = false} and
+   * {@code this.color = 'w' & 'b'}. Expects that{@code Field.whoWinner = 'n'}
    * 
    * @param void
    * @return void
@@ -162,9 +160,8 @@ class FieldTest {
   }
 
   /**
-   * Baut 2 {@code King}-Objekte, bei denen {@code this.isInCheckmate = true}
-   * und {@code this.colour = 'w' & 'b'}. Erwartet eine
-   * {@code OnlyOneWinnerException}.
+   * Builds 2 {@code King} objects where {@code this.isInCheckmate = true} and
+   * {@code this.color = 'w' & 'b'}. Expects a {@code OnlyOneWinnerException}.
    * 
    * @param void
    * @return void

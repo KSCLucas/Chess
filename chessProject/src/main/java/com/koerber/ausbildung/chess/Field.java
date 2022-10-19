@@ -3,15 +3,18 @@ package com.koerber.ausbildung.chess;
 import java.util.HashMap;
 
 /**
- * dient als Game-Klasse, die alles was mit Schach zu tun hat managed
+ * Serves as a gameclass that manages everything related to chess.
  * 
- * @comment Grundgerüst, final muss erst noch initialisiert werden
+ * @comment base-structure, currently final not initialized.
  * @author Toni Gropper
- * @since 17.10.2022
+ * @since 19.10.2022
  */
 public class Field {
   private HashMap<String, Object>       currentGameState;
-  private final HashMap<String, Object> initialGameState = new HashMap<String, Object>(); //TODO Initial Hashmap erstellen
+  private final HashMap<String, Object> initialGameState = new HashMap<String, Object>(); // TODO
+                                                                                          // Initial
+                                                                                          // Hashmap
+                                                                                          // erstellen
   private int                           currentTurn;
   private char                          whoWinner;
 
@@ -44,13 +47,13 @@ public class Field {
   }
 
   /**
-   * setzt Spielfiguren in this.currentGameState auf die Startpositionen von
-   * this.initialGameState
+   * sets game pieces in this.currentGameState to the starting positions of
+   * this.initialGameState.
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void initializeHashmap() {
@@ -58,12 +61,12 @@ public class Field {
   }
 
   /**
-   * aktualisiert this.currentGameState um den vollzogenen Zug
+   * updates this.currentGameState with the completed move.
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void updateHashMap() {
@@ -71,12 +74,12 @@ public class Field {
   }
 
   /**
-   * setzt this.currentTurn auf Anfangswert (=1)
+   * sets this.currentTurn to initial value (=1).
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void resetCurrentTurn() {
@@ -84,12 +87,12 @@ public class Field {
   }
 
   /**
-   * setzt this.currentTurn um 1 nach oben
+   * increases this.currentTurn by 1
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void increaseCurrentTurn() {
@@ -97,13 +100,13 @@ public class Field {
   }
 
   /**
-   * regelt den Ablauf des Schachspiels und ruft sämtliche Methoden auf, die für
-   * das Spiel benötigt werden
+   * regulates the course of the chess game and calls all methods that are
+   * required for the game.
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void gameLoop() {
@@ -111,14 +114,14 @@ public class Field {
   }
 
   /**
-   * prüft, ob einer der beiden Spieler gewonnen hat und setzt this.whoWinner
-   * auf 'w' oder 'b'; ruft die GUI-Methode showWinnerPopup auf. Wenn keiner der
-   * Könige im Schachmatt steht wird this.whoWinner = 'n' (n=none) gesetzt.'
+   * checks whether either player has won and sets this.whoWinner to 'w' or 'b';
+   * calls the GUI method showWinnerPopup. If none of the Kings are in checkmate
+   * then this.whoWinner ='n' (n=none) is set.
    * 
    * @param void
    * @return void
    * @throws
-   * @comment Grundgerüst
+   * @comment base-structure
    * @author Toni Gropper
    */
   public void checkForWinner() {

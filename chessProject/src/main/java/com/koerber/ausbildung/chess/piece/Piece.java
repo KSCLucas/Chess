@@ -16,6 +16,9 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
+  public static final String            TRUE_STRING  = "ttt";
+  public static final String            FALSE_STRING = "fff";
+  public static final String            HIT_STRING   = "hhh";
   private String                        name;
   private char                          colour;
   private int                           value;
@@ -52,8 +55,7 @@ public abstract class Piece {
 
     for(int i = (int)Field.LEFT_BOUND; i <= (int)Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        String str = Character.toString(i) + String.valueOf(j);
-        this.legalMoveMap.putIfAbsent(str, "fff");
+        getLegalMoveMap().putIfAbsent(Character.toString(i) + String.valueOf(j), FALSE_STRING);
       }
     }
   }
@@ -135,8 +137,40 @@ public abstract class Piece {
    * @throws PieceOutOfBoundsException
    * @author PKamps
    */
-  public void createLegalMoveMap() throws PieceOutOfBoundsException {
-
+  public void createLegalMoveMap(HashMap<String, Object> currentGameState) throws PieceOutOfBoundsException {
+    boolean repeatLoop;
+    // Set contents of legalMoveMap to FALSE_STRING
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        getLegalMoveMap().put(Character.toString(i) + String.valueOf(j), FALSE_STRING);
+      }
+    }
+    // Loop over every move vector in moveSet
+    for(int i = 0; i < getMoveSet().size(); i++) {
+      repeatLoop = true;
+      int posLetterAsNumber = getPosition().charAt(0);
+      int posNumber = getPosition().charAt(1);
+      // Change content of legalMoveMap based on move vector i and
+      // currentGameState
+      do {
+        posLetterAsNumber += getMoveSet().get(i).get(0);
+        posNumber += getMoveSet().get(i).get(1);
+        String str = Character.toString(posLetterAsNumber) + String.valueOf(posNumber);
+        try {
+          if(currentGameState.get(str).equals(Piece.class)) {
+            getLegalMoveMap().put(str, HIT_STRING);
+            repeatLoop = false;
+          }
+          else {
+            getLegalMoveMap().put(str, TRUE_STRING);
+          }
+        }
+        catch(Exception e) {
+          throw new PieceOutOfBoundsException();
+        }
+      } while(posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
+          && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && isMoveRepeatable() && repeatLoop);
+    }
   }
 
 }

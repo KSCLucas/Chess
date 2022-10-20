@@ -87,9 +87,8 @@ public class Pawn extends Piece {
    * @author PKamps
    * @see Piece.createLegalMoveMap
    */
-  @Override
   public void createLegalMoveMap() {
-
+    
   }
 
   /**

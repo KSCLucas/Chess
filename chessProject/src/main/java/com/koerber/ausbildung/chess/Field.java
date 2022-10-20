@@ -10,6 +10,11 @@ import java.util.HashMap;
  * @since 19.10.2022
  */
 public class Field {
+  
+  public final int UPPER_BOUND = 8;
+  public final int LOWER_BOUND = 1;
+  public final char LEFT_BOUND = 'A';
+  public final char RIGHT_BOUND = 'H';
   private HashMap<String, Object>       currentGameState;
   private final HashMap<String, Object> initialGameState = new HashMap<String, Object>(); // TODO
                                                                                           // Initial

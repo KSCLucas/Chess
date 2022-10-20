@@ -11,10 +11,10 @@ import java.util.HashMap;
  */
 public class Field {
   
-  public final int UPPER_BOUND = 8;
-  public final int LOWER_BOUND = 1;
-  public final char LEFT_BOUND = 'A';
-  public final char RIGHT_BOUND = 'H';
+  public static final int UPPER_BOUND = 8;
+  public static final int LOWER_BOUND = 1;
+  public static final char LEFT_BOUND = 'A';
+  public static final char RIGHT_BOUND = 'H';
   private HashMap<String, Object>       currentGameState;
   private final HashMap<String, Object> initialGameState = new HashMap<String, Object>(); // TODO
                                                                                           // Initial

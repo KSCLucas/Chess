@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -46,10 +47,15 @@ public abstract class Piece {
     this.moveSet = moveSet;
     this.skin = skin;
     this.legalMoveMap = new HashMap<String, String>();
-  }
 
-  {
+    // Fill HashMap with default values
 
+    for(int i = (int)Field.LEFT_BOUND; i <= (int)Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        String str = Character.toString(i) + String.valueOf(j);
+        this.legalMoveMap.putIfAbsent(str, "fff");
+      }
+    }
   }
 
   public String getName() {

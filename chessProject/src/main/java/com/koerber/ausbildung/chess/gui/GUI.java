@@ -127,7 +127,7 @@ public class GUI {
   /**
    * Displays the sprite of the beaten game pieces in the player area.
    */
-  public void displayTakenPieces() {
+  public void displayTakenPieces() {   
 
   }
 

@@ -83,6 +83,8 @@ public class GUI {
 
   /**
    * Returns coordinates of the clicked (drag) field as string.
+   * 
+   * @return String
    */
   public String getClickedFieldString() {
     return null;
@@ -90,6 +92,8 @@ public class GUI {
 
   /**
    * Returns coordinates of the released click (drop) field as string.
+   * 
+   * @return String
    */
   public String getReleasedFieldString() {
     return null;

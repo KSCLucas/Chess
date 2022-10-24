@@ -17,7 +17,7 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 /**
  * Tests the {@code Piece} class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 class PieceTest {
 
@@ -28,7 +28,7 @@ class PieceTest {
    * @param void
    * @return void
    * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapCorrect")
@@ -76,7 +76,7 @@ class PieceTest {
    * @param void
    * @return void
    * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyPosition")
@@ -103,7 +103,7 @@ class PieceTest {
    * @param void
    * @return void
    * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveset")
@@ -140,7 +140,7 @@ class PieceTest {
    * @param void
    * @return void
    * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapNullOnField")

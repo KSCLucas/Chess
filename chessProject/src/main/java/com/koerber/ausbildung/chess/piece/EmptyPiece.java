@@ -29,5 +29,4 @@ public class EmptyPiece extends Piece {
   public EmptyPiece() {
     super(ID, COLOUR, VALUE, IS_MOVE_REPEATABLE, POSITION, MOVESET, ICON);
   }
-
 }

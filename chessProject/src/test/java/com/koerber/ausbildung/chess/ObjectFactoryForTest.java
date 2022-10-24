@@ -19,7 +19,7 @@ public class ObjectFactoryForTest {
     return testKing;
 
   }
-
+  
   public static Field getField() {
     Field testField = new Field();
     return testField;

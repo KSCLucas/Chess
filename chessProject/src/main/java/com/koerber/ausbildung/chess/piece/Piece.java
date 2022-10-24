@@ -2,9 +2,9 @@ package com.koerber.ausbildung.chess.piece;
 
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
@@ -27,7 +27,7 @@ public abstract class Piece {
   private String                   position;
   private List<ArrayList<Integer>> moveSet;
   private Image                    icon;
-  private Map<String, String>      legalMoveMap = new HashMap<String, String>();
+  private Map<String, String>      legalMoveMap = new TreeMap<>();
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -130,6 +130,9 @@ public abstract class Piece {
    * @author PKamps
    */
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
+    if(getPosition() == null || getPosition().isEmpty()) {
+      throw new PieceOutOfBoundsException();
+    }
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every move vector in moveSet

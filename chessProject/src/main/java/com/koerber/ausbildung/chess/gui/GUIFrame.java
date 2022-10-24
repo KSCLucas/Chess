@@ -1,18 +1,19 @@
 package com.koerber.ausbildung.chess.gui;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import java.awt.Dimension;
 
 public class GUIFrame {
 
@@ -51,10 +52,10 @@ public class GUIFrame {
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
-    gridBagLayout.columnWidths = new int[]{0, 1481, 0, 0};
-    gridBagLayout.rowHeights = new int[]{210, 0, 145, 0, 42, 0};
-    gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-    gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+    gridBagLayout.columnWidths = new int[]{512, 896, 512, 0};
+    gridBagLayout.rowHeights = new int[]{100, 100, 100, 100, 500, 0, 0};
+    gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
     frame.getContentPane().setLayout(gridBagLayout);
 
     JPanel newGamePanel = new JPanel();
@@ -82,6 +83,7 @@ public class GUIFrame {
 
     JPanel gameBoardPanelBottomLayer = new JPanel();
     GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+    gbc_panel_3.gridheight = 4;
     gbc_panel_3.insets = new Insets(0, 0, 5, 5);
     gbc_panel_3.fill = GridBagConstraints.BOTH;
     gbc_panel_3.gridx = 1;
@@ -89,12 +91,15 @@ public class GUIFrame {
     frame.getContentPane().add(gameBoardPanelBottomLayer, gbc_panel_3);
     gameBoardPanelBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
     
-    JButton btnNewButton = new JButton("New button");
-    gameBoardPanelBottomLayer.add(btnNewButton);
+    JLabel lblNewLabel = new JLabel("New label");
+    gameBoardPanelBottomLayer.add(lblNewLabel);
     
-    JButton btnNewButton_1 = new JButton("New button2");
-    gameBoardPanelBottomLayer.add(btnNewButton_1);
+    JLabel lblNewLabel_1 = new JLabel("New label");
+    gameBoardPanelBottomLayer.add(lblNewLabel_1);
     
+    JLabel lblNewLabel_2 = new JLabel("New label");
+    gameBoardPanelBottomLayer.add(lblNewLabel_2);
+
     JLabel lblHistory = new JLabel("History");
     GridBagConstraints gbc_lblHistory = new GridBagConstraints();
     gbc_lblHistory.insets = new Insets(0, 0, 5, 5);
@@ -139,10 +144,11 @@ public class GUIFrame {
 
     JScrollPane scrollPane = new JScrollPane();
     GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+    gbc_scrollPane.anchor = GridBagConstraints.BASELINE;
     gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-    gbc_scrollPane.fill = GridBagConstraints.BOTH;
+    gbc_scrollPane.fill = GridBagConstraints.HORIZONTAL;
     gbc_scrollPane.gridx = 0;
-    gbc_scrollPane.gridy = 4;
+    gbc_scrollPane.gridy = 5;
     frame.getContentPane().add(scrollPane, gbc_scrollPane);
   }
 }

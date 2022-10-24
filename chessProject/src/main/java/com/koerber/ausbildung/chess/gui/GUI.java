@@ -20,9 +20,7 @@ public class GUI {
   }
 
   public String getPosClickedPiece() {
-
     return posClickedPiece;
-
   }
 
   public void setPosClickedPiece(String posClickedPiece) {
@@ -127,7 +125,7 @@ public class GUI {
   /**
    * Displays the sprite of the beaten game pieces in the player area.
    */
-  public void displayTakenPieces() {   
+  public void displayTakenPieces() {
 
   }
 

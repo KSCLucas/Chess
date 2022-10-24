@@ -43,7 +43,7 @@ public abstract class MoveSetSupplier {
   public static ArrayList<ArrayList<Integer>> getKingMoveSet() {
     ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
     ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 1));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(0, 1));
+    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(1, 0));
     ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(1, -1));
     ArrayList<Integer> entry5 = new ArrayList<Integer>(Arrays.asList(0, -1));
     ArrayList<Integer> entry6 = new ArrayList<Integer>(Arrays.asList(-1, -1));

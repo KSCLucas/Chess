@@ -13,9 +13,9 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
  */
 public class Pawn extends Piece {
 
-  private boolean isEnPassentable;
-  private boolean isPromotable;
-  private boolean hasMoved;
+  private boolean isEnPassentable = false;
+  private boolean isPromotable = false;
+  private boolean hasMoved = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -30,9 +30,6 @@ public class Pawn extends Piece {
    */
   public Pawn(String name, char colour, String position, Image skin) {
     super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), skin);
-    this.isEnPassentable = false;
-    this.isPromotable = false;
-    this.hasMoved = false;
   }
 
   public boolean isEnPassentable() {

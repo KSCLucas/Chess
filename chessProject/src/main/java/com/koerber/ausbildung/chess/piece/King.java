@@ -13,11 +13,11 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
  */
 public class King extends Piece {
 
-  private boolean isInCheck;
-  private boolean isCheckmate;
-  private boolean canCastleShort;
-  private boolean canCastleLong;
-  private boolean hasMoved;
+  private boolean isInCheck = false;
+  private boolean isCheckmate = false;
+  private boolean canCastleShort = false;
+  private boolean canCastleLong = false;
+  private boolean hasMoved = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -33,11 +33,6 @@ public class King extends Piece {
    */
   public King(String name, char colour, String position, Image skin) {
     super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), skin);
-    this.isInCheck = false;
-    this.isCheckmate = false;
-    this.canCastleShort = false;
-    this.canCastleLong = false;
-    this.hasMoved = false;
   }
 
   public boolean isInCheck() {

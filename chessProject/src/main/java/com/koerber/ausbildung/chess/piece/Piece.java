@@ -166,7 +166,7 @@ public abstract class Piece {
         if(posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
             && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND) {
           // Check for EmptyPiece
-          if(currentGameState.get(fieldKey).getId().equals("###")) {
+          if(currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
             getLegalMoveMap().put(fieldKey, TRUE_STRING);
           }
           // Check for opposing Piece

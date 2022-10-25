@@ -20,6 +20,7 @@ public abstract class Piece {
   public static final String       TRUE_STRING  = "ttt";
   public static final String       FALSE_STRING = "fff";
   public static final String       HIT_STRING   = "hhh";
+  public static final String       NOT_ON_FIELD = "xy";
   private String                   id;
   private char                     colour;
   private int                      value;
@@ -116,8 +117,17 @@ public abstract class Piece {
    * @throws PieceOutOfBoundsException
    * @author PKamps
    */
-  public void movePiece(String targetPosition) throws PieceOutOfBoundsException {
-
+  public void movePiece(Map<String, Piece> currentGameState, String targetPosition) throws PieceOutOfBoundsException {
+    // Check for legal move
+    if(getLegalMoveMap().get(targetPosition) == FALSE_STRING) {
+      // TODO fill == false_string block
+    }
+    else {
+      setPosition(targetPosition);
+      if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
+        currentGameState.get(targetPosition).setPosition("xy");
+      }
+    }
   }
 
   /**

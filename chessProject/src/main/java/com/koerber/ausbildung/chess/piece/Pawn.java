@@ -1,10 +1,8 @@
 package com.koerber.ausbildung.chess.piece;
 
 import java.awt.Image;
-import java.util.ArrayList;
 import java.util.Map;
 
-import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 

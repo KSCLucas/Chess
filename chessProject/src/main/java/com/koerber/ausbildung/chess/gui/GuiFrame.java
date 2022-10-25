@@ -333,6 +333,7 @@ public class GuiFrame {
     // TODO Display Points Player 2
     player2Panel.add(setPointsP2Label);
 
+   
     JLabel piecesP2Label = new JLabel("PIECES");
     GridBagConstraints gbc_piecesP2Label = new GridBagConstraints();
     gbc_piecesP2Label.insets = new Insets(0, 0, 5, 0);
@@ -340,6 +341,7 @@ public class GuiFrame {
     gbc_piecesP2Label.gridy = 8;
     frame.getContentPane().add(piecesP2Label, gbc_piecesP2Label);
 
+    // Panel to show taken Pieces
     JPanel piecesP2Panel = new JPanel();
     // TODO add piece sprites
     GridBagConstraints gbc_piecesP2Panel = new GridBagConstraints();

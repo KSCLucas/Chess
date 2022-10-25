@@ -11,7 +11,7 @@ public class Gui {
   private String posClickedPiece;
 
   /**
-   * Constructor for GUI class
+   * Constructor for GUI class.
    * 
    * @param String
    */

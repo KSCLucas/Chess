@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -34,7 +33,7 @@ class PieceTest {
   @DisplayName("createLegalMoveMapCorrect")
   void createLegalMoveMapCorrectTest() {
     Rook testRook = ObjectFactoryForTest.getRook();
-    
+
     Map<String, String> correctMap = new TreeMap<>();
     correctMap.put("A2", "ttt");
     correctMap.put("A3", "ttt");
@@ -50,7 +49,7 @@ class PieceTest {
     correctMap.put("F1", "ttt");
     correctMap.put("G1", "ttt");
     correctMap.put("H1", "ttt");
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -58,14 +57,14 @@ class PieceTest {
       }
     }
     testCurrentGameState.put("A1", testRook);
-    
+
     try {
       testRook.createLegalMoveMap(testCurrentGameState);
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    
+
     assertEquals(correctMap, testRook.getLegalMoveMap());
   }
 
@@ -83,7 +82,7 @@ class PieceTest {
   void createLegalMoveMapEmptyPositionTest() {
     Rook testRook = ObjectFactoryForTest.getRook();
     testRook.setPosition(null);
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -91,7 +90,7 @@ class PieceTest {
       }
     }
     testCurrentGameState.put("A1", testRook);
-    
+
     assertThrows(PieceOutOfBoundsException.class, () -> testRook.createLegalMoveMap(testCurrentGameState));
   }
 
@@ -110,9 +109,9 @@ class PieceTest {
   void createLegalMoveMapEmptyMovesetTest() {
     EmptyPiece testEmptyPiece = new EmptyPiece();
     testEmptyPiece.setPosition("A1");
-    
+
     Map<String, String> correctMap = new TreeMap<>();
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -120,14 +119,14 @@ class PieceTest {
       }
     }
     testCurrentGameState.put("A1", testEmptyPiece);
-    
+
     try {
       testEmptyPiece.createLegalMoveMap(testCurrentGameState);
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    
+
     assertEquals(correctMap, testEmptyPiece.getLegalMoveMap());
   }
 
@@ -146,7 +145,7 @@ class PieceTest {
   @DisplayName("createLegalMoveMapNullOnField")
   void createLegalMoveMapNullOnFieldTest() {
     Rook testRook = ObjectFactoryForTest.getRook();
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -166,12 +165,29 @@ class PieceTest {
    * @param void
    * @return void
    * @tested {@code movePiece()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceLegalMove")
   void movePieceLegalMoveTest() {
-    fail("Not yet implemented");
+    Rook testRook = ObjectFactoryForTest.getRook();
+    String legalTargetPosition = "C1";
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put(testRook.getPosition(), testRook);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+    testRook.movePiece(testCurrentGameState, legalTargetPosition);
+    assertEquals(legalTargetPosition, testRook.getPosition());
+    assertEquals("r1w", testCurrentGameState.get(legalTargetPosition).getId());
+    assertEquals(EmptyPiece.ID, testCurrentGameState.get("A1").getId());
   }
 
   /**
@@ -181,12 +197,29 @@ class PieceTest {
    * @return void
    * @tested {@code movePiece()}
    * @comment target Position can be freely selected (move must be executable).
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceIllegalMove")
   void movePieceIllegalMoveTest() {
-    fail("Not yet implemented");
+    Rook testRook = ObjectFactoryForTest.getRook();
+    String illegalTargetPosition = "B2";
+    String initialPosition = testRook.getPosition();
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put(testRook.getPosition(), testRook);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+    testRook.movePiece(testCurrentGameState, illegalTargetPosition);
+    assertEquals(initialPosition, testRook.getPosition());
+    assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
 
   /**
@@ -202,7 +235,24 @@ class PieceTest {
   @Test
   @DisplayName("movePieceUnknownKey")
   void movePieceUnknownKeyTest() {
-    fail("Not yet implemented");
+    Rook testRook = ObjectFactoryForTest.getRook();
+    String unknownTargetPosition = null;
+    String initialPosition = testRook.getPosition();
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put(testRook.getPosition(), testRook);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+    testRook.movePiece(testCurrentGameState, unknownTargetPosition);
+    assertEquals(initialPosition, testRook.getPosition());
+    assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
 
   /**
@@ -213,12 +263,27 @@ class PieceTest {
    * @tested {@code movePiece()}
    * @comment target Position is outside the field (e.g. H12), also includes
    *          {@code null} as key.
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceToPiecePosition")
   void movePieceToPiecePositionTest() {
-    fail("Not yet implemented");
+    Rook testRook = ObjectFactoryForTest.getRook();
+    String pieceTargetPosition = testRook.getPosition();
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put(testRook.getPosition(), testRook);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+    testRook.movePiece(testCurrentGameState, pieceTargetPosition);
+    assertEquals(pieceTargetPosition, testRook.getPosition());
   }
 
   /**
@@ -229,11 +294,33 @@ class PieceTest {
    * @return void
    * @tested {@code movePiece()}
    * @comment "xy" counts as not being on the pitch.
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceToEnemyPiece")
   void movePieceToEnemyPieceTest() {
-    fail("Not yet implemented");
+    Rook testRook = ObjectFactoryForTest.getRook();
+    String initialPosition = testRook.getPosition();
+    String enemyPiecePosition = "A8";
+    Rook opposingTestRook = ObjectFactoryForTest.getRook();
+    opposingTestRook.setColour('b');
+    opposingTestRook.setPosition(enemyPiecePosition);
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put(testRook.getPosition(), testRook);
+    testCurrentGameState.put(opposingTestRook.getPosition(), opposingTestRook);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+    testRook.movePiece(testCurrentGameState, enemyPiecePosition);
+    assertEquals("r1w", testCurrentGameState.get(enemyPiecePosition).getId());
+    assertEquals("xy", opposingTestRook.getPosition());
+    assertEquals(EmptyPiece.ID, testCurrentGameState.get(initialPosition).getId());
   }
 }

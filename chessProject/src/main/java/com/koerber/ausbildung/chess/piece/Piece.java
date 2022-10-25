@@ -18,7 +18,6 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 public abstract class Piece {
 
   public static final String       TRUE_STRING  = "ttt";
-  public static final String       FALSE_STRING = "fff";
   public static final String       HIT_STRING   = "hhh";
   public static final String       NOT_ON_FIELD = "xy";
   private String                   id;
@@ -106,27 +105,29 @@ public abstract class Piece {
   }
 
   /**
-   * Calls the {@code createLegalMoveMap} method. Moves {@code Piece} to
-   * {@code targetPosition}, if {@code targetPosition} is legal. Checks legality
-   * by checking the value for the key {@code targetPosition}. If there is an
-   * opposing {@code Piece} on {@code targetPosition}, it sets {@code position}
-   * of that {@code Piece} to "xy".
+   * Moves {@code Piece} to {@code targetPosition}, if {@code targetPosition} is
+   * legal. Checks legality by checking the value for the key
+   * {@code targetPosition}. If there is an opposing {@code Piece} on
+   * {@code targetPosition}, it sets {@code position} of that {@code Piece} to
+   * "xy".
    * 
    * @param targetPosition
-   * @return void
+   * @return {@code true} if move is successful. Otherwise it retuns
+   *         {@code false}
    * @author PKamps
    */
   public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
-    // Check for legal move
-    if(getLegalMoveMap().get(targetPosition) == FALSE_STRING) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)
+        || !currentGameState.containsKey(targetPosition)) {
       return false;
     }
     else {
+      currentGameState.put(getPosition(), new EmptyPiece());
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
         currentGameState.get(targetPosition).setPosition("xy");
-        currentGameState.put(targetPosition, new EmptyPiece());
       }
+      currentGameState.put(targetPosition, this);
       return true;
     }
   }

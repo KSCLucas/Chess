@@ -114,19 +114,20 @@ public abstract class Piece {
    * 
    * @param targetPosition
    * @return void
-   * @throws PieceOutOfBoundsException
    * @author PKamps
    */
-  public void movePiece(Map<String, Piece> currentGameState, String targetPosition) throws PieceOutOfBoundsException {
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
     // Check for legal move
     if(getLegalMoveMap().get(targetPosition) == FALSE_STRING) {
-      // TODO fill == false_string block
+      return false;
     }
     else {
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
         currentGameState.get(targetPosition).setPosition("xy");
+        currentGameState.put(targetPosition, new EmptyPiece());
       }
+      return true;
     }
   }
 

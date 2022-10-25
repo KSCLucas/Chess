@@ -114,14 +114,14 @@ public class GuiFrame {
     historyPanelBot.add(currentGameButton);
 
     // Build Scroll pane for displaying history entries
-    JScrollPane histroyScrollPane = new JScrollPane();
-    GridBagConstraints gbc_histroyScrollPane = new GridBagConstraints();
-    gbc_histroyScrollPane.gridheight = 6;
-    gbc_histroyScrollPane.insets = new Insets(0, 0, 5, 5);
-    gbc_histroyScrollPane.fill = GridBagConstraints.BOTH;
-    gbc_histroyScrollPane.gridx = 0;
-    gbc_histroyScrollPane.gridy = 4;
-    frame.getContentPane().add(histroyScrollPane, gbc_histroyScrollPane);
+    JScrollPane historyScrollPane = new JScrollPane();
+    GridBagConstraints gbc_historyScrollPane = new GridBagConstraints();
+    gbc_historyScrollPane.gridheight = 6;
+    gbc_historyScrollPane.insets = new Insets(0, 0, 5, 5);
+    gbc_historyScrollPane.fill = GridBagConstraints.BOTH;
+    gbc_historyScrollPane.gridx = 0;
+    gbc_historyScrollPane.gridy = 4;
+    frame.getContentPane().add(historyScrollPane, gbc_historyScrollPane);
 
     // Labels x-axis of chess board (12345678)
     JPanel labelYPanel = new JPanel();
@@ -137,6 +137,16 @@ public class GuiFrame {
     for(int i = 0; i < 8; i++) {
       labelYPanel.add(new JLabel("" + (i + 1)), SwingConstants.CENTER);
     }
+
+    // JLayeredPane layeredPane = new JLayeredPane();
+    // GridBagConstraints gbc_layeredPane = new GridBagConstraints();
+    // layeredPane.setPreferredSize(new Dimension(896, 896));
+    // gbc_layeredPane.gridheight = 8;
+    // gbc_layeredPane.insets = new Insets(0, 0, 5, 5);
+    // gbc_layeredPane.fill = GridBagConstraints.BOTH;
+    // gbc_layeredPane.gridx = 2;
+    // gbc_layeredPane.gridy = 1;
+    // frame.getContentPane().add(layeredPane, gbc_layeredPane);
 
     JPanel chessBoardBottomLayer = new JPanel();
     GridBagConstraints gbc_chessBoardBottomLayer = new GridBagConstraints();
@@ -155,7 +165,7 @@ public class GuiFrame {
       labels[i] = new JLabel();
       labels[i].setText("label" + i);
       labels[i].setOpaque(true);
-      if(i > 0 && i <= 8) {
+      if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
         if(i % 2 == 0) {
           labels[i].setBackground(lightBrown);
         }
@@ -163,55 +173,7 @@ public class GuiFrame {
           labels[i].setBackground(Color.white);
         }
       }
-      if(i > 8 && i <= 16) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(Color.white);
-        }
-        else {
-          labels[i].setBackground(lightBrown);
-        }
-      }
-      if(i > 16 && i <= 24) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(lightBrown);
-        }
-        else {
-          labels[i].setBackground(Color.white);
-        }
-      }
-      if(i > 24 && i <= 32) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(Color.white);
-        }
-        else {
-          labels[i].setBackground(lightBrown);
-        }
-      }
-      if(i > 32 && i <= 40) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(lightBrown);
-        }
-        else {
-          labels[i].setBackground(Color.white);
-        }
-      }
-      if(i > 40 && i <= 48) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(Color.white);
-        }
-        else {
-          labels[i].setBackground(lightBrown);
-        }
-      }
-      if(i > 48 && i <= 56) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(lightBrown);
-        }
-        else {
-          labels[i].setBackground(Color.white);
-        }
-      }
-      if(i > 56 && i <= 64) {
+      if((i > 8 && i <= 16) || (i > 24 && i <= 32) || (i > 40 && i <= 48) || (i > 56 && i <= 64)) {
         if(i % 2 == 0) {
           labels[i].setBackground(Color.white);
         }
@@ -221,6 +183,22 @@ public class GuiFrame {
       }
       chessBoardBottomLayer.add(labels[i]);
     }
+
+    JPanel chessBoardLegalMoveMapLayer = new JPanel();
+    GridBagConstraints gbc_chessBoardLegalMoveMapLayer = new GridBagConstraints();
+    gbc_chessBoardLegalMoveMapLayer.gridheight = 8;
+    gbc_chessBoardLegalMoveMapLayer.insets = new Insets(0, 0, 5, 0);
+    gbc_chessBoardLegalMoveMapLayer.fill = GridBagConstraints.BOTH;
+    gbc_chessBoardLegalMoveMapLayer.gridx = 2;
+    gbc_chessBoardLegalMoveMapLayer.gridy = 1;
+    frame.getContentPane().add(chessBoardLegalMoveMapLayer, gbc_chessBoardLegalMoveMapLayer);
+    chessBoardLegalMoveMapLayer.setLayout(new GridLayout(8, 8, 0, 0));
+    chessBoardLegalMoveMapLayer.setBorder(new LineBorder(Color.BLACK));
+
+    JLabel legalMoveLabel = new JLabel("Test");
+    legalMoveLabel.setOpaque(true);
+    legalMoveLabel.setBackground(Color.red);
+    chessBoardLegalMoveMapLayer.add(legalMoveLabel);
 
     // Labels x-axis of chess board (ABCDEFGH)
     JPanel labelXPanel = new JPanel();
@@ -333,7 +311,6 @@ public class GuiFrame {
     // TODO Display Points Player 2
     player2Panel.add(setPointsP2Label);
 
-   
     JLabel piecesP2Label = new JLabel("PIECES");
     GridBagConstraints gbc_piecesP2Label = new GridBagConstraints();
     gbc_piecesP2Label.insets = new Insets(0, 0, 5, 0);

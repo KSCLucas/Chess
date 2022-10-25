@@ -18,7 +18,7 @@ import javax.swing.border.LineBorder;
 public class GuiFrame {
 
   private JFrame              frame;
-  private static final String X_LABEL      = "HGFEDCBA";
+  private static final String X_LABEL     = "ABCDEFGH";
   Color                       lightBrown  = new Color(237, 201, 175);
   LineBorder                  blackBorder = new LineBorder(Color.BLACK);
   /**
@@ -51,11 +51,11 @@ public class GuiFrame {
   private void initialize() {
     frame = new JFrame();
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//    frame.setBounds(100, 100, 450, 300);
+    // frame.setBounds(100, 100, 450, 300);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
-    gridBagLayout.rowHeights = new int[]{108, 108, 108, 108, 108, 108, 108, 108, 108, 108};
+    gridBagLayout.rowHeights = new int[]{108, 108, 108, 108, 108, 108, 108, 108, 108, 32};
     gridBagLayout.columnWeights = new double[]{1.0, 1.0};
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     frame.getContentPane().setLayout(gridBagLayout);
@@ -127,16 +127,15 @@ public class GuiFrame {
     JPanel labelYPanel = new JPanel();
     GridBagConstraints gbc_labelYPanel = new GridBagConstraints();
     gbc_labelYPanel.anchor = GridBagConstraints.EAST;
-    gbc_labelYPanel.gridheight = 9;
+    gbc_labelYPanel.gridheight = 8;
     gbc_labelYPanel.insets = new Insets(0, 0, 5, 5);
     gbc_labelYPanel.fill = GridBagConstraints.VERTICAL;
     gbc_labelYPanel.gridx = 1;
     gbc_labelYPanel.gridy = 1;
     frame.getContentPane().add(labelYPanel, gbc_labelYPanel);
-    labelYPanel.setLayout(new GridLayout(9, 0, 0, 0));
-    labelYPanel.add(new JLabel(""));
+    labelYPanel.setLayout(new GridLayout(8, 0, 0, 0));
     for(int i = 0; i < 8; i++) {
-      labelYPanel.add(new JLabel("" + (i + 1)),SwingConstants.CENTER);
+      labelYPanel.add(new JLabel("" + (i + 1)), SwingConstants.CENTER);
     }
 
     JPanel chessBoardBottomLayer = new JPanel();
@@ -231,9 +230,13 @@ public class GuiFrame {
     gbc_labelXPanel.gridx = 2;
     gbc_labelXPanel.gridy = 9;
     frame.getContentPane().add(labelXPanel, gbc_labelXPanel);
-    labelXPanel.setLayout(new GridLayout(0, 9, 0, 0));
+    labelXPanel.setLayout(new GridLayout(0, 8, 0, 0));
+    JLabel[] xLabels = new JLabel[8];
     for(int i = 0; i < 8; i++) {
-      labelXPanel.add(new JLabel(X_LABEL.substring(i, i + 1)), SwingConstants.CENTER);
+      xLabels[i] = new JLabel(X_LABEL.substring(i, i + 1));
+      xLabels[i].setVerticalAlignment(SwingConstants.CENTER);
+      xLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+      labelXPanel.add(xLabels[i]);
     }
 
     JLabel scoreLabel = new JLabel("SCORE");

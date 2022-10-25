@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.piece;
 import java.awt.Image;
 import java.util.Map;
 
+import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -91,7 +92,8 @@ public class Pawn extends Piece {
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {
       throw new PieceOutOfBoundsException();
-    } // TODO implement colour difference and vertical field bounds
+    }
+    // TODO write test methods
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every movevector in moveSet
@@ -103,43 +105,79 @@ public class Pawn extends Piece {
       switch(i) {
       case 0 -> {
         // Single move
-        posLetterAsNumber += getMoveSet().get(i).get(0);
-        posNumber += getMoveSet().get(i).get(1);
+        if(getColour() == 'b') {
+          posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
+          posNumber += -1 * getMoveSet().get(i).get(1);
+        }
+        else {
+          posLetterAsNumber += getMoveSet().get(i).get(0);
+          posNumber += getMoveSet().get(i).get(1);
+        }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
+            && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
       case 1 -> {
         // Double move
-        posLetterAsNumber += getMoveSet().get(i).get(0);
-        posNumber += getMoveSet().get(i).get(1);
+        if(getColour() == 'b') {
+          posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
+          posNumber += -1 * getMoveSet().get(i).get(1);
+        }
+        else {
+          posLetterAsNumber += getMoveSet().get(i).get(0);
+          posNumber += getMoveSet().get(i).get(1);
+        }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - 1))
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
+            && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - 1))
             && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID) && !isHasMoved()) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
       case 2, 5 -> {
         // Take
-        posLetterAsNumber += getMoveSet().get(i).get(0);
-        posNumber += getMoveSet().get(i).get(1);
+        if(getColour() == 'b') {
+          posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
+          posNumber += -1 * getMoveSet().get(i).get(1);
+        }
+        else {
+          posLetterAsNumber += getMoveSet().get(i).get(0);
+          posNumber += getMoveSet().get(i).get(1);
+        }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(!currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
+            && !currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)
             && currentGameState.get(fieldKey).getColour() != getColour()) {
           getLegalMoveMap().put(fieldKey, HIT_STRING);
         }
       }
       case 3, 4 -> {
         // Check for en-passant
-        posLetterAsNumber += getMoveSet().get(i).get(0);
-        posNumber += getMoveSet().get(i).get(1);
+        if(getColour() == 'b') {
+          posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
+          posNumber += -1 * getMoveSet().get(i).get(1);
+        }
+        else {
+          posLetterAsNumber += getMoveSet().get(i).get(0);
+          posNumber += getMoveSet().get(i).get(1);
+        }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(currentGameState.get(fieldKey) instanceof Pawn && currentGameState.get(fieldKey).getColour() != getColour()
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
+            && currentGameState.get(fieldKey) instanceof Pawn
+            && currentGameState.get(fieldKey).getColour() != getColour()
             && ((Pawn)currentGameState.get(fieldKey)).isEnPassentable()) {
-          int posNumberForEnPassant = posNumber + 1;
-          String enPassantFieldKey = Character.toString(posLetterAsNumber) + posNumberForEnPassant;
-          getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+          if(getColour() == 'b') {
+            int posNumberForEnPassant = posNumber - 1;
+            String enPassantFieldKey = Character.toString(posLetterAsNumber) + posNumberForEnPassant;
+            getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+          }
+          else {
+            int posNumberForEnPassant = posNumber + 1;
+            String enPassantFieldKey = Character.toString(posLetterAsNumber) + posNumberForEnPassant;
+            getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+          }
         }
       }
       }

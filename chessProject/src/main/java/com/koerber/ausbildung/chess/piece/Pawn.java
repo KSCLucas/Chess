@@ -93,7 +93,6 @@ public class Pawn extends Piece {
     if(getPosition() == null || getPosition().isEmpty()) {
       throw new PieceOutOfBoundsException();
     }
-    // TODO write test methods
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every movevector in moveSet

@@ -9,6 +9,10 @@ package com.koerber.ausbildung.chess.gui;
 public class Gui {
 
   private String posClickedPiece;
+  
+  protected static int getIndex (int columnValue, int rowValue) {
+    return (columnValue+(-8*rowValue)+63);
+  }
 
   /**
    * Constructor for GUI class.
@@ -110,6 +114,7 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    */
   public void highlightLegalMove() {
+    
     
 
   }

@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -347,12 +346,14 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForEnPassantSuccessTest()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForEnPassantSuccess")
   void checkForEnPassantSuccessTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.checkForEnPassant("A4");
+    assertEquals(true, testPawn.isEnPassentable());
   }
 
   /**
@@ -363,11 +364,13 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForEnPassantSuccessTest()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForEnPassantFailure")
   void checkForEnPassantFailureTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.checkForEnPassant("A3");
+    assertEquals(false, testPawn.isEnPassentable());
   }
 }

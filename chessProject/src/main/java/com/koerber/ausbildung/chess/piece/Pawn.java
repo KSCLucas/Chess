@@ -114,8 +114,8 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
-            && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
+            && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
@@ -130,7 +130,8 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
+            && posLetterAsNumber <= Field.RIGHT_BOUND
             && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - 1))
             && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID) && !isHasMoved()) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
@@ -147,8 +148,8 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
-            && !currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
+            && posLetterAsNumber <= Field.RIGHT_BOUND && !currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)
             && currentGameState.get(fieldKey).getColour() != getColour()) {
           getLegalMoveMap().put(fieldKey, HIT_STRING);
         }
@@ -164,8 +165,8 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND
-            && currentGameState.get(fieldKey) instanceof Pawn
+        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
+            && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey) instanceof Pawn
             && currentGameState.get(fieldKey).getColour() != getColour()
             && ((Pawn)currentGameState.get(fieldKey)).isEnPassentable()) {
           if(getColour() == 'b') {

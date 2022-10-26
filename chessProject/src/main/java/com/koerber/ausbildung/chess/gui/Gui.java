@@ -110,6 +110,7 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    */
   public void highlightLegalMove() {
+    
 
   }
 

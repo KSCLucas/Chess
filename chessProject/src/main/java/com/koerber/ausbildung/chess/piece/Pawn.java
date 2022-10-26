@@ -164,7 +164,7 @@ public class Pawn extends Piece {
         }
       }
       case 3, 4 -> {
-        // Check for en-passant
+        // Check for en-passant take
         if(getColour() == 'b') {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
@@ -196,14 +196,23 @@ public class Pawn extends Piece {
 
   /**
    * If {@code Pawn} has moved two tiles, set {@code isEnPassantable} =
-   * {@code true}.
+   * {@code true}. Otherwise it is set to {@code false}.
    * 
    * @param targetPosition
    * @return void
    * @author PKamps
    */
   public void checkForEnPassant(String targetPosition) {
-
+    if(!(getPosition() == null || getPosition().isEmpty())) {
+      int posNumber = Character.getNumericValue(getPosition().charAt(1));
+      int posNumberTargetPosition = Character.getNumericValue(targetPosition.charAt(1));
+      if(Math.abs(posNumberTargetPosition - posNumber) == 2) {
+        setEnPassentable(true);
+      }
+      else {
+        setEnPassentable(false);
+      }
+    }
   }
 
 }

@@ -2,10 +2,13 @@ package com.koerber.ausbildung.chess.gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+import com.koerber.ausbildung.chess.piece.EmptyPiece;
+import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.piece.Rook;
+import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 public class GuiFrame {
 
@@ -39,6 +49,7 @@ public class GuiFrame {
         }
       }
     });
+
   }
 
   /**
@@ -46,6 +57,7 @@ public class GuiFrame {
    */
   public GuiFrame() {
     initialize();
+    System.out.println(Gui.getIndex(6, 8));
   }
 
   /**
@@ -192,10 +204,11 @@ public class GuiFrame {
     chessBoardMiddleLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardMiddleLayer.setBorder(new LineBorder(Color.BLACK));
 
-    JLabel legalMoveLabel = new JLabel("Test");
-    legalMoveLabel.setOpaque(true);
-    legalMoveLabel.setBackground(lightRed);
-    chessBoardMiddleLayer.add(legalMoveLabel);
+    // Calls highlightLegalMove and adds the build labels to the middle Layer
+    JLabel[] legalMoveLabels = highlightLegalMove();
+    for(int i = 0; i < legalMoveLabels.length; i++) {
+      chessBoardMiddleLayer.add(legalMoveLabels[i]);
+    }
 
     JPanel chessBoardTopLayer = new JPanel();
     chessBoardTopLayer.setOpaque(false);
@@ -210,18 +223,6 @@ public class GuiFrame {
     // gbc_chessBoardLegalMoveMapLayer);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(new LineBorder(Color.BLACK));
-
-    JLabel[] topLabels = new JLabel[64];
-    for(int i = 0; i < 64; i++) {
-      topLabels[i] = new JLabel();
-
-      if(i == 63) {
-        topLabels[i].setOpaque(true);
-        topLabels[i].setBackground(lightGreen);
-        topLabels[i].setText("Test");
-      }
-      chessBoardTopLayer.add(topLabels[i]);
-    }
 
     JLayeredPane layeredPane = new JLayeredPane();
     GridBagConstraints gbc_layeredPane = new GridBagConstraints();
@@ -366,6 +367,54 @@ public class GuiFrame {
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
+  }
+
+  /**
+   * Colors the fields according to the {@code Piece.legalMoveMap} green (may
+   * move), red (hit) or not at all (may not move).
+   */
+  public JLabel[] highlightLegalMove() {
+    // JLabel[] topLabels = new JLabel[64];
+    //// for(int i = 0; i < 64; i++) {
+    //// topLabels[i] = new JLabel("");
+    //// if(i == 63) {
+    //// topLabels[i] = new JLabel();
+    //// topLabels[i].setOpaque(true);
+    //// topLabels[i].setBackground(lightGreen);
+    //// topLabels[i].setText("Test");
+    //// }
+    //// }
+    //// return topLabels;
+    Rook tempRook = ObjectFactoryForTest.getRook();
+    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    currentGameStateTemp.put("A1", tempRook);
+    try {
+      tempRook.createLegalMoveMap(currentGameStateTemp);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempRook.getLegalMoveMap());
+    System.out.println(legalMoveMapTemp);
+    JLabel[] legalMoveLabels = new JLabel[legalMoveMapTemp.size()];
+    // get numeric Value
+    int i = 0;
+    for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
+      legalMoveLabels[i] = new JLabel("");
+      if(i == 13) {
+        legalMoveLabels[i] = new JLabel();
+        legalMoveLabels[i].setOpaque(true);
+        legalMoveLabels[i].setBackground(lightGreen);
+        legalMoveLabels[i].setText("Test");
+      }
+      i++;
+    }
+    return legalMoveLabels;
   }
 
 }

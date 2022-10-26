@@ -88,16 +88,6 @@ public class King extends Piece {
   }
 
   /**
-   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
-   * 
-   * @return void
-   * @author PKamps
-   */
-  public void checkForFirstMove() {
-
-  }
-
-  /**
    * Checks, if {@code King} is in check.
    * 
    * @return void

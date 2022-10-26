@@ -71,14 +71,4 @@ public class Rook extends Piece {
   public void checkForCastle() {
 
   }
-
-  /**
-   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
-   * 
-   * @return void
-   * @author PKamps
-   */
-  public void checkForFirstMove() {
-
-  }
 }

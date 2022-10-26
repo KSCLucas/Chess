@@ -71,16 +71,6 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
-   * 
-   * @return void
-   * @author PKamps
-   */
-  public void checkForFirstMove() {
-
-  }
-
-  /**
    * Overrides {@code createLegalMoveMap} of {@code Piece}.
    * 
    * @param currentGameState

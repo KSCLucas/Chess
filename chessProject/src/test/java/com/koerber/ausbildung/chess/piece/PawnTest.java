@@ -180,7 +180,7 @@ class PawnTest {
       }
     }
     testCurrentGameState.put("A2", testPawn);
-    testCurrentGameState.put("A8", null);
+    testCurrentGameState.put("A3", null);
     testCurrentGameState.put("C1", null);
     testCurrentGameState.put("F7", null);
 
@@ -305,13 +305,16 @@ class PawnTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForFirstMove()}
-   * @author Lucas Noack
+   * @tests {@code setPosition}
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
   void checkForFirstMoveSuccessTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A3");
+    assertEquals("A3", testPawn.getPosition());
+    assertEquals(true, testPawn.isHasMoved());
   }
 
   /**
@@ -320,14 +323,14 @@ class PawnTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForFirstMove()}
-   * @author Lucas Noack
+   * @tests {@code setPosition}
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
   void checkForFirstMoveFailureTest() {
-    fail("Not yet implemented");
-
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    assertEquals(false, testPawn.isHasMoved());
   }
 
   /**

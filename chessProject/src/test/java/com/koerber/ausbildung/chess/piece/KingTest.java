@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+
 /**
  * Tests the {@code King} class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 class KingTest {
 
@@ -19,13 +21,16 @@ class KingTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForFirstMove()}
-   * @author Lucas Noack
+   * @tests {@code setPosition}
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
   void checkForFirstMoveSuccessTest() {
-    fail("Not yet implemented");
+    King testKing = ObjectFactoryForTest.getKing();
+    testKing.setPosition("A4");
+    assertEquals("A4", testKing.getPosition());
+    assertEquals(true, testKing.isHasMoved());
   }
 
   /**
@@ -34,13 +39,14 @@ class KingTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForFirstMove()}
-   * @author Lucas Noack
+   * @tests {@code setPosition}
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
   void checkForFirstMoveFailureTest() {
-    fail("Not yet implemented");
+    King testKing = ObjectFactoryForTest.getKing();
+    assertEquals(false, testKing.isHasMoved());
 
   }
 

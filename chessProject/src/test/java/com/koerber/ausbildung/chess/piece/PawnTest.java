@@ -1,9 +1,18 @@
 package com.koerber.ausbildung.chess.piece;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
  * Tests the {@code Pawn} class.
@@ -23,7 +32,75 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapCorrect")
   void createLegalMoveMapCorrectTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
 
+    Pawn opposingPawn = ObjectFactoryForTest.getPawn();
+    opposingPawn.setId("p1b");
+    opposingPawn.setColour('b');
+    opposingPawn.setPosition("B3");
+
+    Map<String, String> correctMap = new TreeMap<>();
+    correctMap.put("A3", "ttt");
+    correctMap.put("A4", "ttt");
+    correctMap.put("B3", "hhh");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testPawn);
+    testCurrentGameState.put("B3", opposingPawn);
+
+    try {
+      testPawn.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+
+    assertEquals(correctMap, testPawn.getLegalMoveMap());
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates a
+   * {@code legalMoveMap} as reference. Expects {@code Pawn.getLegalMoveMap}
+   * equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapCorrectBlack")
+  void createLegalMoveMapCorrectBlackTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setId("p1b");
+    testPawn.setColour('b');
+    testPawn.setPosition("B3");
+    testPawn.setHasMoved(true);
+
+    Pawn opposingPawn = ObjectFactoryForTest.getPawn();
+
+    Map<String, String> correctMap = new TreeMap<>();
+    correctMap.put("A2", "hhh");
+    correctMap.put("B2", "ttt");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", opposingPawn);
+    testCurrentGameState.put("B3", testPawn);
+
+    try {
+      testPawn.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+
+    assertEquals(correctMap, testPawn.getLegalMoveMap());
   }
 
   /**
@@ -37,7 +114,18 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapEmptyPosition")
   void createLegalMoveMapEmptyPositionTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition(null);
 
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testPawn);
+
+    assertThrows(PieceOutOfBoundsException.class, () -> testPawn.createLegalMoveMap(testCurrentGameState));
   }
 
   /**
@@ -51,7 +139,25 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveSet")
   void createLegalMoveMapEmptyMoveSetTest() {
+    EmptyPiece testEmptyPiece = new EmptyPiece();
 
+    Map<String, String> correctMap = new TreeMap<>();
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testEmptyPiece);
+
+    try {
+      testEmptyPiece.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+
+    assertEquals(correctMap, testEmptyPiece.getLegalMoveMap());
   }
 
   /**
@@ -65,7 +171,20 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapNullOnField")
   void createLegalMoveMapNullOnFieldTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
 
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testPawn);
+    testCurrentGameState.put("A8", null);
+    testCurrentGameState.put("C1", null);
+    testCurrentGameState.put("F7", null);
+
+    assertThrows(NullPointerException.class, () -> testPawn.createLegalMoveMap(testCurrentGameState));
   }
 
   /**
@@ -79,7 +198,36 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapEnPassant")
   void createLegalMoveMapEnPassantTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
 
+    Pawn opposingPawn = ObjectFactoryForTest.getPawn();
+    opposingPawn.setId("p1b");
+    opposingPawn.setColour('b');
+    opposingPawn.setPosition("B2");
+    opposingPawn.setEnPassentable(true);
+    opposingPawn.setHasMoved(true);
+
+    Map<String, String> correctMap = new TreeMap<>();
+    correctMap.put("A3", "ttt");
+    correctMap.put("A4", "ttt");
+    correctMap.put("B3", "hhh");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testPawn);
+    testCurrentGameState.put("B2", opposingPawn);
+
+    try {
+      testPawn.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+
+    assertEquals(correctMap, testPawn.getLegalMoveMap());
   }
 
   /**
@@ -93,7 +241,28 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapNoDoubleMove")
   void createLegalMoveMapNoDoubleMoveTest() {
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A6");
+    testPawn.setHasMoved(true);
+    
+    Map<String, String> correctMap = new TreeMap<>();
+    correctMap.put("A7", "ttt");
 
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A6", testPawn);
+
+    try {
+      testPawn.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+    }
+
+    assertEquals(correctMap, testPawn.getLegalMoveMap());
   }
 
   /**

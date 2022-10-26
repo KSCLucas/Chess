@@ -60,6 +60,21 @@ public class Pawn extends Piece {
   }
 
   /**
+   * Sets {@code this.position} to a new {@code position} and sets
+   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
+   * {@code Piece}.
+   * 
+   * @param position
+   * @return void
+   * @author PKamps
+   */
+  @Override
+  public void setPosition(String position) {
+    this.position = position;
+    setHasMoved(true);
+  }
+
+  /**
    * If {@code position} contains a one or an eight, set {@code isPromotable} to
    * {@code true}.
    * 
@@ -67,16 +82,6 @@ public class Pawn extends Piece {
    * @author PKamps
    */
   public void checkForPromotion() {
-
-  }
-
-  /**
-   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
-   * 
-   * @return void
-   * @author PKamps
-   */
-  public void checkForFirstMove() {
 
   }
 

@@ -59,7 +59,22 @@ public class Rook extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-
+  
+  /**
+   * Sets {@code this.position} to a new {@code position} and sets
+   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
+   * {@code Piece}.
+   * 
+   * @param position
+   * @return void
+   * @author PKamps
+   */
+  @Override
+  public void setPosition(String position) {
+    this.position = position;
+    setHasMoved(true);
+  }
+  
   /**
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
@@ -69,16 +84,6 @@ public class Rook extends Piece {
    * @author PKamps
    */
   public void checkForCastle() {
-
-  }
-
-  /**
-   * Sets {@code hasMoved} to {@code true} when {@code position} changes.
-   * 
-   * @return void
-   * @author PKamps
-   */
-  public void checkForFirstMove() {
 
   }
 }

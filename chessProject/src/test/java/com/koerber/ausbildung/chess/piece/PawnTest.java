@@ -8,9 +8,94 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests the {@code Pawn} class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 class PawnTest {
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates a
+   * {@code legalMoveMap} as reference. Expects {@code Pawn.getLegalMoveMap}
+   * equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapCorrect")
+  void createLegalMoveMapCorrectTest() {
+
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates an empty
+   * {@code legalMoveMap} as reference. Expects {@code Pawn.getLegalMoveMap}
+   * equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapEmptyPosition")
+  void createLegalMoveMapEmptyPositionTest() {
+
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates a
+   * {@code legalMoveMap} as reference. Expects {@code Pawn.getLegalMoveMap}
+   * equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapEmptyMoveSet")
+  void createLegalMoveMapEmptyMoveSetTest() {
+
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates a
+   * {@code legalMoveMap} with some null values as reference. Expects
+   * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapNullOnField")
+  void createLegalMoveMapNullOnFieldTest() {
+
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values, a few other opposing
+   * {@code Pieces} and creates a {@code legalMoveMap} as reference. Expects
+   * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapEnPassant")
+  void createLegalMoveMapEnPassantTest() {
+
+  }
+
+  /**
+   * Builds a {@code Pawn} object with test values and creates a
+   * {@code legalMoveMap} as reference. {@code setHasMoved} = {@code true}.
+   * Expects {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
+   * 
+   * @tests {@code createLegalMoveMap} of {@code Pawn}
+   * @author PKamps
+   */
+  @Test
+  @DisplayName("createLegalMoveMapNoDoubleMove")
+  void createLegalMoveMapNoDoubleMoveTest() {
+
+  }
+
   /**
    * Builds a {@code Pawn} object with test values (e.g.
    * {@code Pawn.color = 'w' & Pawn.position = "A8"}) and expects

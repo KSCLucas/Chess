@@ -82,7 +82,12 @@ public class Pawn extends Piece {
    * @author PKamps
    */
   public void checkForPromotion() {
-
+    if(!(getPosition() == null || getPosition().isEmpty())) {
+      int posNumber = Character.getNumericValue(getPosition().charAt(1));
+      if(posNumber == 1 || posNumber == 8) {
+        setPromotable(true);
+      }
+    }
   }
 
   /**

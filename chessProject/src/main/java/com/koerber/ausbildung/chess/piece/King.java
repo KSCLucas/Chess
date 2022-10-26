@@ -74,7 +74,22 @@ public class King extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-
+  
+  /**
+   * Sets {@code this.position} to a new {@code position} and sets
+   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
+   * {@code Piece}.
+   * 
+   * @param position
+   * @return void
+   * @author PKamps
+   */
+  @Override
+  public void setPosition(String position) {
+    this.position = position;
+    setHasMoved(true);
+  }
+  
   /**
    * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
    * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and

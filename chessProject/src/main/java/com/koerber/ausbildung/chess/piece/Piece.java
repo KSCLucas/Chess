@@ -24,7 +24,7 @@ public abstract class Piece {
   private char                     colour;
   private int                      value;
   private boolean                  isMoveRepeatable;
-  private String                   position;
+  protected String                 position;
   private List<ArrayList<Integer>> moveSet;
   private Image                    icon;
   private Map<String, String>      legalMoveMap = new TreeMap<>();

@@ -4,28 +4,23 @@ package com.koerber.ausbildung.chess.gui;
  * GUI class provides the entire GUI. It communicates with the Field & Player
  * class.
  * 
- * @comment Ersterstellung
  * @author Lucas Noack
  */
-public class GUI {
+public class Gui {
 
   private String posClickedPiece;
 
   /**
-   * Constructor for GUI class
+   * Constructor for GUI class.
    * 
    * @param String
-   * @return void
-   * @author Lucas Noack
    */
-  public GUI(String posClickedPiece) {
+  public Gui(String posClickedPiece) {
     this.posClickedPiece = posClickedPiece;
   }
 
   public String getPosClickedPiece() {
-
     return posClickedPiece;
-
   }
 
   public void setPosClickedPiece(String posClickedPiece) {
@@ -35,10 +30,6 @@ public class GUI {
   /**
    * Sets all game pieces to initial pos, clears history, resets player data
    * (points, pieces beaten, NOT color and name).
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void startNewGame() {
 
@@ -46,10 +37,6 @@ public class GUI {
 
   /**
    * Resets the score before the last move of the game.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void undoLastTurn() {
 
@@ -57,21 +44,13 @@ public class GUI {
 
   /**
    * Displays the game state selected in the history.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
-  public void jumpToSelctedFEN() {
+  public void jumpToSelectedFEN() {
 
   }
 
   /**
    * Goes from the history display back to the active game.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void jumptToLiveGame() {
 
@@ -79,10 +58,6 @@ public class GUI {
 
   /**
    * Goes one (1) step/move forward in history.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void forwardInHistory() {
 
@@ -90,10 +65,6 @@ public class GUI {
 
   /**
    * Goes back one (1) step/move in history.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void backwardInHistory() {
 
@@ -103,10 +74,6 @@ public class GUI {
    * Based on the {@code Field.currentGameState} hashmap, the position and
    * sprite of the game pieces are read out and displayed on the respective
    * field.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void hashmapToGameState() {
 
@@ -115,9 +82,7 @@ public class GUI {
   /**
    * Returns coordinates of the clicked (drag) field as string.
    * 
-   * @param void
    * @return String
-   * @author Lucas Noack
    */
   public String getClickedFieldString() {
     return null;
@@ -126,9 +91,7 @@ public class GUI {
   /**
    * Returns coordinates of the released click (drop) field as string.
    * 
-   * @param void
    * @return String
-   * @author Lucas Noack
    */
   public String getReleasedFieldString() {
     return null;
@@ -137,10 +100,6 @@ public class GUI {
   /**
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void createNewHistroyEntry() {
 
@@ -149,10 +108,6 @@ public class GUI {
   /**
    * Colors the fields according to the {@code Piece.legalMoveMap} green (may
    * move), red (hit) or not at all (may not move).
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void highlightLegalMove() {
 
@@ -161,10 +116,7 @@ public class GUI {
   /**
    * Displays the winner as a popup and lures the game, only history viewable.
    * 
-   * @param void
-   * @return void
    * @comment game lock = every move illegal
-   * @author Lucas Noack
    */
   public void showWinnerPopup() {
 
@@ -172,10 +124,6 @@ public class GUI {
 
   /**
    * Displays the sprite of the beaten game pieces in the player area.
-   * 
-   * @param void
-   * @return void
-   * @author Lucas Noack
    */
   public void displayTakenPieces() {
 
@@ -184,12 +132,10 @@ public class GUI {
   /**
    * Asks for player names of the respective pages and occupies Player.name.
    * 
-   * @param void
-   * @return void
    * @comment Default names: WHITE & BLACK
-   * @author Lucas Noack
    */
   public void askForPlayerName() {
 
   }
+
 }

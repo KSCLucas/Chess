@@ -244,7 +244,7 @@ class PawnTest {
     Pawn testPawn = ObjectFactoryForTest.getPawn();
     testPawn.setPosition("A6");
     testPawn.setHasMoved(true);
-    
+
     Map<String, String> correctMap = new TreeMap<>();
     correctMap.put("A7", "ttt");
 
@@ -273,12 +273,15 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForPromotion()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForPromotionPromotable")
   void checkForPromotionPromotableTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A8");
+    testPawn.checkForPromotion();
+    assertEquals(true, testPawn.isPromotable());
   }
 
   /**
@@ -290,12 +293,15 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForPromotion()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForPromotionNotPromotable")
   void checkForPromotionNotPromotableTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A7");
+    testPawn.checkForPromotion();
+    assertEquals(false, testPawn.isPromotable());
   }
 
   /**

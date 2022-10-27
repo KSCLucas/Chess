@@ -59,15 +59,6 @@ public class Pawn extends Piece {
     this.hasMoved = hasMoved;
   }
 
-  /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Calls {@code checkForEnPassant} and
-   * {@code checkForPromotion}.
-   * 
-   * @param position
-   * @return void
-   * @author PKamps
-   */
   @Override
   public void setPosition(String position) {
     if(position == null || position.equals(Piece.NOT_ON_FIELD)) {
@@ -97,14 +88,6 @@ public class Pawn extends Piece {
     }
   }
 
-  /**
-   * Overrides {@code createLegalMoveMap} of {@code Piece}.
-   * 
-   * @param currentGameState
-   * @return void
-   * @author PKamps
-   * @see Piece.createLegalMoveMap
-   */
   @Override
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {

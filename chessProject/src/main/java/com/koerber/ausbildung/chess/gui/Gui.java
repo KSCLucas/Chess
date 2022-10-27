@@ -9,10 +9,6 @@ package com.koerber.ausbildung.chess.gui;
 public class Gui {
 
   private String posClickedPiece;
-  
-  protected static int getIndex (int columnValue, int rowValue) {
-    return (columnValue+(-8*rowValue)+63);
-  }
 
   /**
    * Constructor for GUI class.
@@ -29,6 +25,17 @@ public class Gui {
 
   public void setPosClickedPiece(String posClickedPiece) {
     this.posClickedPiece = posClickedPiece;
+  }
+
+  /**
+   * Converts HashMap Keyvalue to LabelArray Index.
+   * @param columnValue
+   * @param rowValue
+   * @return
+   */
+  protected static int getIndex(int columnValue, int rowValue) {
+    return (columnValue + (-8 * rowValue) + 63);
+
   }
 
   /**
@@ -114,8 +121,6 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    */
   public void highlightLegalMove() {
-    
-    
 
   }
 

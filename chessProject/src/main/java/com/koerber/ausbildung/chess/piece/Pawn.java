@@ -2,6 +2,7 @@ package com.koerber.ausbildung.chess.piece;
 
 import java.awt.Image;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
@@ -57,6 +58,22 @@ public class Pawn extends Piece {
 
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
+  }
+
+  /**
+   * Sets {@code isEnPassentable} of all {@code Pawn} objects of the same colour
+   * to {@code false}.
+   * 
+   * @param currentGameState
+   * @param colour
+   */
+  public static void resetEnPassant(Map<String, Piece> currentGameState, char colour) {
+    for(Entry<String, Piece> entry : currentGameState.entrySet()) {
+      if(entry.getValue() instanceof Pawn && entry.getValue().getColour() == colour) {
+        Pawn pawn = (Pawn)entry.getValue();
+        pawn.setEnPassentable(true);
+      }
+    }
   }
 
   @Override

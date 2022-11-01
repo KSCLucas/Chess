@@ -23,7 +23,7 @@ public class Knight extends Piece {
    * @author PKamps
    * @see Piece
    */
-  public Knight(String name, char colour, String position, Image icon) {
+  public Knight(String name, char colour, String position) {
     super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(), icon);
   }
 

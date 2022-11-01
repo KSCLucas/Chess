@@ -22,7 +22,7 @@ public class Queen extends Piece {
    * @param icon
    * @author PKamps
    */
-  public Queen(String name, char colour, String position, Image icon) {
+  public Queen(String name, char colour, String position) {
     super(name, colour, 9, true, position, MoveSetSupplier.getQueenMoveSet(), icon);
   }
 

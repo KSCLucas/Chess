@@ -29,7 +29,7 @@ public class Rook extends Piece {
    * @param castleSide
    * @author PKamps
    */
-  public Rook(String name, char colour, String position, Image icon, char castleSide) {
+  public Rook(String name, char colour, String position, char castleSide) {
     super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), icon);
     this.castleSide = castleSide;
     this.canCastle = false;

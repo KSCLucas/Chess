@@ -31,7 +31,7 @@ public class King extends Piece {
    * @param icon
    * @author PKamps
    */
-  public King(String name, char colour, String position, Image icon) {
+  public King(String name, char colour, String position) {
     super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), icon);
   }
 

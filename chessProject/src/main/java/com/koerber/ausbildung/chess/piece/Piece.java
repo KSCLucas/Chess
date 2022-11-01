@@ -1,10 +1,11 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
@@ -26,7 +27,7 @@ public abstract class Piece {
   private boolean                  isMoveRepeatable;
   protected String                 position;
   private List<ArrayList<Integer>> moveSet;
-  private Image                    icon;
+  private ImageIcon                icon;
   private Map<String, String>      legalMoveMap = new TreeMap<>();
 
   /**
@@ -42,7 +43,7 @@ public abstract class Piece {
    * @author PKamps
    */
   public Piece(String id, char colour, int value, boolean isMoveRepeatable, String position,
-      List<ArrayList<Integer>> moveSet, Image icon) {
+      List<ArrayList<Integer>> moveSet, ImageIcon icon) {
     this.id = id;
     this.colour = colour;
     this.value = value;
@@ -88,11 +89,11 @@ public abstract class Piece {
     return moveSet;
   }
 
-  public Image getIcon() {
+  public ImageIcon getIcon() {
     return icon;
   }
 
-  public void setIcon(Image icon) {
+  public void setIcon(ImageIcon icon) {
     this.icon = icon;
   }
 

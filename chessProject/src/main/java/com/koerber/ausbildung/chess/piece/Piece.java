@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -22,7 +23,7 @@ public abstract class Piece {
   public static final String       HIT_STRING   = "hhh";
   public static final String       NOT_ON_FIELD = "xy";
   private String                   id;
-  private char                     colour;
+  private ChessColour              colour;
   private int                      value;
   private boolean                  isMoveRepeatable;
   protected String                 position;
@@ -42,7 +43,7 @@ public abstract class Piece {
    * @param icon
    * @author PKamps
    */
-  public Piece(String id, char colour, int value, boolean isMoveRepeatable, String position,
+  public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
       List<ArrayList<Integer>> moveSet, ImageIcon icon) {
     this.id = id;
     this.colour = colour;
@@ -61,11 +62,11 @@ public abstract class Piece {
     this.id = id;
   }
 
-  public char getColour() {
+  public ChessColour getColour() {
     return colour;
   }
 
-  public void setColour(char colour) {
+  public void setColour(ChessColour colour) {
     this.colour = colour;
   }
 
@@ -126,7 +127,7 @@ public abstract class Piece {
       currentGameState.put(getPosition(), new EmptyPiece());
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
-        currentGameState.get(targetPosition).setPosition("xy");
+        currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);
       return true;

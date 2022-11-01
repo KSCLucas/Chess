@@ -1,8 +1,11 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import com.koerber.ausbildung.chess.utility.ChessColour;
 
 /**
  * The {@code EmptyPiece} class provides a standardised constructor for every
@@ -15,12 +18,12 @@ import java.util.List;
 public class EmptyPiece extends Piece {
 
   public static final String                   ID                 = "###";
-  public static final char                     COLOUR             = 'e';
+  public static final ChessColour              COLOUR             = ChessColour.NONE;
   public static final int                      VALUE              = 0;
   public static final boolean                  IS_MOVE_REPEATABLE = false;
   public static final String                   POSITION           = "nd";
   public static final List<ArrayList<Integer>> MOVESET            = new ArrayList<>();
-  public static final Image                    ICON               = null;
+  public static final ImageIcon                ICON               = null;
 
   /**
    * Calls parameterized constructor of {@code Piece} and passes values for

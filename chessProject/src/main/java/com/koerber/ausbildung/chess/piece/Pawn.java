@@ -1,9 +1,9 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
 import java.util.Map;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -31,7 +31,7 @@ public class Pawn extends Piece {
    * @param icon
    * @author PKamps
    */
-  public Pawn(String name, char colour, String position) {
+  public Pawn(String name, ChessColour colour, String position) {
     super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), icon);
   }
 
@@ -121,7 +121,7 @@ public class Pawn extends Piece {
       switch(i) {
       case 0 -> {
         // Single move
-        if(getColour() == 'b') {
+        if(getColour().equals(ChessColour.BLACK)) {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
         }
@@ -137,7 +137,7 @@ public class Pawn extends Piece {
       }
       case 1 -> {
         // Double move
-        if(getColour() == 'b') {
+        if(getColour().equals(ChessColour.BLACK)) {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
         }
@@ -155,7 +155,7 @@ public class Pawn extends Piece {
       }
       case 2, 5 -> {
         // Take
-        if(getColour() == 'b') {
+        if(getColour().equals(ChessColour.BLACK)) {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
         }
@@ -165,14 +165,14 @@ public class Pawn extends Piece {
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
-            && posLetterAsNumber <= Field.RIGHT_BOUND && !currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)
+            && posLetterAsNumber <= Field.RIGHT_BOUND && !(currentGameState.get(fieldKey) instanceof EmptyPiece)
             && currentGameState.get(fieldKey).getColour() != getColour()) {
           getLegalMoveMap().put(fieldKey, HIT_STRING);
         }
       }
       case 3, 4 -> {
         // Check for en-passant take
-        if(getColour() == 'b') {
+        if(getColour().equals(ChessColour.BLACK)) {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
         }
@@ -185,7 +185,7 @@ public class Pawn extends Piece {
             && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey) instanceof Pawn
             && currentGameState.get(fieldKey).getColour() != getColour()
             && ((Pawn)currentGameState.get(fieldKey)).isEnPassentable()) {
-          if(getColour() == 'b') {
+          if(getColour().equals(ChessColour.BLACK)) {
             int posNumberForEnPassant = posNumber - 1;
             String enPassantFieldKey = Character.toString(posLetterAsNumber) + posNumberForEnPassant;
             getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);

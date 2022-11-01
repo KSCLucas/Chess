@@ -1,7 +1,6 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
-
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
@@ -29,7 +28,7 @@ public class Rook extends Piece {
    * @param castleSide
    * @author PKamps
    */
-  public Rook(String name, char colour, String position, char castleSide) {
+  public Rook(String name, ChessColour colour, String position, char castleSide) {
     super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), icon);
     this.castleSide = castleSide;
     this.canCastle = false;

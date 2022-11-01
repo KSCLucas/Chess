@@ -1,7 +1,6 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
-
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
@@ -22,7 +21,7 @@ public class Bishop extends Piece {
    * @param icon
    * @author PKamps
    */
-  public Bishop(String name, char colour, String position) {
+  public Bishop(String name, ChessColour colour, String position) {
     super(name, colour, 3, true, position, MoveSetSupplier.getBishopMoveSet(), icon);
   }
 

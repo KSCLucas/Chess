@@ -372,10 +372,9 @@ public class GuiFrame {
    * move), red (hit) or not at all (may not move).
    */
   public JLabel[] highlightLegalMove(/* legalMoveMap */) {
-
     Knight tempKnight = new Knight("n1w", 'b', "D4", null);
-    Rook tempRook = new Rook ("n1w", 'w', "F5", null,'l');
-    Rook tempRook1 = new Rook ("n1w", 'b', "F3", null,'l');
+    Rook tempRook = new Rook("n1w", 'w', "F5", null, 'l');
+    Rook tempRook1 = new Rook("n1w", 'b', "F3", null, 'l');
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -398,6 +397,7 @@ public class GuiFrame {
       legalMoveLabels[i] = new JLabel();
       legalMoveLabels[i].setText("");
     }
+
     // get numeric Value "ttt" legal "hhh" enenmy
 
     for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {

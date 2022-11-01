@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -244,7 +243,7 @@ class PawnTest {
     Pawn testPawn = ObjectFactoryForTest.getPawn();
     testPawn.setPosition("A6");
     testPawn.setHasMoved(true);
-    
+
     Map<String, String> correctMap = new TreeMap<>();
     correctMap.put("A7", "ttt");
 
@@ -273,12 +272,15 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForPromotion()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForPromotionPromotable")
   void checkForPromotionPromotableTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A8");
+    testPawn.checkForPromotion();
+    assertEquals(true, testPawn.isPromotable());
   }
 
   /**
@@ -290,12 +292,15 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForPromotion()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForPromotionNotPromotable")
   void checkForPromotionNotPromotableTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.setPosition("A7");
+    testPawn.checkForPromotion();
+    assertEquals(false, testPawn.isPromotable());
   }
 
   /**
@@ -341,12 +346,14 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForEnPassantSuccessTest()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForEnPassantSuccess")
   void checkForEnPassantSuccessTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.checkForEnPassant("A4");
+    assertEquals(true, testPawn.isEnPassentable());
   }
 
   /**
@@ -357,11 +364,13 @@ class PawnTest {
    * @param void
    * @return void
    * @tested {@code checkForEnPassantSuccessTest()}
-   * @author Lucas Noack
+   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForEnPassantFailure")
   void checkForEnPassantFailureTest() {
-    fail("Not yet implemented");
+    Pawn testPawn = ObjectFactoryForTest.getPawn();
+    testPawn.checkForEnPassant("A3");
+    assertEquals(false, testPawn.isEnPassentable());
   }
 }

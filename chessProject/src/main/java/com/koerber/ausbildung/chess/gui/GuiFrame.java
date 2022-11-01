@@ -21,17 +21,18 @@ import javax.swing.border.LineBorder;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.piece.EmptyPiece;
+import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.piece.Piece;
-import com.koerber.ausbildung.chess.piece.Rook;
+import com.koerber.ausbildung.chess.piece.Queen;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 public class GuiFrame {
 
   private JFrame              frame;
-  private static final String XLABEL     = "ABCDEFGH";
+  private static final String XLABEL      = "ABCDEFGH";
   Color                       lightBrown  = new Color(205, 133, 63);
-  Color                       lightGreen  = new Color(144, 238, 144);
-  Color                       lightRed    = new Color(255, 114, 118);
+  Color                       lightGreen  = new Color(144, 238, 144, 127);
+  Color                       lightRed    = new Color(255, 75, 75, 127);
   LineBorder                  blackBorder = new LineBorder(Color.BLACK);
   /**
    * Launch the application.
@@ -56,7 +57,6 @@ public class GuiFrame {
    */
   public GuiFrame() {
     initialize();
-    System.out.println(Gui.getIndex(6, 8));
   }
 
   /**
@@ -168,7 +168,7 @@ public class GuiFrame {
     JLabel[] labels = new JLabel[65];
     for(int i = 1; i < 65; i++) {
       labels[i] = new JLabel();
-      labels[i].setText("label" + i);
+      // labels[i].setText("label" + i);
       labels[i].setOpaque(true);
       if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
         if(i % 2 == 0) {
@@ -373,47 +373,52 @@ public class GuiFrame {
    * move), red (hit) or not at all (may not move).
    */
   public JLabel[] highlightLegalMove(/* legalMoveMap */) {
-    // JLabel[] topLabels = new JLabel[64];
-    //// for(int i = 0; i < 64; i++) {
-    //// topLabels[i] = new JLabel("");
-    //// if(i == 63) {
-    //// topLabels[i] = new JLabel();
-    //// topLabels[i].setOpaque(true);
-    //// topLabels[i].setBackground(lightGreen);
-    //// topLabels[i].setText("Test");
-    //// }
-    //// }
-    //// return topLabels;
-    Rook tempRook = ObjectFactoryForTest.getRook();
+
+    Queen tempQueen = ObjectFactoryForTest.getQueen();
+    Pawn tempPawn = ObjectFactoryForTest.getPawn();
+    tempQueen.setPosition("C6");
+    tempQueen.setColour('w');
+    tempPawn.setPosition("B7");
+    tempPawn.setColour('b');
+
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
         currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
       }
     }
-    currentGameStateTemp.put("A1", tempRook);
+    currentGameStateTemp.put("B7", tempPawn);
+    currentGameStateTemp.put("C6", tempQueen);
     try {
-      tempRook.createLegalMoveMap(currentGameStateTemp);
+      tempPawn.createLegalMoveMap(currentGameStateTemp);
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempRook.getLegalMoveMap());
+    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempQueen.getLegalMoveMap());
     System.out.println(legalMoveMapTemp);
-    JLabel[] legalMoveLabels = new JLabel[legalMoveMapTemp.size()];
-    // get numeric Value
-    int i = 0;
-    for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
-      legalMoveLabels[i] = new JLabel("");
-      if(i == 13) {
-        legalMoveLabels[i] = new JLabel();
-        legalMoveLabels[i].setOpaque(false);
-        legalMoveLabels[i].setBorder(new LineBorder(Color.green, 10));
-
-        legalMoveLabels[i].setText("Test");
-      }
-      i++;
+    JLabel[] legalMoveLabels = new JLabel[64];
+    for(int i = 0; i < 64; i++) {
+      legalMoveLabels[i] = new JLabel();
+      legalMoveLabels[i].setText("");
     }
+    // get numeric Value "ttt" legal "hhh" enenmy
+
+    for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
+      if(entry.getValue().equals(Piece.TRUE_STRING)) {
+        int columnAsNumber = entry.getKey().charAt(0) - 64;
+        int rowAsNumber = entry.getKey().charAt(1) - 48;
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(lightGreen);
+      }
+      if(entry.getValue().equals(Piece.HIT_STRING)) {
+        int columnAsNumber = entry.getKey().charAt(0) - 64;
+        int rowAsNumber = entry.getKey().charAt(1) - 48;
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(lightRed);
+      }
+    }
+    System.out.println(currentGameStateTemp);
     return legalMoveLabels;
   }
 

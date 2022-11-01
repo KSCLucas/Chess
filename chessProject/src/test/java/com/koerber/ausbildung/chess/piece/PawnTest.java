@@ -99,7 +99,6 @@ class PawnTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    System.out.println(testPawn.getLegalMoveMap());
     assertEquals(correctMap, testPawn.getLegalMoveMap());
   }
 
@@ -389,7 +388,7 @@ class PawnTest {
     Pawn testPawn2 = ObjectFactoryForTest.getPawn();
 
     testPawn2.setPosition("C7");
-    testPawn2.setColour('b');
+    testPawn2.setColour(ChessColour.BLACK);
     testPawn1.setEnPassentable(true);
     testPawn2.setEnPassentable(true);
 
@@ -402,7 +401,7 @@ class PawnTest {
     testCurrentGameState.put("A2", testPawn1);
     testCurrentGameState.put("C7", testPawn2);
 
-    Pawn.resetEnPassant(testCurrentGameState, 'w');
+    Pawn.resetEnPassant(testCurrentGameState, ChessColour.WHITE);
 
     assertEquals(false, testPawn1.isEnPassentable());
     assertEquals(true, testPawn2.isEnPassentable());

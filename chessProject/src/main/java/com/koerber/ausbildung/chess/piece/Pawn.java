@@ -29,11 +29,11 @@ public class Pawn extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    */
-  public Pawn(String name, char colour, String position, Image skin) {
-    super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), skin);
+  public Pawn(String name, char colour, String position, Image icon) {
+    super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), icon);
   }
 
   public boolean isEnPassentable() {

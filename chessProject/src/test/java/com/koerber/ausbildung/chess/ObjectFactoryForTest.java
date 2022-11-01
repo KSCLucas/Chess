@@ -24,4 +24,9 @@ public class ObjectFactoryForTest {
     Field testField = new Field();
     return testField;
   }
+  
+  public static Queen getQueen() {
+    Queen testQueen = new Queen("q1w", 'w', "A5", null);
+    return testQueen;
+  }
 }

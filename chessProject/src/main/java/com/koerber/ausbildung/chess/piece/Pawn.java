@@ -2,6 +2,7 @@ package com.koerber.ausbildung.chess.piece;
 
 import java.awt.Image;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
@@ -60,14 +61,21 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Calls {@code checkForEnPassant} and
-   * {@code checkForPromotion}.
+   * Sets {@code isEnPassentable} of all {@code Pawn} objects of the same colour
+   * to {@code false}.
    * 
-   * @param position
-   * @return void
-   * @author PKamps
+   * @param currentGameState
+   * @param colour
    */
+  public static void resetEnPassant(Map<String, Piece> currentGameState, char colour) {
+    for(Entry<String, Piece> entry : currentGameState.entrySet()) {
+      if(entry.getValue() instanceof Pawn && entry.getValue().getColour() == colour) {
+        Pawn pawn = (Pawn)entry.getValue();
+        pawn.setEnPassentable(false);
+      }
+    }
+  }
+
   @Override
   public void setPosition(String position) {
     if(position == null || position.equals(Piece.NOT_ON_FIELD)) {
@@ -97,14 +105,6 @@ public class Pawn extends Piece {
     }
   }
 
-  /**
-   * Overrides {@code createLegalMoveMap} of {@code Piece}.
-   * 
-   * @param currentGameState
-   * @return void
-   * @author PKamps
-   * @see Piece.createLegalMoveMap
-   */
   @Override
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {
@@ -130,6 +130,7 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+        System.out.println(fieldKey);
         if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
             && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
@@ -137,9 +138,11 @@ public class Pawn extends Piece {
       }
       case 1 -> {
         // Double move
+        int moveModifier = 1;
         if(getColour() == 'b') {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
+          moveModifier = -1 * moveModifier;
         }
         else {
           posLetterAsNumber += getMoveSet().get(i).get(0);
@@ -148,7 +151,7 @@ public class Pawn extends Piece {
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
             && posLetterAsNumber <= Field.RIGHT_BOUND
-            && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - 1))
+            && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - moveModifier))
             && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID) && !isHasMoved()) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }

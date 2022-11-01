@@ -125,7 +125,7 @@ public abstract class Piece {
       currentGameState.put(getPosition(), new EmptyPiece());
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
-        currentGameState.get(targetPosition).setPosition("xy");
+        currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);
       return true;

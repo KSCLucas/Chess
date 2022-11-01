@@ -98,7 +98,7 @@ class PawnTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-
+    System.out.println(testPawn.getLegalMoveMap());
     assertEquals(correctMap, testPawn.getLegalMoveMap());
   }
 
@@ -345,7 +345,7 @@ class PawnTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForEnPassantSuccessTest()}
+   * @tested {@code checkForEnPassant()}
    * @author Lucas Noack, PKamps
    */
   @Test
@@ -363,7 +363,7 @@ class PawnTest {
    * 
    * @param void
    * @return void
-   * @tested {@code checkForEnPassantSuccessTest()}
+   * @tested {@code checkForEnPassant()}
    * @author Lucas Noack, PKamps
    */
   @Test
@@ -372,5 +372,38 @@ class PawnTest {
     Pawn testPawn = ObjectFactoryForTest.getPawn();
     testPawn.checkForEnPassant("A3");
     assertEquals(false, testPawn.isEnPassentable());
+  }
+
+  /**
+   * Builds two {@code Pawn} objects. One with colour 'w'. The other with colour
+   * 'b'. Sets for both {@code isEnPassantable} = {@code true}. Expects
+   * {@code isEnPassantable} = {@code false} of {@code Pawn} with colour 'w'.
+   * 
+   * @tests {@code resetEnPassant()}
+   */
+  @Test
+  @DisplayName("resetEnPassantSuccess")
+  void resetEnPassantSuccessTest() {
+    Pawn testPawn1 = ObjectFactoryForTest.getPawn();
+    Pawn testPawn2 = ObjectFactoryForTest.getPawn();
+
+    testPawn2.setPosition("C7");
+    testPawn2.setColour('b');
+    testPawn1.setEnPassentable(true);
+    testPawn2.setEnPassentable(true);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    testCurrentGameState.put("A2", testPawn1);
+    testCurrentGameState.put("C7", testPawn2);
+
+    Pawn.resetEnPassant(testCurrentGameState, 'w');
+
+    assertEquals(false, testPawn1.isEnPassentable());
+    assertEquals(true, testPawn2.isEnPassentable());
   }
 }

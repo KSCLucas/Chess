@@ -25,4 +25,9 @@ public class ObjectFactoryForTest {
     Field testField = new Field();
     return testField;
   }
+  
+  public static Queen getQueen() {
+    Queen testQueen = new Queen("q1w", ChessColour.WHITE, "A5");
+    return testQueen;
+  }
 }

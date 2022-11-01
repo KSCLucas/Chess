@@ -28,6 +28,17 @@ public class Gui {
   }
 
   /**
+   * Converts HashMap Keyvalue to LabelArray Index.
+   * @param columnValue
+   * @param rowValue
+   * @return
+   */
+  protected static int getIndex(int columnValue, int rowValue) {
+    return (columnValue + (-8 * rowValue) + 63);
+
+  }
+
+  /**
    * Sets all game pieces to initial pos, clears history, resets player data
    * (points, pieces beaten, NOT color and name).
    */
@@ -110,7 +121,6 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    */
   public void highlightLegalMove() {
-    
 
   }
 

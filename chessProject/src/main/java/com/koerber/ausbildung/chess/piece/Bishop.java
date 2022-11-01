@@ -19,11 +19,11 @@ public class Bishop extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    */
-  public Bishop(String name, char colour, String position, Image skin) {
-    super(name, colour, 3, true, position, MoveSetSupplier.getBishopMoveSet(), skin);
+  public Bishop(String name, char colour, String position, Image icon) {
+    super(name, colour, 3, true, position, MoveSetSupplier.getBishopMoveSet(), icon);
   }
 
 }

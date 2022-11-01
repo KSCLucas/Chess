@@ -25,12 +25,12 @@ public class Rook extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @param castleSide
    * @author PKamps
    */
-  public Rook(String name, char colour, String position, Image skin, char castleSide) {
-    super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), skin);
+  public Rook(String name, char colour, String position, Image icon, char castleSide) {
+    super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), icon);
     this.castleSide = castleSide;
     this.canCastle = false;
     this.hasMoved = false;
@@ -60,15 +60,6 @@ public class Rook extends Piece {
     this.hasMoved = hasMoved;
   }
   
-  /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
-   * {@code Piece}.
-   * 
-   * @param position
-   * @return void
-   * @author PKamps
-   */
   @Override
   public void setPosition(String position) {
     this.position = position;

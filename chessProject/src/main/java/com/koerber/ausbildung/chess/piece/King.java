@@ -28,11 +28,11 @@ public class King extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    */
-  public King(String name, char colour, String position, Image skin) {
-    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), skin);
+  public King(String name, char colour, String position, Image icon) {
+    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), icon);
   }
 
   public boolean isInCheck() {
@@ -75,15 +75,6 @@ public class King extends Piece {
     this.hasMoved = hasMoved;
   }
   
-  /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
-   * {@code Piece}.
-   * 
-   * @param position
-   * @return void
-   * @author PKamps
-   */
   @Override
   public void setPosition(String position) {
     this.position = position;

@@ -19,11 +19,11 @@ public class Queen extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    */
-  public Queen(String name, char colour, String position, Image skin) {
-    super(name, colour, 9, true, position, MoveSetSupplier.getQueenMoveSet(), skin);
+  public Queen(String name, char colour, String position, Image icon) {
+    super(name, colour, 9, true, position, MoveSetSupplier.getQueenMoveSet(), icon);
   }
 
 }

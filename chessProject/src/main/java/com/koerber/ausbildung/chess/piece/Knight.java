@@ -19,12 +19,12 @@ public class Knight extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    * @see Piece
    */
-  public Knight(String name, char colour, String position, Image skin) {
-    super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(), skin);
+  public Knight(String name, char colour, String position, Image icon) {
+    super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(), icon);
   }
 
 }

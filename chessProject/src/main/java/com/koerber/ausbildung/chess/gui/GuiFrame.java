@@ -78,7 +78,7 @@ public class GuiFrame {
 
     JButton backButton = new JButton("BACK");
     newGamePanel.add(backButton);
-
+    
     JLabel historyLabel = new JLabel("HISTORY");
     GridBagConstraints gbc_historyLabel = new GridBagConstraints();
     gbc_historyLabel.insets = new Insets(0, 0, 5, 5);

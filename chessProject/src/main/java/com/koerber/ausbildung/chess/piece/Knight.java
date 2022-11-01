@@ -1,7 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
-
+import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
@@ -19,12 +19,14 @@ public class Knight extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @author PKamps
    * @see Piece
    */
-  public Knight(String name, char colour, String position, Image skin) {
-    super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(), skin);
+  public Knight(String name, ChessColour colour, String position) {
+    super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(),
+        IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/knight_w_small.png",
+            "src/main/resources/Sprites_in_small/knight_small.png"));
   }
 
 }

@@ -1,7 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.awt.Image;
-
+import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
@@ -25,12 +25,13 @@ public class Rook extends Piece {
    * @param name
    * @param colour
    * @param position
-   * @param skin
+   * @param icon
    * @param castleSide
    * @author PKamps
    */
-  public Rook(String name, char colour, String position, Image skin, char castleSide) {
-    super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), skin);
+  public Rook(String name, ChessColour colour, String position, char castleSide) {
+    super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
+        "src/main/resources/Sprites_in_small/rook_w_small.png", "src/main/resources/Sprites_in_small/rook_small.png"));
     this.castleSide = castleSide;
     this.canCastle = false;
     this.hasMoved = false;
@@ -59,22 +60,13 @@ public class Rook extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-  
-  /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Overrides {@code setPosition} of
-   * {@code Piece}.
-   * 
-   * @param position
-   * @return void
-   * @author PKamps
-   */
+
   @Override
   public void setPosition(String position) {
     this.position = position;
     setHasMoved(true);
   }
-  
+
   /**
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between

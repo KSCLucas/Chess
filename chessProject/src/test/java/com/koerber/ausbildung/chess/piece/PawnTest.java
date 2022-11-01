@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -35,7 +36,7 @@ class PawnTest {
 
     Pawn opposingPawn = ObjectFactoryForTest.getPawn();
     opposingPawn.setId("p1b");
-    opposingPawn.setColour('b');
+    opposingPawn.setColour(ChessColour.BLACK);
     opposingPawn.setPosition("B3");
 
     Map<String, String> correctMap = new TreeMap<>();
@@ -74,7 +75,7 @@ class PawnTest {
   void createLegalMoveMapCorrectBlackTest() {
     Pawn testPawn = ObjectFactoryForTest.getPawn();
     testPawn.setId("p1b");
-    testPawn.setColour('b');
+    testPawn.setColour(ChessColour.BLACK);
     testPawn.setPosition("B3");
     testPawn.setHasMoved(true);
 
@@ -201,7 +202,7 @@ class PawnTest {
 
     Pawn opposingPawn = ObjectFactoryForTest.getPawn();
     opposingPawn.setId("p1b");
-    opposingPawn.setColour('b');
+    opposingPawn.setColour(ChessColour.BLACK);
     opposingPawn.setPosition("B2");
     opposingPawn.setEnPassentable(true);
     opposingPawn.setHasMoved(true);

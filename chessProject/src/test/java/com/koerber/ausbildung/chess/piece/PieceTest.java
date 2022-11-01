@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -303,7 +304,7 @@ class PieceTest {
     String initialPosition = testRook.getPosition();
     String enemyPiecePosition = "A8";
     Rook opposingTestRook = ObjectFactoryForTest.getRook();
-    opposingTestRook.setColour('b');
+    opposingTestRook.setColour(ChessColour.BLACK);
     opposingTestRook.setPosition(enemyPiecePosition);
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {

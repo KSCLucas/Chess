@@ -1,21 +1,22 @@
 package com.koerber.ausbildung.chess;
 
 import com.koerber.ausbildung.chess.piece.*;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 
 public class ObjectFactoryForTest {
   public static Pawn getPawn() {
-    Pawn testPiece = new Pawn("p1w", 'w', "A2", null);
+    Pawn testPiece = new Pawn("p1w", ChessColour.WHITE, "A2");
 
     return testPiece;
   }
 
   public static Rook getRook() {
-    Rook testRook = new Rook("r1w", 'w', "A1", null, 's');
+    Rook testRook = new Rook("r1w", ChessColour.WHITE, "A1", 's');
     return testRook;
   }
 
   public static King getKing() {
-    King testKing = new King("k1w", 'w', "A5", null);
+    King testKing = new King("k1w", ChessColour.WHITE, "A5");
     return testKing;
 
   }
@@ -26,7 +27,7 @@ public class ObjectFactoryForTest {
   }
   
   public static Queen getQueen() {
-    Queen testQueen = new Queen("q1w", 'w', "A5", null);
+    Queen testQueen = new Queen("q1w", ChessColour.WHITE, "A5");
     return testQueen;
   }
 }

@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
 /**
@@ -12,11 +13,11 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
  */
 public class King extends Piece {
 
-  private boolean isInCheck = false;
-  private boolean isCheckmate = false;
+  private boolean isInCheck      = false;
+  private boolean isCheckmate    = false;
   private boolean canCastleShort = false;
-  private boolean canCastleLong = false;
-  private boolean hasMoved = false;
+  private boolean canCastleLong  = false;
+  private boolean hasMoved       = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -31,7 +32,8 @@ public class King extends Piece {
    * @author PKamps
    */
   public King(String name, ChessColour colour, String position) {
-    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), icon);
+    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
+        "src/main/resources/Sprites_in_small/king_w_small.png", "src/main/resources/Sprites_in_small/king_small.png"));
   }
 
   public boolean isInCheck() {
@@ -73,13 +75,13 @@ public class King extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-  
+
   @Override
   public void setPosition(String position) {
     this.position = position;
     setHasMoved(true);
   }
-  
+
   /**
    * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
    * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and

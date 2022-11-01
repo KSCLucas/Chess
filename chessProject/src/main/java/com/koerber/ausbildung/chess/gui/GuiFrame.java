@@ -19,11 +19,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
-import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.piece.EmptyPiece;
-import com.koerber.ausbildung.chess.piece.Pawn;
+import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Piece;
-import com.koerber.ausbildung.chess.piece.Queen;
+import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 public class GuiFrame {
@@ -374,28 +373,25 @@ public class GuiFrame {
    */
   public JLabel[] highlightLegalMove(/* legalMoveMap */) {
 
-    Queen tempQueen = ObjectFactoryForTest.getQueen();
-    Pawn tempPawn = ObjectFactoryForTest.getPawn();
-    tempQueen.setPosition("C6");
-    tempQueen.setColour('w');
-    tempPawn.setPosition("B7");
-    tempPawn.setColour('b');
-
+    Knight tempKnight = new Knight("n1w", 'b', "D4", null);
+    Rook tempRook = new Rook ("n1w", 'w', "F5", null,'l');
+    Rook tempRook1 = new Rook ("n1w", 'b', "F3", null,'l');
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
         currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
       }
     }
-    currentGameStateTemp.put("B7", tempPawn);
-    currentGameStateTemp.put("C6", tempQueen);
+    currentGameStateTemp.put("D4", tempKnight);
+    currentGameStateTemp.put("F5", tempRook);
+    currentGameStateTemp.put("F3", tempRook1);
     try {
-      tempPawn.createLegalMoveMap(currentGameStateTemp);
+      tempKnight.createLegalMoveMap(currentGameStateTemp);
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempQueen.getLegalMoveMap());
+    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempKnight.getLegalMoveMap());
     System.out.println(legalMoveMapTemp);
     JLabel[] legalMoveLabels = new JLabel[64];
     for(int i = 0; i < 64; i++) {

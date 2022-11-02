@@ -1,19 +1,15 @@
 package com.koerber.ausbildung.chess.utility;
 
 /**
+ * Is thrown when {@code position} of {@code Piece} is not in field bounds.
  * 
  * @author PKamps
- *
  */
 public class PieceOutOfBoundsException extends Exception {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   public PieceOutOfBoundsException() {
-    // TODO Auto-generated constructor stub
   }
 
   public PieceOutOfBoundsException(String message) {
@@ -32,5 +28,4 @@ public class PieceOutOfBoundsException extends Exception {
       boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
   }
-
 }

@@ -72,6 +72,6 @@ public class Rook extends Piece {
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
     // TODO add checkForCastle implementation
-
+    
   }
 }

@@ -79,17 +79,18 @@ public class Rook extends Piece {
     if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
       // Determine the castle side
       int castleSideModifier = 1;
-      if(getCastleSide() == 'l') {
+      if(getCastleSide() == 's') {
         castleSideModifier = -1;
       }
-      // Check if tiles next to the rook up to the king are empty and set
+      // Check, if tiles next to the rook up to the king are empty and set
       // canCastle depending on it
       String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
       boolean repeatable = true;
       int castleSideMultiplier = 1;
       do {
         fieldKey = Character.toString(posLetterAsNumber + castleSideModifier * castleSideMultiplier) + posNumber;
-        if(currentGameState.get(fieldKey) instanceof King) {
+        if(currentGameState.get(fieldKey) instanceof King
+            && currentGameState.get(fieldKey).getColour().equals(getColour())) {
           setCanCastle(true);
           repeatable = false;
         }

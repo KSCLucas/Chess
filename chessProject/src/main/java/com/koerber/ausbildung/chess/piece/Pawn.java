@@ -3,7 +3,6 @@ package com.koerber.ausbildung.chess.piece;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
@@ -24,17 +23,15 @@ public class Pawn extends Piece {
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
-   * {@code isMoveRepeatable}, {@code moveSet}, {@code isEnPassantable},
-   * {@code isPromotable} and {@code hasMoved}.
+   * {@code icon}, {@code isMoveRepeatable}, {@code moveSet},
+   * {@code isEnPassantable}, {@code isPromotable} and {@code hasMoved}.
    * 
-   * @param name
+   * @param id
    * @param colour
    * @param position
-   * @param icon
-   * @author PKamps
    */
-  public Pawn(String name, ChessColour colour, String position) {
-    super(name, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), IconSupplier.getIcon(colour,
+  public Pawn(String id, ChessColour colour, String position) {
+    super(id, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/pawn_w_small.png", "src/main/resources/Sprites_in_small/pawn_small.png"));
   }
 
@@ -61,7 +58,7 @@ public class Pawn extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-  
+
   /**
    * Sets {@code isEnPassentable} of all {@code Pawn} objects of the same colour
    * to {@code false}.
@@ -77,16 +74,7 @@ public class Pawn extends Piece {
       }
     }
   }
-  
-  /**
-   * Sets {@code this.position} to a new {@code position} and sets
-   * {@code hasMoved} = {@code true}. Calls {@code checkForEnPassant} and
-   * {@code checkForPromotion}.
-   * 
-   * @param position
-   * @return void
-   * @author PKamps
-   */
+
   @Override
   public void setPosition(String position) {
     if(position == null || position.equals(Piece.NOT_ON_FIELD)) {
@@ -103,9 +91,6 @@ public class Pawn extends Piece {
   /**
    * If {@code position} contains a one or an eight, set {@code isPromotable} to
    * {@code true}.
-   * 
-   * @return void
-   * @author PKamps
    */
   public void checkForPromotion() {
     if(!(getPosition() == null || getPosition().isEmpty())) {
@@ -116,14 +101,6 @@ public class Pawn extends Piece {
     }
   }
 
-  /**
-   * Overrides {@code createLegalMoveMap} of {@code Piece}.
-   * 
-   * @param currentGameState
-   * @return void
-   * @author PKamps
-   * @see Piece.createLegalMoveMap
-   */
   @Override
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {
@@ -132,7 +109,7 @@ public class Pawn extends Piece {
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every movevector in moveSet
-    for(int i = 0; i < currentGameState.size(); i++) {
+    for(int i = 0; i < getMoveSet().size(); i++) {
       // Set posLetterAsNumber and posNumber
       int posLetterAsNumber = getPosition().charAt(0);
       int posNumber = Character.getNumericValue(getPosition().charAt(1));
@@ -149,8 +126,7 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
-            && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
+        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof EmptyPiece) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
@@ -167,10 +143,9 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
-            && posLetterAsNumber <= Field.RIGHT_BOUND
+        if(inFieldBounds(posLetterAsNumber, posNumber)
             && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - moveModifier))
-            && currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID) && !isHasMoved()) {
+            && currentGameState.get(fieldKey) instanceof EmptyPiece && !isHasMoved()) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
@@ -185,8 +160,7 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
-            && posLetterAsNumber <= Field.RIGHT_BOUND && !(currentGameState.get(fieldKey) instanceof EmptyPiece)
+        if(inFieldBounds(posLetterAsNumber, posNumber) && !(currentGameState.get(fieldKey) instanceof EmptyPiece)
             && !currentGameState.get(fieldKey).getColour().equals(getColour())) {
           getLegalMoveMap().put(fieldKey, HIT_STRING);
         }
@@ -202,9 +176,8 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).get(1);
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND && posLetterAsNumber >= Field.LEFT_BOUND
-            && posLetterAsNumber <= Field.RIGHT_BOUND && currentGameState.get(fieldKey) instanceof Pawn
-            && !currentGameState.get(fieldKey).getColour().equals(getColour()) 
+        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn
+            && !currentGameState.get(fieldKey).getColour().equals(getColour())
             && ((Pawn)currentGameState.get(fieldKey)).isEnPassentable()) {
           if(getColour().equals(ChessColour.BLACK)) {
             int posNumberForEnPassant = posNumber - 1;
@@ -227,8 +200,6 @@ public class Pawn extends Piece {
    * {@code true}. Otherwise it is set to {@code false}.
    * 
    * @param targetPosition
-   * @return void
-   * @author PKamps
    */
   public void checkForEnPassant(String targetPosition) {
     if(!(getPosition() == null || getPosition().isEmpty() || targetPosition == null || targetPosition.isEmpty())) {
@@ -242,5 +213,4 @@ public class Pawn extends Piece {
       }
     }
   }
-
 }

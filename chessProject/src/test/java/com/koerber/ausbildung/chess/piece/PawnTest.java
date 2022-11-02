@@ -459,11 +459,11 @@ class PawnTest {
     assertEquals(white2, testCurrentGameState.get("B2"));
     assertEquals(EmptyPiece.ID, testCurrentGameState.get("B3").getId());
   }
-  
+
   /**
    * Builds to {@code Pawn} objects. One with {@code ChessColour.BLACK} and the
-   * other one with {@code ChessColour.WHITE}. Lets the other one move one tile
-   * behind the other one.
+   * other one with {@code ChessColour.WHITE}. Lets the other one try to move
+   * one tile behind the other one.
    * 
    * @tests {@code movePiece} of {@code Pawn}
    */
@@ -492,7 +492,6 @@ class PawnTest {
       e.printStackTrace();
     }
     boolean moved = white.movePiece(testCurrentGameState, "B3");
-    System.out.println(white.getLegalMoveMap());
 
     assertEquals(false, moved);
     assertEquals(white, testCurrentGameState.get("A2"));

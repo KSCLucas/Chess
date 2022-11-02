@@ -177,7 +177,7 @@ class PawnTest {
     testCurrentGameState.put("A3", null);
     testCurrentGameState.put("C1", null);
     testCurrentGameState.put("F7", null);
-
+    
     assertThrows(NullPointerException.class, () -> testPawn.createLegalMoveMap(testCurrentGameState));
   }
 

@@ -19,10 +19,7 @@ class KingTest {
    * {@code King.position} to another legal value and expect
    * {@code King.hasMoved = true}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
@@ -37,10 +34,7 @@ class KingTest {
    * Builds a {@code King} object with initial test values. One does not change
    * {@code King.position} and expects{@code King.hasMoved = false}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
@@ -52,13 +46,10 @@ class KingTest {
 
   /**
    * Builds a {@code King} object with initial test values. Sets mock tower
-   * value to @code true} for {@code Rook.canCastleSide = 's' / 'l'}. One
+   * value to {@code true} for {@code Rook.canCastleSide = 's' / 'l'}. One
    * expects: {@code King.canCastleShort = true & King.canCastleLong = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForCastleBothSidesSuccess")
@@ -71,10 +62,7 @@ class KingTest {
    * value to {@code true} for {@code Rook.canCastleSide = 'l'}. One expects:
    * {@code King.canCastleShort = false & King.canCastleLong = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForCastleLongSideSuccess")
@@ -87,10 +75,7 @@ class KingTest {
    * value to {@code true} for {@code Rook.canCastleSide = 'l'}. One expects:
    * {@code King.canCastleShort = false & King.canCastleLong = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForCastleShortSideSuccess")
@@ -103,10 +88,7 @@ class KingTest {
    * value to {@code false} for {@code Rook.canCastleSide = 's' / 'l'}. One
    * expects: {@code King.canCastleShort = false & King.canCastleLong = false}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForCastleFailure")
@@ -118,10 +100,7 @@ class KingTest {
    * Builds a {@code King} object with initial test values and puts it in check.
    * One expects {@code King.isInCheck = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCheck()}
-   * @author Lucas Noack
+   * @tests {@code checkForCheck()}
    */
   @Test
   @DisplayName("checkForCeckSuccess")
@@ -133,10 +112,7 @@ class KingTest {
    * Builds a {@code King} object with initial test values and does not put it
    * in check. One expects {@code King.isInCheck = false}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCheck()}
-   * @author Lucas Noack
+   * @tests {@code checkForCheck()}
    */
   @Test
   @DisplayName("checkForCheckFailure")
@@ -148,10 +124,7 @@ class KingTest {
    * Builds a {@code King} object with initial test values and puts it in
    * checkmate. One expects {@code King.isCheckmate = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCheckmate()}
-   * @author Lucas Noack
+   * @tests {@code checkForCheckmate()}
    */
   @Test
   @DisplayName("checkForCeckmateSuccess")
@@ -163,15 +136,11 @@ class KingTest {
    * Builds a {@code King} object with initial test values and does not put it
    * in checkmate. One expects {@code King.isCheckmate = false}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCheckmate()}
-   * @author Lucas Noack
+   * @tests {@code checkForCheckmate()}
    */
   @Test
   @DisplayName("checkForCheckmateFailure")
   void checkForCheckmateFailureTest() {
     fail("Not yet implemented");
   }
-
 }

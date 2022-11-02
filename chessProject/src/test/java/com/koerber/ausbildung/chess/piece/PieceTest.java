@@ -23,12 +23,9 @@ class PieceTest {
 
   /**
    * Builds {@code Piece} object with test values and expects a correct
-   * {@code Piece.legalMoveMap} based on the test values.
+   * {@code legalMoveMap} based on the test values.
    * 
-   * @param void
-   * @return void
    * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapCorrect")
@@ -73,10 +70,7 @@ class PieceTest {
    * Builds a {@code Piece} object with test values and expects a
    * {@code PieceOutOfBoundsException} based on the test values.
    * 
-   * @param void
-   * @return void
-   * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code createLegalMoveMap()}
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyPosition")
@@ -97,13 +91,10 @@ class PieceTest {
 
   /**
    * Builds a {@code Piece} object with test values and expects a
-   * {@code Piece.legalMoveMap} with only illegal move options based on the test
+   * {@code legalMoveMap} with only illegal move options based on the test
    * values.
    * 
-   * @param void
-   * @return void
-   * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code createLegalMoveMap()}
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveset")
@@ -133,14 +124,11 @@ class PieceTest {
 
   /**
    * Builds a {@code Piece} object with test values and expects a
-   * {@code Piece.legalMoveMap} based on the test values. Randomly scatters null
+   * {@code legalMoveMap} based on the test values. Randomly scatters null
    * pointers in the {@code legalMoveMap}. Expected is
    * {@code NullPointerException}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code createLegalMoveMap()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code createLegalMoveMap()}
    */
   @Test
   @DisplayName("createLegalMoveMapNullOnField")
@@ -161,12 +149,9 @@ class PieceTest {
   }
 
   /**
-   * Expects {@code Piece.position =} target Position.
+   * Expects {@code position} = {@code targetPosition}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code movePiece()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code movePiece()}
    */
   @Test
   @DisplayName("movePieceLegalMove")
@@ -192,13 +177,10 @@ class PieceTest {
   }
 
   /**
-   * Expects {@code Piece.position} not to change.
+   * Expects {@code position} not to change.
    * 
-   * @param void
-   * @return void
-   * @tested {@code movePiece()}
+   * @tests {@code movePiece()}
    * @comment target Position can be freely selected (move must be executable).
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceIllegalMove")
@@ -224,14 +206,11 @@ class PieceTest {
   }
 
   /**
-   * Expects {@code Piece.position} not to change.
+   * Expects {@code position} not to change.
    * 
-   * @param void
-   * @return void
-   * @tested {@code movePiece()}
+   * @tests {@code movePiece()}
    * @comment target Position can be freely selected (move must not be
    *          executable).
-   * @author Lucas Noack
    */
   @Test
   @DisplayName("movePieceUnknownKey")
@@ -257,14 +236,11 @@ class PieceTest {
   }
 
   /**
-   * Expects {@code Piece.position} not to change.
+   * Expects {@code position} not to change.
    * 
-   * @param void
-   * @return void
-   * @tested {@code movePiece()}
+   * @tests {@code movePiece()}
    * @comment target Position is outside the field (e.g. H12), also includes
    *          {@code null} as key.
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("movePieceToPiecePosition")
@@ -291,11 +267,8 @@ class PieceTest {
    * Expects {@code Piece.position =} target position &
    * {@code enemyPiece.position = "xy"}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code movePiece()}
-   * @comment "xy" counts as not being on the pitch.
-   * @author Lucas Noack, PKamps
+   * @tests {@code movePiece()}
+   * @comment "xy" counts as not being on the field.
    */
   @Test
   @DisplayName("movePieceToEnemyPiece")

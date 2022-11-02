@@ -23,11 +23,10 @@ class PawnTest {
 
   /**
    * Builds a {@code Pawn} object with test values and creates a
-   * {@code legalMoveMap} as reference. Expects {@code Pawn.getLegalMoveMap}
+   * {@code legalMoveMap} as reference. Expects {@code getLegalMoveMap}
    * equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapCorrect")
@@ -68,7 +67,6 @@ class PawnTest {
    * equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapCorrectBlack")
@@ -108,7 +106,6 @@ class PawnTest {
    * equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyPosition")
@@ -133,7 +130,6 @@ class PawnTest {
    * equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveSet")
@@ -165,7 +161,6 @@ class PawnTest {
    * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapNullOnField")
@@ -192,7 +187,6 @@ class PawnTest {
    * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapEnPassant")
@@ -235,7 +229,6 @@ class PawnTest {
    * Expects {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
-   * @author PKamps
    */
   @Test
   @DisplayName("createLegalMoveMapNoDoubleMove")
@@ -269,10 +262,7 @@ class PawnTest {
    * {@code Pawn.color = 'w' & Pawn.position = "A8"}) and expects
    * {@code Piece.isPromotable = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForPromotion()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code checkForPromotion()}
    */
   @Test
   @DisplayName("checkForPromotionPromotable")
@@ -289,10 +279,7 @@ class PawnTest {
    * {@code Piece.isPromotable = false}. The same is true for
    * {@code Pawn.postion = null}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForPromotion()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code checkForPromotion()}
    */
   @Test
   @DisplayName("checkForPromotionNotPromotable")
@@ -308,10 +295,7 @@ class PawnTest {
    * {@code Pawn.position} to another legal value and expect
    * {@code Pawn.hasMoved = true}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
@@ -326,10 +310,7 @@ class PawnTest {
    * Builds a {@code Pawn} object with initial test values. One does not change
    * {@code Pawn.position} and expects{@code Pawn.hasMoved = false}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
@@ -343,10 +324,7 @@ class PawnTest {
    * {@code Pawn.position} by 2 fields and
    * expect{@code Pawn.isEnPassantable = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForEnPassant()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code checkForEnPassant()}
    */
   @Test
   @DisplayName("checkForEnPassantSuccess")
@@ -361,10 +339,7 @@ class PawnTest {
    * {@code Pawn.position} by not 2 fields and
    * expect{@code Pawn.isEnPassantable = false}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForEnPassant()}
-   * @author Lucas Noack, PKamps
+   * @tests {@code checkForEnPassant()}
    */
   @Test
   @DisplayName("checkForEnPassantFailure")

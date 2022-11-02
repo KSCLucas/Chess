@@ -19,10 +19,7 @@ class RookTest {
    * {@code Rook.position} to another legal value and expect
    * {@code Rook.hasMoved = true}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
@@ -37,10 +34,7 @@ class RookTest {
    * Builds a {@code Rook} object with initial test values. Don't
    * change{@code Rook.position} and expect{@code Rook.hasMoved = false}.
    * 
-   * @param void
-   * @return void
    * @tests {@code setPosition}
-   * @author Lucas Noack, PKamps
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
@@ -55,10 +49,7 @@ class RookTest {
    * and King are empty ("###"). It is expected that
    * {@code Rook.canCastle = true}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
@@ -71,10 +62,7 @@ class RookTest {
    * empty or Rook has already moved. It is expected that
    * {@code Rook.canCastel = false}.
    * 
-   * @param void
-   * @return void
-   * @tested {@code checkForCastle()}
-   * @author Lucas Noack
+   * @tests {@code checkForCastle()}
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")

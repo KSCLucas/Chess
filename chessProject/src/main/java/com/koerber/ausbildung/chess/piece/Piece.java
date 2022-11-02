@@ -114,8 +114,8 @@ public abstract class Piece {
    *         returns {@code false}
    */
   protected static boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
-    if(posLetterAsNumber >= Field.LEFT_BOUND || posLetterAsNumber <= Field.RIGHT_BOUND || posNumber >= Field.LOWER_BOUND
-        || posNumber <= Field.UPPER_BOUND) {
+    if(posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND && posNumber >= Field.LOWER_BOUND
+        && posNumber <= Field.UPPER_BOUND) {
       return true;
     }
     else {
@@ -155,6 +155,7 @@ public abstract class Piece {
    * {@code TRUE_STRING} for legal and {@code HIT_STRING} for an opposing
    * takeable {@code Piece}.
    * 
+   * @param currentGameState
    * @throws PieceOutOfBoundsException
    */
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {

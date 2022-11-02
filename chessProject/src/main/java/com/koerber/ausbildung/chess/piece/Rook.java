@@ -69,6 +69,8 @@ public class Rook extends Piece {
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
    * {@code King} and {@code Rook} is an {@code EmptyPiece}.
+   * 
+   * @param currentGameState
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
     int posLetterAsNumber = getPosition().charAt(0);

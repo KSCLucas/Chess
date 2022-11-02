@@ -14,19 +14,15 @@ public class Knight extends Piece {
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
-   * {@code isMoveRepeatable} and {@code moveSet}.
+   * {@code icon}, {@code isMoveRepeatable} and {@code moveSet}.
    * 
-   * @param name
+   * @param id
    * @param colour
    * @param position
-   * @param icon
-   * @author PKamps
-   * @see Piece
    */
-  public Knight(String name, ChessColour colour, String position) {
-    super(name, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(),
+  public Knight(String id, ChessColour colour, String position) {
+    super(id, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(),
         IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/knight_w_small.png",
             "src/main/resources/Sprites_in_small/knight_small.png"));
   }
-
 }

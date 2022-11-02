@@ -1,5 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
+import java.util.Map;
+
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
@@ -68,7 +70,8 @@ public class Rook extends Piece {
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
    * {@code King} and {@code Rook} is an {@code EmptyPiece}.
    */
-  public void checkForCastle() {
+  public void checkForCastle(Map<String, Piece> currentGameState) {
     // TODO add checkForCastle implementation
+
   }
 }

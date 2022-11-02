@@ -167,8 +167,7 @@ public abstract class Piece {
     for(ArrayList<Integer> moveVector : getMoveSet()) {
       int posLetterAsNumber = getPosition().charAt(0);
       int posNumber = Character.getNumericValue(getPosition().charAt(1));
-      if(posLetterAsNumber < Field.LEFT_BOUND || posLetterAsNumber > Field.RIGHT_BOUND || posNumber < Field.LOWER_BOUND
-          || posNumber > Field.UPPER_BOUND) {
+      if(!inFieldBounds(posLetterAsNumber, posNumber)) {
         throw new PieceOutOfBoundsException();
       }
       // Change content of legalMoveMap based on move vector i and
@@ -179,14 +178,13 @@ public abstract class Piece {
         posNumber += moveVector.get(1);
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         // Check for fieldKey still on Field
-        if(posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
-            && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND) {
+        if(inFieldBounds(posLetterAsNumber, posNumber)) {
           // Check for EmptyPiece
-          if(currentGameState.get(fieldKey).getId().equals(EmptyPiece.ID)) {
+          if(currentGameState.get(fieldKey) instanceof EmptyPiece) {
             getLegalMoveMap().put(fieldKey, TRUE_STRING);
           }
           // Check for opposing Piece
-          else if(currentGameState.get(fieldKey).getColour() != getColour()) {
+          else if(!currentGameState.get(fieldKey).getColour().equals(getColour())) {
             getLegalMoveMap().put(fieldKey, HIT_STRING);
             repeatLoop = false;
           }

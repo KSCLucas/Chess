@@ -59,8 +59,6 @@ public class Pawn extends Piece {
     this.hasMoved = hasMoved;
   }
   
-  //TODO override movePiece to accomplish en passant take
-  
   /**
    * Sets {@code isEnPassentable} of all {@code Pawn} objects of the same colour
    * to {@code false}.
@@ -89,7 +87,7 @@ public class Pawn extends Piece {
       checkForPromotion();
     }
   }
-
+  
   /**
    * If {@code position} contains a one or an eight, set {@code isPromotable} to
    * {@code true}.
@@ -102,7 +100,25 @@ public class Pawn extends Piece {
       }
     }
   }
-
+  
+  @Override
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)
+        || !currentGameState.containsKey(targetPosition)) {
+      return false;
+    }
+    else {
+      // TODO implemtent en passant logic
+      currentGameState.put(getPosition(), new EmptyPiece());
+      setPosition(targetPosition);
+      if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
+        currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
+      }
+      currentGameState.put(targetPosition, this);
+      return true;
+    }
+  }
+  
   @Override
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {
@@ -138,7 +154,7 @@ public class Pawn extends Piece {
         if(getColour().equals(ChessColour.BLACK)) {
           posLetterAsNumber += -1 * getMoveSet().get(i).get(0);
           posNumber += -1 * getMoveSet().get(i).get(1);
-          moveModifier = -1 * moveModifier;
+          moveModifier = -1;
         }
         else {
           posLetterAsNumber += getMoveSet().get(i).get(0);

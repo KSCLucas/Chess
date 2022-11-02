@@ -65,7 +65,6 @@ public class GuiFrame {
   private void initialize() {
     frame = new JFrame();
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    // frame.setBounds(100, 100, 450, 300);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
@@ -74,7 +73,7 @@ public class GuiFrame {
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     frame.getContentPane().setLayout(gridBagLayout);
 
-    // Builds New Game Panel
+    // Builds New Game Panel and Buttons
     JPanel newGamePanel = new JPanel();
     GridBagConstraints gbcnewGamePanel = new GridBagConstraints();
     gbcnewGamePanel.insets = new Insets(0, 0, 5, 5);
@@ -89,7 +88,6 @@ public class GuiFrame {
 
     JButton backButton = new JButton("BACK");
     newGamePanel.add(backButton);
-    
     JLabel historyLabel = new JLabel("HISTORY");
     GridBagConstraints gbchistoryLabel = new GridBagConstraints();
     gbchistoryLabel.insets = new Insets(0, 0, 5, 5);
@@ -152,6 +150,9 @@ public class GuiFrame {
       labelYPanel.add(new JLabel("" + (i + 1)), SwingConstants.CENTER);
     }
 
+    /**
+     * Initializes bottom layer. Bottom layer only displays chess tiles.
+     */
     JPanel chessBoardBottomLayer = new JPanel();
     chessBoardBottomLayer.setBounds(0, 0, 896, 896);
     GridBagConstraints gbcchessBoardBottomLayer = new GridBagConstraints();
@@ -168,7 +169,6 @@ public class GuiFrame {
     JLabel[] labels = new JLabel[65];
     for(int i = 1; i < 65; i++) {
       labels[i] = new JLabel();
-      // labels[i].setText("label" + i);
       labels[i].setOpaque(true);
       if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
         if(i % 2 == 0) {
@@ -189,6 +189,10 @@ public class GuiFrame {
       chessBoardBottomLayer.add(labels[i]);
     }
 
+    /**
+     * Initializes middle layer. Middle layer displays legalMoveMap of the
+     * selected piece.
+     */
     JPanel chessBoardMiddleLayer = new JPanel();
     chessBoardMiddleLayer.setOpaque(false);
     chessBoardMiddleLayer.setBounds(0, 0, 896, 896);
@@ -198,17 +202,19 @@ public class GuiFrame {
     gbcchessBoardMiddleLayer.fill = GridBagConstraints.BOTH;
     gbcchessBoardMiddleLayer.gridx = 2;
     gbcchessBoardMiddleLayer.gridy = 1;
-    // frame.getContentPane().add(chessBoardLegalMoveMapLayer,
-    // gbcchessBoardLegalMoveMapLayer);
     chessBoardMiddleLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardMiddleLayer.setBorder(new LineBorder(Color.BLACK));
 
-    // Calls highlightLegalMove and adds the build labels to the middle Layer
+    // Calls highlightLegalMove and adds build labels to middle Layer
     JLabel[] legalMoveLabels = highlightLegalMove();
     for(int i = 0; i < legalMoveLabels.length; i++) {
       chessBoardMiddleLayer.add(legalMoveLabels[i]);
     }
 
+    /**
+     * Initializes top layer. Top layer displays currentGameState (images) and
+     * acts as interactive part of the chessboard for players.
+     */
     JPanel chessBoardTopLayer = new JPanel();
     chessBoardTopLayer.setOpaque(false);
     chessBoardTopLayer.setBounds(0, 0, 896, 896);
@@ -218,11 +224,12 @@ public class GuiFrame {
     gbcchessBoardTopLayer.fill = GridBagConstraints.BOTH;
     gbcchessBoardTopLayer.gridx = 2;
     gbcchessBoardTopLayer.gridy = 1;
-    // frame.getContentPane().add(chessBoardLegalMoveMapLayer,
-    // gbcchessBoardLegalMoveMapLayer);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(new LineBorder(Color.BLACK));
 
+    /**
+     * Initializes layeredPan. Used for layering the chessboard.
+     */
     JLayeredPane layeredPane = new JLayeredPane();
     GridBagConstraints gbclayeredPane = new GridBagConstraints();
     layeredPane.setBounds(0, 0, 896, 896);
@@ -253,6 +260,7 @@ public class GuiFrame {
       labelXPanel.add(xLabels[i]);
     }
 
+    // SCORE Label
     JLabel scoreLabel = new JLabel("SCORE");
     GridBagConstraints gbcscoreLabel = new GridBagConstraints();
     gbcscoreLabel.insets = new Insets(0, 0, 5, 0);
@@ -260,7 +268,7 @@ public class GuiFrame {
     gbcscoreLabel.gridy = 1;
     frame.getContentPane().add(scoreLabel, gbcscoreLabel);
 
-    // Label for Player 1 (top)
+    // Player 1 label (top)
     JLabel player1Label = new JLabel("PLAYER 1");
     // TODO set Name (PLAYER 1 = DEFAULT NAME)
     player1Label.setOpaque(true);
@@ -271,6 +279,7 @@ public class GuiFrame {
     gbcplayer1Label.gridy = 2;
     frame.getContentPane().add(player1Label, gbcplayer1Label);
 
+    // Player 1 panel
     JPanel player1Panel = new JPanel();
     GridBagConstraints gbcplayer1Panel = new GridBagConstraints();
     gbcplayer1Panel.insets = new Insets(0, 0, 5, 5);
@@ -280,6 +289,7 @@ public class GuiFrame {
     frame.getContentPane().add(player1Panel, gbcplayer1Panel);
     player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
+    // Player 1 table
     JLabel colorP1Label = new JLabel("COLOR");
     colorP1Label.setBorder(blackBorder);
     player1Panel.add(colorP1Label);
@@ -294,6 +304,7 @@ public class GuiFrame {
     // TODO Display Points Player 1
     player1Panel.add(setPointsP1Label);
 
+    // Player 1 taken pieces label
     JLabel piecesP1Label = new JLabel("PIECES");
     GridBagConstraints gbcpiecesP1Label = new GridBagConstraints();
     gbcpiecesP1Label.insets = new Insets(0, 0, 5, 0);
@@ -301,6 +312,7 @@ public class GuiFrame {
     gbcpiecesP1Label.gridy = 4;
     frame.getContentPane().add(piecesP1Label, gbcpiecesP1Label);
 
+    // Player 1 taken pieces panel
     JPanel piecesP1Panel = new JPanel();
     // TODO add piece sprites
     GridBagConstraints gbcpiecesP1Panel = new GridBagConstraints();
@@ -313,7 +325,7 @@ public class GuiFrame {
     JLabel piecesP1FillerLabel = new JLabel("Filler");
     piecesP1Panel.add(piecesP1FillerLabel);
 
-    // Label for Player 2 (bottom)
+    // Player 2 label (bottom)
     JLabel player2Label = new JLabel("PLAYER 2");
     // TODO set Name (PLAYER 2 = DEFAULT NAME)
     player2Label.setOpaque(true);
@@ -324,6 +336,7 @@ public class GuiFrame {
     gbcplayer2Label.gridy = 6;
     frame.getContentPane().add(player2Label, gbcplayer2Label);
 
+    // Player 2 panel
     JPanel player2Panel = new JPanel();
     GridBagConstraints gbcplayer2Panel = new GridBagConstraints();
     gbcplayer2Panel.insets = new Insets(0, 0, 5, 5);
@@ -333,6 +346,7 @@ public class GuiFrame {
     frame.getContentPane().add(player2Panel, gbcplayer2Panel);
     player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
+    // Player 2 table
     JLabel colorP2Label = new JLabel("COLOR");
     colorP2Label.setBorder(blackBorder);
     player2Panel.add(colorP2Label);
@@ -347,6 +361,7 @@ public class GuiFrame {
     // TODO Display Points Player 2
     player2Panel.add(setPointsP2Label);
 
+    // Player 2 taken pieces label
     JLabel piecesP2Label = new JLabel("PIECES");
     GridBagConstraints gbcpiecesP2Label = new GridBagConstraints();
     gbcpiecesP2Label.insets = new Insets(0, 0, 5, 0);
@@ -354,7 +369,7 @@ public class GuiFrame {
     gbcpiecesP2Label.gridy = 8;
     frame.getContentPane().add(piecesP2Label, gbcpiecesP2Label);
 
-    // Panel to show taken Pieces
+    // Player 2 taken pieces panel
     JPanel piecesP2Panel = new JPanel();
     // TODO add piece sprites
     GridBagConstraints gbcpiecesP2Panel = new GridBagConstraints();
@@ -371,8 +386,11 @@ public class GuiFrame {
   /**
    * Colors the fields according to the {@code Piece.legalMoveMap} green (may
    * move), red (hit) or not at all (may not move).
+   * 
+   * @return
    */
   public JLabel[] highlightLegalMove(/* legalMoveMap */) {
+    // TODO remove example
     Knight tempKnight = new Knight("n1w", ChessColour.BLACK, "D4");
     Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
     Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
@@ -391,15 +409,13 @@ public class GuiFrame {
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
+    // functional code
     Map<String, String> legalMoveMapTemp = new TreeMap<>(tempKnight.getLegalMoveMap());
-    System.out.println(legalMoveMapTemp);
     JLabel[] legalMoveLabels = new JLabel[64];
     for(int i = 0; i < 64; i++) {
       legalMoveLabels[i] = new JLabel();
       legalMoveLabels[i].setText("");
     }
-
-    // get numeric Value "ttt" legal "hhh" enenmy
 
     for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
       if(entry.getValue().equals(Piece.TRUE_STRING)) {
@@ -415,7 +431,6 @@ public class GuiFrame {
         legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(lightRed);
       }
     }
-    System.out.println(currentGameStateTemp);
     return legalMoveLabels;
   }
 

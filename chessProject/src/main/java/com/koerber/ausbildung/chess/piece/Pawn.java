@@ -108,9 +108,21 @@ public class Pawn extends Piece {
       return false;
     }
     else {
-      // TODO implemtent en passant logic
       currentGameState.put(getPosition(), new EmptyPiece());
       setPosition(targetPosition);
+      int posLetterAsNumber = getPosition().charAt(0);
+      int posNumber = Character.getNumericValue(getPosition().charAt(1));
+      String fieldKey = Character.toString(posLetterAsNumber) + (posNumber - 1);
+      if(getColour().equals(ChessColour.BLACK)) {
+        fieldKey = Character.toString(posLetterAsNumber) + (posNumber + 1);
+      }
+      if(currentGameState.get(fieldKey) instanceof Pawn) {
+        Pawn enPassantablePawn = (Pawn)currentGameState.get(fieldKey);
+        if(enPassantablePawn.isEnPassentable() && !enPassantablePawn.getColour().equals(getColour())) {
+          enPassantablePawn.setPosition(NOT_ON_FIELD);
+          currentGameState.put(fieldKey, new EmptyPiece());
+        }
+      }
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }

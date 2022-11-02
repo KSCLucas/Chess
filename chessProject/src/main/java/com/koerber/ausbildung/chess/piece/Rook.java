@@ -71,7 +71,38 @@ public class Rook extends Piece {
    * {@code King} and {@code Rook} is an {@code EmptyPiece}.
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
-    // TODO add checkForCastle implementation
-    
+    int posLetterAsNumber = getPosition().charAt(0);
+    int posNumber = Character.getNumericValue(getPosition().charAt(1));
+    // Check for basic castle conditions
+    if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
+      // Determine the castle side
+      int castleSideModifier = 1;
+      if(getCastleSide() == 'l') {
+        castleSideModifier = -1;
+      }
+      // Check if tiles next to the rook up to the king are empty and set
+      // canCastle depending on it
+      String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+      boolean repeatable = true;
+      int castleSideMultiplier = 1;
+      do {
+        fieldKey = Character.toString(posLetterAsNumber + castleSideModifier * castleSideMultiplier) + posNumber;
+        if(currentGameState.get(fieldKey) instanceof King) {
+          setCanCastle(true);
+          repeatable = false;
+        }
+        else if(!(currentGameState.get(fieldKey) instanceof EmptyPiece)
+            || !inFieldBounds(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber)) {
+          setCanCastle(false);
+          repeatable = false;
+        }
+        else {
+          castleSideMultiplier += 1;
+        }
+      } while(repeatable);
+    }
+    else {
+      setCanCastle(false);
+    }
   }
 }

@@ -41,7 +41,6 @@ public abstract class Piece {
    * @param position
    * @param moveSet
    * @param icon
-   * @author PKamps
    */
   public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
       List<ArrayList<Integer>> moveSet, ImageIcon icon) {
@@ -107,16 +106,33 @@ public abstract class Piece {
   }
 
   /**
+   * Checks, whether the given Inputs are within the field bounds or not.
+   * 
+   * @param posLetterAsNumber
+   * @param posNumber
+   * @return {@code true} if both inputs are in field bounds. Otherwise it
+   *         returns {@code false}
+   */
+  protected static boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
+    if(posLetterAsNumber >= Field.LEFT_BOUND || posLetterAsNumber <= Field.RIGHT_BOUND || posNumber >= Field.LOWER_BOUND
+        || posNumber <= Field.UPPER_BOUND) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  /**
    * Moves {@code Piece} to {@code targetPosition}, if {@code targetPosition} is
    * legal. Checks legality by checking the value for the key
    * {@code targetPosition}. If there is an opposing {@code Piece} on
    * {@code targetPosition}, it sets {@code position} of that {@code Piece} to
-   * "xy".
+   * {@code HIT_STRING}.
    * 
    * @param targetPosition
-   * @return {@code true} if move is successful. Otherwise it retuns
+   * @return {@code true} if move is successful. Otherwise it returns
    *         {@code false}
-   * @author PKamps
    */
   public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
     if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)
@@ -135,13 +151,11 @@ public abstract class Piece {
   }
 
   /**
-   * Provides a HashMap based on {@code position} with the following values:
-   * "fff" for not legal, "ttt" for legal and "hhh" for an opposing takeable
-   * {@code Piece}.
+   * Provides a Map based on {@code position} with the following values:
+   * {@code TRUE_STRING} for legal and {@code HIT_STRING} for an opposing
+   * takeable {@code Piece}.
    * 
-   * @return void
    * @throws PieceOutOfBoundsException
-   * @author PKamps
    */
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
     if(getPosition() == null || getPosition().isEmpty()) {

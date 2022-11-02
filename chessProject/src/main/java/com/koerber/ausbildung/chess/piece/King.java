@@ -21,18 +21,16 @@ public class King extends Piece {
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
-   * {@code isMoveRepeatable}, {@code moveSet}, {@code isInCheck},
+   * {@code icon}, {@code isMoveRepeatable}, {@code moveSet}, {@code isInCheck},
    * {@code isCheckmate}, {@code canCastleShort}, {@code canCastleLong} and
    * {@code hasMoved}.
    * 
-   * @param name
+   * @param id
    * @param colour
    * @param position
-   * @param icon
-   * @author PKamps
    */
-  public King(String name, ChessColour colour, String position) {
-    super(name, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
+  public King(String id, ChessColour colour, String position) {
+    super(id, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/king_w_small.png", "src/main/resources/Sprites_in_small/king_small.png"));
   }
 
@@ -86,9 +84,6 @@ public class King extends Piece {
    * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
    * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and
    * {@code canCastleLong} to {@code true}, if castleing is possible.
-   * 
-   * @return void
-   * @author PKamps
    */
   public void checkForCastle() {
 
@@ -96,9 +91,6 @@ public class King extends Piece {
 
   /**
    * Checks, if {@code King} is in check.
-   * 
-   * @return void
-   * @author PKamps
    */
   public void checkForCheck() {
 
@@ -106,12 +98,8 @@ public class King extends Piece {
 
   /**
    * Checks, if {@code King} is in checkmate.
-   * 
-   * @return void
-   * @author PKamps
    */
   public void checkForCheckmate() {
 
   }
-
 }

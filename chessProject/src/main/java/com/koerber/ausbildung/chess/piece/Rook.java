@@ -14,27 +14,23 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 public class Rook extends Piece {
 
   private char    castleSide;
-  private boolean canCastle;
-  private boolean hasMoved;
+  private boolean canCastle = false;
+  private boolean hasMoved  = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
-   * {@code isMoveRepeatable}, {@code castleSide}, {@code canCastle} and
-   * {@code hasMoved}.
+   * {@code icon}, {@code isMoveRepeatable}, {@code castleSide},
+   * {@code canCastle} and {@code hasMoved}.
    * 
-   * @param name
+   * @param id
    * @param colour
    * @param position
-   * @param icon
    * @param castleSide
-   * @author PKamps
    */
-  public Rook(String name, ChessColour colour, String position, char castleSide) {
-    super(name, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
+  public Rook(String id, ChessColour colour, String position, char castleSide) {
+    super(id, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/rook_w_small.png", "src/main/resources/Sprites_in_small/rook_small.png"));
     this.castleSide = castleSide;
-    this.canCastle = false;
-    this.hasMoved = false;
   }
 
   public char getCastleSide() {
@@ -70,10 +66,7 @@ public class Rook extends Piece {
   /**
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
-   * {@code King} and {@code Rook} is empty.
-   * 
-   * @return void
-   * @author PKamps
+   * {@code King} and {@code Rook} is an {@code EmptyPiece}.
    */
   public void checkForCastle() {
 

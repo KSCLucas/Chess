@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -64,7 +66,8 @@ public class GuiFrame {
    */
   private void initialize() {
     frame = new JFrame();
-    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    frame.setBounds(0, 0, 1920, 1080);
+    // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
@@ -226,6 +229,89 @@ public class GuiFrame {
     gbcchessBoardTopLayer.gridy = 1;
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(new LineBorder(Color.BLACK));
+
+    Knight imageKnight = new Knight("n1b", ChessColour.BLACK, "D4");
+    // helferfunktion oder HashSet
+    JLabel[] currentGameStateLabels = new JLabel[64];
+    MouseListener m1 = new MouseListener() {
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        
+
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+       
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        JLabel clickedLabel = new JLabel();
+        clickedLabel = (JLabel)e.getSource();
+        System.out.println(clickedLabel.getName());
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        JLabel releasedLabel = new JLabel();
+        releasedLabel = (JLabel)e.getSource();
+        System.out.println(releasedLabel.getName());
+        // TODO Auto-generated method stub
+      }
+
+    };
+
+    for(int i = 0; i < 64; i++) {
+      currentGameStateLabels[i] = new JLabel();
+      currentGameStateLabels[i].addMouseListener(m1);
+      // currentGameStateLabels[i].setOpaque(true);
+      if(i >= 56 && i < 64) {
+        currentGameStateLabels[i].setName("A" + (i - 55));
+
+      }
+      if(i >= 48 && i < 56) {
+        currentGameStateLabels[i].setName("B" + (i - 47));
+
+      }
+      if(i >= 40 && i < 48) {
+        currentGameStateLabels[i].setName("C" + (i - 39));
+
+      }
+      if(i >= 32 && i < 40) {
+        currentGameStateLabels[i].setName("D" + (i - 31));
+
+      }
+      if(i >= 24 && i < 32) {
+        currentGameStateLabels[i].setName("E" + (i - 23));
+
+      }
+      if(i >= 16 && i < 24) {
+        currentGameStateLabels[i].setName("F" + (i - 15));
+
+      }
+      if(i >= 8 && i < 16) {
+        currentGameStateLabels[i].setName("G" + (i - 7));
+
+      }
+      if(i >= 0 && i < 8) {
+        currentGameStateLabels[i].setName("H" + (i + 1));
+
+      }
+
+      chessBoardTopLayer.add(currentGameStateLabels[i]);
+    }
+
+    currentGameStateLabels[35].setIcon(imageKnight.getIcon());
 
     /**
      * Initializes layeredPan. Used for layering the chessboard.
@@ -391,7 +477,7 @@ public class GuiFrame {
    */
   public JLabel[] highlightLegalMove(/* legalMoveMap */) {
     // TODO remove example
-    Knight tempKnight = new Knight("n1w", ChessColour.BLACK, "D4");
+    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
     Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
     Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
@@ -433,5 +519,14 @@ public class GuiFrame {
     }
     return legalMoveLabels;
   }
-
 }
+
+//
+//  public int convertNameToIndex(String name) {
+//    int columnAsNumber = name.charAt(0) - 64;
+//    int rowAsNumber = name.charAt(1) - 48;
+//    int index = Gui.getIndex(columnAsNumber, rowAsNumber);
+//    return index;
+//
+//  }
+//}

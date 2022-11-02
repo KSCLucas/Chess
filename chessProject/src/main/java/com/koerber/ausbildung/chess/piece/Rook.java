@@ -69,6 +69,6 @@ public class Rook extends Piece {
    * {@code King} and {@code Rook} is an {@code EmptyPiece}.
    */
   public void checkForCastle() {
-
+    // TODO add checkForCastle implementation
   }
 }

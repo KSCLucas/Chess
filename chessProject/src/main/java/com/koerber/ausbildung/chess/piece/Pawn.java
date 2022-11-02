@@ -58,7 +58,9 @@ public class Pawn extends Piece {
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
   }
-
+  
+  //TODO override movePiece to accomplish en passant take
+  
   /**
    * Sets {@code isEnPassentable} of all {@code Pawn} objects of the same colour
    * to {@code false}.

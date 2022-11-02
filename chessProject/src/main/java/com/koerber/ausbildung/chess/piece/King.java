@@ -86,20 +86,20 @@ public class King extends Piece {
    * {@code canCastleLong} to {@code true}, if castleing is possible.
    */
   public void checkForCastle() {
-
+    // TODO add checkForCastle implementation
   }
 
   /**
    * Checks, if {@code King} is in check.
    */
   public void checkForCheck() {
-
+    // TODO add checkForCheck implementation
   }
 
   /**
    * Checks, if {@code King} is in checkmate.
    */
   public void checkForCheckmate() {
-
+    // TODO add checkForCheckmate implementation
   }
 }

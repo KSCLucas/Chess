@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.piece.EmptyPiece;
+import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.piece.Rook;
@@ -232,83 +234,10 @@ public class GuiFrame {
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(new LineBorder(Color.BLACK));
 
-    Knight imageKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    // helferfunktion oder HashSet
-    JLabel[] currentGameStateLabels = new JLabel[64];
-    MouseListener m1 = new MouseListener() {
-      JLabel lastEntered = new JLabel();
-      @Override
-      public void mouseClicked(MouseEvent e) {
-
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-        System.out.println(e.getComponent().getName());
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseReleased(MouseEvent e) {
-        System.out.println(lastEntered.getName());
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        lastEntered = (JLabel)e.getComponent();
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseExited(MouseEvent e) {
-
-        // TODO Auto-generated method stub
-      }
-
-    };
-    List<String> xAxis = new ArrayList<String>();
-    xAxis.add("A");
-    xAxis.add("B");
-    xAxis.add("C");
-    xAxis.add("D");
-    xAxis.add("E");
-    xAxis.add("F");
-    xAxis.add("G");
-    xAxis.add("H");
-    for(int i = 0; i < 64; i++) {
-      currentGameStateLabels[i] = new JLabel();
-      currentGameStateLabels[i].addMouseListener(m1);
-//      currentGameStateLabels[i].setOpaque(true);
+    JLabel[] currentGameStateLabels = showCurrentGameState();
+    for(int i = 0; i < currentGameStateLabels.length; i++) {
       chessBoardTopLayer.add(currentGameStateLabels[i]);
-      if(i >= 0 && i < 8) {
-        currentGameStateLabels[i].setName(xAxis.get(i) + 8);
-      }
-      if(i >= 8 && i < 16) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
-      }
-      if(i >= 16 && i < 24) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
-      }
-      if(i >= 24 && i < 32) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
-      }
-      if(i >= 32 && i < 40) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
-      }
-      if(i >= 40 && i < 48) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
-      }
-      if(i >= 48 && i < 56) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
-      }
-      if(i >= 56 && i < 64) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
-      }
-
     }
-
-    currentGameStateLabels[35].setIcon(imageKnight.getIcon());
 
     /**
      * Initializes layeredPan. Used for layering the chessboard.
@@ -517,7 +446,129 @@ public class GuiFrame {
     return legalMoveLabels;
   }
 
-  public void getLastEnteredComponent() {
+  public JLabel[] showCurrentGameState() {
+    // create test map start
+    // TODO:remove test
+    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
+    Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
+    Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
+    King tempKing = new King("k1b", ChessColour.BLACK, "B7");
+
+    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+      }
+    }
+    currentGameStateTemp.put("D4", tempKnight);
+    currentGameStateTemp.put("F5", tempRook);
+    currentGameStateTemp.put("F3", tempRook1);
+    currentGameStateTemp.put("B7", tempKing);
+    // test end
+
+    JLabel[] currentGameStateLabels = new JLabel[64];
+    MouseListener m1 = new MouseListener() {
+      JLabel       lastEntered    = new JLabel();
+      JLabel       imageLabel     = new JLabel();
+      JLabel       tempImageLabel = new JLabel();
+      List<JLabel> deleteLabels   = new ArrayList<>();
+      @Override
+      public void mouseClicked(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        System.out.println(e.getComponent().getName());
+        tempImageLabel = (JLabel)e.getComponent();
+
+        deleteLabels.add(((JLabel)e.getComponent()));
+
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        System.out.println(lastEntered.getName());
+        lastEntered = (JLabel)e.getComponent();
+        ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
+
+        for(int i = 0; i < deleteLabels.size() - 1; i++) {
+          deleteLabels.get(i).setIcon(null);
+        }
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        lastEntered = (JLabel)e.getComponent();
+
+        if(tempImageLabel.getIcon() != null) {
+          ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
+        }
+        deleteLabels.add(((JLabel)e.getComponent()));
+        // check if still JLabel (if (instanceoff))
+        // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+//        ((JLabel)e.getComponent()).setIcon(null);
+        // TODO Auto-generated method stub
+      }
+
+    };
+    List<String> xAxis = new ArrayList<String>();
+    xAxis.add("A");
+    xAxis.add("B");
+    xAxis.add("C");
+    xAxis.add("D");
+    xAxis.add("E");
+    xAxis.add("F");
+    xAxis.add("G");
+    xAxis.add("H");
+    for(int i = 0; i < 64; i++) {
+      currentGameStateLabels[i] = new JLabel();
+      currentGameStateLabels[i].addMouseListener(m1);
+      // currentGameStateLabels[i].setOpaque(true);
+      if(i >= 0 && i < 8) {
+        currentGameStateLabels[i].setName(xAxis.get(i) + 8);
+      }
+      if(i >= 8 && i < 16) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
+      }
+      if(i >= 16 && i < 24) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
+      }
+      if(i >= 24 && i < 32) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
+      }
+      if(i >= 32 && i < 40) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
+      }
+      if(i >= 40 && i < 48) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
+      }
+      if(i >= 48 && i < 56) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
+      }
+      if(i >= 56 && i < 64) {
+        currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
+      }
+
+    }
+
+    for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
+      if(entry.getValue().equals(new EmptyPiece())) {
+
+      }
+      else {
+        int columnAsNumber = entry.getKey().charAt(0) - 64;
+        int rowAsNumber = entry.getKey().charAt(1) - 48;
+        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+      }
+    }
+    return currentGameStateLabels;
 
   }
 }

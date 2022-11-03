@@ -12,7 +12,7 @@ public abstract class IconSupplier {
   public static ImageIcon getIcon(ChessColour colour, String pathWhiteIcon, String pathBlackIcon) {
     ImageIcon icon;
     try {
-      if(colour.equals(ChessColour.WHITE)) {
+      if(colour == ChessColour.WHITE) {
         icon = new ImageIcon(pathWhiteIcon);
       }
       else {

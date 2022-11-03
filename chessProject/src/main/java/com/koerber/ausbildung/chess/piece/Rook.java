@@ -73,8 +73,8 @@ public class Rook extends Piece {
    * @param currentGameState
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
-    int posLetterAsNumber = getPosition().charAt(0);
-    int posNumber = Character.getNumericValue(getPosition().charAt(1));
+    int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+    int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
     // Check for basic castle conditions
     if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
       // Determine the castle side
@@ -90,7 +90,7 @@ public class Rook extends Piece {
       do {
         fieldKey = Character.toString(posLetterAsNumber + castleSideModifier * castleSideMultiplier) + posNumber;
         if(currentGameState.get(fieldKey) instanceof King
-            && currentGameState.get(fieldKey).getColour().equals(getColour())) {
+            && currentGameState.get(fieldKey).getColour() == getColour()) {
           setCanCastle(true);
           repeatable = false;
         }

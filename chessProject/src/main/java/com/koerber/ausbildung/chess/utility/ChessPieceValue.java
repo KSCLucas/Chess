@@ -8,7 +8,10 @@ package com.koerber.ausbildung.chess.utility;
 public enum ChessPieceValue {
 
   PAWN(1), BISHOP(3), KING(999), KNIGHT(3), QUEEN(9), ROOK(5);
-
+  
+  public int value;
+  
   private ChessPieceValue(int value) {
+    this.value = value;
   }
 }

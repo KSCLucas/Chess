@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
@@ -32,7 +33,7 @@ public class Pawn extends Piece {
    * @param position
    */
   public Pawn(String id, ChessColour colour, String position) {
-    super(id, colour, 1, false, position, MoveSetSupplier.getPawnMoveSet(), IconSupplier.getIcon(colour,
+    super(id, colour, ChessPieceValue.PAWN.value, false, position, MoveSetSupplier.getPawnMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/pawn_w_small.png", "src/main/resources/Sprites_in_small/pawn_small.png"));
   }
 

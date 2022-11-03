@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.piece;
 import java.util.Map;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -30,7 +31,7 @@ public class Rook extends Piece {
    * @param castleSide
    */
   public Rook(String id, ChessColour colour, String position, char castleSide) {
-    super(id, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
+    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/rook_w_small.png", "src/main/resources/Sprites_in_small/rook_small.png"));
     this.castleSide = castleSide;
   }

@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -21,7 +22,7 @@ public class Knight extends Piece {
    * @param position
    */
   public Knight(String id, ChessColour colour, String position) {
-    super(id, colour, 3, false, position, MoveSetSupplier.getKnightMoveSet(),
+    super(id, colour, ChessPieceValue.KNIGHT.value, false, position, MoveSetSupplier.getKnightMoveSet(),
         IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/knight_w_small.png",
             "src/main/resources/Sprites_in_small/knight_small.png"));
   }

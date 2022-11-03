@@ -1,6 +1,5 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -9,6 +8,7 @@ import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -19,21 +19,19 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
-  public static final String       TRUE_STRING       = "ttt";
-  public static final String       HIT_STRING        = "hhh";
-  public static final String       NOT_ON_FIELD      = "xy";
-  protected static final int       X_AXIS_INDEX      = 0;
-  protected static final int       Y_AXIS_INDEX      = 1;
-  protected static final int       FIRST_CHAR_INDEX  = 0;
-  protected static final int       SECOND_CHAR_INDEX = 1;
-  private String                   id;
-  private ChessColour              colour;
-  private int                      value;
-  private boolean                  isMoveRepeatable;
-  protected String                 position;
-  private List<ArrayList<Integer>> moveSet;
-  private ImageIcon                icon;
-  private Map<String, String>      legalMoveMap      = new TreeMap<>();
+  public static final String  TRUE_STRING       = "ttt";
+  public static final String  HIT_STRING        = "hhh";
+  public static final String  NOT_ON_FIELD      = "xy";
+  protected static final int  FIRST_CHAR_INDEX  = 0;
+  protected static final int  SECOND_CHAR_INDEX = 1;
+  private String              id;
+  private ChessColour         colour;
+  private int                 value;
+  private boolean             isMoveRepeatable;
+  protected String            position;
+  private List<MoveVector>    moveSet;
+  private ImageIcon           icon;
+  private Map<String, String> legalMoveMap      = new TreeMap<>();
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -47,7 +45,7 @@ public abstract class Piece {
    * @param icon
    */
   public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
-      List<ArrayList<Integer>> moveSet, ImageIcon icon) {
+      List<MoveVector> moveSet, ImageIcon icon) {
     this.id = id;
     this.colour = colour;
     this.value = value;
@@ -89,7 +87,7 @@ public abstract class Piece {
     this.position = position;
   }
 
-  public List<ArrayList<Integer>> getMoveSet() {
+  public List<MoveVector> getMoveSet() {
     return moveSet;
   }
 
@@ -164,7 +162,7 @@ public abstract class Piece {
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every move vector in moveSet
-    for(ArrayList<Integer> moveVector : getMoveSet()) {
+    for(MoveVector moveVector : getMoveSet()) {
       int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
       int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
       if(!inFieldBounds(posLetterAsNumber, posNumber)) {
@@ -174,8 +172,8 @@ public abstract class Piece {
       // currentGameState
       boolean repeatLoop = true;
       do {
-        posLetterAsNumber += moveVector.get(X_AXIS_INDEX);
-        posNumber += moveVector.get(Y_AXIS_INDEX);
+        posLetterAsNumber += moveVector.getX();
+        posNumber += moveVector.getY();
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         // Check for fieldKey still on Field
         if(inFieldBounds(posLetterAsNumber, posNumber)) {

@@ -150,12 +150,12 @@ public class Pawn extends Piece {
       case 0 -> {
         // Single move
         if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += -1 * getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += -1 * getMoveSet().get(i).getX();
+          posNumber += -1 * getMoveSet().get(i).getY();
         }
         else {
-          posLetterAsNumber += getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += getMoveSet().get(i).getX();
+          posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof EmptyPiece) {
@@ -166,13 +166,13 @@ public class Pawn extends Piece {
         // Double move
         int moveModifier = 1;
         if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += -1 * getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += -1 * getMoveSet().get(i).getX();
+          posNumber += -1 * getMoveSet().get(i).getY();
           moveModifier = -1;
         }
         else {
-          posLetterAsNumber += getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += getMoveSet().get(i).getX();
+          posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(inFieldBounds(posLetterAsNumber, posNumber)
@@ -184,12 +184,12 @@ public class Pawn extends Piece {
       case 2, 5 -> {
         // Take
         if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += -1 * getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += -1 * getMoveSet().get(i).getX();
+          posNumber += -1 * getMoveSet().get(i).getY();
         }
         else {
-          posLetterAsNumber += getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += getMoveSet().get(i).getX();
+          posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(inFieldBounds(posLetterAsNumber, posNumber) && !(currentGameState.get(fieldKey) instanceof EmptyPiece)
@@ -200,12 +200,12 @@ public class Pawn extends Piece {
       case 3, 4 -> {
         // Check for en-passant take
         if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += -1 * getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += -1 * getMoveSet().get(i).getX();
+          posNumber += -1 * getMoveSet().get(i).getY();
         }
         else {
-          posLetterAsNumber += getMoveSet().get(i).get(X_AXIS_INDEX);
-          posNumber += getMoveSet().get(i).get(Y_AXIS_INDEX);
+          posLetterAsNumber += getMoveSet().get(i).getX();
+          posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn

@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -21,7 +22,7 @@ public class Bishop extends Piece {
    * @param position
    */
   public Bishop(String id, ChessColour colour, String position) {
-    super(id, colour, 3, true, position, MoveSetSupplier.getBishopMoveSet(),
+    super(id, colour, ChessPieceValue.BISHOP.value, true, position, MoveSetSupplier.getBishopMoveSet(),
         IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/bishop_w_small.png",
             "src/main/resources/Sprites_in_small/bishop_small.png"));
   }

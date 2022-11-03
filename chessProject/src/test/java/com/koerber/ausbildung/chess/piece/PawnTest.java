@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.piece;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -23,8 +25,8 @@ class PawnTest {
 
   /**
    * Builds a {@code Pawn} object with test values and creates a
-   * {@code legalMoveMap} as reference. Expects {@code getLegalMoveMap}
-   * equal to {@code legalMoveMap}.
+   * {@code legalMoveMap} as reference. Expects {@code getLegalMoveMap} equal to
+   * {@code legalMoveMap}.
    * 
    * @tests {@code createLegalMoveMap} of {@code Pawn}
    */
@@ -46,7 +48,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -86,7 +88,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", opposingPawn);
@@ -116,7 +118,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -134,51 +136,32 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveSet")
   void createLegalMoveMapEmptyMoveSetTest() {
-    EmptyPiece testEmptyPiece = new EmptyPiece();
+    class EmptyMoveSetPiece extends Piece {
+
+      public EmptyMoveSetPiece(String id, ChessColour colour, String position) {
+        super(id, colour, 0, true, position, new ArrayList<MoveVector>(), null);
+      }
+    }
+
+    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", ChessColour.NONE, "A2");
 
     Map<String, String> correctMap = new TreeMap<>();
 
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
-    testCurrentGameState.put("A2", testEmptyPiece);
+    testCurrentGameState.put("A2", testEmpty);
 
     try {
-      testEmptyPiece.createLegalMoveMap(testCurrentGameState);
+      testEmpty.createLegalMoveMap(testCurrentGameState);
     }
     catch(PieceOutOfBoundsException e) {
     }
 
-    assertEquals(correctMap, testEmptyPiece.getLegalMoveMap());
-  }
-
-  /**
-   * Builds a {@code Pawn} object with test values and creates a
-   * {@code legalMoveMap} with some null values as reference. Expects
-   * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
-   * 
-   * @tests {@code createLegalMoveMap} of {@code Pawn}
-   */
-  @Test
-  @DisplayName("createLegalMoveMapNullOnField")
-  void createLegalMoveMapNullOnFieldTest() {
-    Pawn testPawn = ObjectFactoryForTest.getPawn();
-
-    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
-      }
-    }
-    testCurrentGameState.put("A2", testPawn);
-    testCurrentGameState.put("A3", null);
-    testCurrentGameState.put("C1", null);
-    testCurrentGameState.put("F7", null);
-
-    assertThrows(NullPointerException.class, () -> testPawn.createLegalMoveMap(testCurrentGameState));
+    assertEquals(correctMap, testEmpty.getLegalMoveMap());
   }
 
   /**
@@ -208,7 +191,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -243,7 +226,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A6", testPawn);
@@ -262,7 +245,7 @@ class PawnTest {
    * {@code Pawn.color = 'w' & Pawn.position = "A8"}) and expects
    * {@code Piece.isPromotable = true}.
    * 
-   * @tests {@code checkForPromotion()}
+   * @tests {@code checkForPromotion}
    */
   @Test
   @DisplayName("checkForPromotionPromotable")
@@ -279,7 +262,7 @@ class PawnTest {
    * {@code Piece.isPromotable = false}. The same is true for
    * {@code Pawn.postion = null}.
    * 
-   * @tests {@code checkForPromotion()}
+   * @tests {@code checkForPromotion}
    */
   @Test
   @DisplayName("checkForPromotionNotPromotable")
@@ -295,7 +278,7 @@ class PawnTest {
    * {@code Pawn.position} to another legal value and expect
    * {@code Pawn.hasMoved = true}.
    * 
-   * @tests {@code setPosition}
+   * @tests {@code setPosition} of {@code Pawn}
    */
   @Test
   @DisplayName("checkForFirstMoveSuccess")
@@ -310,7 +293,7 @@ class PawnTest {
    * Builds a {@code Pawn} object with initial test values. One does not change
    * {@code Pawn.position} and expects{@code Pawn.hasMoved = false}.
    * 
-   * @tests {@code setPosition}
+   * @tests {@code setPosition} of {@code Pawn}
    */
   @Test
   @DisplayName("checkForFirstMoveFailure")
@@ -324,7 +307,7 @@ class PawnTest {
    * {@code Pawn.position} by 2 fields and
    * expect{@code Pawn.isEnPassantable = true}.
    * 
-   * @tests {@code checkForEnPassant()}
+   * @tests {@code checkForEnPassant}
    */
   @Test
   @DisplayName("checkForEnPassantSuccess")
@@ -339,7 +322,7 @@ class PawnTest {
    * {@code Pawn.position} by not 2 fields and
    * expect{@code Pawn.isEnPassantable = false}.
    * 
-   * @tests {@code checkForEnPassant()}
+   * @tests {@code checkForEnPassant}
    */
   @Test
   @DisplayName("checkForEnPassantFailure")
@@ -354,7 +337,7 @@ class PawnTest {
    * 'b'. Sets for both {@code isEnPassantable} = {@code true}. Expects
    * {@code isEnPassantable} = {@code false} of {@code Pawn} with colour 'w'.
    * 
-   * @tests {@code resetEnPassant()}
+   * @tests {@code resetEnPassant}
    */
   @Test
   @DisplayName("resetEnPassantSuccess")
@@ -370,7 +353,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn1);
@@ -380,5 +363,122 @@ class PawnTest {
 
     assertEquals(false, testPawn1.isEnPassentable());
     assertEquals(true, testPawn2.isEnPassentable());
+  }
+
+  /**
+   * Builds to {@code Pawn} objects. One with {@code ChessColour.BLACK} and the
+   * other one with {@code ChessColour.WHITE}. Sets one to
+   * {@code isEnPassantable} = {@code true} and lets the other one move one tile
+   * behind the other one.
+   * 
+   * @tests {@code movePiece} of {@code Pawn}
+   */
+  @Test
+  @DisplayName("movePiecePawnSuccess")
+  void movePiecePawnSuccessTest() {
+    Pawn white = ObjectFactoryForTest.getPawn();
+    Pawn black = ObjectFactoryForTest.getPawn();
+    black.setColour(ChessColour.BLACK);
+    black.setPosition("B2");
+    black.setEnPassentable(true);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
+      }
+    }
+    testCurrentGameState.put("A2", white);
+    testCurrentGameState.put("B2", black);
+
+    try {
+      white.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+    white.movePiece(testCurrentGameState, "B3");
+
+    assertEquals(Piece.NOT_ON_FIELD, black.getPosition());
+    assertEquals(null, testCurrentGameState.get("A2"));
+    assertEquals(null, testCurrentGameState.get("B2"));
+    assertEquals(white, testCurrentGameState.get("B3"));
+  }
+
+  /**
+   * Builds to {@code Pawn} objects. Both with the same colour. Sets one to
+   * {@code isEnPassantable} = {@code true} and lets the other one try to move
+   * one tile behind the other one.
+   * 
+   * @tests {@code movePiece} of {@code Pawn}
+   */
+  @Test
+  @DisplayName("movePiecePawnSameColourEnPassantable")
+  void movePiecePawnSameColourEnPassantableTest() {
+    Pawn white = ObjectFactoryForTest.getPawn();
+    Pawn white2 = ObjectFactoryForTest.getPawn();
+    white2.setPosition("B2");
+    white2.setEnPassentable(true);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
+      }
+    }
+    testCurrentGameState.put("A2", white);
+    testCurrentGameState.put("B2", white2);
+
+    try {
+      white.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+    boolean moved = white.movePiece(testCurrentGameState, "B3");
+
+    assertEquals(false, moved);
+    assertEquals(white, testCurrentGameState.get("A2"));
+    assertEquals(white2, testCurrentGameState.get("B2"));
+    assertEquals(null, testCurrentGameState.get("B3"));
+  }
+
+  /**
+   * Builds to {@code Pawn} objects. One with {@code ChessColour.BLACK} and the
+   * other one with {@code ChessColour.WHITE}. Lets the other one try to move
+   * one tile behind the other one.
+   * 
+   * @tests {@code movePiece} of {@code Pawn}
+   */
+  @Test
+  @DisplayName("movePiecePawnDifferentColourNotEnPassantableTest")
+  void movePiecePawnDifferentColourNotEnPassantableTest() {
+    Pawn white = ObjectFactoryForTest.getPawn();
+    Pawn black = ObjectFactoryForTest.getPawn();
+    black.setColour(ChessColour.BLACK);
+    black.setPosition("B2");
+    black.setEnPassentable(false);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
+      }
+    }
+    testCurrentGameState.put("A2", white);
+    testCurrentGameState.put("B2", black);
+
+    try {
+      white.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+    boolean moved = white.movePiece(testCurrentGameState, "B3");
+
+    assertEquals(false, moved);
+    assertEquals(white, testCurrentGameState.get("A2"));
+    assertEquals(black, testCurrentGameState.get("B2"));
+    assertEquals(null, testCurrentGameState.get("B3"));
   }
 }

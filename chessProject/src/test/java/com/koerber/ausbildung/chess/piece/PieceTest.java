@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.piece;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -51,7 +53,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A1", testRook);
@@ -81,7 +83,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A1", testRook);
@@ -99,53 +101,34 @@ class PieceTest {
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveset")
   void createLegalMoveMapEmptyMovesetTest() {
-    EmptyPiece testEmptyPiece = new EmptyPiece();
-    testEmptyPiece.setPosition("A1");
+    class EmptyMoveSetPiece extends Piece {
+
+      public EmptyMoveSetPiece(String id, ChessColour colour, String position) {
+        super(id, colour, 0, true, position, new ArrayList<MoveVector>(), null);
+      }
+    }
+
+    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", ChessColour.NONE, "A2");
+    testEmpty.setPosition("A1");
 
     Map<String, String> correctMap = new TreeMap<>();
 
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
-    testCurrentGameState.put("A1", testEmptyPiece);
+    testCurrentGameState.put("A1", testEmpty);
 
     try {
-      testEmptyPiece.createLegalMoveMap(testCurrentGameState);
+      testEmpty.createLegalMoveMap(testCurrentGameState);
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
 
-    assertEquals(correctMap, testEmptyPiece.getLegalMoveMap());
-  }
-
-  /**
-   * Builds a {@code Piece} object with test values and expects a
-   * {@code legalMoveMap} based on the test values. Randomly scatters null
-   * pointers in the {@code legalMoveMap}. Expected is
-   * {@code NullPointerException}.
-   * 
-   * @tests {@code createLegalMoveMap()}
-   */
-  @Test
-  @DisplayName("createLegalMoveMapNullOnField")
-  void createLegalMoveMapNullOnFieldTest() {
-    Rook testRook = ObjectFactoryForTest.getRook();
-
-    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
-      }
-    }
-    testCurrentGameState.put("A1", testRook);
-    testCurrentGameState.put("C1", null);
-    testCurrentGameState.put("H8", null);
-    testCurrentGameState.put("E3", null);
-    assertThrows(NullPointerException.class, () -> testRook.createLegalMoveMap(testCurrentGameState));
+    assertEquals(correctMap, testEmpty.getLegalMoveMap());
   }
 
   /**
@@ -161,7 +144,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put(testRook.getPosition(), testRook);
@@ -173,7 +156,7 @@ class PieceTest {
     testRook.movePiece(testCurrentGameState, legalTargetPosition);
     assertEquals(legalTargetPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(legalTargetPosition).getId());
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get("A1").getId());
+    assertEquals(null, testCurrentGameState.get("A1"));
   }
 
   /**
@@ -191,7 +174,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put(testRook.getPosition(), testRook);
@@ -221,7 +204,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put(testRook.getPosition(), testRook);
@@ -250,7 +233,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put(testRook.getPosition(), testRook);
@@ -282,7 +265,7 @@ class PieceTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put(testRook.getPosition(), testRook);
@@ -295,6 +278,6 @@ class PieceTest {
     testRook.movePiece(testCurrentGameState, enemyPiecePosition);
     assertEquals("r1w", testCurrentGameState.get(enemyPiecePosition).getId());
     assertEquals("xy", opposingTestRook.getPosition());
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get(initialPosition).getId());
+    assertEquals(null, testCurrentGameState.get(initialPosition));
   }
 }

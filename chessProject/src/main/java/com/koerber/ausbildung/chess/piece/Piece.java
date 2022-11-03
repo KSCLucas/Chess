@@ -1,6 +1,5 @@
 package com.koerber.ausbildung.chess.piece;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -9,6 +8,7 @@ import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -19,17 +19,19 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
-  public static final String       TRUE_STRING  = "ttt";
-  public static final String       HIT_STRING   = "hhh";
-  public static final String       NOT_ON_FIELD = "xy";
-  private String                   id;
-  private ChessColour              colour;
-  private int                      value;
-  private boolean                  isMoveRepeatable;
-  protected String                 position;
-  private List<ArrayList<Integer>> moveSet;
-  private ImageIcon                icon;
-  private Map<String, String>      legalMoveMap = new TreeMap<>();
+  public static final String  TRUE_STRING       = "ttt";
+  public static final String  HIT_STRING        = "hhh";
+  public static final String  NOT_ON_FIELD      = "xy";
+  protected static final int  FIRST_CHAR_INDEX  = 0;
+  protected static final int  SECOND_CHAR_INDEX = 1;
+  private String              id;
+  private ChessColour         colour;
+  private int                 value;
+  private boolean             isMoveRepeatable;
+  protected String            position;
+  private List<MoveVector>    moveSet;
+  private ImageIcon           icon;
+  private Map<String, String> legalMoveMap      = new TreeMap<>();
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -43,7 +45,7 @@ public abstract class Piece {
    * @param icon
    */
   public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
-      List<ArrayList<Integer>> moveSet, ImageIcon icon) {
+      List<MoveVector> moveSet, ImageIcon icon) {
     this.id = id;
     this.colour = colour;
     this.value = value;
@@ -85,7 +87,7 @@ public abstract class Piece {
     this.position = position;
   }
 
-  public List<ArrayList<Integer>> getMoveSet() {
+  public List<MoveVector> getMoveSet() {
     return moveSet;
   }
 
@@ -114,13 +116,8 @@ public abstract class Piece {
    *         returns {@code false}
    */
   protected static boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
-    if(posLetterAsNumber >= Field.LEFT_BOUND || posLetterAsNumber <= Field.RIGHT_BOUND || posNumber >= Field.LOWER_BOUND
-        || posNumber <= Field.UPPER_BOUND) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
+        && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND;
   }
 
   /**
@@ -140,7 +137,7 @@ public abstract class Piece {
       return false;
     }
     else {
-      currentGameState.put(getPosition(), new EmptyPiece());
+      currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
@@ -155,6 +152,7 @@ public abstract class Piece {
    * {@code TRUE_STRING} for legal and {@code HIT_STRING} for an opposing
    * takeable {@code Piece}.
    * 
+   * @param currentGameState
    * @throws PieceOutOfBoundsException
    */
   public void createLegalMoveMap(Map<String, Piece> currentGameState) throws PieceOutOfBoundsException {
@@ -164,9 +162,9 @@ public abstract class Piece {
     // Clear legalMoveMap
     getLegalMoveMap().clear();
     // Loop over every move vector in moveSet
-    for(ArrayList<Integer> moveVector : getMoveSet()) {
-      int posLetterAsNumber = getPosition().charAt(0);
-      int posNumber = Character.getNumericValue(getPosition().charAt(1));
+    for(MoveVector moveVector : getMoveSet()) {
+      int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+      int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
       if(!inFieldBounds(posLetterAsNumber, posNumber)) {
         throw new PieceOutOfBoundsException();
       }
@@ -174,17 +172,17 @@ public abstract class Piece {
       // currentGameState
       boolean repeatLoop = true;
       do {
-        posLetterAsNumber += moveVector.get(0);
-        posNumber += moveVector.get(1);
+        posLetterAsNumber += moveVector.getX();
+        posNumber += moveVector.getY();
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         // Check for fieldKey still on Field
         if(inFieldBounds(posLetterAsNumber, posNumber)) {
           // Check for EmptyPiece
-          if(currentGameState.get(fieldKey) instanceof EmptyPiece) {
+          if(currentGameState.get(fieldKey) == null) {
             getLegalMoveMap().put(fieldKey, TRUE_STRING);
           }
           // Check for opposing Piece
-          else if(!currentGameState.get(fieldKey).getColour().equals(getColour())) {
+          else if(currentGameState.get(fieldKey).getColour() != getColour()) {
             getLegalMoveMap().put(fieldKey, HIT_STRING);
             repeatLoop = false;
           }

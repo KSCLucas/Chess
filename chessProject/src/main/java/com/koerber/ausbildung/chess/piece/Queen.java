@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -21,7 +22,7 @@ public class Queen extends Piece {
    * @param position
    */
   public Queen(String id, ChessColour colour, String position) {
-    super(id, colour, 9, true, position, MoveSetSupplier.getQueenMoveSet(),
+    super(id, colour, ChessPieceValue.QUEEN.value, true, position, MoveSetSupplier.getQueenMoveSet(),
         IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/queen_w_small.png",
             "src/main/resources/Sprites_in_small/queen_small.png"));
   }

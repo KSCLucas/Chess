@@ -1,6 +1,9 @@
 package com.koerber.ausbildung.chess.piece;
 
+import java.util.Map;
+
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -28,7 +31,7 @@ public class Rook extends Piece {
    * @param castleSide
    */
   public Rook(String id, ChessColour colour, String position, char castleSide) {
-    super(id, colour, 5, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
+    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/rook_w_small.png", "src/main/resources/Sprites_in_small/rook_small.png"));
     this.castleSide = castleSide;
   }
@@ -67,8 +70,43 @@ public class Rook extends Piece {
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
    * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
    * {@code King} and {@code Rook} is an {@code EmptyPiece}.
+   * 
+   * @param currentGameState
    */
-  public void checkForCastle() {
-    // TODO add checkForCastle implementation
+  public void checkForCastle(Map<String, Piece> currentGameState) {
+    int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+    int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+    // Check for basic castle conditions
+    if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
+      // Determine the castle side
+      int castleSideModifier = 1;
+      if(getCastleSide() == 's') {
+        castleSideModifier = -1;
+      }
+      // Check, if tiles next to the rook up to the king are empty and set
+      // canCastle depending on it
+      String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+      boolean repeatable = true;
+      int castleSideMultiplier = 1;
+      do {
+        fieldKey = Character.toString(posLetterAsNumber + castleSideModifier * castleSideMultiplier) + posNumber;
+        if(currentGameState.get(fieldKey) instanceof King
+            && currentGameState.get(fieldKey).getColour() == getColour()) {
+          setCanCastle(true);
+          repeatable = false;
+        }
+        else if(!(currentGameState.get(fieldKey) == null)
+            || !inFieldBounds(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber)) {
+          setCanCastle(false);
+          repeatable = false;
+        }
+        else {
+          castleSideMultiplier += 1;
+        }
+      } while(repeatable);
+    }
+    else {
+      setCanCastle(false);
+    }
   }
 }

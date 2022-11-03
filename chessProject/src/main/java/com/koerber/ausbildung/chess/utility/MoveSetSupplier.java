@@ -1,7 +1,7 @@
 package com.koerber.ausbildung.chess.utility;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * The {@code MoveSetSupplier} class contains static methods, which provide the
@@ -16,21 +16,21 @@ public abstract class MoveSetSupplier {
    * 
    * @return pawnMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getPawnMoveSet() {
-    ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
-    ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(0, 2));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(1, 1));
-    ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(1, 0));
-    ArrayList<Integer> entry5 = new ArrayList<Integer>(Arrays.asList(-1, 0));
-    ArrayList<Integer> entry6 = new ArrayList<Integer>(Arrays.asList(-1, 1));
+  public static List<MoveVector> getPawnMoveSet() {
+    MoveVector vector1 = new MoveVector(0, 1);
+    MoveVector vector2 = new MoveVector(0, 2);
+    MoveVector vector3 = new MoveVector(1, 1);
+    MoveVector vector4 = new MoveVector(1, 0);
+    MoveVector vector5 = new MoveVector(-1, 0);
+    MoveVector vector6 = new MoveVector(-1, 1);
 
-    ArrayList<ArrayList<Integer>> pawnMoveSet = new ArrayList<ArrayList<Integer>>();
-    pawnMoveSet.add(entry1);
-    pawnMoveSet.add(entry2);
-    pawnMoveSet.add(entry3);
-    pawnMoveSet.add(entry4);
-    pawnMoveSet.add(entry5);
-    pawnMoveSet.add(entry6);
+    List<MoveVector> pawnMoveSet = new ArrayList<>();
+    pawnMoveSet.add(vector1);
+    pawnMoveSet.add(vector2);
+    pawnMoveSet.add(vector3);
+    pawnMoveSet.add(vector4);
+    pawnMoveSet.add(vector5);
+    pawnMoveSet.add(vector6);
 
     return pawnMoveSet;
   }
@@ -40,25 +40,25 @@ public abstract class MoveSetSupplier {
    * 
    * @return kingMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getKingMoveSet() {
-    ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
-    ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 1));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(1, 0));
-    ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(1, -1));
-    ArrayList<Integer> entry5 = new ArrayList<Integer>(Arrays.asList(0, -1));
-    ArrayList<Integer> entry6 = new ArrayList<Integer>(Arrays.asList(-1, -1));
-    ArrayList<Integer> entry7 = new ArrayList<Integer>(Arrays.asList(-1, 0));
-    ArrayList<Integer> entry8 = new ArrayList<Integer>(Arrays.asList(-1, 1));
+  public static List<MoveVector> getKingMoveSet() {
+    MoveVector vector1 = new MoveVector(0, 1);
+    MoveVector vector2 = new MoveVector(1, 1);
+    MoveVector vector3 = new MoveVector(1, 0);
+    MoveVector vector4 = new MoveVector(1, -1);
+    MoveVector vector5 = new MoveVector(0, -1);
+    MoveVector vector6 = new MoveVector(-1, -1);
+    MoveVector vector7 = new MoveVector(-1, 0);
+    MoveVector vector8 = new MoveVector(-1, 1);
 
-    ArrayList<ArrayList<Integer>> kingMoveSet = new ArrayList<ArrayList<Integer>>();
-    kingMoveSet.add(entry1);
-    kingMoveSet.add(entry2);
-    kingMoveSet.add(entry3);
-    kingMoveSet.add(entry4);
-    kingMoveSet.add(entry5);
-    kingMoveSet.add(entry6);
-    kingMoveSet.add(entry7);
-    kingMoveSet.add(entry8);
+    List<MoveVector> kingMoveSet = new ArrayList<>();
+    kingMoveSet.add(vector1);
+    kingMoveSet.add(vector2);
+    kingMoveSet.add(vector3);
+    kingMoveSet.add(vector4);
+    kingMoveSet.add(vector5);
+    kingMoveSet.add(vector6);
+    kingMoveSet.add(vector7);
+    kingMoveSet.add(vector8);
 
     return kingMoveSet;
   }
@@ -68,17 +68,17 @@ public abstract class MoveSetSupplier {
    * 
    * @return rookMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getRookMoveSet() {
-    ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(0, 1));
-    ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 0));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(0, -1));
-    ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(-1, 0));
+  public static List<MoveVector> getRookMoveSet() {
+    MoveVector vector1 = new MoveVector(0, 1);
+    MoveVector vector2 = new MoveVector(1, 0);
+    MoveVector vector3 = new MoveVector(0, -1);
+    MoveVector vector4 = new MoveVector(-1, 0);
 
-    ArrayList<ArrayList<Integer>> rookMoveSet = new ArrayList<ArrayList<Integer>>();
-    rookMoveSet.add(entry1);
-    rookMoveSet.add(entry2);
-    rookMoveSet.add(entry3);
-    rookMoveSet.add(entry4);
+    List<MoveVector> rookMoveSet = new ArrayList<>();
+    rookMoveSet.add(vector1);
+    rookMoveSet.add(vector2);
+    rookMoveSet.add(vector3);
+    rookMoveSet.add(vector4);
 
     return rookMoveSet;
   }
@@ -88,25 +88,25 @@ public abstract class MoveSetSupplier {
    * 
    * @return knightMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getKnightMoveSet() {
-    ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(-1, 2));
-    ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, 2));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(2, 1));
-    ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(2, -1));
-    ArrayList<Integer> entry5 = new ArrayList<Integer>(Arrays.asList(1, -2));
-    ArrayList<Integer> entry6 = new ArrayList<Integer>(Arrays.asList(-1, -2));
-    ArrayList<Integer> entry7 = new ArrayList<Integer>(Arrays.asList(-2, -1));
-    ArrayList<Integer> entry8 = new ArrayList<Integer>(Arrays.asList(-2, 1));
+  public static List<MoveVector> getKnightMoveSet() {
+    MoveVector vector1 = new MoveVector(-1, 2);
+    MoveVector vector2 = new MoveVector(1, 2);
+    MoveVector vector3 = new MoveVector(2, 1);
+    MoveVector vector4 = new MoveVector(2, -1);
+    MoveVector vector5 = new MoveVector(1, -2);
+    MoveVector vector6 = new MoveVector(-1, -2);
+    MoveVector vector7 = new MoveVector(-2, -1);
+    MoveVector vector8 = new MoveVector(-2, 1);
 
-    ArrayList<ArrayList<Integer>> knightMoveSet = new ArrayList<ArrayList<Integer>>();
-    knightMoveSet.add(entry1);
-    knightMoveSet.add(entry2);
-    knightMoveSet.add(entry3);
-    knightMoveSet.add(entry4);
-    knightMoveSet.add(entry5);
-    knightMoveSet.add(entry6);
-    knightMoveSet.add(entry7);
-    knightMoveSet.add(entry8);
+    List<MoveVector> knightMoveSet = new ArrayList<>();
+    knightMoveSet.add(vector1);
+    knightMoveSet.add(vector2);
+    knightMoveSet.add(vector3);
+    knightMoveSet.add(vector4);
+    knightMoveSet.add(vector5);
+    knightMoveSet.add(vector6);
+    knightMoveSet.add(vector7);
+    knightMoveSet.add(vector8);
 
     return knightMoveSet;
   }
@@ -116,17 +116,17 @@ public abstract class MoveSetSupplier {
    * 
    * @return bishopMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getBishopMoveSet() {
-    ArrayList<Integer> entry1 = new ArrayList<Integer>(Arrays.asList(1, 1));
-    ArrayList<Integer> entry2 = new ArrayList<Integer>(Arrays.asList(1, -1));
-    ArrayList<Integer> entry3 = new ArrayList<Integer>(Arrays.asList(-1, -1));
-    ArrayList<Integer> entry4 = new ArrayList<Integer>(Arrays.asList(-1, 1));
+  public static List<MoveVector> getBishopMoveSet() {
+    MoveVector vector1 = new MoveVector(1, 1);
+    MoveVector vector2 = new MoveVector(1, -1);
+    MoveVector vector3 = new MoveVector(-1, -1);
+    MoveVector vector4 = new MoveVector(-1, 1);
 
-    ArrayList<ArrayList<Integer>> bishopMoveSet = new ArrayList<ArrayList<Integer>>();
-    bishopMoveSet.add(entry1);
-    bishopMoveSet.add(entry2);
-    bishopMoveSet.add(entry3);
-    bishopMoveSet.add(entry4);
+    List<MoveVector> bishopMoveSet = new ArrayList<>();
+    bishopMoveSet.add(vector1);
+    bishopMoveSet.add(vector2);
+    bishopMoveSet.add(vector3);
+    bishopMoveSet.add(vector4);
 
     return bishopMoveSet;
   }
@@ -136,8 +136,8 @@ public abstract class MoveSetSupplier {
    * 
    * @return queenMoveSet
    */
-  public static ArrayList<ArrayList<Integer>> getQueenMoveSet() {
-    ArrayList<ArrayList<Integer>> queenMoveSet = getKingMoveSet();
+  public static List<MoveVector> getQueenMoveSet() {
+    List<MoveVector> queenMoveSet = getKingMoveSet();
 
     return queenMoveSet;
   }

@@ -2,9 +2,13 @@ package com.koerber.ausbildung.chess.piece;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 
 /**
@@ -46,27 +50,77 @@ class RookTest {
 
   /**
    * Builds {@code Rook} object with initial test values. All fields between Rook
-   * and King are empty ("###"). It is expected that
+   * and King are an {@code EmptyPiece}. It is expected that
    * {@code Rook.canCastle = true}.
    * 
    * @tests {@code checkForCastle()}
    */
   @Test
-  @DisplayName("checkForFirstMoveSuccess")
+  @DisplayName("checkForCastleSuccess")
   void checkForCastleSuccessTest() {
-    fail("Not yet implemented");
+    King king = ObjectFactoryForTest.getKing();
+    king.setPosition("E1");
+    king.setHasMoved(false);
+    Rook testRookShortSide = ObjectFactoryForTest.getRook();
+    testRookShortSide.setPosition("H1");
+    testRookShortSide.setHasMoved(false);
+    Rook testRookLongSide = ObjectFactoryForTest.getRook();
+    testRookLongSide.setId("r2w");
+    testRookLongSide.setCastleSide('l');
+    
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
+      }
+    }
+    testCurrentGameState.put("E1", king);
+    testCurrentGameState.put("H1", testRookShortSide);
+    testCurrentGameState.put("A1", testRookLongSide);
+    
+    testRookShortSide.checkForCastle(testCurrentGameState);
+    testRookLongSide.checkForCastle(testCurrentGameState);
+    
+    assertEquals(true, testRookShortSide.isCanCastle());
+    assertEquals(true, testRookLongSide.isCanCastle());
   }
 
   /**
    * Builds a {@code Rook} object with initial test values. Not all fields are
    * empty or Rook has already moved. It is expected that
-   * {@code Rook.canCastel = false}.
+   * {@code Rook.canCastle = false}.
    * 
    * @tests {@code checkForCastle()}
    */
   @Test
-  @DisplayName("checkForFirstMoveSuccess")
+  @DisplayName("checkForCastleFailure")
   void checkForCastleFailureTest() {
-    fail("Not yet implemented");
+    King king = ObjectFactoryForTest.getKing();
+    king.setPosition("E1");
+    king.setHasMoved(false);
+    Rook testRookShortSide = ObjectFactoryForTest.getRook();
+    testRookShortSide.setPosition("H1");
+    Rook testRookLongSide = ObjectFactoryForTest.getRook();
+    testRookLongSide.setId("r2w");
+    testRookLongSide.setCastleSide('l');
+    Queen queen = ObjectFactoryForTest.getQueen();
+    queen.setPosition("D1");
+    
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
+      }
+    }
+    testCurrentGameState.put("E1", king);
+    testCurrentGameState.put("H1", testRookShortSide);
+    testCurrentGameState.put("A1", testRookLongSide);
+    testCurrentGameState.put("D1", queen);
+    
+    testRookShortSide.checkForCastle(testCurrentGameState);
+    testRookLongSide.checkForCastle(testCurrentGameState);
+    
+    assertEquals(false, testRookShortSide.isCanCastle());
+    assertEquals(false, testRookLongSide.isCanCastle());
   }
 }

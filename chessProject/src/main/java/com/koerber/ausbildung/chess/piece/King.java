@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.piece;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
 
@@ -30,7 +31,7 @@ public class King extends Piece {
    * @param position
    */
   public King(String id, ChessColour colour, String position) {
-    super(id, colour, 999, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
+    super(id, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
         "src/main/resources/Sprites_in_small/king_w_small.png", "src/main/resources/Sprites_in_small/king_small.png"));
   }
 

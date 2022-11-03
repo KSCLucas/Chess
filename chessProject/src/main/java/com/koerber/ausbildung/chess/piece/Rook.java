@@ -95,7 +95,7 @@ public class Rook extends Piece {
           setCanCastle(true);
           repeatable = false;
         }
-        else if(!(currentGameState.get(fieldKey) instanceof EmptyPiece)
+        else if(!(currentGameState.get(fieldKey) == null)
             || !inFieldBounds(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber)) {
           setCanCastle(false);
           repeatable = false;

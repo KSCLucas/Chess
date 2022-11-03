@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.piece;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -46,7 +48,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -86,7 +88,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", opposingPawn);
@@ -116,7 +118,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -134,25 +136,32 @@ class PawnTest {
   @Test
   @DisplayName("createLegalMoveMapEmptyMoveSet")
   void createLegalMoveMapEmptyMoveSetTest() {
-    EmptyPiece testEmptyPiece = new EmptyPiece();
+    class EmptyMoveSetPiece extends Piece {
+
+      public EmptyMoveSetPiece(String id, ChessColour colour, String position) {
+        super(id, colour, 0, true, position, new ArrayList<MoveVector>(), null);
+      }
+    }
+
+    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", ChessColour.NONE, "A2");
 
     Map<String, String> correctMap = new TreeMap<>();
 
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
-    testCurrentGameState.put("A2", testEmptyPiece);
+    testCurrentGameState.put("A2", testEmpty);
 
     try {
-      testEmptyPiece.createLegalMoveMap(testCurrentGameState);
+      testEmpty.createLegalMoveMap(testCurrentGameState);
     }
     catch(PieceOutOfBoundsException e) {
     }
 
-    assertEquals(correctMap, testEmptyPiece.getLegalMoveMap());
+    assertEquals(correctMap, testEmpty.getLegalMoveMap());
   }
 
   /**
@@ -170,7 +179,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -208,7 +217,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn);
@@ -243,7 +252,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A6", testPawn);
@@ -370,7 +379,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", testPawn1);
@@ -402,7 +411,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", white);
@@ -417,8 +426,8 @@ class PawnTest {
     white.movePiece(testCurrentGameState, "B3");
 
     assertEquals(Piece.NOT_ON_FIELD, black.getPosition());
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get("A2").getId());
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get("B2").getId());
+    assertEquals(null, testCurrentGameState.get("A2"));
+    assertEquals(null, testCurrentGameState.get("B2"));
     assertEquals(white, testCurrentGameState.get("B3"));
   }
 
@@ -440,7 +449,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", white);
@@ -457,7 +466,7 @@ class PawnTest {
     assertEquals(false, moved);
     assertEquals(white, testCurrentGameState.get("A2"));
     assertEquals(white2, testCurrentGameState.get("B2"));
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get("B3").getId());
+    assertEquals(null, testCurrentGameState.get("B3"));
   }
 
   /**
@@ -479,7 +488,7 @@ class PawnTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("A2", white);
@@ -496,6 +505,6 @@ class PawnTest {
     assertEquals(false, moved);
     assertEquals(white, testCurrentGameState.get("A2"));
     assertEquals(black, testCurrentGameState.get("B2"));
-    assertEquals(EmptyPiece.ID, testCurrentGameState.get("B3").getId());
+    assertEquals(null, testCurrentGameState.get("B3"));
   }
 }

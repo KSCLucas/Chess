@@ -111,7 +111,7 @@ public class Pawn extends Piece {
       return false;
     }
     else {
-      currentGameState.put(getPosition(), new EmptyPiece());
+      currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
       int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
       int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
@@ -123,7 +123,7 @@ public class Pawn extends Piece {
         Pawn enPassantablePawn = (Pawn)currentGameState.get(fieldKey);
         if(enPassantablePawn.isEnPassentable() && enPassantablePawn.getColour() != getColour()) {
           enPassantablePawn.setPosition(NOT_ON_FIELD);
-          currentGameState.put(fieldKey, new EmptyPiece());
+          currentGameState.put(fieldKey, null);
         }
       }
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
@@ -159,7 +159,7 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof EmptyPiece) {
+        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
@@ -178,7 +178,7 @@ public class Pawn extends Piece {
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
         if(inFieldBounds(posLetterAsNumber, posNumber)
             && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - moveModifier))
-            && currentGameState.get(fieldKey) instanceof EmptyPiece && !isHasMoved()) {
+            && currentGameState.get(fieldKey) == null && !isHasMoved()) {
           getLegalMoveMap().put(fieldKey, TRUE_STRING);
         }
       }
@@ -193,7 +193,7 @@ public class Pawn extends Piece {
           posNumber += getMoveSet().get(i).getY();
         }
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber) && !(currentGameState.get(fieldKey) instanceof EmptyPiece)
+        if(inFieldBounds(posLetterAsNumber, posNumber) && !(currentGameState.get(fieldKey) == null)
             && currentGameState.get(fieldKey).getColour() != getColour()) {
           getLegalMoveMap().put(fieldKey, HIT_STRING);
         }

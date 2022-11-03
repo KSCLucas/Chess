@@ -71,7 +71,7 @@ class RookTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("E1", king);
@@ -109,7 +109,7 @@ class RookTest {
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     testCurrentGameState.put("E1", king);

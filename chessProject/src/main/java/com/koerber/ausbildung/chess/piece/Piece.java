@@ -137,7 +137,7 @@ public abstract class Piece {
       return false;
     }
     else {
-      currentGameState.put(getPosition(), new EmptyPiece());
+      currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
@@ -178,7 +178,7 @@ public abstract class Piece {
         // Check for fieldKey still on Field
         if(inFieldBounds(posLetterAsNumber, posNumber)) {
           // Check for EmptyPiece
-          if(currentGameState.get(fieldKey) instanceof EmptyPiece) {
+          if(currentGameState.get(fieldKey) == null) {
             getLegalMoveMap().put(fieldKey, TRUE_STRING);
           }
           // Check for opposing Piece

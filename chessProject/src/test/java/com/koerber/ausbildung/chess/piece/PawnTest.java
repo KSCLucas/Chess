@@ -165,32 +165,6 @@ class PawnTest {
   }
 
   /**
-   * Builds a {@code Pawn} object with test values and creates a
-   * {@code legalMoveMap} with some null values as reference. Expects
-   * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.
-   * 
-   * @tests {@code createLegalMoveMap} of {@code Pawn}
-   */
-  @Test
-  @DisplayName("createLegalMoveMapNullOnField")
-  void createLegalMoveMapNullOnFieldTest() {
-    Pawn testPawn = ObjectFactoryForTest.getPawn();
-
-    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
-      }
-    }
-    testCurrentGameState.put("A2", testPawn);
-    testCurrentGameState.put("A3", null);
-    testCurrentGameState.put("C1", null);
-    testCurrentGameState.put("F7", null);
-
-    assertThrows(NullPointerException.class, () -> testPawn.createLegalMoveMap(testCurrentGameState));
-  }
-
-  /**
    * Builds a {@code Pawn} object with test values, a few other opposing
    * {@code Pieces} and creates a {@code legalMoveMap} as reference. Expects
    * {@code Pawn.getLegalMoveMap} equal to {@code legalMoveMap}.

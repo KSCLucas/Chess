@@ -132,32 +132,6 @@ class PieceTest {
   }
 
   /**
-   * Builds a {@code Piece} object with test values and expects a
-   * {@code legalMoveMap} based on the test values. Randomly scatters null
-   * pointers in the {@code legalMoveMap}. Expected is
-   * {@code NullPointerException}.
-   * 
-   * @tests {@code createLegalMoveMap()}
-   */
-  @Test
-  @DisplayName("createLegalMoveMapNullOnField")
-  void createLegalMoveMapNullOnFieldTest() {
-    Rook testRook = ObjectFactoryForTest.getRook();
-
-    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        testCurrentGameState.put(Character.toString(i) + String.valueOf(j), null);
-      }
-    }
-    testCurrentGameState.put("A1", testRook);
-    testCurrentGameState.put("C1", null);
-    testCurrentGameState.put("H8", null);
-    testCurrentGameState.put("E3", null);
-    assertThrows(NullPointerException.class, () -> testRook.createLegalMoveMap(testCurrentGameState));
-  }
-
-  /**
    * Expects {@code position} = {@code targetPosition}.
    * 
    * @tests {@code movePiece()}

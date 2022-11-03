@@ -24,7 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
-import com.koerber.ausbildung.chess.piece.EmptyPiece;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Piece;
@@ -409,7 +408,7 @@ public class GuiFrame {
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     currentGameStateTemp.put("D4", tempKnight);
@@ -457,7 +456,7 @@ public class GuiFrame {
     Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), new EmptyPiece());
+        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
       }
     }
     currentGameStateTemp.put("D4", tempKnight);
@@ -513,7 +512,7 @@ public class GuiFrame {
 
       @Override
       public void mouseExited(MouseEvent e) {
-//        ((JLabel)e.getComponent()).setIcon(null);
+        // ((JLabel)e.getComponent()).setIcon(null);
         // TODO Auto-generated method stub
       }
 
@@ -559,14 +558,12 @@ public class GuiFrame {
     }
 
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
-      if(entry.getValue().equals(new EmptyPiece())) {
-
-      }
-      else {
+      if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
       }
+
     }
     return currentGameStateLabels;
 

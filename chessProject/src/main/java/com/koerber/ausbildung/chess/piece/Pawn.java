@@ -126,7 +126,7 @@ public class Pawn extends Piece {
           currentGameState.put(fieldKey, null);
         }
       }
-      if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
+      if(getLegalMoveMap().get(targetPosition) == HIT_STRING && currentGameState.get(targetPosition) != null) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);

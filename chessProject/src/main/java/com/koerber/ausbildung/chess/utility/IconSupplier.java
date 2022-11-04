@@ -9,14 +9,20 @@ import javax.swing.ImageIcon;
  */
 public abstract class IconSupplier {
   
-  public static ImageIcon getIcon(ChessColour colour, String pathWhiteIcon, String pathBlackIcon) {
+  private static final String BASE_PATH = "src/main/resources/Sprites_in_small/";
+  private static final String SUFFIX = ".png";
+  private static final String INSERTABLE = "_w_";
+  
+  public static ImageIcon getIcon(ChessColour colour, String iconFileName) {
     ImageIcon icon;
     try {
       if(colour == ChessColour.WHITE) {
-        icon = new ImageIcon(pathWhiteIcon);
+        StringBuilder newFileName = new StringBuilder(iconFileName);
+        newFileName = newFileName.insert(newFileName.indexOf("_"), INSERTABLE);
+        icon = new ImageIcon(BASE_PATH + newFileName + SUFFIX);
       }
       else {
-        icon = new ImageIcon(pathBlackIcon);
+        icon = new ImageIcon(BASE_PATH + iconFileName + SUFFIX);
       }
     }
     catch(Exception e) {

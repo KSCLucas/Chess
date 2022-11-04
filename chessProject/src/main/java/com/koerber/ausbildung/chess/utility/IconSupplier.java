@@ -8,11 +8,11 @@ import javax.swing.ImageIcon;
  * @author PKamps
  */
 public abstract class IconSupplier {
-  
-  private static final String BASE_PATH = "src/main/resources/Sprites_in_small/";
-  private static final String SUFFIX = ".png";
-  private static final String INSERTABLE = "_w_";
-  
+
+  private static final String BASE_PATH  = "src/main/resources/Sprites_in_small/";
+  private static final String SUFFIX     = ".png";
+  private static final String INSERTABLE = "_w";
+
   public static ImageIcon getIcon(ChessColour colour, String iconFileName) {
     ImageIcon icon;
     try {

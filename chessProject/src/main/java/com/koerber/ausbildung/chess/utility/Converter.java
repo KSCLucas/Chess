@@ -1,6 +1,6 @@
 package com.koerber.ausbildung.chess.utility;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Serves as a collection of functions for various converter methods *
@@ -14,13 +14,13 @@ public class Converter {
   /**
    * converts HashMap containing objects to a string in FEN notation *
    * 
-   * @param HashMap
+   * @param Map
    * @return String
    * @throws
    * @comment base-structure
    * @author Toni Gropper
    */
-  public static String convertHashToFEN(HashMap<String, Object> gameState) {
+  public static String convertMapToFEN(TreeMap<String, Object> gameState) {
 
     return null;
 
@@ -30,12 +30,12 @@ public class Converter {
    * converts the FEN string to a HashMap *
    * 
    * @param String
-   * @return HashMap
+   * @return Map
    * @throws
    * @comment base-structure
    * @author Toni Gropper
    */
-  public static HashMap<String, Object> convertFENToHash(String gamestate) {
+  public static TreeMap<String, Object> convertFENToMap(String gamestate) {
 
     return null;
   }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Player {
   private String               name;
-  private char                 colour;
+  private char          colour;
   private int                  score;
   private ArrayList<Character> takenPiece;
   public String getName() {

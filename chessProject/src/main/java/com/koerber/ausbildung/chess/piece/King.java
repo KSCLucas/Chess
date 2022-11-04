@@ -1,9 +1,14 @@
 package com.koerber.ausbildung.chess.piece;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
+import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
  * The {@code King} class contains a constructor as well as methods for every
@@ -93,8 +98,19 @@ public class King extends Piece {
   /**
    * Checks, if {@code King} is in check.
    */
-  public void checkForCheck() {
+  public void checkForCheckAndCreateLegalMoveMap(Map<String, Piece> currentGameState) {
     // TODO add checkForCheck implementation
+    Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
+        .filter(x -> x.getValue().getColour() != getColour())
+        .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+    for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
+      try {
+        entry.getValue().createLegalMoveMap(opposingPieces);
+      }
+      catch(PieceOutOfBoundsException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   /**

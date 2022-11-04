@@ -10,19 +10,19 @@ import javax.swing.ImageIcon;
 public abstract class IconSupplier {
 
   private static final String BASE_PATH  = "src/main/resources/Sprites_in_small/";
-  private static final String SUFFIX     = ".png";
-  private static final String INSERTABLE = "_w";
+  private static final String FILE_TYPE     = ".png";
+  private static final String WHITE_INFIX = "_w";
 
   public static ImageIcon getIcon(ChessColour colour, String iconFileName) {
     ImageIcon icon;
     try {
       if(colour == ChessColour.WHITE) {
         StringBuilder newFileName = new StringBuilder(iconFileName);
-        newFileName = newFileName.insert(newFileName.indexOf("_"), INSERTABLE);
-        icon = new ImageIcon(BASE_PATH + newFileName + SUFFIX);
+        newFileName = newFileName.insert(newFileName.indexOf("_"), WHITE_INFIX);
+        icon = new ImageIcon(BASE_PATH + newFileName + FILE_TYPE);
       }
       else {
-        icon = new ImageIcon(BASE_PATH + iconFileName + SUFFIX);
+        icon = new ImageIcon(BASE_PATH + iconFileName + FILE_TYPE);
       }
     }
     catch(Exception e) {

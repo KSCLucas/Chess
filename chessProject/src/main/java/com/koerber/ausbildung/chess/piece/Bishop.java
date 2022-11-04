@@ -23,7 +23,6 @@ public class Bishop extends Piece {
    */
   public Bishop(String id, ChessColour colour, String position) {
     super(id, colour, ChessPieceValue.BISHOP.value, true, position, MoveSetSupplier.getBishopMoveSet(),
-        IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/bishop_w_small.png",
-            "src/main/resources/Sprites_in_small/bishop_small.png"));
+        IconSupplier.getIcon(colour, "bishop_small"));
   }
 }

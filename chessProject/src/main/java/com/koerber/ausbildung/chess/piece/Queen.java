@@ -23,7 +23,6 @@ public class Queen extends Piece {
    */
   public Queen(String id, ChessColour colour, String position) {
     super(id, colour, ChessPieceValue.QUEEN.value, true, position, MoveSetSupplier.getQueenMoveSet(),
-        IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/queen_w_small.png",
-            "src/main/resources/Sprites_in_small/queen_small.png"));
+        IconSupplier.getIcon(colour, "queen_small"));
   }
 }

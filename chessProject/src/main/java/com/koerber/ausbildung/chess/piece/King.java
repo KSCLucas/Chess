@@ -31,8 +31,8 @@ public class King extends Piece {
    * @param position
    */
   public King(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(), IconSupplier.getIcon(colour,
-        "src/main/resources/Sprites_in_small/king_w_small.png", "src/main/resources/Sprites_in_small/king_small.png"));
+    super(id, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(),
+        IconSupplier.getIcon(colour, "king_small"));
   }
 
   public boolean isInCheck() {

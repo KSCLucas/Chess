@@ -23,7 +23,6 @@ public class Knight extends Piece {
    */
   public Knight(String id, ChessColour colour, String position) {
     super(id, colour, ChessPieceValue.KNIGHT.value, false, position, MoveSetSupplier.getKnightMoveSet(),
-        IconSupplier.getIcon(colour, "src/main/resources/Sprites_in_small/knight_w_small.png",
-            "src/main/resources/Sprites_in_small/knight_small.png"));
+        IconSupplier.getIcon(colour, "knight_small"));
   }
 }

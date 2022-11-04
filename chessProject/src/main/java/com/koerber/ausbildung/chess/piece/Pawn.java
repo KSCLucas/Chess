@@ -34,8 +34,8 @@ public class Pawn extends Piece {
    * @param position
    */
   public Pawn(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.PAWN.value, false, position, MoveSetSupplier.getPawnMoveSet(), IconSupplier.getIcon(colour,
-        "src/main/resources/Sprites_in_small/pawn_w_small.png", "src/main/resources/Sprites_in_small/pawn_small.png"));
+    super(id, colour, ChessPieceValue.PAWN.value, false, position, MoveSetSupplier.getPawnMoveSet(),
+        IconSupplier.getIcon(colour, "pawn_small"));
   }
 
   public boolean isEnPassentable() {

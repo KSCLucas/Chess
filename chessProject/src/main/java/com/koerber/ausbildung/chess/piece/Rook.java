@@ -31,8 +31,8 @@ public class Rook extends Piece {
    * @param castleSide
    */
   public Rook(String id, ChessColour colour, String position, char castleSide) {
-    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(), IconSupplier.getIcon(colour,
-        "src/main/resources/Sprites_in_small/rook_w_small.png", "src/main/resources/Sprites_in_small/rook_small.png"));
+    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(),
+        IconSupplier.getIcon(colour, "rook_small"));
     this.castleSide = castleSide;
   }
 

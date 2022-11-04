@@ -1,46 +1,45 @@
 package com.koerber.ausbildung.chess;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * saves all turns as a separate FEN.
  * 
- * @comment base-structure
+ * @comment functional addEntry Method, but just samples. need converter-class
+ *          to get the correct input.
  * @author Toni Gropper
- * @since 19.10.2022
+ * @since 2.11.2022
  */
 public class History {
 
-  private ArrayList<String> FENs = new ArrayList<>(Arrays.asList("john", "paul", "lucas"));
+  private List<String> fens = new ArrayList<>();
 
-  public ArrayList<String> getFENs() {
-    return FENs;
-  }
-
-  public void setFENs(ArrayList<String> FENs) {
-    this.FENs = FENs;
+  public List<String> getFens() {
+    return fens;
   }
 
   /**
-   * adds new FEN-String to the ArrayList with FENs.add() .
+   * adds new FEN-String to the ArrayList with fens.add() .
    * 
    * @param String
    * @return void
    * @throws
-   * @comment base-structure
-   * @author Toni Gropper
+   * @comment fens.add have examples, need to be conected with converter. gets
+   *          from converter fen-Strings. maybe create a converter-Object
    */
 
-  public void addEntry(String FEN) {
+  public void addEntry(String fen) {
+    fens.add(fen);
+  }
 
-    FENs.add(FEN);
-
+  public void removeLastTurn() {
+    fens.remove(fens.size() - 1);
   }
 
   /**
-   * returns FEN to Index from FENs. If Index does not exist return an IndexOutOfBoundsException.
-
+   * returns FEN to Index from FENs. If Index does not exist return an
+   * IndexOutOfBoundsException.
    * 
    * @param int
    * @return String
@@ -48,9 +47,16 @@ public class History {
    * @comment base-structure
    * @author Toni Gropper
    */
-  public String getEntryAtIndex(int posEntry) {
-
-    return null;
-
+  public String getFenOfTurn(int posEntry) {
+    if(fens.size() - 1 < posEntry) {
+      throw new IndexOutOfBoundsException(posEntry);
+    }
+    return fens.get(posEntry);
   }
 }
+
+// main method
+// History myHistory = new History();
+// myHistory.addEntry("fen");
+// System.out.println(myHistory.getFens());
+// System.out.println(myHistory.getEntryAtIndex(4));

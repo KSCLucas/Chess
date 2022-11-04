@@ -1,6 +1,6 @@
 package com.koerber.ausbildung.chess;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Serves as a gameclass that manages everything related to chess.
@@ -15,24 +15,17 @@ public class Field {
   public static final int LOWER_BOUND = 1;
   public static final char LEFT_BOUND = 'A';
   public static final char RIGHT_BOUND = 'H';
-  private HashMap<String, Object>       currentGameState;
-  private final HashMap<String, Object> initialGameState = new HashMap<String, Object>(); // TODO
-                                                                                          // Initial
-                                                                                          // Hashmap
-                                                                                          // erstellen
+  private TreeMap<String, Object>       currentGameState;
   private int                           currentTurn;
   private char                          whoWinner;
 
-  public HashMap<String, Object> getCurrentGameState() {
+
+  public TreeMap<String, Object> getCurrentGameState() {
     return currentGameState;
   }
 
-  public void setCurrentGameState(HashMap<String, Object> currentGameState) {
+  public void setCurrentGameState(TreeMap<String, Object> currentGameState) {
     this.currentGameState = currentGameState;
-  }
-
-  public HashMap<String, Object> getInitialGameState() {
-    return initialGameState;
   }
 
   public int getCurrentTurn() {

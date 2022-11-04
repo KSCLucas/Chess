@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.gui;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,12 +34,12 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 public class GuiFrame {
 
-  private JFrame              frame;
-  private static final String XLABEL      = "ABCDEFGH";
-  Color                       lightBrown  = new Color(205, 133, 63);
-  Color                       lightGreen  = new Color(144, 238, 144, 127);
-  Color                       lightRed    = new Color(255, 75, 75, 127);
-  LineBorder                  blackBorder = new LineBorder(Color.BLACK);
+  private JFrame                 frame;
+  private static final String    X_LABEL      = "ABCDEFGH";
+  public static final Color      LIGHT_BROWN  = new Color(205, 133, 63);
+  public static final Color      LIGHT_GREEN  = new Color(144, 238, 144, 127);
+  public static final Color      LIGHT_RED    = new Color(255, 75, 75, 127);
+  public static final LineBorder BLACK_BORDER = new LineBorder(Color.BLACK);
   /**
    * Launch the application.
    */
@@ -69,6 +70,8 @@ public class GuiFrame {
    */
   private void initialize() {
     frame = new JFrame();
+    Container contentPane = frame.getContentPane();
+
     frame.setBounds(0, 0, 1920, 1080);
     // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,16 +80,12 @@ public class GuiFrame {
     gridBagLayout.rowHeights = new int[]{108, 108, 108, 108, 108, 108, 108, 108, 108, 32};
     gridBagLayout.columnWeights = new double[]{1.0, 1.0};
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-    frame.getContentPane().setLayout(gridBagLayout);
+    contentPane.setLayout(gridBagLayout);
 
     // Builds New Game Panel and Buttons
     JPanel newGamePanel = new JPanel();
-    GridBagConstraints gbcnewGamePanel = new GridBagConstraints();
-    gbcnewGamePanel.insets = new Insets(0, 0, 5, 5);
-    gbcnewGamePanel.fill = GridBagConstraints.BOTH;
-    gbcnewGamePanel.gridx = 0;
-    gbcnewGamePanel.gridy = 0;
-    frame.getContentPane().add(newGamePanel, gbcnewGamePanel);
+    GridBagConstraints gbcNewGamePanel = setGridBag(true, true, 0, 0, 0);
+    contentPane.add(newGamePanel, gbcNewGamePanel);
     newGamePanel.setLayout(new GridLayout(1, 2, 0, 0));
 
     JButton newGameButton = new JButton("NEW GAME");
@@ -95,11 +94,8 @@ public class GuiFrame {
     JButton backButton = new JButton("BACK");
     newGamePanel.add(backButton);
     JLabel historyLabel = new JLabel("HISTORY");
-    GridBagConstraints gbchistoryLabel = new GridBagConstraints();
-    gbchistoryLabel.insets = new Insets(0, 0, 5, 5);
-    gbchistoryLabel.gridx = 0;
-    gbchistoryLabel.gridy = 1;
-    frame.getContentPane().add(historyLabel, gbchistoryLabel);
+    GridBagConstraints gbcHistoryPanel = setGridBag(true, false, 0, 1, 0);
+    contentPane.add(historyLabel, gbcHistoryPanel);
 
     // Builds top part of history side
     JPanel historyPanelTop = new JPanel();
@@ -108,7 +104,7 @@ public class GuiFrame {
     gbchistoryPanelTop.fill = GridBagConstraints.BOTH;
     gbchistoryPanelTop.gridx = 0;
     gbchistoryPanelTop.gridy = 2;
-    frame.getContentPane().add(historyPanelTop, gbchistoryPanelTop);
+    contentPane.add(historyPanelTop, gbchistoryPanelTop);
     historyPanelTop.setLayout(new GridLayout(0, 2, 0, 0));
 
     JButton backwardsInHistoryButton = new JButton("BACK");
@@ -125,7 +121,7 @@ public class GuiFrame {
     gbchistoryPanelBot.gridx = 0;
     gbchistoryPanelBot.gridy = 3;
 
-    frame.getContentPane().add(historyPanelBot, gbchistoryPanelBot);
+    contentPane.add(historyPanelBot, gbchistoryPanelBot);
     historyPanelBot.setLayout(new GridLayout(0, 1, 0, 0));
 
     JButton currentGameButton = new JButton("CURRENT GAME");
@@ -139,7 +135,7 @@ public class GuiFrame {
     gbchistoryScrollPane.fill = GridBagConstraints.BOTH;
     gbchistoryScrollPane.gridx = 0;
     gbchistoryScrollPane.gridy = 4;
-    frame.getContentPane().add(historyScrollPane, gbchistoryScrollPane);
+    contentPane.add(historyScrollPane, gbchistoryScrollPane);
 
     // Labels x-axis of chess board (12345678)
     JPanel labelYPanel = new JPanel();
@@ -150,7 +146,7 @@ public class GuiFrame {
     gbclabelYPanel.fill = GridBagConstraints.VERTICAL;
     gbclabelYPanel.gridx = 1;
     gbclabelYPanel.gridy = 1;
-    frame.getContentPane().add(labelYPanel, gbclabelYPanel);
+    contentPane.add(labelYPanel, gbclabelYPanel);
     labelYPanel.setLayout(new GridLayout(8, 0, 0, 0));
     for(int i = 0; i < 8; i++) {
       labelYPanel.add(new JLabel("" + (i + 1)), SwingConstants.CENTER);
@@ -167,7 +163,7 @@ public class GuiFrame {
     gbcchessBoardBottomLayer.fill = GridBagConstraints.BOTH;
     gbcchessBoardBottomLayer.gridx = 2;
     gbcchessBoardBottomLayer.gridy = 1;
-    frame.getContentPane().add(chessBoardBottomLayer, gbcchessBoardBottomLayer);
+    contentPane.add(chessBoardBottomLayer, gbcchessBoardBottomLayer);
     chessBoardBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardBottomLayer.setBorder(new LineBorder(Color.BLACK));
 
@@ -178,7 +174,7 @@ public class GuiFrame {
       labels[i].setOpaque(true);
       if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
         if(i % 2 == 0) {
-          labels[i].setBackground(lightBrown);
+          labels[i].setBackground(LIGHT_BROWN);
         }
         else {
           labels[i].setBackground(Color.white);
@@ -189,7 +185,7 @@ public class GuiFrame {
           labels[i].setBackground(Color.white);
         }
         else {
-          labels[i].setBackground(lightBrown);
+          labels[i].setBackground(LIGHT_BROWN);
         }
       }
       chessBoardBottomLayer.add(labels[i]);
@@ -249,7 +245,7 @@ public class GuiFrame {
     gbclayeredPane.fill = GridBagConstraints.BOTH;
     gbclayeredPane.gridx = 2;
     gbclayeredPane.gridy = 1;
-    frame.getContentPane().add(layeredPane, gbclayeredPane);
+    contentPane.add(layeredPane, gbclayeredPane);
     layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
     layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
     layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
@@ -261,11 +257,11 @@ public class GuiFrame {
     gbclabelXPanel.fill = GridBagConstraints.BOTH;
     gbclabelXPanel.gridx = 2;
     gbclabelXPanel.gridy = 9;
-    frame.getContentPane().add(labelXPanel, gbclabelXPanel);
+    contentPane.add(labelXPanel, gbclabelXPanel);
     labelXPanel.setLayout(new GridLayout(0, 8, 0, 0));
     JLabel[] xLabels = new JLabel[8];
     for(int i = 0; i < 8; i++) {
-      xLabels[i] = new JLabel(XLABEL.substring(i, i + 1));
+      xLabels[i] = new JLabel(X_LABEL.substring(i, i + 1));
       xLabels[i].setVerticalAlignment(SwingConstants.CENTER);
       xLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
       labelXPanel.add(xLabels[i]);
@@ -277,7 +273,7 @@ public class GuiFrame {
     gbcscoreLabel.insets = new Insets(0, 0, 5, 0);
     gbcscoreLabel.gridx = 3;
     gbcscoreLabel.gridy = 1;
-    frame.getContentPane().add(scoreLabel, gbcscoreLabel);
+    contentPane.add(scoreLabel, gbcscoreLabel);
 
     // Player 1 label (top)
     JLabel player1Label = new JLabel("PLAYER 1");
@@ -288,7 +284,7 @@ public class GuiFrame {
     gbcplayer1Label.insets = new Insets(0, 0, 5, 0);
     gbcplayer1Label.gridx = 3;
     gbcplayer1Label.gridy = 2;
-    frame.getContentPane().add(player1Label, gbcplayer1Label);
+    contentPane.add(player1Label, gbcplayer1Label);
 
     // Player 1 panel
     JPanel player1Panel = new JPanel();
@@ -297,21 +293,21 @@ public class GuiFrame {
     gbcplayer1Panel.fill = GridBagConstraints.BOTH;
     gbcplayer1Panel.gridx = 3;
     gbcplayer1Panel.gridy = 3;
-    frame.getContentPane().add(player1Panel, gbcplayer1Panel);
+    contentPane.add(player1Panel, gbcplayer1Panel);
     player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
     // Player 1 table
     JLabel colorP1Label = new JLabel("COLOR");
-    colorP1Label.setBorder(blackBorder);
+    colorP1Label.setBorder(BLACK_BORDER);
     player1Panel.add(colorP1Label);
     JLabel colorP1Label2 = new JLabel("WHITE");
-    colorP1Label2.setBorder(blackBorder);
+    colorP1Label2.setBorder(BLACK_BORDER);
     player1Panel.add(colorP1Label2);
     JLabel pointsP1Label = new JLabel("POINTS");
-    pointsP1Label.setBorder(blackBorder);
+    pointsP1Label.setBorder(BLACK_BORDER);
     player1Panel.add(pointsP1Label);
     JLabel setPointsP1Label = new JLabel("FILLER");
-    setPointsP1Label.setBorder(blackBorder);
+    setPointsP1Label.setBorder(BLACK_BORDER);
     // TODO Display Points Player 1
     player1Panel.add(setPointsP1Label);
 
@@ -321,7 +317,7 @@ public class GuiFrame {
     gbcpiecesP1Label.insets = new Insets(0, 0, 5, 0);
     gbcpiecesP1Label.gridx = 3;
     gbcpiecesP1Label.gridy = 4;
-    frame.getContentPane().add(piecesP1Label, gbcpiecesP1Label);
+    contentPane.add(piecesP1Label, gbcpiecesP1Label);
 
     // Player 1 taken pieces panel
     JPanel piecesP1Panel = new JPanel();
@@ -331,7 +327,7 @@ public class GuiFrame {
     gbcpiecesP1Panel.fill = GridBagConstraints.BOTH;
     gbcpiecesP1Panel.gridx = 3;
     gbcpiecesP1Panel.gridy = 5;
-    frame.getContentPane().add(piecesP1Panel, gbcpiecesP1Panel);
+    contentPane.add(piecesP1Panel, gbcpiecesP1Panel);
     piecesP1Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP1FillerLabel = new JLabel("Filler");
     piecesP1Panel.add(piecesP1FillerLabel);
@@ -345,7 +341,7 @@ public class GuiFrame {
     gbcplayer2Label.insets = new Insets(0, 0, 5, 0);
     gbcplayer2Label.gridx = 3;
     gbcplayer2Label.gridy = 6;
-    frame.getContentPane().add(player2Label, gbcplayer2Label);
+    contentPane.add(player2Label, gbcplayer2Label);
 
     // Player 2 panel
     JPanel player2Panel = new JPanel();
@@ -354,21 +350,21 @@ public class GuiFrame {
     gbcplayer2Panel.fill = GridBagConstraints.BOTH;
     gbcplayer2Panel.gridx = 3;
     gbcplayer2Panel.gridy = 7;
-    frame.getContentPane().add(player2Panel, gbcplayer2Panel);
+    contentPane.add(player2Panel, gbcplayer2Panel);
     player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
     // Player 2 table
     JLabel colorP2Label = new JLabel("COLOR");
-    colorP2Label.setBorder(blackBorder);
+    colorP2Label.setBorder(BLACK_BORDER);
     player2Panel.add(colorP2Label);
     JLabel colorP2Label2 = new JLabel("BLACK");
-    colorP2Label2.setBorder(blackBorder);
+    colorP2Label2.setBorder(BLACK_BORDER);
     player2Panel.add(colorP2Label2);
     JLabel pointsP2Label = new JLabel("POINTS");
-    pointsP2Label.setBorder(blackBorder);
+    pointsP2Label.setBorder(BLACK_BORDER);
     player2Panel.add(pointsP2Label);
     JLabel setPointsP2Label = new JLabel("FILLER");
-    setPointsP2Label.setBorder(blackBorder);
+    setPointsP2Label.setBorder(BLACK_BORDER);
     // TODO Display Points Player 2
     player2Panel.add(setPointsP2Label);
 
@@ -378,7 +374,7 @@ public class GuiFrame {
     gbcpiecesP2Label.insets = new Insets(0, 0, 5, 0);
     gbcpiecesP2Label.gridx = 3;
     gbcpiecesP2Label.gridy = 8;
-    frame.getContentPane().add(piecesP2Label, gbcpiecesP2Label);
+    contentPane.add(piecesP2Label, gbcpiecesP2Label);
 
     // Player 2 taken pieces panel
     JPanel piecesP2Panel = new JPanel();
@@ -388,7 +384,7 @@ public class GuiFrame {
     gbcpiecesP2Panel.fill = GridBagConstraints.BOTH;
     gbcpiecesP2Panel.gridx = 3;
     gbcpiecesP2Panel.gridy = 9;
-    frame.getContentPane().add(piecesP2Panel, gbcpiecesP2Panel);
+    contentPane.add(piecesP2Panel, gbcpiecesP2Panel);
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
@@ -433,16 +429,41 @@ public class GuiFrame {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(lightGreen);
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(LIGHT_GREEN);
       }
       if(entry.getValue().equals(Piece.HIT_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(lightRed);
+        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(LIGHT_RED);
       }
     }
     return legalMoveLabels;
+  }
+
+  /**
+   * GridBagContraints Builder
+   * 
+   * @param rightInset
+   * @param fill
+   * @param xPos
+   * @param yPos
+   * @param height
+   * @return
+   */
+  public GridBagConstraints setGridBag(boolean rightInset, boolean fill, int xPos, int yPos, int height) {
+    GridBagConstraints tempGridBag = new GridBagConstraints();
+    int rightInsetInt = 0;
+    if(rightInset) {
+      rightInsetInt = 5;
+    }
+    tempGridBag.insets = new Insets(0, 0, 5, rightInsetInt);
+    if(fill) {
+      tempGridBag.fill = GridBagConstraints.BOTH;
+    }
+    tempGridBag.gridx = xPos;
+    tempGridBag.gridy = yPos;
+    return tempGridBag;
   }
 
   public JLabel[] showCurrentGameState() {
@@ -468,7 +489,6 @@ public class GuiFrame {
     JLabel[] currentGameStateLabels = new JLabel[64];
     MouseListener m1 = new MouseListener() {
       JLabel       lastEntered    = new JLabel();
-      JLabel       imageLabel     = new JLabel();
       JLabel       tempImageLabel = new JLabel();
       List<JLabel> deleteLabels   = new ArrayList<>();
       @Override

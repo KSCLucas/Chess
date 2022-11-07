@@ -99,12 +99,15 @@ public class King extends Piece {
   }
 
   /**
-   * Checks, if {@code King} is in check.
+   * Checks, if {@code King} is in check and creates {@code legalMoveMap}.
+   * Resets {@code moveable}.
    */
   public void checkForCheckAndCreateLegalMoveMap(Map<String, Piece> currentGameState) {
     // TODO add checkForCheckAndCreateLegalMoveMap implementation
     // Clear legalMoveMap
     getLegalMoveMap().clear();
+    // Reset moveable
+    currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour()).forEach(x -> x.getValue().setMoveable(true));
     // Create legalMoveMap with only Pieces of the same colour and store them
     List<Map<String, String>> opposingLegalMoveMaps = new ArrayList<>();
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
@@ -114,15 +117,15 @@ public class King extends Piece {
       Piece currentPiece = entry.getValue();
       try {
         if(currentPiece instanceof Pawn) {
+          // Clear legalMoveMap
+          currentPiece.getLegalMoveMap().clear();
+          // Add take MoveVectors as "ttt" to legalMoveMap
           for(int i = 0; i < getMoveSet().size(); i++) {
-            // Set posLetterAsNumber and posNumber
             int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
             int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
             MoveVector moveVector = currentPiece.getMoveSet().get(i);
-            // Distinguish between move-only, take-only and check-only
             switch(i) {
             case 2, 5 -> {
-              // Take
               if(currentPiece.getColour() == ChessColour.BLACK) {
                 posLetterAsNumber += -1 * moveVector.getX();
                 posNumber += -1 * moveVector.getY();
@@ -133,15 +136,16 @@ public class King extends Piece {
               }
               String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
               if(inFieldBounds(posLetterAsNumber, posNumber) && opposingPieces.get(fieldKey) == null) {
-                currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+                currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
               }
             }
             }
+            opposingLegalMoveMaps.add(currentPiece.getLegalMoveMap());
           }
         }
         else {
           currentPiece.createLegalMoveMap(opposingPieces);
-          opposingLegalMoveMaps.add(entry.getValue().getLegalMoveMap());
+          opposingLegalMoveMaps.add(currentPiece.getLegalMoveMap());
         }
       }
       catch(PieceOutOfBoundsException e) {
@@ -153,6 +157,8 @@ public class King extends Piece {
     List<Map<String, String>> opposingLegalMoveMapsAllPieces = new ArrayList<>();
     for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
       Piece currentPiece = entry.getValue();
+      // Clear legalMoveMap
+      currentPiece.getLegalMoveMap().clear();
       // Loop over every move vector in moveSet
       for(MoveVector moveVector : currentPiece.getMoveSet()) {
         int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
@@ -173,11 +179,11 @@ public class King extends Piece {
             // Check for this King
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
                 && currentGameState.get(fieldKey) instanceof King) {
-              getLegalMoveMap().put(fieldKey, getId());
+              currentPiece.getLegalMoveMap().put(fieldKey, getId());
             }
             // Check for Piece of Kings colour
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
-              getLegalMoveMap().put(fieldKey, HIT_STRING);
+              currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
             }
             else {
             }
@@ -185,10 +191,22 @@ public class King extends Piece {
           else {
             repeatLoop = false;
           }
-        } while(isMoveRepeatable() && repeatLoop);
+        } while(currentPiece.isMoveRepeatable() && repeatLoop);
       }
       opposingLegalMoveMapsAllPieces.add(currentPiece.getLegalMoveMap());
     }
+    // Check for direct check
+    for(Map<String, String> currentMap : opposingLegalMoveMapsAllPieces) {
+      if(currentMap.containsKey(getPosition())) {
+        setInCheck(true);
+        break;
+      }
+      else {
+        setInCheck(false);
+      }
+    }
+    // Check, which allied Pieces are allowed to move
+
   }
 
   /**

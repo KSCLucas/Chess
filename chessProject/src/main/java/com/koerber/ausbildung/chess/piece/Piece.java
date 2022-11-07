@@ -117,6 +117,19 @@ public abstract class Piece {
   }
 
   /**
+   * Builds {@code fieldKey} given one {@code char} as {@code int} and one
+   * {@code int}.
+   * 
+   * @param posLetterAsNumber
+   * @param posNumber
+   * @return {@code String} fieldKey
+   */
+  protected String getFieldKey(int posLetterAsNumber, int posNumber) {
+    String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+    return fieldKey;
+  }
+
+  /**
    * Checks, whether the given Inputs are within the field bounds or not.
    * 
    * @param posLetterAsNumber
@@ -124,7 +137,7 @@ public abstract class Piece {
    * @return {@code true} if both inputs are in field bounds. Otherwise it
    *         returns {@code false}
    */
-  protected static boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
+  protected boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
     return posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
         && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND;
   }
@@ -148,7 +161,7 @@ public abstract class Piece {
     else {
       currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
-      if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
+      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);
@@ -185,10 +198,10 @@ public abstract class Piece {
         do {
           posLetterAsNumber += moveVector.getX();
           posNumber += moveVector.getY();
-          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           // Check for fieldKey still on Field
           if(inFieldBounds(posLetterAsNumber, posNumber)) {
             // Check for EmptyPiece
+            String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
             if(currentGameState.get(fieldKey) == null) {
               getLegalMoveMap().put(fieldKey, TRUE_STRING);
             }

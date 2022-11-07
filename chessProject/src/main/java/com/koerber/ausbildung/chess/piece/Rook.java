@@ -16,9 +16,11 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
  */
 public class Rook extends Piece {
 
-  private char    castleSide;
-  private boolean canCastle = false;
-  private boolean hasMoved  = false;
+  public final char CASTLE_SIDE_SHORT = 's';
+  public final char CASTLE_SIDE_LONG  = 'l';
+  private char      castleSide;
+  private boolean   canCastle         = false;
+  private boolean   hasMoved          = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -79,23 +81,19 @@ public class Rook extends Piece {
     // Check for basic castle conditions
     if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
       // Determine the castle side
-      int castleSideModifier = 1;
-      if(getCastleSide() == 's') {
-        castleSideModifier = -1;
-      }
+      int castleSideModifier = getCastleSide() == CASTLE_SIDE_SHORT ? -1 : 1;
       // Check, if tiles next to the rook up to the king are empty and set
       // canCastle depending on it
-      String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
       boolean repeatable = true;
       int castleSideMultiplier = 1;
       do {
-        fieldKey = Character.toString(posLetterAsNumber + castleSideModifier * castleSideMultiplier) + posNumber;
-        if(currentGameState.get(fieldKey) instanceof King
-            && currentGameState.get(fieldKey).getColour() == getColour()) {
+        String fieldKey = getFieldKey(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber);
+        if(currentGameState.get(fieldKey) instanceof King king
+            && king.getColour() == getColour()) {
           setCanCastle(true);
           repeatable = false;
         }
-        else if(!(currentGameState.get(fieldKey) == null)
+        else if(currentGameState.get(fieldKey) != null
             || !inFieldBounds(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber)) {
           setCanCastle(false);
           repeatable = false;

@@ -5,18 +5,13 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.swing.JLabel;
 
 import com.koerber.ausbildung.chess.Field;
-import com.koerber.ausbildung.chess.piece.King;
-import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Piece;
-import com.koerber.ausbildung.chess.piece.Rook;
-import com.koerber.ausbildung.chess.utility.ChessColour;
-import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
  * GUI class provides the entire GUI. It communicates with the Field & Player
@@ -143,28 +138,33 @@ public class Gui {
   public static JLabel[] showCurrentGameState() {
     // create test map start
     // TODO:remove test
-    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
-    Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
-    King tempKing = new King("k1b", ChessColour.BLACK, "B7");
+    // Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
+    // Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
+    // Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
+    // King tempKing = new King("k1b", ChessColour.BLACK, "B7");
+    //
+    // Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
+    // for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
+    // for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
+    // currentGameStateTemp.put(Character.toString(i) + String.valueOf(j),
+    // null);
+    // }
+    // }
+    // currentGameStateTemp.put("D4", tempKnight);
+    // currentGameStateTemp.put("F5", tempRook);
+    // currentGameStateTemp.put("F3", tempRook1);
+    // currentGameStateTemp.put("B7", tempKing);
+    // // test end
 
-    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
-      }
-    }
-    currentGameStateTemp.put("D4", tempKnight);
-    currentGameStateTemp.put("F5", tempRook);
-    currentGameStateTemp.put("F3", tempRook1);
-    currentGameStateTemp.put("B7", tempKing);
-    // test end
+    Field testField = new Field();
+    testField.initializeMap();
 
     JLabel[] currentGameStateLabels = new JLabel[64];
     MouseListener m1 = new MouseListener() {
       JLabel       lastEntered    = new JLabel();
       JLabel       tempImageLabel = new JLabel();
       List<JLabel> deleteLabels   = new ArrayList<>();
+      boolean      mousePressed   = false;
       @Override
       public void mouseClicked(MouseEvent e) {
 
@@ -172,6 +172,7 @@ public class Gui {
 
       @Override
       public void mousePressed(MouseEvent e) {
+        mousePressed = true;
         System.out.println(e.getComponent().getName());
         tempImageLabel = (JLabel)e.getComponent();
 
@@ -185,23 +186,28 @@ public class Gui {
         System.out.println(lastEntered.getName());
         lastEntered = (JLabel)e.getComponent();
         ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
-
-        for(int i = 0; i < deleteLabels.size() - 1; i++) {
-          deleteLabels.get(i).setIcon(null);
+        if(deleteLabels.size() != 1) {
+          for(int i = 0; i < deleteLabels.size() - 1; i++) {
+            deleteLabels.get(i).setIcon(null);
+          }
         }
+        mousePressed = false;
+        deleteLabels.clear();
         // TODO Auto-generated method stub
       }
 
       @Override
       public void mouseEntered(MouseEvent e) {
-        lastEntered = (JLabel)e.getComponent();
+        if(mousePressed) {
+          lastEntered = (JLabel)e.getComponent();
 
-        if(tempImageLabel.getIcon() != null) {
-          ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
+          if(tempImageLabel.getIcon() != null) {
+            ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
+          }
+          deleteLabels.add(((JLabel)e.getComponent()));
+          // check if still JLabel (if (instanceoff))
+          // TODO Auto-generated method stub
         }
-        deleteLabels.add(((JLabel)e.getComponent()));
-        // check if still JLabel (if (instanceoff))
-        // TODO Auto-generated method stub
       }
 
       @Override
@@ -209,48 +215,38 @@ public class Gui {
         // ((JLabel)e.getComponent()).setIcon(null);
         // TODO Auto-generated method stub
       }
-
     };
-    List<String> xAxis = new ArrayList<String>();
-    xAxis.add("A");
-    xAxis.add("B");
-    xAxis.add("C");
-    xAxis.add("D");
-    xAxis.add("E");
-    xAxis.add("F");
-    xAxis.add("G");
-    xAxis.add("H");
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
       currentGameStateLabels[i].addMouseListener(m1);
       // currentGameStateLabels[i].setOpaque(true);
-      if(i >= 0 && i < 8) {
-        currentGameStateLabels[i].setName(xAxis.get(i) + 8);
-      }
-      if(i >= 8 && i < 16) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
-      }
-      if(i >= 16 && i < 24) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
-      }
-      if(i >= 24 && i < 32) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
-      }
-      if(i >= 32 && i < 40) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
-      }
-      if(i >= 40 && i < 48) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
-      }
-      if(i >= 48 && i < 56) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
-      }
-      if(i >= 56 && i < 64) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
-      }
+      // if(i >= 0 && i < 8) {
+      // currentGameStateLabels[i].setName(xAxis.get(i) + 8);
+      // }
+      // if(i >= 8 && i < 16) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
+      // }
+      // if(i >= 16 && i < 24) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
+      // }
+      // if(i >= 24 && i < 32) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
+      // }
+      // if(i >= 32 && i < 40) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
+      // }
+      // if(i >= 40 && i < 48) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
+      // }
+      // if(i >= 48 && i < 56) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
+      // }
+      // if(i >= 56 && i < 64) {
+      // currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
+      // }
 
     }
-
+    Map<String, Piece> currentGameStateTemp = testField.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
@@ -269,28 +265,11 @@ public class Gui {
    * 
    * @return
    */
-  public static JLabel[] highlightLegalMove(/* legalMoveMap */) {
+  public static JLabel[] highlightLegalMove(Piece piece) {
     // TODO remove example
-    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
-    Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
-    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
-      }
-    }
-    currentGameStateTemp.put("D4", tempKnight);
-    currentGameStateTemp.put("F5", tempRook);
-    currentGameStateTemp.put("F3", tempRook1);
-    try {
-      tempKnight.createLegalMoveMap(currentGameStateTemp);
-    }
-    catch(PieceOutOfBoundsException e) {
-      e.printStackTrace();
-    }
+
     // functional code
-    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempKnight.getLegalMoveMap());
+    Map<String, String> legalMoveMapTemp = new TreeMap<>(piece.getLegalMoveMap());
     JLabel[] legalMoveLabels = new JLabel[64];
     for(int i = 0; i < 64; i++) {
       legalMoveLabels[i] = new JLabel();

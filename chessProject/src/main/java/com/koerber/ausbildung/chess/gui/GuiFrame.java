@@ -61,7 +61,7 @@ public class GuiFrame {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
-    gridBagLayout.rowHeights = new int[]{108, 108, 108, 108, 108, 108, 108, 108, 108, 32};
+    gridBagLayout.rowHeights = new int[]{112, 112, 112, 112, 112, 112, 112, 112, 112, 32};
     gridBagLayout.columnWeights = new double[]{1.0, 1.0};
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     contentPane.setLayout(gridBagLayout);
@@ -124,7 +124,7 @@ public class GuiFrame {
     JPanel chessBoardBottomLayer = new JPanel();
     chessBoardBottomLayer.setBounds(0, 0, 896, 896);
     chessBoardBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    chessBoardBottomLayer.setBorder(new LineBorder(Color.BLACK));
+    chessBoardBottomLayer.setBorder(BLACK_BORDER);
 
     // Add Labels and colors them like a chess board
     JLabel[] labels = new JLabel[65];
@@ -158,13 +158,13 @@ public class GuiFrame {
     chessBoardMiddleLayer.setOpaque(false);
     chessBoardMiddleLayer.setBounds(0, 0, 896, 896);
     chessBoardMiddleLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    chessBoardMiddleLayer.setBorder(new LineBorder(Color.BLACK));
+    chessBoardMiddleLayer.setBorder(BLACK_BORDER);
 
     // Calls highlightLegalMove and adds build labels to middle Layer
-    JLabel[] legalMoveLabels = Gui.highlightLegalMove();
-    for(int i = 0; i < legalMoveLabels.length; i++) {
-      chessBoardMiddleLayer.add(legalMoveLabels[i]);
-    }
+    // JLabel[] legalMoveLabels = Gui.highlightLegalMove();
+    // for(int i = 0; i < legalMoveLabels.length; i++) {
+    // chessBoardMiddleLayer.add(legalMoveLabels[i]);
+    // }
 
     /**
      * Initializes top layer. Top layer displays currentGameState (images) and
@@ -174,13 +174,41 @@ public class GuiFrame {
     chessBoardTopLayer.setOpaque(false);
     chessBoardTopLayer.setBounds(0, 0, 896, 896);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    chessBoardTopLayer.setBorder(new LineBorder(Color.BLACK));
+    chessBoardTopLayer.setBorder(BLACK_BORDER);
 
     JLabel[] currentGameStateLabels = Gui.showCurrentGameState();
-    for(int i = 0; i < currentGameStateLabels.length; i++) {
-      chessBoardTopLayer.add(currentGameStateLabels[i]);
+    JPanel[] topLayerPanels = new JPanel[64];
+    for(int i = 0; i < 64; i++) {
+      topLayerPanels[i] = new JPanel();
+      topLayerPanels[i].setOpaque(false);
+      topLayerPanels[i].setLayout(new GridLayout(1,1));
+      topLayerPanels[i].add(currentGameStateLabels[i],SwingConstants.CENTER);
+      if(i >= 0 && i < 8) {
+        topLayerPanels[i].setName(X_LABEL.substring(i, i + 1) + 8);
+      }
+      if(i >= 8 && i < 16) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 8, i - 7) + 7);
+      }
+      if(i >= 16 && i < 24) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 16, i - 15) + 6);
+      }
+      if(i >= 24 && i < 32) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 24, i - 23) + 5);
+      }
+      if(i >= 32 && i < 40) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 32, i - 31) + 4);
+      }
+      if(i >= 40 && i < 48) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 40, i - 39) + 3);
+      }
+      if(i >= 48 && i < 56) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 48, i - 47) + 2);
+      }
+      if(i >= 56 && i < 64) {
+        topLayerPanels[i].setName(X_LABEL.substring(i - 56, i - 55) + 1);
+      }
+      chessBoardTopLayer.add(topLayerPanels[i]);
     }
-
     /**
      * Initializes layeredPan. Used for layering the chessboard.
      */
@@ -191,6 +219,7 @@ public class GuiFrame {
     layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
     layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
     layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
+    layeredPane.setBorder(BLACK_BORDER);
 
     // Labels x-axis of chess board (ABCDEFGH)
     JPanel labelXPanel = new JPanel();

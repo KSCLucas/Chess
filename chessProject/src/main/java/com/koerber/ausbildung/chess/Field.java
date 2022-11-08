@@ -6,6 +6,7 @@ import com.koerber.ausbildung.chess.piece.Bishop;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Pawn;
+import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.piece.Queen;
 import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.ChessColour;
@@ -22,15 +23,15 @@ public class Field {
   public static final int         LOWER_BOUND      = 1;
   public static final char        LEFT_BOUND       = 'A';
   public static final char        RIGHT_BOUND      = 'H';
-  private TreeMap<String, Object> currentGameState = new TreeMap<>();
+  private TreeMap<String, Piece> currentGameState = new TreeMap<>();
   private int                     currentTurn      = 1;
   private char                    whoWinner;
 
-  public TreeMap<String, Object> getCurrentGameState() {
+  public TreeMap<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
 
-  public void setCurrentGameState(TreeMap<String, Object> currentGameState) {
+  public void setCurrentGameState(TreeMap<String, Piece> currentGameState) {
     this.currentGameState = currentGameState;
   }
 

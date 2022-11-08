@@ -16,8 +16,8 @@ import com.koerber.ausbildung.chess.utility.MoveSetSupplier;
  */
 public class Rook extends Piece {
 
-  public final char CASTLE_SIDE_SHORT = 's';
-  public final char CASTLE_SIDE_LONG  = 'l';
+  public static final char CASTLE_SIDE_SHORT = 's';
+  public static final char CASTLE_SIDE_LONG  = 'l';
   private char      castleSide;
   private boolean   canCastle         = false;
   private boolean   hasMoved          = false;

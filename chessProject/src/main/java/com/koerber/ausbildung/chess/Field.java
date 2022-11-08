@@ -125,7 +125,7 @@ public class Field {
   /**
    * Decreases {@code currentTurn} by 1.
    */
-  public void decreaseCurrentturn() {
+  public void decreaseCurrentTurn() {
     if(getCurrentTurn() > 1) {
       setCurrentTurn(getCurrentTurn() - 1);
     }

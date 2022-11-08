@@ -1,21 +1,25 @@
 package com.koerber.ausbildung.chess;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.koerber.ausbildung.chess.piece.King;
+import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.OnlyOneWinnerException;
+
 /**
  * Tests the {@code Field} class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 class FieldTest {
-
-  @Test
-  void test() {
-    fail("Not yet implemented");
-  }
 
   /**
    * Builds a {@code Field} object with a {@code currentGameState} hashmap that
@@ -30,27 +34,12 @@ class FieldTest {
   @Test
   @DisplayName("initializeHashmapSuccess")
   void initializeHashmapSuccessTest() {
-    fail("Not yet implemented");
-
-  }
-
-  /**
-   * Builds a {@code Piece} object with test parameters and places it in a
-   * sample hashmap. Using two position parameters (origin pos of the
-   * {@code Piece} and destination pos of the {@code Piece}. Compare the two
-   * positions after executing {@code updateHashmap} and expect the
-   * {@code Piece} to be in the target pos and {@code "###"} in the source pos.
-   * 
-   * @param void
-   * @return void
-   * @tested {@code Player.updateHashmap()}
-   * @author Lucas Noack
-   */
-  @Test
-  @DisplayName("updateHashmapSuccess")
-  void updateHashmapSuccessTest() {
-    fail("Not yet implemented");
-
+    Field testField = ObjectFactoryForTest.getField();
+    testField.initializeMap();
+    assertEquals(true, testField.getCurrentGameState().containsKey("A1"));
+    assertEquals(true, testField.getCurrentGameState().containsKey("A2"));
+    assertEquals(true, testField.getCurrentGameState().containsKey("H8"));
+    assertEquals(true, testField.getCurrentGameState().containsKey("H7"));
   }
 
   /**
@@ -65,13 +54,17 @@ class FieldTest {
   @Test
   @DisplayName("resetCurrentTurnSuccess")
   void resetCurrentTurnSuccessTest() {
-    fail("Not yet implemented");
-
+    Field testField = ObjectFactoryForTest.getField();
+    testField.increaseCurrentTurn();
+    testField.increaseCurrentTurn();
+    testField.increaseCurrentTurn();
+    testField.resetCurrentTurn();
+    assertEquals(1, testField.getCurrentTurn());
   }
 
   /**
-   * Builds {@code Piece} with {@code this.currentTurn = 5}. Expects
-   * {@code this.currentTurn = 6}.
+   * Builds {@code Piece} with {@code this.currentTurn = 1}. Expects
+   * {@code this.currentTurn = 2}.
    * 
    * @param void
    * @return void
@@ -81,22 +74,9 @@ class FieldTest {
   @Test
   @DisplayName("increaseCurrentTurnSuccess")
   void increaseCurrentTurnSuccessTest() {
-    fail("Not yet implemented");
-  }
-
-  /**
-   * Builds {@code Piece} object with {@code this.currentTurn = 0} and expects
-   * {@code IllegalArgumentException}.
-   * 
-   * @param void
-   * @return void
-   * @tested {@code Player.increaseCurrenTurn()}
-   * @author Lucas Noack
-   */
-  @Test
-  @DisplayName("increaseCurrentTurnBlockZeroTest")
-  void increaseCurrentTurnBlockZeroTest() {
-    fail("Not yet implemented");
+    Field testField = ObjectFactoryForTest.getField();
+    testField.increaseCurrentTurn();
+    assertEquals(2, testField.getCurrentTurn());
   }
 
   /**
@@ -105,28 +85,18 @@ class FieldTest {
    * 
    * @param void
    * @return void
-   * @tested {@code Player.increaseCurrenTurn()}
+   * @tested {@code Player.decreaseCurrentTurn()}
    * @author Lucas Noack
    */
   @Test
-  @DisplayName("increaseCurrentTurnBlockNegative")
-  void increaseCurrentTurnBlockNegativeTest() {
-    fail("Not yet implemented");
-  }
-
-  /**
-   * Builds {@code Field} object with {@code this.currentTurn = null} and
-   * expects a {@code NullPointerException}.
-   * 
-   * @param void
-   * @return void
-   * @tested {@code Player.increaseCurrenTurn()}
-   * @author Lucas Noack
-   */
-  @Test
-  @DisplayName("increaseCurrentTurnNull")
-  void increaseCurrentTurnNullTest() {
-    fail("Not yet implemented");
+  @DisplayName("decreaseCurrentTurnBlockZero")
+  void decreaseCurrentTurnBlockZeroTest() {
+    Field testField = ObjectFactoryForTest.getField();
+    testField.decreaseCurrentTurn();
+    testField.decreaseCurrentTurn();
+    testField.decreaseCurrentTurn();
+    assertEquals(1, testField.getCurrentTurn());
+    ;
   }
 
   /**
@@ -141,7 +111,26 @@ class FieldTest {
   @Test
   @DisplayName("checkForWinnerSuccess")
   void checkForWinnerSuccessTest() {
-    fail("Not yet implemented");
+    Field testField = ObjectFactoryForTest.getField();
+    King testKingW = ObjectFactoryForTest.getKing();
+    testKingW.setCheckmate(true);
+    King testKingB = ObjectFactoryForTest.getKing();
+    testKingB.setId("k1b");
+    testKingB.setPosition("B6");
+    testKingB.setColour(ChessColour.BLACK);
+    
+    Map<String, Piece> testCurrentGameState = new TreeMap<>();
+    testCurrentGameState.put(testKingW.getPosition(), testKingW);
+    testCurrentGameState.put(testKingB.getPosition(), testKingB);
+    testField.setCurrentGameState(testCurrentGameState);
+    
+    try {
+      testField.checkForWinner();
+    }
+    catch(OnlyOneWinnerException e) {
+      e.printStackTrace();
+    }
+    assertEquals(ChessColour.BLACK, testField.getWhoWinner());
   }
 
   /**
@@ -156,7 +145,25 @@ class FieldTest {
   @Test
   @DisplayName("checkForWinnerNoCheckmate")
   void checkForWinnerNoCheckmateTest() {
-    fail("Not yet implemented");
+    Field testField = ObjectFactoryForTest.getField();
+    King testKingW = ObjectFactoryForTest.getKing();
+    King testKingB = ObjectFactoryForTest.getKing();
+    testKingB.setId("k1b");
+    testKingB.setColour(ChessColour.BLACK);
+    testKingB.setPosition("B6");
+    
+    Map<String, Piece> testCurrentGameState = new TreeMap<>();
+    testCurrentGameState.put(testKingW.getPosition(), testKingW);
+    testCurrentGameState.put(testKingB.getPosition(), testKingB);
+    testField.setCurrentGameState(testCurrentGameState);
+    
+    try {
+      testField.checkForWinner();
+    }
+    catch(OnlyOneWinnerException e) {
+      e.printStackTrace();
+    }
+    assertEquals(ChessColour.NONE, testField.getWhoWinner());
   }
 
   /**
@@ -171,6 +178,20 @@ class FieldTest {
   @Test
   @DisplayName("checkForWinnerBothKingsCheckmate")
   void checkForWinnerBothKingsCheckmateTest() {
-    fail("Not yet implemented");
+    Field testField = ObjectFactoryForTest.getField();
+    King testKingW = ObjectFactoryForTest.getKing();
+    testKingW.setCheckmate(true);
+    King testKingB = ObjectFactoryForTest.getKing();
+    testKingB.setId("k1b");
+    testKingB.setColour(ChessColour.BLACK);
+    testKingB.setCheckmate(true);
+    testKingB.setPosition("B6");
+    
+    Map<String, Piece> testCurrentGameState = new TreeMap<>();
+    testCurrentGameState.put(testKingW.getPosition(), testKingW);
+    testCurrentGameState.put(testKingB.getPosition(), testKingB);
+    testField.setCurrentGameState(testCurrentGameState);
+    
+    assertThrows(OnlyOneWinnerException.class, () -> testField.checkForWinner());
   }
 }

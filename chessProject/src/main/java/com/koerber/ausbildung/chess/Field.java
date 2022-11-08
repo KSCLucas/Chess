@@ -1,11 +1,13 @@
 package com.koerber.ausbildung.chess;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 import com.koerber.ausbildung.chess.piece.Bishop;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Knight;
 import com.koerber.ausbildung.chess.piece.Pawn;
+import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.piece.Queen;
 import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.ChessColour;
@@ -18,19 +20,19 @@ import com.koerber.ausbildung.chess.utility.ChessColour;
  */
 public class Field {
 
-  public static final int         UPPER_BOUND      = 8;
-  public static final int         LOWER_BOUND      = 1;
-  public static final char        LEFT_BOUND       = 'A';
-  public static final char        RIGHT_BOUND      = 'H';
-  private TreeMap<String, Object> currentGameState = new TreeMap<>();
-  private int                     currentTurn      = 1;
-  private char                    whoWinner;
+  public static final int    UPPER_BOUND      = 8;
+  public static final int    LOWER_BOUND      = 1;
+  public static final char   LEFT_BOUND       = 'A';
+  public static final char   RIGHT_BOUND      = 'H';
+  private Map<String, Piece> currentGameState = new TreeMap<>();
+  private int                currentTurn      = 1;
+  private char               whoWinner;
 
-  public TreeMap<String, Object> getCurrentGameState() {
+  public Map<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
 
-  public void setCurrentGameState(TreeMap<String, Object> currentGameState) {
+  public void setCurrentGameState(Map<String, Piece> currentGameState) {
     this.currentGameState = currentGameState;
   }
 

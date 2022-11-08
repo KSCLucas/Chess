@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
  * GUI class provides the entire GUI. It communicates with the Field & Player
@@ -265,10 +266,16 @@ public class Gui {
    * 
    * @return
    */
-  public static JLabel[] highlightLegalMove(Piece piece) {
+  public static JLabel[] highlightLegalMove(Piece piece, Map<String, Piece> currentGameState) {
     // TODO remove example
 
     // functional code
+    try {
+      piece.createLegalMoveMap(currentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
     Map<String, String> legalMoveMapTemp = new TreeMap<>(piece.getLegalMoveMap());
     JLabel[] legalMoveLabels = new JLabel[64];
     for(int i = 0; i < 64; i++) {

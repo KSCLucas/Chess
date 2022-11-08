@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import com.koerber.ausbildung.chess.Field;
 
 public class GuiFrame {
 
@@ -55,9 +58,9 @@ public class GuiFrame {
   private void initialize() {
     frame = new JFrame();
     Container contentPane = frame.getContentPane();
-
     frame.setBounds(0, 0, 1920, 1080);
-    // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    frame.setTitle("CHESS");
+    frame.setIconImage(new ImageIcon("src/main/resources/Sprites_in_small/knight_small.png").getImage());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
@@ -161,10 +164,13 @@ public class GuiFrame {
     chessBoardMiddleLayer.setBorder(BLACK_BORDER);
 
     // Calls highlightLegalMove and adds build labels to middle Layer
-    // JLabel[] legalMoveLabels = Gui.highlightLegalMove();
-    // for(int i = 0; i < legalMoveLabels.length; i++) {
-    // chessBoardMiddleLayer.add(legalMoveLabels[i]);
-    // }
+    Field testField = new Field();
+    testField.initializeMap();
+    
+    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"), testField.getCurrentGameState());
+    for(int i = 0; i < legalMoveLabels.length; i++) {
+      chessBoardMiddleLayer.add(legalMoveLabels[i]);
+    }
 
     /**
      * Initializes top layer. Top layer displays currentGameState (images) and
@@ -181,8 +187,8 @@ public class GuiFrame {
     for(int i = 0; i < 64; i++) {
       topLayerPanels[i] = new JPanel();
       topLayerPanels[i].setOpaque(false);
-      topLayerPanels[i].setLayout(new GridLayout(1,1));
-      topLayerPanels[i].add(currentGameStateLabels[i],SwingConstants.CENTER);
+      topLayerPanels[i].setLayout(new GridLayout(1, 1));
+      topLayerPanels[i].add(currentGameStateLabels[i], SwingConstants.CENTER);
       if(i >= 0 && i < 8) {
         topLayerPanels[i].setName(X_LABEL.substring(i, i + 1) + 8);
       }
@@ -207,7 +213,7 @@ public class GuiFrame {
       if(i >= 56 && i < 64) {
         topLayerPanels[i].setName(X_LABEL.substring(i - 56, i - 55) + 1);
       }
-      chessBoardTopLayer.add(topLayerPanels[i]);
+      chessBoardTopLayer.add(topLayerPanels[i]); 
     }
     /**
      * Initializes layeredPan. Used for layering the chessboard.

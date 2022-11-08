@@ -54,7 +54,7 @@ public class Field {
    * @comment base-structure
    * @author Toni Gropper
    */
-  public void initializeHashmap() {
+  public void initializeTreemap() {
 
   }
 
@@ -67,7 +67,7 @@ public class Field {
    * @comment base-structure
    * @author Toni Gropper
    */
-  public void updateHashMap() {
+  public void updateTreeMap() {
 
   }
 

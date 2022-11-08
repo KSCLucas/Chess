@@ -12,7 +12,7 @@ import java.util.TreeMap;
 public class Converter {
 
   /**
-   * converts HashMap containing objects to a string in FEN notation *
+   * converts TreeMap containing objects to a string in FEN notation *
    * 
    * @param Map
    * @return String
@@ -27,7 +27,7 @@ public class Converter {
   }
 
   /**
-   * converts the FEN string to a HashMap *
+   * converts the FEN string to a TreeMap *
    * 
    * @param String
    * @return Map

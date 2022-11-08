@@ -71,8 +71,7 @@ public class Pawn extends Piece {
    */
   public static void resetEnPassant(Map<String, Piece> currentGameState, ChessColour colour) {
     for(Entry<String, Piece> entry : currentGameState.entrySet()) {
-      if(entry.getValue() instanceof Pawn && entry.getValue().getColour() == colour) {
-        Pawn pawn = (Pawn)entry.getValue();
+      if(entry.getValue() instanceof Pawn pawn && pawn.getColour() == colour) {
         pawn.setEnPassentable(false);
       }
     }
@@ -115,19 +114,17 @@ public class Pawn extends Piece {
       currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
       int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
-      String fieldKey = Character.toString(posLetterAsNumber) + (posNumber - 1);
-      if(getColour() == ChessColour.BLACK) {
-        fieldKey = Character.toString(posLetterAsNumber) + (posNumber + 1);
-      }
-      if(currentGameState.get(fieldKey) instanceof Pawn) {
-        Pawn enPassantablePawn = (Pawn)currentGameState.get(fieldKey);
+      int posNumber = getColour() == ChessColour.BLACK
+          ? (Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX))) + 1
+          : (Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX))) - 1;
+      String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
+      if(currentGameState.get(fieldKey) instanceof Pawn enPassantablePawn) {
         if(enPassantablePawn.isEnPassentable() && enPassantablePawn.getColour() != getColour()) {
           enPassantablePawn.setPosition(NOT_ON_FIELD);
           currentGameState.put(fieldKey, null);
         }
       }
-      if(getLegalMoveMap().get(targetPosition) == HIT_STRING && currentGameState.get(targetPosition) != null) {
+      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);
@@ -142,89 +139,60 @@ public class Pawn extends Piece {
     }
     // Clear legalMoveMap
     getLegalMoveMap().clear();
-    // Loop over every movevector in moveSet
-    for(int i = 0; i < getMoveSet().size(); i++) {
-      // Set posLetterAsNumber and posNumber
-      int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
-      MoveVector moveVector = getMoveSet().get(i);
-      // Distinguish between move-only, take-only and check-only
-      switch(i) {
-      case 0 -> {
-        // Single move
-        if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * moveVector.getX();
-          posNumber += -1 * moveVector.getY();
-        }
-        else {
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-        }
-        String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
-          getLegalMoveMap().put(fieldKey, TRUE_STRING);
-        }
-      }
-      case 1 -> {
-        // Double move
-        int moveModifier = 1;
-        if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * moveVector.getX();
-          posNumber += -1 * moveVector.getY();
-          moveModifier = -1;
-        }
-        else {
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-        }
-        String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber)
-            && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - moveModifier))
-            && currentGameState.get(fieldKey) == null && !isHasMoved()) {
-          getLegalMoveMap().put(fieldKey, TRUE_STRING);
-        }
-      }
-      case 2, 5 -> {
-        // Take
-        if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * moveVector.getX();
-          posNumber += -1 * moveVector.getY();
-        }
-        else {
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-        }
-        String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber) && !(currentGameState.get(fieldKey) == null)
-            && currentGameState.get(fieldKey).getColour() != getColour()) {
-          getLegalMoveMap().put(fieldKey, HIT_STRING);
-        }
-      }
-      case 3, 4 -> {
-        // Check for en-passant take
-        if(getColour() == ChessColour.BLACK) {
-          posLetterAsNumber += -1 * moveVector.getX();
-          posNumber += -1 * moveVector.getY();
-        }
-        else {
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-        }
-        String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn
-            && currentGameState.get(fieldKey).getColour() != getColour()
-            && ((Pawn)currentGameState.get(fieldKey)).isEnPassentable()) {
-          int posNumberForEnPassant;
-          if(getColour() == ChessColour.BLACK) {
-            posNumberForEnPassant = posNumber - 1;
+    // Is Pawn moveable?
+    if(isMoveable()) {
+      // Loop over every movevector in moveSet
+      for(int i = 0; i < getMoveSet().size(); i++) {
+        // Set posLetterAsNumber and posNumber
+        int colourModifier = getColour() == ChessColour.BLACK ? -1 : 1;
+        int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+        int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+        MoveVector moveVector = getMoveSet().get(i);
+        // Distinguish between move-only, take-only and check-only
+        switch(i) {
+        case 0 -> {
+          // Single move
+          posLetterAsNumber += colourModifier * moveVector.getX();
+          posNumber += colourModifier * moveVector.getY();
+          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
+            getLegalMoveMap().put(fieldKey, TRUE_STRING);
           }
-          else {
-            posNumberForEnPassant = posNumber + 1;
-          }
-          String enPassantFieldKey = Character.toString(posLetterAsNumber) + posNumberForEnPassant;
-          getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
         }
-      }
+        case 1 -> {
+          // Double move
+          posLetterAsNumber += colourModifier * moveVector.getX();
+          posNumber += colourModifier * moveVector.getY();
+          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          if(inFieldBounds(posLetterAsNumber, posNumber)
+              && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - colourModifier))
+              && currentGameState.get(fieldKey) == null && !isHasMoved()) {
+            getLegalMoveMap().put(fieldKey, TRUE_STRING);
+          }
+        }
+        case 2, 5 -> {
+          // Take
+          posLetterAsNumber += colourModifier * moveVector.getX();
+          posNumber += colourModifier * moveVector.getY();
+          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) != null
+              && currentGameState.get(fieldKey).getColour() != getColour()) {
+            getLegalMoveMap().put(fieldKey, HIT_STRING);
+          }
+        }
+        case 3, 4 -> {
+          // Check for en-passant take
+          posLetterAsNumber += colourModifier * moveVector.getX();
+          posNumber += colourModifier * moveVector.getY();
+          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn pawn
+              && pawn.getColour() != getColour() && pawn.isEnPassentable()) {
+            int posNumberForEnPassant = getColour() == ChessColour.BLACK ? posNumber - 1 : posNumber + 1;
+            String enPassantFieldKey = getFieldKey(posLetterAsNumber, posNumberForEnPassant);
+            getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+          }
+        }
+        }
       }
     }
   }
@@ -236,7 +204,7 @@ public class Pawn extends Piece {
    * @param targetPosition
    */
   public void checkForEnPassant(String targetPosition) {
-    if(!(getPosition() == null || getPosition().isEmpty() || targetPosition == null || targetPosition.isEmpty())) {
+    if((getPosition() != null && !getPosition().isEmpty()) || (targetPosition != null && !targetPosition.isEmpty())) {
       int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
       int posNumberTargetPosition = Character.getNumericValue(targetPosition.charAt(SECOND_CHAR_INDEX));
       setEnPassentable(Math.abs(posNumberTargetPosition - posNumber) == 2);

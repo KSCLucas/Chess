@@ -32,6 +32,7 @@ public abstract class Piece {
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
   private Map<String, String> legalMoveMap      = new TreeMap<>();
+  private boolean             moveable          = true;
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -107,6 +108,27 @@ public abstract class Piece {
     this.legalMoveMap = legalMoveMap;
   }
 
+  public boolean isMoveable() {
+    return moveable;
+  }
+
+  public void setMoveable(boolean moveable) {
+    this.moveable = moveable;
+  }
+
+  /**
+   * Builds {@code fieldKey} given one {@code char} as {@code int} and one
+   * {@code int}.
+   * 
+   * @param posLetterAsNumber
+   * @param posNumber
+   * @return {@code String} fieldKey
+   */
+  protected String getFieldKey(int posLetterAsNumber, int posNumber) {
+    String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+    return fieldKey;
+  }
+
   /**
    * Checks, whether the given Inputs are within the field bounds or not.
    * 
@@ -115,7 +137,7 @@ public abstract class Piece {
    * @return {@code true} if both inputs are in field bounds. Otherwise it
    *         returns {@code false}
    */
-  protected static boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
+  protected boolean inFieldBounds(int posLetterAsNumber, int posNumber) {
     return posLetterAsNumber >= Field.LEFT_BOUND && posLetterAsNumber <= Field.RIGHT_BOUND
         && posNumber >= Field.LOWER_BOUND && posNumber <= Field.UPPER_BOUND;
   }
@@ -139,7 +161,7 @@ public abstract class Piece {
     else {
       currentGameState.put(getPosition(), null);
       setPosition(targetPosition);
-      if(getLegalMoveMap().get(targetPosition) == HIT_STRING) {
+      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);
@@ -161,39 +183,42 @@ public abstract class Piece {
     }
     // Clear legalMoveMap
     getLegalMoveMap().clear();
-    // Loop over every move vector in moveSet
-    for(MoveVector moveVector : getMoveSet()) {
-      int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
-      if(!inFieldBounds(posLetterAsNumber, posNumber)) {
-        throw new PieceOutOfBoundsException();
-      }
-      // Change content of legalMoveMap based on move vector i and
-      // currentGameState
-      boolean repeatLoop = true;
-      do {
-        posLetterAsNumber += moveVector.getX();
-        posNumber += moveVector.getY();
-        String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-        // Check for fieldKey still on Field
-        if(inFieldBounds(posLetterAsNumber, posNumber)) {
-          // Check for EmptyPiece
-          if(currentGameState.get(fieldKey) == null) {
-            getLegalMoveMap().put(fieldKey, TRUE_STRING);
-          }
-          // Check for opposing Piece
-          else if(currentGameState.get(fieldKey).getColour() != getColour()) {
-            getLegalMoveMap().put(fieldKey, HIT_STRING);
-            repeatLoop = false;
+    // Is Piece moveable?
+    if(isMoveable()) {
+      // Loop over every move vector in moveSet
+      for(MoveVector moveVector : getMoveSet()) {
+        int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+        int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+        if(!inFieldBounds(posLetterAsNumber, posNumber)) {
+          throw new PieceOutOfBoundsException();
+        }
+        // Change content of legalMoveMap based on move vector i and
+        // currentGameState
+        boolean repeatLoop = true;
+        do {
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
+          // Check for fieldKey still on Field
+          if(inFieldBounds(posLetterAsNumber, posNumber)) {
+            // Check for EmptyPiece
+            String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
+            if(currentGameState.get(fieldKey) == null) {
+              getLegalMoveMap().put(fieldKey, TRUE_STRING);
+            }
+            // Check for opposing Piece
+            else if(currentGameState.get(fieldKey).getColour() != getColour()) {
+              getLegalMoveMap().put(fieldKey, HIT_STRING);
+              repeatLoop = false;
+            }
+            else {
+              repeatLoop = false;
+            }
           }
           else {
             repeatLoop = false;
           }
-        }
-        else {
-          repeatLoop = false;
-        }
-      } while(isMoveRepeatable() && repeatLoop);
+        } while(isMoveRepeatable() && repeatLoop);
+      }
     }
   }
 }

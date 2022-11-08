@@ -10,12 +10,12 @@ import java.util.TreeMap;
  */
 public class Field {
 
-  public static final int         UPPER_BOUND = 8;
-  public static final int         LOWER_BOUND = 1;
-  public static final char        LEFT_BOUND  = 'A';
-  public static final char        RIGHT_BOUND = 'H';
-  private TreeMap<String, Object> currentGameState;
-  private int                     currentTurn;
+  public static final int         UPPER_BOUND      = 8;
+  public static final int         LOWER_BOUND      = 1;
+  public static final char        LEFT_BOUND       = 'A';
+  public static final char        RIGHT_BOUND      = 'H';
+  private TreeMap<String, Object> currentGameState = new TreeMap<>();
+  private int                     currentTurn      = 1;
   private char                    whoWinner;
 
   public TreeMap<String, Object> getCurrentGameState() {
@@ -43,17 +43,17 @@ public class Field {
   }
 
   /**
-   * Sets game pieces in this.currentGameState to the starting positions of
+   * Sets game pieces in {@code currentGameState} to the starting positions of
    * {@code initialGameState}.
-  */
-  public void initializeHashmap() {
+   */
+  public void initializeMap() {
 
   }
 
   /**
    * Updates {@code currentGameState} with the completed move.
    */
-  public void updateHashMap() {
+  public void updateMap() {
 
   }
 
@@ -70,7 +70,7 @@ public class Field {
   public void increaseCurrentTurn() {
 
   }
-  
+
   // TODO game loop needed???
   /**
    * Regulates the course of the chess game and calls all methods that are
@@ -81,9 +81,10 @@ public class Field {
   }
 
   /**
-   * Checks, if a player has won and sets {@code whoWinner} to {@code ChessColour.WHITE} or {@code ChessColour.BLACK},
-   * calls the GUI method {@code showWinnerPopup}. If none of the Kings are in checkmate
-   * then {@code whoWinner = ChessColour.NONE} is set.
+   * Checks, if a player has won and sets {@code whoWinner} to
+   * {@code ChessColour.WHITE} or {@code ChessColour.BLACK}, calls the GUI
+   * method {@code showWinnerPopup}. If none of the Kings are in checkmate then
+   * {@code whoWinner = ChessColour.NONE} is set.
    */
   public void checkForWinner() {
 

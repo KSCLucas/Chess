@@ -1,6 +1,8 @@
 package com.koerber.ausbildung.chess;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.koerber.ausbildung.chess.piece.Bishop;
@@ -11,6 +13,7 @@ import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.piece.Queen;
 import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.OnlyOneWinnerException;
 
 /**
  * Serves as a gameclass that manages everything related to chess.
@@ -26,7 +29,7 @@ public class Field {
   public static final char   RIGHT_BOUND      = 'H';
   private Map<String, Piece> currentGameState = new TreeMap<>();
   private int                currentTurn      = 1;
-  private char               whoWinner;
+  private ChessColour        whoWinner        = ChessColour.NONE;
 
   public Map<String, Piece> getCurrentGameState() {
     return currentGameState;
@@ -44,11 +47,11 @@ public class Field {
     this.currentTurn = currentTurn;
   }
 
-  public char getWhoWinner() {
+  public ChessColour getWhoWinner() {
     return whoWinner;
   }
 
-  public void setWhoWinner(char whoWinner) {
+  public void setWhoWinner(ChessColour whoWinner) {
     this.whoWinner = whoWinner;
   }
 
@@ -106,33 +109,26 @@ public class Field {
   }
 
   /**
-   * Updates {@code currentGameState} with the completed move.
-   */
-  public void updateMap() {
-
-  }
-
-  /**
    * Sets {@code currentTurn} to initial value (=1).
    */
   public void resetCurrentTurn() {
-
+    setCurrentTurn(1);
   }
 
   /**
    * Increases {@code currentTurn} by 1.
    */
   public void increaseCurrentTurn() {
-
+    setCurrentTurn(getCurrentTurn() + 1);
   }
 
-  // TODO game loop needed???
   /**
-   * Regulates the course of the chess game and calls all methods that are
-   * required for the game.
+   * Decreases {@code currentTurn} by 1.
    */
-  public void gameLoop() {
-
+  public void decreaseCurrentturn() {
+    if(getCurrentTurn() > 1) {
+      setCurrentTurn(getCurrentTurn() - 1);
+    }
   }
 
   /**
@@ -141,7 +137,16 @@ public class Field {
    * method {@code showWinnerPopup}. If none of the Kings are in checkmate then
    * {@code whoWinner = ChessColour.NONE} is set.
    */
-  public void checkForWinner() {
-
+  public void checkForWinner() throws OnlyOneWinnerException {
+    List<King> kings = getCurrentGameState().entrySet().stream().map(Entry::getValue).filter(King.class::isInstance)
+        .map(King.class::cast).toList();
+    for(King king : kings) {
+      if(king.isCheckmate() && getWhoWinner() == ChessColour.NONE) {
+        setWhoWinner(king.getColour() == ChessColour.WHITE ? ChessColour.BLACK : ChessColour.WHITE);
+      }
+      else if(king.isCheckmate() && getWhoWinner() != ChessColour.NONE) {
+        throw new OnlyOneWinnerException();
+      }
+    }
   }
 }

@@ -106,12 +106,11 @@ public class Pawn extends Piece {
 
   @Override
   public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
-    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)
-        || !currentGameState.containsKey(targetPosition)) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)) {
       return false;
     }
     else {
-      currentGameState.put(getPosition(), null);
+      currentGameState.remove(getPosition());
       setPosition(targetPosition);
       int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
       int posNumber = getColour() == ChessColour.BLACK
@@ -121,10 +120,10 @@ public class Pawn extends Piece {
       if(currentGameState.get(fieldKey) instanceof Pawn enPassantablePawn) {
         if(enPassantablePawn.isEnPassentable() && enPassantablePawn.getColour() != getColour()) {
           enPassantablePawn.setPosition(NOT_ON_FIELD);
-          currentGameState.put(fieldKey, null);
+          currentGameState.remove(fieldKey);
         }
       }
-      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
+      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING) && currentGameState.get(targetPosition) != null) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);

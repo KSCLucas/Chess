@@ -154,12 +154,11 @@ public abstract class Piece {
    *         {@code false}
    */
   public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
-    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)
-        || !currentGameState.containsKey(targetPosition)) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)) {
       return false;
     }
     else {
-      currentGameState.put(getPosition(), null);
+      currentGameState.remove(getPosition());
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);

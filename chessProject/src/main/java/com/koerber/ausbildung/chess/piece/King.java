@@ -105,10 +105,10 @@ public class King extends Piece {
     do {
       posLetterAsNumberCurrentPiece = posLetterAsNumberCurrentPiece + multiplier * modifier;
       fieldKey = Character.toString(posLetterAsNumberCurrentPiece) + posNumberKing;
-      if(currentPiece.getLegalMoveMap().get(fieldKey) == HIT_STRING && firstKey.isEmpty()) {
+      if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && firstKey.isEmpty()) {
         firstKey = fieldKey;
       }
-      else if(currentPiece.getLegalMoveMap().get(fieldKey) == HIT_STRING && !firstKey.isEmpty()) {
+      else if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && !firstKey.isEmpty()) {
         otherKeyFound = true;
       }
       multiplier++;
@@ -125,10 +125,10 @@ public class King extends Piece {
     do {
       posNumberCurrentPiece = posNumberCurrentPiece + multiplier * modifier;
       fieldKey = Character.toString(posLetterAsNumberKing) + posNumberCurrentPiece;
-      if(currentPiece.getLegalMoveMap().get(fieldKey) == HIT_STRING && firstKey.isEmpty()) {
+      if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && firstKey.isEmpty()) {
         firstKey = fieldKey;
       }
-      else if(currentPiece.getLegalMoveMap().get(fieldKey) == HIT_STRING && !firstKey.isEmpty()) {
+      else if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && !firstKey.isEmpty()) {
         otherKeyFound = true;
       }
       multiplier++;

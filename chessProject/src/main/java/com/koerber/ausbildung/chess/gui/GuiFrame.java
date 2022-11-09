@@ -225,11 +225,12 @@ public class GuiFrame {
     }
 
     for(int j = 0; j < 64; j++) {
+
       DragGestureListenerPanels dragListenerPanels = new DragGestureListenerPanels();
       DragSource dragSourcePanels = new DragSource();
       dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
           dragListenerPanels);
-
+      new DropTargetListenerPanels(topLayerPanels[j]);
       TransferHandler dnd = new TransferHandler() {
         @Override
         public boolean canImport(TransferSupport support) {
@@ -249,15 +250,13 @@ public class GuiFrame {
           }
 
           Transferable transferable = support.getTransferable();
-          Icon icon;
           try {
-            icon = (Icon)transferable.getTransferData(DataFlavor.imageFlavor);
+            transferable.getTransferData(DataFlavor.imageFlavor);
           }
           catch(Exception e) {
             e.printStackTrace();
             return false;
           }
-          topLayerPanels[3].add(new JLabel(icon));
           return true;
         }
 

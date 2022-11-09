@@ -17,6 +17,8 @@ public class DragGestureListenerPanels implements DragGestureListener {
     JLabel label = (JLabel)event.getComponent();
     Icon icon = label.getIcon();
 
+    
+
     Transferable transferable = new Transferable() {
 
       @Override
@@ -26,7 +28,7 @@ public class DragGestureListenerPanels implements DragGestureListener {
 
       @Override
       public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        return icon;
+        return label;
       }
 
       @Override
@@ -37,7 +39,10 @@ public class DragGestureListenerPanels implements DragGestureListener {
         return true;
       }
     };
-
+    event.startDrag(null, transferable);
+    
   }
+  
+  
 
 }

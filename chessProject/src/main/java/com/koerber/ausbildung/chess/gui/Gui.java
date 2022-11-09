@@ -219,7 +219,7 @@ public class Gui {
     };
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
-      currentGameStateLabels[i].addMouseListener(m1);
+//      currentGameStateLabels[i].addMouseListener(m1);
       // currentGameStateLabels[i].setOpaque(true);
       // if(i >= 0 && i < 8) {
       // currentGameStateLabels[i].setName(xAxis.get(i) + 8);

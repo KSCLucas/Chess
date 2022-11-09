@@ -3,7 +3,7 @@ package com.koerber.ausbildung.chess.gui;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-public class GuiUtility {
+public abstract class GuiUtility {
 
   /**
    * GridBagContraints Builder

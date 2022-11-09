@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-public class DropGestureListenerPanels implements DragGestureListener {
+public class DragGestureListenerPanels implements DragGestureListener {
 
   @Override
   public void dragGestureRecognized(DragGestureEvent event) {

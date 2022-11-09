@@ -6,7 +6,12 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSource;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +20,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
@@ -166,8 +172,9 @@ public class GuiFrame {
     // Calls highlightLegalMove and adds build labels to middle Layer
     Field testField = new Field();
     testField.initializeMap();
-    
-    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"), testField.getCurrentGameState());
+
+    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
+        testField.getCurrentGameState());
     for(int i = 0; i < legalMoveLabels.length; i++) {
       chessBoardMiddleLayer.add(legalMoveLabels[i]);
     }
@@ -213,7 +220,49 @@ public class GuiFrame {
       if(i >= 56 && i < 64) {
         topLayerPanels[i].setName(X_LABEL.substring(i - 56, i - 55) + 1);
       }
-      chessBoardTopLayer.add(topLayerPanels[i]); 
+
+      chessBoardTopLayer.add(topLayerPanels[i]);
+    }
+
+    for(int j = 0; j < 64; j++) {
+      DragGestureListenerPanels dragListenerPanels = new DragGestureListenerPanels();
+      DragSource dragSourcePanels = new DragSource();
+      dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
+          dragListenerPanels);
+
+      TransferHandler dnd = new TransferHandler() {
+        @Override
+        public boolean canImport(TransferSupport support) {
+          if(!support.isDrop()) {
+            return false;
+          }
+          if(!support.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public boolean importData(TransferSupport support) {
+          if(!canImport(support)) {
+            return false;
+          }
+
+          Transferable transferable = support.getTransferable();
+          Icon icon;
+          try {
+            icon = (Icon)transferable.getTransferData(DataFlavor.imageFlavor);
+          }
+          catch(Exception e) {
+            e.printStackTrace();
+            return false;
+          }
+          topLayerPanels[3].add(new JLabel(icon));
+          return true;
+        }
+
+      };
+      topLayerPanels[j].setTransferHandler(dnd);
     }
     /**
      * Initializes layeredPan. Used for layering the chessboard.

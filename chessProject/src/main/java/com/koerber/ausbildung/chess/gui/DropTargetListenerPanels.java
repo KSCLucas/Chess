@@ -20,7 +20,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
   @Override
   public void drop(DropTargetDropEvent dtde) {
     // TODO Auto-generated method stub
-
+ 
   }
 
 }

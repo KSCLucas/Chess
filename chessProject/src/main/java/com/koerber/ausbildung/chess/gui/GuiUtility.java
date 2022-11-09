@@ -21,7 +21,7 @@ public abstract class GuiUtility {
     if(rightInset) {
       rightInsetInt = 5;
     }
-    tempGridBag.insets = new Insets(0, 0, 5, rightInsetInt);
+    tempGridBag.insets = new Insets(5, 5, 5, rightInsetInt);
     if(fill) {
       tempGridBag.fill = GridBagConstraints.BOTH;
     }

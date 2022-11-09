@@ -1,5 +1,6 @@
 package com.koerber.ausbildung.chess.gui;
 
+import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -8,9 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -127,8 +132,19 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public void createNewHistroyEntry() {
-
+  public static void createNewHistroyEntry(JList<String> historyList) {
+    DefaultListModel<String> model = new DefaultListModel<>();
+    History fen = new History();
+    fen.addEntry(
+        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    fen.addEntry(
+        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    fen.addEntry(
+        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    for(int i = 0; i < fen.getFens().size(); i++) {
+      model.addElement(fen.getFenOfTurn(i));
+    }
+    historyList.setModel(model);
   }
 
   /**
@@ -219,7 +235,7 @@ public class Gui {
     };
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
-//      currentGameStateLabels[i].addMouseListener(m1);
+      // currentGameStateLabels[i].addMouseListener(m1);
       // currentGameStateLabels[i].setOpaque(true);
       // if(i >= 0 && i < 8) {
       // currentGameStateLabels[i].setName(xAxis.get(i) + 8);

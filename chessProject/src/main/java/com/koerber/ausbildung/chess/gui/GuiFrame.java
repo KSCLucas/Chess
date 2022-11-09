@@ -10,15 +10,17 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
+import java.util.Vector;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
@@ -114,7 +116,13 @@ public class GuiFrame {
     // Build Scroll pane for displaying history entries
     JScrollPane historyScrollPane = new JScrollPane();
     GridBagConstraints gbcHistoryScrollPane = GuiUtility.setGridBag(true, true, 0, 4, 6);
+    JList<String> historyList = new JList<String>();
+    Gui.createNewHistroyEntry(historyList);
+    historyScrollPane.getViewport().setView(historyList);
+    historyScrollPane.setOpaque(true);
     contentPane.add(historyScrollPane, gbcHistoryScrollPane);
+    contentPane.validate();
+    contentPane.repaint();
 
     // Labels x-axis of chess board (12345678)
     JPanel labelYPanel = new JPanel();
@@ -170,14 +178,14 @@ public class GuiFrame {
     chessBoardMiddleLayer.setBorder(BLACK_BORDER);
 
     // Calls highlightLegalMove and adds build labels to middle Layer
-    Field testField = new Field();
-    testField.initializeMap();
-
-    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
-        testField.getCurrentGameState());
-    for(int i = 0; i < legalMoveLabels.length; i++) {
-      chessBoardMiddleLayer.add(legalMoveLabels[i]);
-    }
+//    Field testField = new Field();
+//    testField.initializeMap();
+//
+//    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
+//        testField.getCurrentGameState());
+//    for(int i = 0; i < legalMoveLabels.length; i++) {
+//      chessBoardMiddleLayer.add(legalMoveLabels[i]);
+//    }
 
     /**
      * Initializes top layer. Top layer displays currentGameState (images) and

@@ -12,7 +12,7 @@ public class Main {
     History myHistory = new History();
     myHistory.addEntry("fen");
     System.out.println(myHistory.getFens());
-    System.out.println(myHistory.getFenOfTurn(5));
+    System.out.println(myHistory.getFenOfTurn(0));
   }
 
 }

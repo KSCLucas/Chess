@@ -11,6 +11,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,18 +26,23 @@ import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
+import com.koerber.ausbildung.chess.Field;
+
 public class GuiFrame {
 
   private JFrame                 frame;
-  public static final String     X_LABEL      = "ABCDEFGH";
-  public static final Color      LIGHT_BROWN  = new Color(205, 133, 63);
-  public static final Color      LIGHT_GREEN  = new Color(144, 238, 144, 127);
-  public static final Color      LIGHT_RED    = new Color(255, 75, 75, 127);
-  public static final LineBorder BLACK_BORDER = new LineBorder(Color.BLACK);
+  public static final String     X_LABEL                = "ABCDEFGH";
+  public static final Color      LIGHT_BROWN            = new Color(205, 133, 63);
+  public static final Color      LIGHT_GREEN            = new Color(144, 238, 144, 127);
+  public static final Color      LIGHT_RED              = new Color(255, 75, 75, 127);
+  public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
+  public static JLabel[]         currentGameStateLabels = new JLabel[64];
+  private static JLabel[]        legalMoveLabels        = new JLabel[64];
   /**
    * Launch the application.
    */
   public static void main(String[] args) {
+    Field.initializeMap();
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -61,6 +68,7 @@ public class GuiFrame {
    * Initialize the contents of the frame.
    */
   private void initialize() {
+
     frame = new JFrame();
     Container contentPane = frame.getContentPane();
     frame.setBounds(0, 0, 1920, 1080);
@@ -68,8 +76,8 @@ public class GuiFrame {
     frame.setIconImage(new ImageIcon("src/main/resources/Sprites_in_small/knight_small.png").getImage());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
-    gridBagLayout.columnWidths = new int[]{499, 32, 896, 499};
-    gridBagLayout.rowHeights = new int[]{112, 112, 112, 112, 112, 112, 112, 112, 112, 32};
+    gridBagLayout.columnWidths = new int[]{499, 32, 908, 450};
+    gridBagLayout.rowHeights = new int[]{50, 112, 112, 112, 112, 112, 112, 112, 112, 32};
     gridBagLayout.columnWeights = new double[]{1.0, 1.0};
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     contentPane.setLayout(gridBagLayout);
@@ -121,7 +129,7 @@ public class GuiFrame {
     contentPane.validate();
     contentPane.repaint();
 
-    // Labels x-axis of chess board (12345678)
+    // Labels y-axis of chess board (12345678)
     JPanel labelYPanel = new JPanel();
     GridBagConstraints gbcLabelYPanel = GuiUtility.setGridBag(true, false, 1, 1, 8);
     gbcLabelYPanel.anchor = GridBagConstraints.EAST;
@@ -136,9 +144,9 @@ public class GuiFrame {
      * Initializes bottom layer. Bottom layer only displays chess tiles.
      */
     JPanel chessBoardBottomLayer = new JPanel();
-    chessBoardBottomLayer.setBounds(0, 0, 896, 896);
+    chessBoardBottomLayer.setBounds(0, 0, 898, 934);
     chessBoardBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    chessBoardBottomLayer.setBorder(BLACK_BORDER);
+    // chessBoardBottomLayer.setBorder(BLACK_BORDER);
 
     // Add Labels and colors them like a chess board
     JLabel[] labels = new JLabel[65];
@@ -170,10 +178,15 @@ public class GuiFrame {
      */
     JPanel chessBoardMiddleLayer = new JPanel();
     chessBoardMiddleLayer.setOpaque(false);
-    chessBoardMiddleLayer.setBounds(0, 0, 896, 896);
+    chessBoardMiddleLayer.setBounds(0, 0, 898, 934);
     chessBoardMiddleLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    chessBoardMiddleLayer.setBorder(BLACK_BORDER);
+    // chessBoardMiddleLayer.setBorder(BLACK_BORDER);
 
+    for(int i = 0; i < 64; i++) {
+      legalMoveLabels[i] = new JLabel();
+      legalMoveLabels[i].setText("");
+      chessBoardMiddleLayer.add(legalMoveLabels[i]);
+    }
     // Calls highlightLegalMove and adds build labels to middle Layer
     // Field testField = new Field();
     // testField.initializeMap();
@@ -191,11 +204,72 @@ public class GuiFrame {
      */
     JPanel chessBoardTopLayer = new JPanel();
     chessBoardTopLayer.setOpaque(false);
-    chessBoardTopLayer.setBounds(0, 0, 896, 896);
+    chessBoardTopLayer.setBounds(0, 0, 898, 934);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(BLACK_BORDER);
 
-    JLabel[] currentGameStateLabels = Gui.showCurrentGameState();
+    MouseListener musMusculus = new MouseListener() {
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        for(int l = 0; l < 64; l++) {
+          legalMoveLabels[l].setBackground(null);
+          legalMoveLabels[l].setOpaque(false);
+        }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        String position = e.getComponent().getName();
+        if(Field.getCurrentGameState().get(position) != null) {
+          Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position));
+        }
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+      }
+    };
+
+    for(int i = 0; i < 64; i++) {
+      currentGameStateLabels[i] = new JLabel();
+      currentGameStateLabels[i].addMouseListener(musMusculus);
+      if(i >= 0 && i < 8) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
+      }
+      if(i >= 8 && i < 16) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 8, i - 7) + 7);
+      }
+      if(i >= 16 && i < 24) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 16, i - 15) + 6);
+      }
+      if(i >= 24 && i < 32) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 24, i - 23) + 5);
+      }
+      if(i >= 32 && i < 40) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 32, i - 31) + 4);
+      }
+      if(i >= 40 && i < 48) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 40, i - 39) + 3);
+      }
+      if(i >= 48 && i < 56) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 48, i - 47) + 2);
+      }
+      if(i >= 56 && i < 64) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
+      }
+    }
+    Gui.showCurrentGameState(currentGameStateLabels);
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
 
@@ -273,13 +347,13 @@ public class GuiFrame {
      * Initializes layeredPan. Used for layering the chessboard.
      */
     JLayeredPane layeredPane = new JLayeredPane();
-    layeredPane.setBounds(0, 0, 896, 896);
+    layeredPane.setBounds(0, 0, 908, 908);
     GridBagConstraints gbcLayeredPane = GuiUtility.setGridBag(true, true, 2, 1, 8);
     contentPane.add(layeredPane, gbcLayeredPane);
     layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
     layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
     layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
-    layeredPane.setBorder(BLACK_BORDER);
+    // layeredPane.setBorder(BLACK_BORDER);
 
     // Labels x-axis of chess board (ABCDEFGH)
     JPanel labelXPanel = new JPanel();
@@ -389,7 +463,13 @@ public class GuiFrame {
     piecesP2Panel.add(piecesP2FillerLabel);
 
     // Get PlayerNames
-    Gui.askForPlayerName(player1Label, player2Label);
+    // Gui.askForPlayerName(player1Label, player2Label);
   }
 
+  public static void clearLegalMoveMap() {
+    for(JLabel label : legalMoveLabels) {
+      label.setBackground(null);
+      label.setOpaque(false);
+    }
+  }
 }

@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.gui;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -146,84 +145,20 @@ public class Gui {
    * 
    * @return
    */
-  public static JLabel[] showCurrentGameState() {
-
-    Field testField = new Field();
-    testField.initializeMap();
-
-    JLabel[] currentGameStateLabels = new JLabel[64];
-    // MouseListener m1 = new MouseListener() {
-    // String tracker;
-    // boolean isTrackingOn;
-    // @Override
-    // public void mouseReleased(MouseEvent e) {
-    // isTrackingOn = false;
-    // }
-    //
-    // @Override
-    // public void mousePressed(MouseEvent e) {
-    // isTrackingOn = true;
-    // System.out.println(e.getComponent().getName());
-    // }
-    //
-    // @Override
-    // public void mouseExited(MouseEvent e) {
-    // }
-    //
-    // @Override
-    // public void mouseEntered(MouseEvent e) {
-    //
-    // if(isTrackingOn) {
-    // System.out.println(e.getComponent().getName());
-    // tracker = e.getComponent().getName();
-    // }
-    // }
-    //
-    // @Override
-    // public void mouseClicked(MouseEvent e) {
-    //
-    // }
-    // };
-
-    for(int i = 0; i < 64; i++) {
-      currentGameStateLabels[i] = new JLabel();
-      // currentGameStateLabels[i].addMouseListener(m1);
-      if(i >= 0 && i < 8) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
-      }
-      if(i >= 8 && i < 16) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 8, i - 7) + 7);
-      }
-      if(i >= 16 && i < 24) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 16, i - 15) + 6);
-      }
-      if(i >= 24 && i < 32) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 24, i - 23) + 5);
-      }
-      if(i >= 32 && i < 40) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 32, i - 31) + 4);
-      }
-      if(i >= 40 && i < 48) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 40, i - 39) + 3);
-      }
-      if(i >= 48 && i < 56) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 48, i - 47) + 2);
-      }
-      if(i >= 56 && i < 64) {
-        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
-      }
+  public static void showCurrentGameState(JLabel[] currentGameStateLabels) {
+    for(JLabel label : currentGameStateLabels) {
+      label.setIcon(null);
     }
-    Map<String, Piece> currentGameStateTemp = testField.getCurrentGameState();
+    Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        
       }
 
     }
-    return currentGameStateLabels;
-
   }
 
   /**
@@ -231,39 +166,32 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    * 
    * @return
+   * @return
    */
-  public static JLabel[] highlightLegalMove(Piece piece, Map<String, Piece> currentGameState) {
-    // TODO remove example
 
-    // functional code
+  public static void highlightLegalMove(JLabel[] labels, Piece piece) {
+    
     try {
-      piece.createLegalMoveMap(currentGameState);
+      piece.createLegalMoveMap(Field.getCurrentGameState());
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    Map<String, String> legalMoveMapTemp = new TreeMap<>(piece.getLegalMoveMap());
-    JLabel[] legalMoveLabels = new JLabel[64];
-    for(int i = 0; i < 64; i++) {
-      legalMoveLabels[i] = new JLabel();
-      legalMoveLabels[i].setText("");
-    }
 
-    for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
+    for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
       if(entry.getValue().equals(Piece.TRUE_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
       }
       if(entry.getValue().equals(Piece.HIT_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
       }
     }
-    return legalMoveLabels;
   }
 
   /**
@@ -305,5 +233,4 @@ public class Gui {
     player1Label.setText(whiteName);
     player2Label.setText(blackName);
   }
-
 }

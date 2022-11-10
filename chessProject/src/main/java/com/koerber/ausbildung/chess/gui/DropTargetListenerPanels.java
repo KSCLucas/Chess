@@ -11,6 +11,8 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.koerber.ausbildung.chess.Field;
+
 public class DropTargetListenerPanels extends DropTargetAdapter {
 
   private DropTarget dropTarget;
@@ -23,26 +25,69 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
 
   @Override
   public void drop(DropTargetDropEvent event) {
+    // try {
+    // Transferable tr = event.getTransferable();
+    //
+    // if(event.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+    //
+    // JLabel dragLabel = (JLabel)tr.getTransferData(DataFlavor.imageFlavor);
+    // Icon ico = dragLabel.getIcon();
+    // System.out.println(dragLabel.getName());
+    // dragLabel.getName();
+    // if(ico != null) {
+    // ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
+    // dragLabel.setIcon(null);
+    // ((JPanel)dragLabel.getParent()).updateUI();
+    //
+    // event.dropComplete(true);
+    // dropPanel.updateUI();
+    // }
+    // }
+    // else {
+    // event.rejectDrop();
+    // }
+    // }
+    // catch(Exception e) {
+    // e.printStackTrace();
+    // event.rejectDrop();
+    // }
     try {
       Transferable tr = event.getTransferable();
-
       if(event.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-
         JLabel dragLabel = (JLabel)tr.getTransferData(DataFlavor.imageFlavor);
-        Icon ico = dragLabel.getIcon();
-        dragLabel.getName();
-        if(ico != null) {
-          ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
-          dragLabel.setIcon(null);
-          ((JPanel)dragLabel.getParent()).updateUI();
-
-          event.dropComplete(true);
-          dropPanel.updateUI();
+        String startPosition = dragLabel.getName();
+        JLabel dropLabel = ((JLabel)dropPanel.getComponent(0));
+        String targetPosition = dropLabel.getName();
+        boolean moveSuccessful = false;
+        if (Field.getCurrentGameState().get(startPosition) != null){
+          moveSuccessful = Field.getCurrentGameState().get(startPosition).movePiece(Field.getCurrentGameState(),
+            targetPosition);}
+        else {
+          event.rejectDrop();
+        }
+        if(!moveSuccessful) {
+          event.rejectDrop();
+        }
+        else {
+          Icon ico = dragLabel.getIcon();
+          if(ico != null) {
+            ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
+            dragLabel.setIcon(null);
+            ((JPanel)dragLabel.getParent()).updateUI();
+            event.dropComplete(true);
+            GuiFrame.clearLegalMoveMap();
+            Gui.showCurrentGameState(GuiFrame.currentGameStateLabels);
+            dropPanel.updateUI();
+          }
+          else {
+            event.rejectDrop();
+          }
         }
       }
       else {
         event.rejectDrop();
       }
+
     }
     catch(Exception e) {
       e.printStackTrace();

@@ -20,18 +20,18 @@ import com.koerber.ausbildung.chess.utility.ChessColour;
  */
 public class Field {
 
-  public static final int    UPPER_BOUND      = 8;
-  public static final int    LOWER_BOUND      = 1;
-  public static final char   LEFT_BOUND       = 'A';
-  public static final char   RIGHT_BOUND      = 'H';
+  public static final int           UPPER_BOUND      = 8;
+  public static final int           LOWER_BOUND      = 1;
+  public static final char          LEFT_BOUND       = 'A';
+  public static final char          RIGHT_BOUND      = 'H';
   private static Map<String, Piece> currentGameState = new TreeMap<>();
-  private int                currentTurn      = 1;
-  private char               whoWinner;
+  private int                       currentTurn      = 1;
+  private char                      whoWinner;
 
-  public Map<String, Piece> getCurrentGameState() {
+
+  public static Map<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
-
 
   public int getCurrentTurn() {
     return currentTurn;
@@ -53,7 +53,7 @@ public class Field {
    * Sets game pieces in {@code currentGameState} to the starting positions of
    * {@code initialGameState}.
    */
-  public void initializeMap() {
+  public static void initializeMap() {
     // Clear currentGameState
     getCurrentGameState().clear();
     // Create white pawns

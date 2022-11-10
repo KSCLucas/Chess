@@ -222,6 +222,7 @@ public class GuiFrame {
       public void mousePressed(MouseEvent e) {
         String position = e.getComponent().getName();
         if(Field.getCurrentGameState().get(position) != null) {
+          clearLegalMoveMap();
           Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position));
         }
       }

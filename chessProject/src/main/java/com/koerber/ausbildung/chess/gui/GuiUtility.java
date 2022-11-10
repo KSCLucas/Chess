@@ -3,7 +3,7 @@ package com.koerber.ausbildung.chess.gui;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-public class GuiUtility {
+public abstract class GuiUtility {
 
   /**
    * GridBagContraints Builder
@@ -21,7 +21,7 @@ public class GuiUtility {
     if(rightInset) {
       rightInsetInt = 5;
     }
-    tempGridBag.insets = new Insets(0, 0, 5, rightInsetInt);
+    tempGridBag.insets = new Insets(5, 5, 5, rightInsetInt);
     if(fill) {
       tempGridBag.fill = GridBagConstraints.BOTH;
     }
@@ -30,5 +30,6 @@ public class GuiUtility {
     tempGridBag.gridheight = height;
     return tempGridBag;
   }
-
+  
 }
+

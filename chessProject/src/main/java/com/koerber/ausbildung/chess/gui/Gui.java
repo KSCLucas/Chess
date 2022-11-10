@@ -1,21 +1,18 @@
 package com.koerber.ausbildung.chess.gui;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
-import com.koerber.ausbildung.chess.piece.King;
-import com.koerber.ausbildung.chess.piece.Knight;
+import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.piece.Piece;
-import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -131,8 +128,18 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public void createNewHistroyEntry() {
+  public static void createNewHistroyEntry(JList<String> historyList) {
+    DefaultListModel<String> model = new DefaultListModel<>();
+    History fen = new History();
+    fen.addEntry(
+        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    fen.addEntry(
+        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
 
+    for(int i = 0; i < fen.getFens().size(); i++) {
+      model.addElement(fen.getFenOfTurn(i));
+    }
+    historyList.setModel(model);
   }
 
   /**
@@ -140,127 +147,20 @@ public class Gui {
    * 
    * @return
    */
-  public static JLabel[] showCurrentGameState() {
-    // create test map start
-    // TODO:remove test
-    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
-    Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
-    King tempKing = new King("k1b", ChessColour.BLACK, "B7");
-
-    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
-      }
+  public static void showCurrentGameState(JLabel[] currentGameStateLabels) {
+    for(JLabel label : currentGameStateLabels) {
+      label.setIcon(null);
     }
-    currentGameStateTemp.put("D4", tempKnight);
-    currentGameStateTemp.put("F5", tempRook);
-    currentGameStateTemp.put("F3", tempRook1);
-    currentGameStateTemp.put("B7", tempKing);
-    // test end
-
-    JLabel[] currentGameStateLabels = new JLabel[64];
-    MouseListener m1 = new MouseListener() {
-      JLabel       lastEntered    = new JLabel();
-      JLabel       tempImageLabel = new JLabel();
-      List<JLabel> deleteLabels   = new ArrayList<>();
-      @Override
-      public void mouseClicked(MouseEvent e) {
-
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-        System.out.println(e.getComponent().getName());
-        tempImageLabel = (JLabel)e.getComponent();
-
-        deleteLabels.add(((JLabel)e.getComponent()));
-
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseReleased(MouseEvent e) {
-        System.out.println(lastEntered.getName());
-        lastEntered = (JLabel)e.getComponent();
-        ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
-
-        for(int i = 0; i < deleteLabels.size() - 1; i++) {
-          deleteLabels.get(i).setIcon(null);
-        }
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        lastEntered = (JLabel)e.getComponent();
-
-        if(tempImageLabel.getIcon() != null) {
-          ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
-        }
-        deleteLabels.add(((JLabel)e.getComponent()));
-        // check if still JLabel (if (instanceoff))
-        // TODO Auto-generated method stub
-      }
-
-      @Override
-      public void mouseExited(MouseEvent e) {
-        // ((JLabel)e.getComponent()).setIcon(null);
-        // TODO Auto-generated method stub
-      }
-
-    };
-    List<String> xAxis = new ArrayList<String>();
-    xAxis.add("A");
-    xAxis.add("B");
-    xAxis.add("C");
-    xAxis.add("D");
-    xAxis.add("E");
-    xAxis.add("F");
-    xAxis.add("G");
-    xAxis.add("H");
-    for(int i = 0; i < 64; i++) {
-      currentGameStateLabels[i] = new JLabel();
-      currentGameStateLabels[i].addMouseListener(m1);
-      // currentGameStateLabels[i].setOpaque(true);
-      if(i >= 0 && i < 8) {
-        currentGameStateLabels[i].setName(xAxis.get(i) + 8);
-      }
-      if(i >= 8 && i < 16) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
-      }
-      if(i >= 16 && i < 24) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
-      }
-      if(i >= 24 && i < 32) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
-      }
-      if(i >= 32 && i < 40) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
-      }
-      if(i >= 40 && i < 48) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
-      }
-      if(i >= 48 && i < 56) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
-      }
-      if(i >= 56 && i < 64) {
-        currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
-      }
-
-    }
-
+    Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+
       }
 
     }
-    return currentGameStateLabels;
-
   }
 
   /**
@@ -268,50 +168,32 @@ public class Gui {
    * move), red (hit) or not at all (may not move).
    * 
    * @return
+   * @return
    */
-  public static JLabel[] highlightLegalMove(/* legalMoveMap */) {
-    // TODO remove example
-    Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
-    Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
-    Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
-    for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-      for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-        currentGameStateTemp.put(Character.toString(i) + String.valueOf(j), null);
-      }
-    }
-    currentGameStateTemp.put("D4", tempKnight);
-    currentGameStateTemp.put("F5", tempRook);
-    currentGameStateTemp.put("F3", tempRook1);
+
+  public static void highlightLegalMove(JLabel[] labels, Piece piece) {
+
     try {
-      tempKnight.createLegalMoveMap(currentGameStateTemp);
+      piece.createLegalMoveMap(Field.getCurrentGameState());
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    // functional code
-    Map<String, String> legalMoveMapTemp = new TreeMap<>(tempKnight.getLegalMoveMap());
-    JLabel[] legalMoveLabels = new JLabel[64];
-    for(int i = 0; i < 64; i++) {
-      legalMoveLabels[i] = new JLabel();
-      legalMoveLabels[i].setText("");
-    }
 
-    for(Map.Entry<String, String> entry : legalMoveMapTemp.entrySet()) {
+    for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
       if(entry.getValue().equals(Piece.TRUE_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
       }
       if(entry.getValue().equals(Piece.HIT_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        legalMoveLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
       }
     }
-    return legalMoveLabels;
   }
 
   /**
@@ -335,8 +217,24 @@ public class Gui {
    * 
    * @comment Default names: WHITE & BLACK
    */
-  public void askForPlayerName() {
-
+  public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
+    int maxNameLength = 16;
+    // Ask for player names
+    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):",
+        "Player Name White", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null,
+        null);
+    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):",
+        "Player Name Black", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null,
+        null);
+    // Check for nameing conditions
+    if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
+      whiteName = "WHITE";
+    }
+    if(blackName == null || blackName.isEmpty() || blackName.isBlank() || blackName.length() > maxNameLength) {
+      blackName = "BLACK";
+    }
+    // Modify name labels
+    player1Label.setText(whiteName);
+    player2Label.setText(blackName);
   }
-
 }

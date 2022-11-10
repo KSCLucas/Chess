@@ -23,43 +23,39 @@ import com.koerber.ausbildung.chess.utility.OnlyOneWinnerException;
  */
 public class Field {
 
-  public static final int    UPPER_BOUND      = 8;
-  public static final int    LOWER_BOUND      = 1;
-  public static final char   LEFT_BOUND       = 'A';
-  public static final char   RIGHT_BOUND      = 'H';
-  private Map<String, Piece> currentGameState = new TreeMap<>();
-  private int                currentTurn      = 1;
-  private ChessColour        whoWinner        = ChessColour.NONE;
+  public static final int           UPPER_BOUND      = 8;
+  public static final int           LOWER_BOUND      = 1;
+  public static final char          LEFT_BOUND       = 'A';
+  public static final char          RIGHT_BOUND      = 'H';
+  private static Map<String, Piece> currentGameState = new TreeMap<>();
+  private static int                currentTurn      = 1;
+  private static ChessColour        whoWinner        = ChessColour.NONE;
 
-  public Map<String, Piece> getCurrentGameState() {
+  public static Map<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
 
-  public void setCurrentGameState(Map<String, Piece> currentGameState) {
-    this.currentGameState = currentGameState;
-  }
-
-  public int getCurrentTurn() {
+  public static int getCurrentTurn() {
     return currentTurn;
   }
 
-  public void setCurrentTurn(int currentTurn) {
-    this.currentTurn = currentTurn;
+  public static void setCurrentTurn(int currentTurn) {
+    Field.currentTurn = currentTurn;
   }
 
-  public ChessColour getWhoWinner() {
+  public static ChessColour getWhoWinner() {
     return whoWinner;
   }
 
-  public void setWhoWinner(ChessColour whoWinner) {
-    this.whoWinner = whoWinner;
+  public static void setWhoWinner(ChessColour whoWinner) {
+    Field.whoWinner = whoWinner;
   }
 
   /**
    * Sets game pieces in {@code currentGameState} to the starting positions of
    * {@code initialGameState}.
    */
-  public void initializeMap() {
+  public static void initializeMap() {
     // Clear currentGameState
     getCurrentGameState().clear();
     // Create white pawns
@@ -111,21 +107,21 @@ public class Field {
   /**
    * Sets {@code currentTurn} to initial value (=1).
    */
-  public void resetCurrentTurn() {
+  public static void resetCurrentTurn() {
     setCurrentTurn(1);
   }
 
   /**
    * Increases {@code currentTurn} by 1.
    */
-  public void increaseCurrentTurn() {
+  public static void increaseCurrentTurn() {
     setCurrentTurn(getCurrentTurn() + 1);
   }
 
   /**
    * Decreases {@code currentTurn} by 1.
    */
-  public void decreaseCurrentTurn() {
+  public static void decreaseCurrentTurn() {
     if(getCurrentTurn() > 1) {
       setCurrentTurn(getCurrentTurn() - 1);
     }
@@ -137,7 +133,7 @@ public class Field {
    * method {@code showWinnerPopup}. If none of the Kings are in checkmate then
    * {@code whoWinner = ChessColour.NONE} is set.
    */
-  public void checkForWinner() throws OnlyOneWinnerException {
+  public static void checkForWinner() throws OnlyOneWinnerException {
     List<King> kings = getCurrentGameState().entrySet().stream().map(Entry::getValue).filter(King.class::isInstance)
         .map(King.class::cast).toList();
     for(King king : kings) {
@@ -146,6 +142,22 @@ public class Field {
       }
       else if(king.isCheckmate() && getWhoWinner() != ChessColour.NONE) {
         throw new OnlyOneWinnerException();
+      }
+    }
+  }
+
+  /**
+   * Sets {@code moveable = false} for every {@code Piece} depending on the
+   * current {@code turn}.
+   */
+  public static void turnLock() {
+    ChessColour toLock = getCurrentTurn() % 2 == 0 ? ChessColour.WHITE : ChessColour.BLACK;
+    for(Entry<String, Piece> entry : getCurrentGameState().entrySet()) {
+      if(entry.getValue().getColour() == toLock) {
+        entry.getValue().setMoveable(false);
+      }
+      else {
+        entry.getValue().setMoveable(true);
       }
     }
   }

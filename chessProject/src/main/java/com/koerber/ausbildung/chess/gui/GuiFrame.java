@@ -10,6 +10,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -30,7 +32,7 @@ import com.koerber.ausbildung.chess.Field;
 public class GuiFrame {
 
   private JFrame                 frame;
-  private static final String    X_LABEL      = "ABCDEFGH";
+  public static final String    X_LABEL      = "ABCDEFGH";
   public static final Color      LIGHT_BROWN  = new Color(205, 133, 63);
   public static final Color      LIGHT_GREEN  = new Color(144, 238, 144, 127);
   public static final Color      LIGHT_RED    = new Color(255, 75, 75, 127);
@@ -178,14 +180,15 @@ public class GuiFrame {
     chessBoardMiddleLayer.setBorder(BLACK_BORDER);
 
     // Calls highlightLegalMove and adds build labels to middle Layer
-//    Field testField = new Field();
-//    testField.initializeMap();
-//
-//    JLabel[] legalMoveLabels = Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
-//        testField.getCurrentGameState());
-//    for(int i = 0; i < legalMoveLabels.length; i++) {
-//      chessBoardMiddleLayer.add(legalMoveLabels[i]);
-//    }
+    // Field testField = new Field();
+    // testField.initializeMap();
+    //
+    // JLabel[] legalMoveLabels =
+    // Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
+    // testField.getCurrentGameState());
+    // for(int i = 0; i < legalMoveLabels.length; i++) {
+    // chessBoardMiddleLayer.add(legalMoveLabels[i]);
+    // }
 
     /**
      * Initializes top layer. Top layer displays currentGameState (images) and
@@ -196,10 +199,11 @@ public class GuiFrame {
     chessBoardTopLayer.setBounds(0, 0, 896, 896);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(BLACK_BORDER);
-
+    
     JLabel[] currentGameStateLabels = Gui.showCurrentGameState();
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
+
       topLayerPanels[i] = new JPanel();
       topLayerPanels[i].setOpaque(false);
       topLayerPanels[i].setLayout(new GridLayout(1, 1));
@@ -228,7 +232,6 @@ public class GuiFrame {
       if(i >= 56 && i < 64) {
         topLayerPanels[i].setName(X_LABEL.substring(i - 56, i - 55) + 1);
       }
-
       chessBoardTopLayer.add(topLayerPanels[i]);
     }
 

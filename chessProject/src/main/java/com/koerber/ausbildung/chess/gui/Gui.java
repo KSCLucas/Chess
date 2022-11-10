@@ -178,90 +178,66 @@ public class Gui {
 
     JLabel[] currentGameStateLabels = new JLabel[64];
     MouseListener m1 = new MouseListener() {
-      JLabel       lastEntered    = new JLabel();
-      JLabel       tempImageLabel = new JLabel();
-      List<JLabel> deleteLabels   = new ArrayList<>();
-      boolean      mousePressed   = false;
-      @Override
-      public void mouseClicked(MouseEvent e) {
-
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-        mousePressed = true;
-        System.out.println(e.getComponent().getName());
-        tempImageLabel = (JLabel)e.getComponent();
-
-        deleteLabels.add(((JLabel)e.getComponent()));
-
-        // TODO Auto-generated method stub
-      }
-
+      
       @Override
       public void mouseReleased(MouseEvent e) {
-        System.out.println(lastEntered.getName());
-        lastEntered = (JLabel)e.getComponent();
-        ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
-        if(deleteLabels.size() != 1) {
-          for(int i = 0; i < deleteLabels.size() - 1; i++) {
-            deleteLabels.get(i).setIcon(null);
-          }
-        }
-        mousePressed = false;
-        deleteLabels.clear();
         // TODO Auto-generated method stub
+        
       }
-
+      
       @Override
-      public void mouseEntered(MouseEvent e) {
-        if(mousePressed) {
-          lastEntered = (JLabel)e.getComponent();
-
-          if(tempImageLabel.getIcon() != null) {
-            ((JLabel)e.getComponent()).setIcon(tempImageLabel.getIcon());
-          }
-          deleteLabels.add(((JLabel)e.getComponent()));
-          // check if still JLabel (if (instanceoff))
-          // TODO Auto-generated method stub
-        }
+      public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
       }
-
+      
       @Override
       public void mouseExited(MouseEvent e) {
-        // ((JLabel)e.getComponent()).setIcon(null);
         // TODO Auto-generated method stub
+        
+      }
+      
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+      }
+      
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
       }
     };
+
+    
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
-      // currentGameStateLabels[i].addMouseListener(m1);
-      // currentGameStateLabels[i].setOpaque(true);
-      // if(i >= 0 && i < 8) {
-      // currentGameStateLabels[i].setName(xAxis.get(i) + 8);
-      // }
-      // if(i >= 8 && i < 16) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 8) + 7);
-      // }
-      // if(i >= 16 && i < 24) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 16) + 6);
-      // }
-      // if(i >= 24 && i < 32) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 24) + 5);
-      // }
-      // if(i >= 32 && i < 40) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 32) + 4);
-      // }
-      // if(i >= 40 && i < 48) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 40) + 3);
-      // }
-      // if(i >= 48 && i < 56) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 48) + 2);
-      // }
-      // if(i >= 56 && i < 64) {
-      // currentGameStateLabels[i].setName(xAxis.get(i - 56) + 1);
-      // }
-
+       currentGameStateLabels[i].addMouseListener(m1);
+       if(i >= 0 && i < 8) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
+       }
+       if(i >= 8 && i < 16) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 8, i - 7) + 7);
+       }
+       if(i >= 16 && i < 24) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 16, i - 15) + 6);
+       }
+       if(i >= 24 && i < 32) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 24, i - 23) + 5);
+       }
+       if(i >= 32 && i < 40) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 32, i - 31) + 4);
+       }
+       if(i >= 40 && i < 48) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 40, i - 39) + 3);
+       }
+       if(i >= 48 && i < 56) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 48, i - 47) + 2);
+       }
+       if(i >= 56 && i < 64) {
+         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
+       }
     }
     Map<String, Piece> currentGameStateTemp = testField.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {

@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess.gui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,9 +11,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,17 +20,14 @@ import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
-import com.koerber.ausbildung.chess.Field;
-
 public class GuiFrame {
 
   private JFrame                 frame;
-  public static final String    X_LABEL      = "ABCDEFGH";
+  public static final String     X_LABEL      = "ABCDEFGH";
   public static final Color      LIGHT_BROWN  = new Color(205, 133, 63);
   public static final Color      LIGHT_GREEN  = new Color(144, 238, 144, 127);
   public static final Color      LIGHT_RED    = new Color(255, 75, 75, 127);
@@ -199,7 +194,7 @@ public class GuiFrame {
     chessBoardTopLayer.setBounds(0, 0, 896, 896);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(BLACK_BORDER);
-    
+
     JLabel[] currentGameStateLabels = Gui.showCurrentGameState();
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
@@ -304,12 +299,14 @@ public class GuiFrame {
     GridBagConstraints gbcScoreLabel = GuiUtility.setGridBag(false, false, 3, 1, 1);
     contentPane.add(scoreLabel, gbcScoreLabel);
 
+    int playerNameFontSize = 20;
+
     // Player 1 label (top)
-    JLabel player1Label = new JLabel("PLAYER 1");
-    // TODO set Name (PLAYER 1 = DEFAULT NAME)
+    JLabel player1Label = new JLabel("", JLabel.CENTER);
     player1Label.setOpaque(true);
     player1Label.setBackground(Color.white);
-    GridBagConstraints gbcPlayer1Label = GuiUtility.setGridBag(false, false, 3, 2, 1);
+    player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
+    GridBagConstraints gbcPlayer1Label = GuiUtility.setGridBag(false, true, 3, 2, 1);
     contentPane.add(player1Label, gbcPlayer1Label);
 
     // Player 1 panel
@@ -348,11 +345,12 @@ public class GuiFrame {
     piecesP1Panel.add(piecesP1FillerLabel);
 
     // Player 2 label (bottom)
-    JLabel player2Label = new JLabel("PLAYER 2");
-    // TODO set Name (PLAYER 2 = DEFAULT NAME)
+    JLabel player2Label = new JLabel("", JLabel.CENTER);
     player2Label.setOpaque(true);
-    player2Label.setBackground(Color.white);
-    GridBagConstraints gbcPlayer2Label = GuiUtility.setGridBag(false, false, 3, 6, 1);
+    player2Label.setForeground(Color.white);
+    player2Label.setBackground(Color.black);
+    player2Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
+    GridBagConstraints gbcPlayer2Label = GuiUtility.setGridBag(false, true, 3, 6, 1);
     contentPane.add(player2Label, gbcPlayer2Label);
 
     // Player 2 panel
@@ -389,6 +387,9 @@ public class GuiFrame {
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
+
+    // Get PlayerNames
+    Gui.askForPlayerName(player1Label, player2Label);
   }
 
 }

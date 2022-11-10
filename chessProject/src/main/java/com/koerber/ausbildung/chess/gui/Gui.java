@@ -1,10 +1,5 @@
 package com.koerber.ausbildung.chess.gui;
 
-import java.awt.Container;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -12,7 +7,7 @@ import java.util.TreeMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
@@ -157,42 +152,42 @@ public class Gui {
     testField.initializeMap();
 
     JLabel[] currentGameStateLabels = new JLabel[64];
-//    MouseListener m1 = new MouseListener() {
-//      String  tracker;
-//      boolean isTrackingOn;
-//      @Override
-//      public void mouseReleased(MouseEvent e) {
-//        isTrackingOn = false;
-//      }
-//
-//      @Override
-//      public void mousePressed(MouseEvent e) {
-//        isTrackingOn = true;
-//        System.out.println(e.getComponent().getName());
-//      }
-//
-//      @Override
-//      public void mouseExited(MouseEvent e) {
-//      }
-//
-//      @Override
-//      public void mouseEntered(MouseEvent e) {
-//
-//        if(isTrackingOn) {
-//          System.out.println(e.getComponent().getName());
-//          tracker = e.getComponent().getName();
-//        }
-//      }
-//
-//      @Override
-//      public void mouseClicked(MouseEvent e) {
-//
-//      }
-//    };
+    // MouseListener m1 = new MouseListener() {
+    // String tracker;
+    // boolean isTrackingOn;
+    // @Override
+    // public void mouseReleased(MouseEvent e) {
+    // isTrackingOn = false;
+    // }
+    //
+    // @Override
+    // public void mousePressed(MouseEvent e) {
+    // isTrackingOn = true;
+    // System.out.println(e.getComponent().getName());
+    // }
+    //
+    // @Override
+    // public void mouseExited(MouseEvent e) {
+    // }
+    //
+    // @Override
+    // public void mouseEntered(MouseEvent e) {
+    //
+    // if(isTrackingOn) {
+    // System.out.println(e.getComponent().getName());
+    // tracker = e.getComponent().getName();
+    // }
+    // }
+    //
+    // @Override
+    // public void mouseClicked(MouseEvent e) {
+    //
+    // }
+    // };
 
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
-//      currentGameStateLabels[i].addMouseListener(m1);
+      // currentGameStateLabels[i].addMouseListener(m1);
       if(i >= 0 && i < 8) {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
       }
@@ -292,8 +287,23 @@ public class Gui {
    * 
    * @comment Default names: WHITE & BLACK
    */
-  public void askForPlayerName() {
-
+  public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
+    int maxNameLength = 16;
+    // Ask for player names
+    String whiteName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour white:", "Player Names",
+        JOptionPane.PLAIN_MESSAGE);
+    String blackName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour black:", "Player Names",
+        JOptionPane.PLAIN_MESSAGE);
+    // Check for nameing conditions
+    if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
+      whiteName = "WHITE";
+    }
+    if(blackName == null || blackName.isEmpty() || blackName.isBlank() || blackName.length() > maxNameLength) {
+      blackName = "BLACK";
+    }
+    // Modify name labels
+    player1Label.setText(whiteName);
+    player2Label.setText(blackName);
   }
 
 }

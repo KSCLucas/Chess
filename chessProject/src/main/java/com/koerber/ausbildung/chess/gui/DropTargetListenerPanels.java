@@ -84,6 +84,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             Pawn.resetEnPassant(Field.getCurrentGameState(),
                 Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
             Field.increaseCurrentTurn();
+            GuiFrame.highlightActivePlayer();
             Field.turnLock();
           }
           else {

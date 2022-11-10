@@ -13,11 +13,8 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,6 +43,10 @@ public class GuiFrame {
   public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
+  
+  private static JLabel player1Label;
+  
+  private static JLabel player2Label;
   /**
    * Launch the application.
    */
@@ -57,6 +58,7 @@ public class GuiFrame {
         try {
           GuiFrame window = new GuiFrame();
           window.frame.setVisible(true);
+          highlightActivePlayer();
         }
         catch(Exception e) {
           e.printStackTrace();
@@ -107,6 +109,7 @@ public class GuiFrame {
           Field.initializeMap();
           Field.resetCurrentTurn();
           Field.turnLock();
+          highlightActivePlayer();
           Gui.showCurrentGameState(currentGameStateLabels);
         }
       }
@@ -394,13 +397,14 @@ public class GuiFrame {
 
     // SCORE Label
     JLabel scoreLabel = new JLabel("SCORE");
+    scoreLabel.setFont(new Font(null, Font.BOLD, 20));
     GridBagConstraints gbcScoreLabel = GuiUtility.setGridBag(false, false, 3, 1, 1);
     contentPane.add(scoreLabel, gbcScoreLabel);
 
     int playerNameFontSize = 20;
 
     // Player 1 label (top)
-    JLabel player1Label = new JLabel("", JLabel.CENTER);
+    player1Label = new JLabel("", JLabel.CENTER);
     player1Label.setOpaque(true);
     player1Label.setBackground(Color.white);
     player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
@@ -443,7 +447,7 @@ public class GuiFrame {
     piecesP1Panel.add(piecesP1FillerLabel);
 
     // Player 2 label (bottom)
-    JLabel player2Label = new JLabel("", JLabel.CENTER);
+    player2Label = new JLabel("", JLabel.CENTER);
     player2Label.setOpaque(true);
     player2Label.setForeground(Color.white);
     player2Label.setBackground(Color.black);
@@ -485,15 +489,26 @@ public class GuiFrame {
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
-
+    
     // Get PlayerNames
-    // Gui.askForPlayerName(player1Label, player2Label);
+     Gui.askForPlayerName(player1Label, player2Label);
   }
 
   public static void clearLegalMoveMap() {
     for(JLabel label : legalMoveLabels) {
       label.setBackground(null);
       label.setOpaque(false);
+    }
+  }
+  
+  public static void highlightActivePlayer() {
+    if(Field.getCurrentTurn() % 2 == 0) {
+      player2Label.setBorder(new LineBorder(Color.green, 5));
+      player1Label.setBorder(null);
+    }
+    else {
+      player1Label.setBorder(new LineBorder(Color.green, 5));
+      player2Label.setBorder(null);
     }
   }
 }

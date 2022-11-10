@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -155,7 +157,7 @@ public class Gui {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
         currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
-        
+
       }
 
     }
@@ -170,7 +172,7 @@ public class Gui {
    */
 
   public static void highlightLegalMove(JLabel[] labels, Piece piece) {
-    
+
     try {
       piece.createLegalMoveMap(Field.getCurrentGameState());
     }
@@ -218,10 +220,12 @@ public class Gui {
   public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
     int maxNameLength = 16;
     // Ask for player names
-    String whiteName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour white:", "Player Names",
-        JOptionPane.PLAIN_MESSAGE);
-    String blackName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour black:", "Player Names",
-        JOptionPane.PLAIN_MESSAGE);
+    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):",
+        "Player Name White", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null,
+        null);
+    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):",
+        "Player Name Black", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null,
+        null);
     // Check for nameing conditions
     if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
       whiteName = "WHITE";

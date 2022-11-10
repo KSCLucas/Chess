@@ -1,7 +1,5 @@
 package com.koerber.ausbildung.chess.gui;
 
-import java.awt.Component;
-import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;

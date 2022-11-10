@@ -247,12 +247,14 @@ public class GuiFrame {
     JLabel scoreLabel = new JLabel("SCORE BOARD");
     GridBagConstraints gbcScoreLabel = GuiUtility.setGridBag(false, false, 3, 1, 1);
     contentPane.add(scoreLabel, gbcScoreLabel);
-
+    
+    int playerNameFontSize = 20;
+    
     // Player 1 label (top)
     JLabel player1Label = new JLabel("", JLabel.CENTER);
     player1Label.setOpaque(true);
     player1Label.setBackground(Color.white);
-    player1Label.setFont(new Font(null, Font.PLAIN, 30));
+    player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
     GridBagConstraints gbcPlayer1Label = GuiUtility.setGridBag(false, true, 3, 2, 1);
     contentPane.add(player1Label, gbcPlayer1Label);
 
@@ -296,7 +298,7 @@ public class GuiFrame {
     player2Label.setOpaque(true);
     player2Label.setForeground(Color.white);
     player2Label.setBackground(Color.black);
-    player2Label.setFont(new Font(null, Font.PLAIN, 30));
+    player2Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
     GridBagConstraints gbcPlayer2Label = GuiUtility.setGridBag(false, true, 3, 6, 1);
     contentPane.add(player2Label, gbcPlayer2Label);
 

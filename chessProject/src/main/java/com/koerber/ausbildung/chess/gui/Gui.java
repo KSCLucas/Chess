@@ -19,7 +19,7 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  * GUI class provides the entire GUI. It communicates with the Field & Player
  * class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 public class Gui {
   
@@ -325,16 +325,19 @@ public class Gui {
    * @comment Default names: WHITE & BLACK
    */
   public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
+    // Ask for player names
     String whiteName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour white:", "Player Names",
         JOptionPane.PLAIN_MESSAGE);
     String blackName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour black:", "Player Names",
         JOptionPane.PLAIN_MESSAGE);
+    // Check for nameing conditions
     if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > MAX_NAME_LENGTH) {
       whiteName = "WHITE";
     }
     if(blackName == null || blackName.isEmpty() || blackName.isBlank() || blackName.length() > MAX_NAME_LENGTH) {
       blackName = "BLACK";
     }
+    // Modify name labels
     player1Label.setText(whiteName);
     player2Label.setText(blackName);
   }

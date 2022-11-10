@@ -7,7 +7,6 @@ import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.io.IOException;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 
 public class DragGestureListenerPanels implements DragGestureListener {
@@ -15,9 +14,6 @@ public class DragGestureListenerPanels implements DragGestureListener {
   @Override
   public void dragGestureRecognized(DragGestureEvent event) {
     JLabel label = (JLabel)event.getComponent();
-    Icon icon = label.getIcon();
-
-    
 
     Transferable transferable = new Transferable() {
 
@@ -40,9 +36,7 @@ public class DragGestureListenerPanels implements DragGestureListener {
       }
     };
     event.startDrag(null, transferable);
-    
+
   }
-  
-  
 
 }

@@ -16,37 +16,30 @@ import javax.swing.JPanel;
 public class DropTargetListenerPanels extends DropTargetAdapter {
 
   private DropTarget dropTarget;
-  private JPanel     p;
+  private JPanel     dropPanel;
 
   public DropTargetListenerPanels(JPanel p) {
-    this.p = p;
+    this.dropPanel = p;
     dropTarget = new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null);
   }
 
   @Override
   public void drop(DropTargetDropEvent event) {
     try {
-      DropTarget test = (DropTarget)event.getSource();
-      Component ca = (Component)test.getComponent();
-      Point dropPoint = ca.getMousePosition();
       Transferable tr = event.getTransferable();
 
       if(event.isDataFlavorSupported(DataFlavor.imageFlavor)) {
 
-        JLabel label= (JLabel)tr.getTransferData(DataFlavor.imageFlavor);
-        Icon ico = label.getIcon();
-        
+        JLabel dragLabel = (JLabel)tr.getTransferData(DataFlavor.imageFlavor);
+        Icon ico = dragLabel.getIcon();
+        dragLabel.getName();
         if(ico != null) {
-//          p.remove(0);
-          ((JLabel) p.getComponent(0)).setIcon(ico);
-          label.setIcon(null);
-          ((JPanel)label.getParent()).updateUI();
-//          p.add(new JLabel(ico));
-          
-//          p.revalidate();
-//          p.repaint();
+          ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
+          dragLabel.setIcon(null);
+          ((JPanel)dragLabel.getParent()).updateUI();
+
           event.dropComplete(true);
-          p.updateUI();
+          dropPanel.updateUI();
         }
       }
       else {
@@ -58,6 +51,5 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
       event.rejectDrop();
     }
   }
-  
 
 }

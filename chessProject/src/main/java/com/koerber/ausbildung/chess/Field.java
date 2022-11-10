@@ -24,7 +24,7 @@ public class Field {
   public static final int    LOWER_BOUND      = 1;
   public static final char   LEFT_BOUND       = 'A';
   public static final char   RIGHT_BOUND      = 'H';
-  private Map<String, Piece> currentGameState = new TreeMap<>();
+  private static Map<String, Piece> currentGameState = new TreeMap<>();
   private int                currentTurn      = 1;
   private char               whoWinner;
 
@@ -32,9 +32,6 @@ public class Field {
     return currentGameState;
   }
 
-  public void setCurrentGameState(Map<String, Piece> currentGameState) {
-    this.currentGameState = currentGameState;
-  }
 
   public int getCurrentTurn() {
     return currentTurn;

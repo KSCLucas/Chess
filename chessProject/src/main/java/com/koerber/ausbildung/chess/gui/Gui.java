@@ -139,8 +139,7 @@ public class Gui {
         "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
     fen.addEntry(
         "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    fen.addEntry(
-        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+
     for(int i = 0; i < fen.getFens().size(); i++) {
       model.addElement(fen.getFenOfTurn(i));
     }
@@ -153,91 +152,71 @@ public class Gui {
    * @return
    */
   public static JLabel[] showCurrentGameState() {
-    // create test map start
-    // TODO:remove test
-    // Knight tempKnight = new Knight("n1b", ChessColour.BLACK, "D4");
-    // Rook tempRook = new Rook("n1w", ChessColour.WHITE, "F5", 'l');
-    // Rook tempRook1 = new Rook("n1w", ChessColour.WHITE, "F3", 'l');
-    // King tempKing = new King("k1b", ChessColour.BLACK, "B7");
-    //
-    // Map<String, Piece> currentGameStateTemp = new TreeMap<String, Piece>();
-    // for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
-    // for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
-    // currentGameStateTemp.put(Character.toString(i) + String.valueOf(j),
-    // null);
-    // }
-    // }
-    // currentGameStateTemp.put("D4", tempKnight);
-    // currentGameStateTemp.put("F5", tempRook);
-    // currentGameStateTemp.put("F3", tempRook1);
-    // currentGameStateTemp.put("B7", tempKing);
-    // // test end
 
     Field testField = new Field();
     testField.initializeMap();
 
     JLabel[] currentGameStateLabels = new JLabel[64];
-    MouseListener m1 = new MouseListener() {
-      
-      @Override
-      public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-      }
-      
-      @Override
-      public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-      }
-      
-      @Override
-      public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-      }
-      
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-      }
-      
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-      }
-    };
+//    MouseListener m1 = new MouseListener() {
+//      String  tracker;
+//      boolean isTrackingOn;
+//      @Override
+//      public void mouseReleased(MouseEvent e) {
+//        isTrackingOn = false;
+//      }
+//
+//      @Override
+//      public void mousePressed(MouseEvent e) {
+//        isTrackingOn = true;
+//        System.out.println(e.getComponent().getName());
+//      }
+//
+//      @Override
+//      public void mouseExited(MouseEvent e) {
+//      }
+//
+//      @Override
+//      public void mouseEntered(MouseEvent e) {
+//
+//        if(isTrackingOn) {
+//          System.out.println(e.getComponent().getName());
+//          tracker = e.getComponent().getName();
+//        }
+//      }
+//
+//      @Override
+//      public void mouseClicked(MouseEvent e) {
+//
+//      }
+//    };
 
-    
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
-       currentGameStateLabels[i].addMouseListener(m1);
-       if(i >= 0 && i < 8) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
-       }
-       if(i >= 8 && i < 16) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 8, i - 7) + 7);
-       }
-       if(i >= 16 && i < 24) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 16, i - 15) + 6);
-       }
-       if(i >= 24 && i < 32) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 24, i - 23) + 5);
-       }
-       if(i >= 32 && i < 40) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 32, i - 31) + 4);
-       }
-       if(i >= 40 && i < 48) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 40, i - 39) + 3);
-       }
-       if(i >= 48 && i < 56) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 48, i - 47) + 2);
-       }
-       if(i >= 56 && i < 64) {
-         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
-       }
+//      currentGameStateLabels[i].addMouseListener(m1);
+      if(i >= 0 && i < 8) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i, i + 1) + 8);
+      }
+      if(i >= 8 && i < 16) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 8, i - 7) + 7);
+      }
+      if(i >= 16 && i < 24) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 16, i - 15) + 6);
+      }
+      if(i >= 24 && i < 32) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 24, i - 23) + 5);
+      }
+      if(i >= 32 && i < 40) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 32, i - 31) + 4);
+      }
+      if(i >= 40 && i < 48) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 40, i - 39) + 3);
+      }
+      if(i >= 48 && i < 56) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 48, i - 47) + 2);
+      }
+      if(i >= 56 && i < 64) {
+        currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
+      }
     }
     Map<String, Piece> currentGameStateTemp = testField.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {

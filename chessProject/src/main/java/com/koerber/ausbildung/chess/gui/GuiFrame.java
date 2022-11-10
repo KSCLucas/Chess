@@ -11,8 +11,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -27,6 +33,8 @@ import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IconSupplier;
 
 public class GuiFrame {
 
@@ -43,6 +51,7 @@ public class GuiFrame {
    */
   public static void main(String[] args) {
     Field.initializeMap();
+    Field.turnLock();
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -54,7 +63,6 @@ public class GuiFrame {
         }
       }
     });
-
   }
 
   /**
@@ -89,6 +97,21 @@ public class GuiFrame {
     newGamePanel.setLayout(new GridLayout(1, 2, 0, 0));
 
     JButton newGameButton = new JButton("NEW GAME");
+    ActionListener newGame = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int whiteName = JOptionPane.showOptionDialog(frame, "RESTART GAME?", "Start New Game",
+            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+            IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
+        if(whiteName == JOptionPane.YES_OPTION) {
+          Field.initializeMap();
+          Field.resetCurrentTurn();
+          Field.turnLock();
+          Gui.showCurrentGameState(currentGameStateLabels);
+        }
+      }
+    };
+    newGameButton.addActionListener(newGame);
     newGamePanel.add(newGameButton);
 
     JButton backButton = new JButton("BACK");

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.piece.Piece;
@@ -21,6 +22,8 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  * @author Lucas Noack
  */
 public class Gui {
+  
+  public static final int MAX_NAME_LENGTH = 16;
 
   private String posClickedPiece;
 
@@ -321,8 +324,19 @@ public class Gui {
    * 
    * @comment Default names: WHITE & BLACK
    */
-  public void askForPlayerName() {
-
+  public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
+    String whiteName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour white:", "Player Names",
+        JOptionPane.PLAIN_MESSAGE);
+    String blackName = (String)JOptionPane.showInputDialog(null, "Enter player name for colour black:", "Player Names",
+        JOptionPane.PLAIN_MESSAGE);
+    if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > MAX_NAME_LENGTH) {
+      whiteName = "WHITE";
+    }
+    if(blackName == null || blackName.isEmpty() || blackName.isBlank() || blackName.length() > MAX_NAME_LENGTH) {
+      blackName = "BLACK";
+    }
+    player1Label.setText(whiteName);
+    player2Label.setText(blackName);
   }
 
 }

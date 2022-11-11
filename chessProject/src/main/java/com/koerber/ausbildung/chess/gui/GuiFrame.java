@@ -83,7 +83,7 @@ public class GuiFrame {
     Container contentPane = frame.getContentPane();
     frame.setBounds(0, 0, 1920, 1080);
     frame.setTitle("CHESS");
-    frame.setIconImage(new ImageIcon("src/main/resources/Sprites_in_small/knight_small.png").getImage());
+    frame.setIconImage(IconSupplier.getIcon(ChessColour.NONE, "chess_logo").getImage());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 908, 450};
@@ -104,7 +104,7 @@ public class GuiFrame {
       public void actionPerformed(ActionEvent e) {
         int whiteName = JOptionPane.showOptionDialog(frame, "RESTART GAME?", "Start New Game",
             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-            IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
+            IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
         if(whiteName == JOptionPane.YES_OPTION) {
           Field.initializeMap();
           Field.resetCurrentTurn();

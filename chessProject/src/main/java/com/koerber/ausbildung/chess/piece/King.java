@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
@@ -156,6 +157,7 @@ public class King extends Piece {
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
         .filter(x -> x.getValue().getColour() != getColour())
         .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+    Map<String, String> legalMoveMapCopy = new TreeMap<>();
     for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
       try {
         if(entry.getValue() instanceof Pawn currentPawn) {
@@ -177,12 +179,14 @@ public class King extends Piece {
               }
             }
             }
-            opposingLegalMoveMaps.add(currentPawn.getLegalMoveMap());
+            legalMoveMapCopy.putAll(entry.getValue().getLegalMoveMap());
+            opposingLegalMoveMaps.add(legalMoveMapCopy);
           }
         }
         else {
           entry.getValue().createLegalMoveMap(opposingPieces);
-          opposingLegalMoveMaps.add(entry.getValue().getLegalMoveMap());
+          legalMoveMapCopy.putAll(entry.getValue().getLegalMoveMap());
+          opposingLegalMoveMaps.add(legalMoveMapCopy);
         }
       }
       catch(PieceOutOfBoundsException e) {

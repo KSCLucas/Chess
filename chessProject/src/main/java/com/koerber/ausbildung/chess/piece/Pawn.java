@@ -140,13 +140,13 @@ public class Pawn extends Piece {
     getLegalMoveMap().clear();
     // Is Pawn moveable?
     if(isMoveable()) {
-      // Loop over every movevector in moveSet
-      for(int i = 0; i < getMoveSet().size(); i++) {
+      // Loop over every movevector in availableMoveVectors
+      for(int i = 0; i < getAvailableMoveVectors().size(); i++) {
         // Set posLetterAsNumber and posNumber
         int colourModifier = getColour() == ChessColour.BLACK ? -1 : 1;
         int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
         int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
-        MoveVector moveVector = getMoveSet().get(i);
+        MoveVector moveVector = getAvailableMoveVectors().get(i);
         // Distinguish between move-only, take-only and check-only
         switch(i) {
         case 0 -> {

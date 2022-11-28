@@ -144,10 +144,52 @@ public class King extends Piece {
    * {@code Colour} and returns it.
    * 
    * @param currentGameState
-   * @return
+   * @return opposingMoveMaps
    */
   private List<Map<String, String>> getOpposingMoveMaps(Map<String, Piece> currentGameState) {
-    return null;
+    Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
+        .filter(x -> x.getValue().getColour() != getColour())
+        .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+    List<Map<String, String>> opposingMoveMaps = new ArrayList<>();
+    for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
+      Piece currentPiece = entry.getValue();
+      // Clear legalMoveMap
+      currentPiece.getLegalMoveMap().clear();
+      // Loop over every move vector in moveSet
+      for(MoveVector moveVector : currentPiece.getAvailableMoveVectors()) {
+        int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
+        int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
+        // Change content of legalMoveMap based on move vector i and
+        // currentGameState
+        boolean repeatLoop = true;
+        do {
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
+          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          // Check for fieldKey still on Field
+          if(inFieldBounds(posLetterAsNumber, posNumber)) {
+            // Check for EmptyPiece
+            if(currentGameState.get(fieldKey) == null) {
+              currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+            }
+            // Check for this King
+            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
+                && currentGameState.get(fieldKey) instanceof King) {
+              currentPiece.getLegalMoveMap().put(fieldKey, getId());
+            }
+            // Check for Piece of Kings colour
+            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
+              currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+            }
+          }
+          else {
+            repeatLoop = false;
+          }
+        } while(currentPiece.isMoveRepeatable() && repeatLoop);
+      }
+      opposingMoveMaps.add(currentPiece.getLegalMoveMap());
+    }
+    return opposingMoveMaps;
   }
 
   /**

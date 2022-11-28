@@ -32,7 +32,7 @@ public abstract class Piece {
   protected String            position;
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
-  private List<MoveVector>    availableMoveVectors = new ArrayList<>(moveSet);
+  private List<MoveVector>    availableMoveVectors = new ArrayList<>();
   private Map<String, String> legalMoveMap         = new TreeMap<>();
   private boolean             moveable             = true;
 
@@ -56,6 +56,7 @@ public abstract class Piece {
     this.position = position;
     this.moveSet = moveSet;
     this.icon = icon;
+    availableMoveVectors.addAll(moveSet);
   }
 
   public String getId() {
@@ -117,23 +118,23 @@ public abstract class Piece {
   public void setMoveable(boolean moveable) {
     this.moveable = moveable;
   }
-  
+
   public List<MoveVector> getAvailableMoveVectors() {
     return this.availableMoveVectors;
   }
-  
+
   public void setAvailableMoveVectors(List<MoveVector> availableMoveVectors) {
     this.availableMoveVectors = availableMoveVectors;
   }
-  
+
   public void emptyAvailableMoveVectors() {
     getAvailableMoveVectors().clear();
   }
-  
+
   public void setAvailableMoveVectorsToMoveSet() {
     setAvailableMoveVectors(new ArrayList<MoveVector>(getMoveSet()));
   }
-  
+
   /**
    * Builds {@code fieldKey} given one {@code char} as {@code int} and one
    * {@code int}.

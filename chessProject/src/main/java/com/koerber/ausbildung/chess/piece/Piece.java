@@ -1,5 +1,6 @@
 package com.koerber.ausbildung.chess.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,11 +20,11 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
-  public static final String  TRUE_STRING       = "ttt";
-  public static final String  HIT_STRING        = "hhh";
-  public static final String  NOT_ON_FIELD      = "xy";
-  protected static final int  FIRST_CHAR_INDEX  = 0;
-  protected static final int  SECOND_CHAR_INDEX = 1;
+  public static final String  TRUE_STRING          = "ttt";
+  public static final String  HIT_STRING           = "hhh";
+  public static final String  NOT_ON_FIELD         = "xy";
+  protected static final int  FIRST_CHAR_INDEX     = 0;
+  protected static final int  SECOND_CHAR_INDEX    = 1;
   private String              id;
   private ChessColour         colour;
   private int                 value;
@@ -31,8 +32,9 @@ public abstract class Piece {
   protected String            position;
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
-  private Map<String, String> legalMoveMap      = new TreeMap<>();
-  private boolean             moveable          = true;
+  private List<MoveVector>    availableMoveVectors = new ArrayList<>(moveSet);
+  private Map<String, String> legalMoveMap         = new TreeMap<>();
+  private boolean             moveable             = true;
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -115,7 +117,23 @@ public abstract class Piece {
   public void setMoveable(boolean moveable) {
     this.moveable = moveable;
   }
-
+  
+  public List<MoveVector> getAvailableMoveVectors() {
+    return this.availableMoveVectors;
+  }
+  
+  public void setAvailableMoveVectors(List<MoveVector> availableMoveVectors) {
+    this.availableMoveVectors = availableMoveVectors;
+  }
+  
+  public void emptyAvailableMoveVectors() {
+    getAvailableMoveVectors().clear();
+  }
+  
+  public void setAvailableMoveVectorsToMoveSet() {
+    setAvailableMoveVectors(new ArrayList<MoveVector>(getMoveSet()));
+  }
+  
   /**
    * Builds {@code fieldKey} given one {@code char} as {@code int} and one
    * {@code int}.

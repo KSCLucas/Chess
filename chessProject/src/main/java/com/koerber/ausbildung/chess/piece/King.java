@@ -147,6 +147,8 @@ public class King extends Piece {
    * @return opposingMoveMaps
    */
   private List<Map<String, String>> getOpposingMoveMaps(Map<String, Piece> currentGameState) {
+    // TODO add Pawn recognicion
+    // Filter for every opposing piece
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
         .filter(x -> x.getValue().getColour() != getColour())
         .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
@@ -196,10 +198,18 @@ public class King extends Piece {
    * Combines a List of {@code moveMaps} into one Map and returns it.
    * 
    * @param opposingMoveMaps
-   * @return
+   * @return mergedMoveMap
    */
   private Map<String, String> mergeOpposingMoveMaps(List<Map<String, String>> opposingMoveMaps) {
-    return null;
+    Map<String, String> mergedMoveMap = new TreeMap<>();
+    // Loop over every Map
+    for(Map<String, String> map : opposingMoveMaps) {
+      // Loop over every Map Entry
+      for(Entry<String, String> entry : map.entrySet()) {
+        mergedMoveMap.putIfAbsent(entry.getKey(), entry.getValue());
+      }
+    }
+    return mergedMoveMap;
   }
 
   /**
@@ -209,10 +219,12 @@ public class King extends Piece {
    * {@code King}.
    * 
    * @param currentGameState
-   * @param combinedMoveMap
+   * @param mergedMoveMap
    */
   private void setAllMoveabilityAndCheckForCheck(Map<String, Piece> currentGameState,
-      Map<String, String> combinedMoveMap) {
+      Map<String, String> mergedMoveMap) {
+    // Add check recognition
+
     // Invert attack moveVector of attacking Piece for non-moveable Piece and
     // set availableMoveVectors to inverted attack vector, if inverted attack
     // vector is in own moveSet.
@@ -234,14 +246,14 @@ public class King extends Piece {
     // Create List<Map<String, String>> of Pieces of the opposing colour
     List<Map<String, String>> opposingMoveMaps = getOpposingMoveMaps(currentGameState);
     // Merge all opposingMoveMaps into one Map
-    Map<String, String> combinedMoveMap = mergeOpposingMoveMaps(opposingMoveMaps);
+    Map<String, String> mergedMoveMap = mergeOpposingMoveMaps(opposingMoveMaps);
     // Limit moveablility and check for check
-    setAllMoveabilityAndCheckForCheck(currentGameState, combinedMoveMap);
+    setAllMoveabilityAndCheckForCheck(currentGameState, mergedMoveMap);
     // Create real legalMoveMap for King
 
-    // Get King legalMoveMap without combinedMoveMap
+    // Get King legalMoveMap without mergedMoveMap
 
-    // Merge King legalMoveMap with CombinedMoveMap
+    // Merge King legalMoveMap with mergedMoveMap
 
     // // Create legalMoveMap with only Pieces of the same colour and store them
     // List<Map<String, String>> opposingLegalMoveMaps = new ArrayList<>();

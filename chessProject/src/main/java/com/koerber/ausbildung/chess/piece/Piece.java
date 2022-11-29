@@ -168,7 +168,9 @@ public abstract class Piece {
    * {@code targetPosition}, it sets {@code position} of that {@code Piece} to
    * {@code HIT_STRING}.
    * 
+   * @param currentGameState
    * @param targetPosition
+   * @param unlockedColour
    * @return {@code true} if move is successful. Otherwise it returns
    *         {@code false}
    */

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -172,14 +173,14 @@ public class Gui {
    */
 
   public static void highlightLegalMove(JLabel[] labels, Piece piece) {
-
-    try {
-      piece.createLegalMoveMap(Field.getCurrentGameState());
+    if(!(piece instanceof King)) {
+      try {
+        piece.createLegalMoveMap(Field.getCurrentGameState());
+      }
+      catch(PieceOutOfBoundsException e) {
+        e.printStackTrace();
+      }
     }
-    catch(PieceOutOfBoundsException e) {
-      e.printStackTrace();
-    }
-
     for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
       if(entry.getValue().equals(Piece.TRUE_STRING)) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
@@ -220,12 +221,10 @@ public class Gui {
   public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
     int maxNameLength = 16;
     // Ask for player names
-    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):",
-        "Player Name White", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null,
-        null);
-    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):",
-        "Player Name Black", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null,
-        null);
+    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):", "Player Name White",
+        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null, null);
+    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):", "Player Name Black",
+        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
     // Check for nameing conditions
     if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
       whiteName = "WHITE";

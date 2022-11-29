@@ -257,6 +257,7 @@ public class King extends Piece {
         getLegalMoveMap().remove(entry.getKey());
       }
     }
+    System.out.println(getLegalMoveMap());
   }
 
   /**

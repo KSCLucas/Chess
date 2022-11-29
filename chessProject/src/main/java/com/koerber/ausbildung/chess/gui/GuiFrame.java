@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +30,8 @@ import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.piece.King;
+import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 
@@ -42,16 +45,21 @@ public class GuiFrame {
   public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
-  
-  private static JLabel player1Label;
-  
-  private static JLabel player2Label;
+
+  private static JLabel          player1Label;
+
+  private static JLabel          player2Label;
   /**
    * Launch the application.
    */
   public static void main(String[] args) {
     Field.initializeMap();
     Field.turnLock();
+    Field.getCurrentGameState().entrySet().stream()
+        .filter(x -> x.getValue() instanceof King && x.getValue().getColour() == ChessColour.WHITE).forEach(x -> {
+          King king = (King)x.getValue();
+          king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+        });
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -493,9 +501,9 @@ public class GuiFrame {
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
-    
+
     // Get PlayerNames
-     Gui.askForPlayerName(player1Label, player2Label);
+    Gui.askForPlayerName(player1Label, player2Label);
   }
 
   public static void clearLegalMoveMap() {
@@ -504,7 +512,7 @@ public class GuiFrame {
       label.setOpaque(false);
     }
   }
-  
+
   public static void highlightActivePlayer() {
     if(Field.getCurrentTurn() % 2 == 0) {
       player2Label.setBorder(new LineBorder(Color.green, 5));

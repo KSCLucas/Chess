@@ -172,8 +172,8 @@ public abstract class Piece {
    * @return {@code true} if move is successful. Otherwise it returns
    *         {@code false}
    */
-  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
-    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)) {
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
       return false;
     }
     else {

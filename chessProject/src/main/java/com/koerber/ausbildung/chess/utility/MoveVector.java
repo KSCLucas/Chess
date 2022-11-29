@@ -1,5 +1,7 @@
 package com.koerber.ausbildung.chess.utility;
 
+import java.util.Objects;
+
 /**
  * A class for creating {@code MoveVectors} for the {@code Pieces}.
  * 
@@ -34,5 +36,21 @@ public class MoveVector {
   @Override
   public String toString() {
     return "[" + getX() + ", " + getY() + "]";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    // Self check
+    if(this == o)
+      return true;
+    // Null check
+    if(o == null)
+      return false;
+    // Type check and cast
+    if(getClass() != o.getClass())
+      return false;
+    MoveVector moveVector = (MoveVector)o;
+    // Field comparison
+    return Objects.equals(x, moveVector.x) && Objects.equals(y, moveVector.y);
   }
 }

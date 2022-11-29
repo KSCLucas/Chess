@@ -397,7 +397,7 @@ class PawnTest {
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    white.movePiece(testCurrentGameState, "B3");
+    white.movePiece(testCurrentGameState, "B3", white.getColour());
 
     assertEquals(Piece.NOT_ON_FIELD, black.getPosition());
     assertEquals(null, testCurrentGameState.get("A2"));
@@ -435,7 +435,7 @@ class PawnTest {
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    boolean moved = white.movePiece(testCurrentGameState, "B3");
+    boolean moved = white.movePiece(testCurrentGameState, "B3", white.getColour());
 
     assertEquals(false, moved);
     assertEquals(white, testCurrentGameState.get("A2"));
@@ -474,7 +474,7 @@ class PawnTest {
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
     }
-    boolean moved = white.movePiece(testCurrentGameState, "B3");
+    boolean moved = white.movePiece(testCurrentGameState, "B3", white.getColour());
 
     assertEquals(false, moved);
     assertEquals(white, testCurrentGameState.get("A2"));

@@ -89,6 +89,8 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             Field.increaseCurrentTurn();
             GuiFrame.highlightActivePlayer();
             Field.turnLock();
+            Gui.createNewHistroyEntry();
+            
           }
           else {
             event.rejectDrop();

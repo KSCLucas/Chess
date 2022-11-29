@@ -14,6 +14,8 @@ import java.util.List;
 public class History {
 
   private List<String> fens = new ArrayList<>();
+  
+  public static List<String> historyEntryList = new ArrayList<>();
 
   public List<String> getFens() {
     return fens;

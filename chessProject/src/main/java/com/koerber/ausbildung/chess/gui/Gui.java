@@ -12,6 +12,7 @@ import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -128,18 +129,24 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public static void createNewHistroyEntry(JList<String> historyList) {
+  public static void createNewHistroyEntry() {
+    // DefaultListModel<String> model = new DefaultListModel<>();
+    // History fen = new History();
+    // fen.addEntry(
+    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    // fen.addEntry(
+    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
+    //
+    // for(int i = 0; i < fen.getFens().size(); i++) {
+    // model.addElement(fen.getFenOfTurn(i));
+    // }
+    // historyList.setModel(model);
+    History.historyEntryList.add(Converter.convertFENToHistory());
     DefaultListModel<String> model = new DefaultListModel<>();
-    History fen = new History();
-    fen.addEntry(
-        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    fen.addEntry(
-        "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-
-    for(int i = 0; i < fen.getFens().size(); i++) {
-      model.addElement(fen.getFenOfTurn(i));
+    for (String entry : History.historyEntryList) {
+      model.addElement(entry);
     }
-    historyList.setModel(model);
+    GuiFrame.historyList.setModel(model);
   }
 
   /**
@@ -220,12 +227,10 @@ public class Gui {
   public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
     int maxNameLength = 16;
     // Ask for player names
-    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):",
-        "Player Name White", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null,
-        null);
-    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):",
-        "Player Name Black", JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null,
-        null);
+    String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):", "Player Name White",
+        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null, null);
+    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):", "Player Name Black",
+        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
     // Check for nameing conditions
     if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
       whiteName = "WHITE";

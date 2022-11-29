@@ -29,6 +29,7 @@ import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -43,10 +44,11 @@ public class GuiFrame {
   public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
-  
-  private static JLabel player1Label;
-  
-  private static JLabel player2Label;
+
+  public static JList<String> historyList = new JList<String>();
+  private static JLabel          player1Label;
+
+  private static JLabel          player2Label;
   /**
    * Launch the application.
    */
@@ -147,8 +149,6 @@ public class GuiFrame {
     // Build Scroll pane for displaying history entries
     JScrollPane historyScrollPane = new JScrollPane();
     GridBagConstraints gbcHistoryScrollPane = GuiUtility.setGridBag(true, true, 0, 4, 6);
-    JList<String> historyList = new JList<String>();
-    Gui.createNewHistroyEntry(historyList);
     historyScrollPane.getViewport().setView(historyList);
     historyScrollPane.setOpaque(true);
     contentPane.add(historyScrollPane, gbcHistoryScrollPane);
@@ -495,9 +495,9 @@ public class GuiFrame {
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
     JLabel piecesP2FillerLabel = new JLabel("Filler");
     piecesP2Panel.add(piecesP2FillerLabel);
-    
+
     // Get PlayerNames
-     Gui.askForPlayerName(player1Label, player2Label);
+    Gui.askForPlayerName(player1Label, player2Label);
   }
 
   public static void clearLegalMoveMap() {
@@ -506,7 +506,7 @@ public class GuiFrame {
       label.setOpaque(false);
     }
   }
-  
+
   public static void highlightActivePlayer() {
     if(Field.getCurrentTurn() % 2 == 0) {
       player2Label.setBorder(new LineBorder(Color.green, 5));

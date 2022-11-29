@@ -13,6 +13,7 @@ public class Main {
     myHistory.addEntry("fen");
     System.out.println(myHistory.getFens());
     System.out.println(myHistory.getFenOfTurn(0));
+    
   }
 
 }

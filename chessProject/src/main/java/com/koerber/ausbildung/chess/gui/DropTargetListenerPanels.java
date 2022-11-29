@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.Converter;
 
 public class DropTargetListenerPanels extends DropTargetAdapter {
 
@@ -60,6 +61,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         String startPosition = dragLabel.getName();
         JLabel dropLabel = ((JLabel)dropPanel.getComponent(0));
         String targetPosition = dropLabel.getName();
+        Converter.setTargetPosition(targetPosition);
         boolean moveSuccessful = false;
         if(Field.getCurrentGameState().get(startPosition) != null) {
           moveSuccessful = Field.getCurrentGameState().get(startPosition).movePiece(Field.getCurrentGameState(),
@@ -77,6 +79,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
             dragLabel.setIcon(null);
             ((JPanel)dragLabel.getParent()).updateUI();
+            
             event.dropComplete(true);
             GuiFrame.clearLegalMoveMap();
             Gui.showCurrentGameState(GuiFrame.currentGameStateLabels);

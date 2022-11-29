@@ -24,6 +24,8 @@ import com.koerber.ausbildung.chess.piece.Rook;
  */
 public class Converter {
 
+  private static String startPosition;
+  private static String targetPosition;
   /**
    * converts TreeMap containing objects to a string in FEN notation and creates
    * a value ### for empty keys*
@@ -48,6 +50,22 @@ public class Converter {
       fen += "/";
     }
     return fen;
+  }
+
+  public static String getStartPosition() {
+    return startPosition;
+  }
+
+  public static void setStartPosition(String startPosition) {
+    Converter.startPosition = startPosition;
+  }
+
+  public static String getTargetPosition() {
+    return targetPosition;
+  }
+
+  public static void setTargetPosition(String targetPosition) {
+    Converter.targetPosition = targetPosition;
   }
 
   /**
@@ -132,16 +150,19 @@ public class Converter {
   }
 
   /**
-   * converts FEN string to history string *
+   * converts two history fens to a history entry ("start position" -> "target
+   * position")
    * 
-   * @param String
+   * @param String, String
    * @return String
    * @throws
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public static String convertFENToHistory(String historyString) {
+  public static String convertFENToHistory() {
+    String takenPieceId = "";
 
-    return null;
+    String historyEntry = Field.getCurrentTurn() + " " + startPosition + "->" + targetPosition + " " + takenPieceId;
+    return historyEntry;
   }
 }

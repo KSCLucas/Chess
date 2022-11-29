@@ -30,6 +30,7 @@ import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 
 public class GuiFrame {
@@ -248,6 +249,7 @@ public class GuiFrame {
         String position = e.getComponent().getName();
         if(Field.getCurrentGameState().get(position) != null) {
           clearLegalMoveMap();
+          Converter.setStartPosition(position);
           Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position));
         }
       }

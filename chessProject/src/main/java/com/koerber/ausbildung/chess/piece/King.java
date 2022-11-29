@@ -147,6 +147,7 @@ public class King extends Piece {
         for(MoveVector moveVector : currentPiece.getMoveSet()) {
           // Reset moveability criteria
           int opposingPieceCount = 0;
+          boolean allyPieceDetected = false;
           String encounterKey = NOT_ON_FIELD;
           boolean kingInLine = false;
           int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
@@ -162,7 +163,9 @@ public class King extends Piece {
             if(inFieldBounds(posLetterAsNumber, posNumber)) {
               // Check for EmptyPiece
               if(currentGameState.get(fieldKey) == null) {
-                currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                if(opposingPieceCount < 1 && !allyPieceDetected) {
+                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                }
               }
               // Check for this King
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
@@ -172,11 +175,16 @@ public class King extends Piece {
               }
               // Check for Piece of Kings colour
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
-                currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+                if(opposingPieceCount < 1 && !allyPieceDetected) {
+                  currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+                }
                 opposingPieceCount++;
                 if(encounterKey.equals(NOT_ON_FIELD)) {
                   encounterKey = fieldKey;
                 }
+              }
+              else {
+                allyPieceDetected = true;
               }
             }
             else {
@@ -252,10 +260,14 @@ public class King extends Piece {
       e.printStackTrace();
     }
     // Merge King legalMoveMap with mergedMoveMap
+    List<String> keys = new ArrayList<>();
     for(Entry<String, String> entry : getLegalMoveMap().entrySet()) {
       if(mergedMoveMap.containsKey(entry.getKey())) {
-        getLegalMoveMap().remove(entry.getKey());
+        keys.add(entry.getKey());
       }
+    }
+    for(String key : keys) {
+      getLegalMoveMap().remove(key);
     }
     System.out.println(getLegalMoveMap());
   }

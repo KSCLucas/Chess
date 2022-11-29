@@ -99,46 +99,6 @@ public class King extends Piece {
     // TODO add checkForCastle implementation
   }
 
-  private void checkIfPieceIsMoveablePosLetterAsNumber(Map<String, Piece> currentGameState, Piece currentPiece,
-      int posLetterAsNumberCurrentPiece, int posNumberCurrentPiece, int posNumberKing, String firstKey, int multiplier,
-      boolean otherKeyFound, int modifier) {
-    String fieldKey;
-    do {
-      posLetterAsNumberCurrentPiece = posLetterAsNumberCurrentPiece + multiplier * modifier;
-      fieldKey = Character.toString(posLetterAsNumberCurrentPiece) + posNumberKing;
-      if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && firstKey.isEmpty()) {
-        firstKey = fieldKey;
-      }
-      else if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && !firstKey.isEmpty()) {
-        otherKeyFound = true;
-      }
-      multiplier++;
-    } while(posNumberCurrentPiece > posNumberKing);
-    if(!firstKey.isEmpty() && !otherKeyFound) {
-      currentGameState.get(firstKey).setMoveable(false);
-    }
-  }
-
-  private void checkIfPieceIsMoveablePosNumber(Map<String, Piece> currentGameState, Piece currentPiece,
-      int posNumberCurrentPiece, int posLetterAsNumberKing, int posNumberKing, String firstKey, int multiplier,
-      boolean otherKeyFound, int modifier) {
-    String fieldKey;
-    do {
-      posNumberCurrentPiece = posNumberCurrentPiece + multiplier * modifier;
-      fieldKey = Character.toString(posLetterAsNumberKing) + posNumberCurrentPiece;
-      if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && firstKey.isEmpty()) {
-        firstKey = fieldKey;
-      }
-      else if(currentPiece.getLegalMoveMap().get(fieldKey).equals(HIT_STRING) && !firstKey.isEmpty()) {
-        otherKeyFound = true;
-      }
-      multiplier++;
-    } while(posNumberCurrentPiece > posNumberKing);
-    if(!firstKey.isEmpty() && !otherKeyFound) {
-      currentGameState.get(firstKey).setMoveable(false);
-    }
-  }
-
   /**
    * Creates List of {@code legalMoveMaps} of {@code Pieces} of the opposing
    * {@code Colour} and returns it.

@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +30,6 @@ import javax.swing.border.LineBorder;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.piece.King;
-import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 
@@ -256,7 +254,8 @@ public class GuiFrame {
         String position = e.getComponent().getName();
         if(Field.getCurrentGameState().get(position) != null) {
           clearLegalMoveMap();
-          Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position));
+          Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position),
+              Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
         }
       }
 

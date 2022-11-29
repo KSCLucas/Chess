@@ -172,7 +172,7 @@ public class Gui {
    * @return
    */
 
-  public static void highlightLegalMove(JLabel[] labels, Piece piece) {
+  public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour) {
     if(!(piece instanceof King)) {
       try {
         piece.createLegalMoveMap(Field.getCurrentGameState());
@@ -181,18 +181,20 @@ public class Gui {
         e.printStackTrace();
       }
     }
-    for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
-      if(entry.getValue().equals(Piece.TRUE_STRING)) {
-        int columnAsNumber = entry.getKey().charAt(0) - 64;
-        int rowAsNumber = entry.getKey().charAt(1) - 48;
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
-      }
-      if(entry.getValue().equals(Piece.HIT_STRING)) {
-        int columnAsNumber = entry.getKey().charAt(0) - 64;
-        int rowAsNumber = entry.getKey().charAt(1) - 48;
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+    if(piece.getColour() == unlockedColour) {
+      for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
+        if(entry.getValue().equals(Piece.TRUE_STRING)) {
+          int columnAsNumber = entry.getKey().charAt(0) - 64;
+          int rowAsNumber = entry.getKey().charAt(1) - 48;
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+        }
+        if(entry.getValue().equals(Piece.HIT_STRING)) {
+          int columnAsNumber = entry.getKey().charAt(0) - 64;
+          int rowAsNumber = entry.getKey().charAt(1) - 48;
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+        }
       }
     }
   }

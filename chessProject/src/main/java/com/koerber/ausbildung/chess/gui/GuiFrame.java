@@ -111,6 +111,7 @@ public class GuiFrame {
           Field.initializeMap();
           Field.resetCurrentTurn();
           Field.turnLock();
+          Gui.clearHistory();
           highlightActivePlayer();
           Gui.showCurrentGameState(currentGameStateLabels);
         }

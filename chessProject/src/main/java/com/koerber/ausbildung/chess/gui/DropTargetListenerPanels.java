@@ -23,7 +23,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
 
   public DropTargetListenerPanels(JPanel p) {
     this.dropPanel = p;
-    dropTarget = new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null);
+    setDropTarget(new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null));
   }
 
   @Override
@@ -106,5 +106,13 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
       e.printStackTrace();
       event.rejectDrop();
     }
+  }
+
+  public DropTarget getDropTarget() {
+    return dropTarget;
+  }
+
+  public void setDropTarget(DropTarget dropTarget) {
+    this.dropTarget = dropTarget;
   }
 }

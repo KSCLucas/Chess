@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
@@ -55,13 +54,7 @@ public class Gui {
 
   }
 
-  /**
-   * Sets all game pieces to initial pos, clears history, resets player data
-   * (points, pieces beaten, NOT color and name).
-   */
-  public void startNewGame() {
-
-  }
+ 
 
   /**
    * Resets the score before the last move of the game.
@@ -149,6 +142,14 @@ public class Gui {
     GuiFrame.historyList.setModel(model);
   }
 
+  /**
+   * Clears history field
+   */
+  public static void clearHistory() {
+    History.historyEntryList.clear();
+    DefaultListModel<String> model = new DefaultListModel<>();
+    GuiFrame.historyList.setModel(model);
+  }
   /**
    * Dispays {@code currentGameState} on chessboard.
    * 

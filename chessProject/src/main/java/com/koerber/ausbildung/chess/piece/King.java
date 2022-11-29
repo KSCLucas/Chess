@@ -98,7 +98,9 @@ public class King extends Piece {
   public void checkForCastle() {
     // TODO add checkForCastle implementation
   }
-
+  
+  
+  
   /**
    * Creates List of {@code legalMoveMaps} of {@code Pieces} of the opposing
    * {@code Colour} and returns it.
@@ -149,7 +151,7 @@ public class King extends Piece {
           int opposingPieceCount = 0;
           boolean allyPieceDetected = false;
           String encounterKey = NOT_ON_FIELD;
-          boolean kingInLine = false;
+          boolean kingInLineVector = false;
           int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
           int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
           // Change content of legalMoveMap based on move vector i and
@@ -171,7 +173,7 @@ public class King extends Piece {
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
                   && currentGameState.get(fieldKey) instanceof King) {
                 currentPiece.getLegalMoveMap().put(fieldKey, getId());
-                kingInLine = true;
+                kingInLineVector = true;
               }
               // Check for Piece of Kings colour
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
@@ -190,24 +192,44 @@ public class King extends Piece {
             else {
               repeatLoop = false;
               // Set moveability and availableMoveVectors
-              // Empty availableMoveVectors
-              currentPiece.emptyAvailableMoveVectors();
               // Check for kingInLine to set moveability or availableMoveVectors
-              if(opposingPieceCount == 1 && kingInLine) {
+              System.out.println(opposingPieceCount);
+              System.out.println(kingInLineVector);
+              // Reset moveVectors of all Pieces of the same colour
+              currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
+                  .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
+              if(opposingPieceCount == 1 && kingInLineVector) {
+                // Empty availableMoveVectors
+                currentGameState.get(encounterKey).emptyAvailableMoveVectors();
+                // Get inverse vector
                 MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
-                if(currentPiece.getMoveSet().contains(inverseMoveVector)) {
-                  currentPiece.getAvailableMoveVectors().add(inverseMoveVector);
+                boolean moveVectorFound = false;
+                for(MoveVector vector : currentGameState.get(encounterKey).getMoveSet()) {
+                  if(vector.equals(inverseMoveVector)) {
+                    moveVectorFound = true;
+                  }
+                }
+                if(moveVectorFound) {
+                  // Look for instance of Pawn
+                  if(currentGameState.get(encounterKey) instanceof Pawn) {
+                    // Give Pawn a special availableMoveSet
+                    // TODO call method
+                  }
+                  else {
+                    // Set availableMoveVectors to inverseMoveVector
+                    currentGameState.get(encounterKey).getAvailableMoveVectors().add(inverseMoveVector);
+                  }
                 }
                 else {
+                  // Set moveable false
                   currentGameState.get(encounterKey).setMoveable(false);
                 }
               }
               else {
                 // Check for check
-                if(opposingPieceCount == 0 && kingInLine) {
+                if(opposingPieceCount == 0 && kingInLineVector) {
                   setInCheck(true);
                 }
-                currentPiece.setAvailableMoveVectorsToMoveSet();
               }
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);

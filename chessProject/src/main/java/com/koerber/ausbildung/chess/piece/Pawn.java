@@ -34,7 +34,8 @@ public class Pawn extends Piece {
    * @param position
    */
   public Pawn(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.PAWN.value, false, position, MoveSetSupplier.getPawnMoveSet(),
+    super(id, colour, ChessPieceValue.PAWN.value, false, position,
+        colour == ChessColour.WHITE ? MoveSetSupplier.getPawnWhiteMoveSet() : MoveSetSupplier.getPawnBlackMoveSet(),
         IconSupplier.getIcon(colour, "pawn_small"));
   }
 
@@ -63,8 +64,8 @@ public class Pawn extends Piece {
   }
 
   /**
-   * Sets {@code isEnPassentable} of all {@code Pawn} objects of a different colour
-   * to {@code false}.
+   * Sets {@code isEnPassentable} of all {@code Pawn} objects of a different
+   * colour to {@code false}.
    * 
    * @param currentGameState
    * @param colour
@@ -151,8 +152,8 @@ public class Pawn extends Piece {
         switch(i) {
         case 0 -> {
           // Single move
-          posLetterAsNumber += colourModifier * moveVector.getX();
-          posNumber += colourModifier * moveVector.getY();
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
             getLegalMoveMap().put(fieldKey, TRUE_STRING);
@@ -160,8 +161,8 @@ public class Pawn extends Piece {
         }
         case 1 -> {
           // Double move
-          posLetterAsNumber += colourModifier * moveVector.getX();
-          posNumber += colourModifier * moveVector.getY();
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber)
               && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - colourModifier))
@@ -171,8 +172,8 @@ public class Pawn extends Piece {
         }
         case 2, 5 -> {
           // Take
-          posLetterAsNumber += colourModifier * moveVector.getX();
-          posNumber += colourModifier * moveVector.getY();
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) != null
               && currentGameState.get(fieldKey).getColour() != getColour()) {
@@ -181,8 +182,8 @@ public class Pawn extends Piece {
         }
         case 3, 4 -> {
           // Check for en-passant take
-          posLetterAsNumber += colourModifier * moveVector.getX();
-          posNumber += colourModifier * moveVector.getY();
+          posLetterAsNumber += moveVector.getX();
+          posNumber += moveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn pawn
               && pawn.getColour() != getColour() && pawn.isEnPassentable()) {

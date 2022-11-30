@@ -305,7 +305,6 @@ public class King extends Piece {
                 if(opposingPieceCount == 0 && kingInLineVector) {
                   setInCheck(true);
                   setAttackKeys(fields);
-                  System.out.println(getAttackKeys());
                 }
               }
             }
@@ -314,8 +313,46 @@ public class King extends Piece {
       }
       opposingMoveMaps.add(currentPiece.getLegalMoveMap());
     }
-    System.out.println(getAttackKeys());
+    // If !attackKeys.isEmpty(), create legalMoveMaps of Pieces of the same
+    // colour as King and check whether or not at least one key is present.
+    // Set moveable of all other Pieces, which cannot help the king, of the same
+    // colour to false
+    saveTheKing(currentGameState);
     return opposingMoveMaps;
+  }
+
+  private void saveTheKing(Map<String, Piece> currentGameState) {
+    if(!getAttackKeys().isEmpty()) {
+      // Get all Pieces of the same colour except the King
+      Map<String, Piece> piecesOfSameColour = currentGameState.entrySet().stream()
+          .filter(x -> x.getValue().getColour() == getColour() && !(x.getValue() instanceof King))
+          .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+      // Check whether or not at least one key is present
+      for(Entry<String, Piece> entry : piecesOfSameColour.entrySet()) {
+        Piece currentPiece = entry.getValue();
+        boolean saveKeyFound = false;
+        Map<String, String> saveMap = new TreeMap<>();
+        try {
+          currentPiece.createLegalMoveMap(currentGameState);
+        }
+        catch(PieceOutOfBoundsException e) {
+          e.printStackTrace();
+        }
+        for(Entry<String, String> moveMapEntry : currentPiece.getLegalMoveMap().entrySet()) {
+          String currentEntryKey = moveMapEntry.getKey();
+          for(String attackKey : getAttackKeys()) {
+            if(attackKey.equals(currentEntryKey)) {
+              saveMap.put(currentEntryKey, moveMapEntry.getValue());
+              saveKeyFound = true;
+            }
+          }
+        }
+        if(saveKeyFound) {
+          currentPiece.setLegalMoveMap(saveMap);
+        }
+        currentPiece.setMoveable(false);
+      }
+    }
   }
 
   /**

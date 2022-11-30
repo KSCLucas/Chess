@@ -182,6 +182,8 @@ public class King extends Piece {
     // Reset moveVectors of all Pieces of the same colour
     currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
         .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
+    // Reset attackKey list
+    clearAttackKeys();
     // Filter for every opposing piece
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
         .filter(x -> x.getValue().getColour() != getColour())
@@ -302,6 +304,8 @@ public class King extends Piece {
                 // Check for check
                 if(opposingPieceCount == 0 && kingInLineVector) {
                   setInCheck(true);
+                  setAttackKeys(fields);
+                  System.out.println(getAttackKeys());
                 }
               }
             }
@@ -310,6 +314,7 @@ public class King extends Piece {
       }
       opposingMoveMaps.add(currentPiece.getLegalMoveMap());
     }
+    System.out.println(getAttackKeys());
     return opposingMoveMaps;
   }
 
@@ -345,10 +350,8 @@ public class King extends Piece {
         .forEach(x -> x.getValue().setMoveable(true));
     // Create List<Map<String, String>> of Pieces of the opposing colour
     List<Map<String, String>> opposingMoveMaps = getOpposingMoveMaps(currentGameState);
-    System.out.println(opposingMoveMaps);
     // Merge all opposingMoveMaps into one Map
     Map<String, String> mergedMoveMap = mergeOpposingMoveMaps(opposingMoveMaps);
-    System.out.println(mergedMoveMap);
     // Get King legalMoveMap without mergedMoveMap
     try {
       createLegalMoveMap(currentGameState);
@@ -366,7 +369,6 @@ public class King extends Piece {
     for(String key : keys) {
       getLegalMoveMap().remove(key);
     }
-    System.out.println(getLegalMoveMap());
   }
 
   /**

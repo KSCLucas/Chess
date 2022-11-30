@@ -98,9 +98,27 @@ public class King extends Piece {
   public void checkForCastle() {
     // TODO add checkForCastle implementation
   }
-  
-  
-  
+
+  /**
+   * Builds and returned a special List of {@ MoveVectors}
+   * 
+   * @param inverseMoveVector
+   * @return availableMoveVectors
+   */
+  private List<MoveVector> getAvailableMoveVectorsForPawn(MoveVector inverseMoveVector) {
+    List<MoveVector> tempMoves = MoveSetSupplier.getPawnMoveSet();
+    List<MoveVector> availableMoveVectors = new ArrayList<>();
+    for(int i = 0; i < 6; i++) {
+      if(!tempMoves.get(i).equals(inverseMoveVector)) {
+        availableMoveVectors.add(new MoveVector(0, 0));
+      }
+      else {
+        availableMoveVectors.add(inverseMoveVector);
+      }
+    }
+    return availableMoveVectors;
+  }
+
   /**
    * Creates List of {@code legalMoveMaps} of {@code Pieces} of the opposing
    * {@code Colour} and returns it.
@@ -109,6 +127,9 @@ public class King extends Piece {
    * @return opposingMoveMaps
    */
   private List<Map<String, String>> getOpposingMoveMaps(Map<String, Piece> currentGameState) {
+    // Reset moveVectors of all Pieces of the same colour
+    currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
+        .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
     // Filter for every opposing piece
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
         .filter(x -> x.getValue().getColour() != getColour())
@@ -193,11 +214,6 @@ public class King extends Piece {
               repeatLoop = false;
               // Set moveability and availableMoveVectors
               // Check for kingInLine to set moveability or availableMoveVectors
-              System.out.println(opposingPieceCount);
-              System.out.println(kingInLineVector);
-              // Reset moveVectors of all Pieces of the same colour
-              currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
-                  .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
               if(opposingPieceCount == 1 && kingInLineVector) {
                 // Empty availableMoveVectors
                 currentGameState.get(encounterKey).emptyAvailableMoveVectors();
@@ -211,9 +227,9 @@ public class King extends Piece {
                 }
                 if(moveVectorFound) {
                   // Look for instance of Pawn
-                  if(currentGameState.get(encounterKey) instanceof Pawn) {
+                  if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
                     // Give Pawn a special availableMoveSet
-                    // TODO call method
+                    pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector));
                   }
                   else {
                     // Set availableMoveVectors to inverseMoveVector

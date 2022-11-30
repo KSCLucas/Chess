@@ -23,11 +23,13 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean isInCheck      = false;
-  private boolean isCheckmate    = false;
-  private boolean canCastleShort = false;
-  private boolean canCastleLong  = false;
-  private boolean hasMoved       = false;
+  private boolean            isInCheck         = false;
+  private boolean            isCheckmate       = false;
+  private boolean            canCastleShort    = false;
+  private boolean            canCastleLong     = false;
+  private boolean            hasMoved          = false;
+  private Map<String, Piece> attackFields      = new TreeMap<>();
+  private List<Piece>        potentialSaviours = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -82,6 +84,55 @@ public class King extends Piece {
 
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
+  }
+
+  public List<Piece> getPotentialSaviours() {
+    return potentialSaviours;
+  }
+
+  public void setPotentialSaviours(List<Piece> potentialSaviours) {
+    this.potentialSaviours = potentialSaviours;
+  }
+
+  public Map<String, Piece> getAttackFields() {
+    return attackFields;
+  }
+
+  public void setAttackFields(Map<String, Piece> attackFields) {
+    this.attackFields = attackFields;
+  }
+
+  /**
+   * Adds a {@code potentialSaviour} to internal list {@code potentialSaviours}.
+   * 
+   * @param potentialSaviour
+   */
+  public void addPotentialSaviour(Piece potentialSaviour) {
+    getPotentialSaviours().add(potentialSaviour);
+  }
+
+  /**
+   * Emptys the list {@code potentialSaviours}.
+   */
+  public void clearPotentialSaviours() {
+    getPotentialSaviours().clear();
+  }
+
+  /**
+   * Adds a {@code attackFields} to internal list {@code attackFields}.
+   * 
+   * @param key
+   * @param value
+   */
+  public void addAttackFields(String key, Piece value) {
+    getAttackFields().put(key, value);
+  }
+
+  /**
+   * Emptys the map {@code attackFields}.
+   */
+  public void clearAttackFields() {
+    getAttackFields().clear();
   }
 
   @Override
@@ -290,8 +341,10 @@ public class King extends Piece {
         .forEach(x -> x.getValue().setMoveable(true));
     // Create List<Map<String, String>> of Pieces of the opposing colour
     List<Map<String, String>> opposingMoveMaps = getOpposingMoveMaps(currentGameState);
+    System.out.println(opposingMoveMaps);
     // Merge all opposingMoveMaps into one Map
     Map<String, String> mergedMoveMap = mergeOpposingMoveMaps(opposingMoveMaps);
+    System.out.println(mergedMoveMap);
     // Get King legalMoveMap without mergedMoveMap
     try {
       createLegalMoveMap(currentGameState);
@@ -309,6 +362,7 @@ public class King extends Piece {
     for(String key : keys) {
       getLegalMoveMap().remove(key);
     }
+    System.out.println(getLegalMoveMap());
   }
 
   /**

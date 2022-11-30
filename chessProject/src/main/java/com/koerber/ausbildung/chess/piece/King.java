@@ -29,6 +29,7 @@ public class King extends Piece {
   private boolean      canCastleLong  = false;
   private boolean      hasMoved       = false;
   private List<String> attackKeys     = new ArrayList<>();
+  private List<Piece>  saviourPieces  = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -93,6 +94,14 @@ public class King extends Piece {
     this.attackKeys = attackFields;
   }
 
+  public List<Piece> getSaviourPieces() {
+    return saviourPieces;
+  }
+
+  public void setSaviourPieces(List<Piece> saviourPieces) {
+    this.saviourPieces = saviourPieces;
+  }
+
   /**
    * Adds a {@code attackFields} to internal list {@code attackFields}.
    * 
@@ -103,10 +112,26 @@ public class King extends Piece {
   }
 
   /**
-   * Emptys the map {@code attackFields}.
+   * Emptys the list {@code attackFields}.
    */
   public void clearAttackKeys() {
     getAttackKeys().clear();
+  }
+
+  /**
+   * Adds a {@code Piece} to internal list {@code saviourPieces}.
+   * 
+   * @param piece
+   */
+  public void addSaviourPiece(Piece piece) {
+    getSaviourPieces().add(piece);
+  }
+
+  /**
+   * Emptys the list {@code saviourPieces}.
+   */
+  public void clearSaviourPieces() {
+    getSaviourPieces().clear();
   }
 
   @Override
@@ -400,5 +425,6 @@ public class King extends Piece {
    */
   public void checkForCheckmate() {
     // TODO add checkForCheckmate implementation
+
   }
 }

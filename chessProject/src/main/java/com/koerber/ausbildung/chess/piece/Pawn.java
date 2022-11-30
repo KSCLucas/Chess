@@ -137,10 +137,10 @@ public class Pawn extends Piece {
     if(getPosition() == null || getPosition().isEmpty()) {
       throw new PieceOutOfBoundsException();
     }
-    // Clear legalMoveMap
-    getLegalMoveMap().clear();
     // Is Pawn moveable?
     if(isMoveable()) {
+      // Clear legalMoveMap
+      getLegalMoveMap().clear();
       // Loop over every movevector in availableMoveVectors
       for(int i = 0; i < getAvailableMoveVectors().size(); i++) {
         // Set posLetterAsNumber and posNumber

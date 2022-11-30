@@ -205,7 +205,6 @@ public abstract class Piece {
     getLegalMoveMap().clear();
     // Is Piece moveable?
     if(isMoveable()) {
-      System.out.println(getAvailableMoveVectors());
       // Loop over every move vector in availableMoveVectors
       for(MoveVector moveVector : getAvailableMoveVectors()) {
         int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);

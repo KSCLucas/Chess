@@ -103,10 +103,12 @@ public class King extends Piece {
    * Builds and returned a special List of {@ MoveVectors}
    * 
    * @param inverseMoveVector
+   * @param pawnColour
    * @return availableMoveVectors
    */
-  private List<MoveVector> getAvailableMoveVectorsForPawn(MoveVector inverseMoveVector) {
-    List<MoveVector> tempMoves = MoveSetSupplier.getPawnMoveSet();
+  private List<MoveVector> getAvailableMoveVectorsForPawn(MoveVector inverseMoveVector, ChessColour pawnColour) {
+    List<MoveVector> tempMoves = pawnColour == ChessColour.WHITE ? MoveSetSupplier.getPawnWhiteMoveSet()
+        : MoveSetSupplier.getPawnBlackMoveSet();
     List<MoveVector> availableMoveVectors = new ArrayList<>();
     for(int i = 0; i < 6; i++) {
       if(!tempMoves.get(i).equals(inverseMoveVector)) {
@@ -229,7 +231,7 @@ public class King extends Piece {
                   // Look for instance of Pawn
                   if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
                     // Give Pawn a special availableMoveSet
-                    pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector));
+                    pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector, pawn.getColour()));
                   }
                   else {
                     // Set availableMoveVectors to inverseMoveVector

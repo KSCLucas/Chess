@@ -1,7 +1,5 @@
 package com.koerber.ausbildung.chess.utility;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -28,8 +26,7 @@ public class Converter {
 
   private static String startPosition;
   private static String targetPosition;
-  
-  
+
   /**
    * converts TreeMap containing objects to a string in FEN notation and creates
    * a value ### for empty keys*
@@ -97,15 +94,15 @@ public class Converter {
 
           Piece newPiece = getNewPiece(value, fieldKey, '1');
           posOfPiece.put(fieldKey, newPiece);
-          rows = rows.substring(3);
         }
+        rows = rows.substring(3);
 
         column++;
       }
     }
-    for(Entry<String, Piece> entry : posOfPiece.entrySet()) {
-      System.out.println(entry);
-    }
+    // for(Entry<String, Piece> entry : posOfPiece.entrySet()) {
+    // System.out.println(entry);
+    // }
     return posOfPiece;
 
   }
@@ -166,7 +163,8 @@ public class Converter {
   public static String convertFENToHistory() {
     String takenPieceId = "";
 
-    String historyEntry = (Field.getCurrentTurn()-1) + "  " + startPosition + "  >>>  " + targetPosition + "  " + takenPieceId;
+    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  " + targetPosition + "  "
+        + takenPieceId;
     return historyEntry;
   }
 }

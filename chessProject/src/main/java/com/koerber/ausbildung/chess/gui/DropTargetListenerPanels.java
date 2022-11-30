@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
@@ -82,13 +83,15 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             
             event.dropComplete(true);
             GuiFrame.clearLegalMoveMap();
-            Gui.showCurrentGameState(GuiFrame.currentGameStateLabels);
+            Gui.showCurrentGameState();
             dropPanel.updateUI();
             Pawn.resetEnPassant(Field.getCurrentGameState(),
                 Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
             Field.increaseCurrentTurn();
             GuiFrame.highlightActivePlayer();
             Field.turnLock();
+            History.addEntry(Converter.convertMapToFEN(Field.getCurrentGameState()));
+            System.out.println(History.getFenOfTurn(Field.getCurrentTurn()-2));
             Gui.createNewHistroyEntry();
             
           }

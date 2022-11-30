@@ -201,10 +201,10 @@ public abstract class Piece {
     if(getPosition() == null || getPosition().isEmpty()) {
       throw new PieceOutOfBoundsException();
     }
-    // Clear legalMoveMap
-    getLegalMoveMap().clear();
     // Is Piece moveable?
     if(isMoveable()) {
+      // Clear legalMoveMap
+      getLegalMoveMap().clear();
       // Loop over every move vector in availableMoveVectors
       for(MoveVector moveVector : getAvailableMoveVectors()) {
         int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);

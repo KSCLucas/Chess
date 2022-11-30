@@ -23,13 +23,13 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean            isInCheck         = false;
-  private boolean            isCheckmate       = false;
-  private boolean            canCastleShort    = false;
-  private boolean            canCastleLong     = false;
-  private boolean            hasMoved          = false;
-  private Map<String, Piece> attackFields      = new TreeMap<>();
-  private List<Piece>        potentialSaviours = new ArrayList<>();
+  private boolean      isInCheck         = false;
+  private boolean      isCheckmate       = false;
+  private boolean      canCastleShort    = false;
+  private boolean      canCastleLong     = false;
+  private boolean      hasMoved          = false;
+  private List<String> attackKeys        = new ArrayList<>();
+  private List<Piece>  potentialSaviours = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -94,12 +94,12 @@ public class King extends Piece {
     this.potentialSaviours = potentialSaviours;
   }
 
-  public Map<String, Piece> getAttackFields() {
-    return attackFields;
+  public List<String> getAttackKeys() {
+    return attackKeys;
   }
 
-  public void setAttackFields(Map<String, Piece> attackFields) {
-    this.attackFields = attackFields;
+  public void setAttackKeys(List<String> attackFields) {
+    this.attackKeys = attackFields;
   }
 
   /**
@@ -122,17 +122,16 @@ public class King extends Piece {
    * Adds a {@code attackFields} to internal list {@code attackFields}.
    * 
    * @param key
-   * @param value
    */
-  public void addAttackFields(String key, Piece value) {
-    getAttackFields().put(key, value);
+  public void addAttackKeys(String key) {
+    getAttackKeys().add(key);
   }
 
   /**
    * Emptys the map {@code attackFields}.
    */
-  public void clearAttackFields() {
-    getAttackFields().clear();
+  public void clearAttackKeys() {
+    getAttackKeys().clear();
   }
 
   @Override
@@ -221,6 +220,9 @@ public class King extends Piece {
       else {
         // Loop over every move vector in moveSet
         for(MoveVector moveVector : currentPiece.getMoveSet()) {
+          // Track Pieceposition and trail
+          List<String> fields = new ArrayList<>();
+          fields.add(currentPiece.getPosition());
           // Reset moveability criteria
           int opposingPieceCount = 0;
           boolean allyPieceDetected = false;
@@ -241,6 +243,8 @@ public class King extends Piece {
               if(currentGameState.get(fieldKey) == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                  // Add key to trail
+                  fields.add(fieldKey);
                 }
               }
               // Check for this King

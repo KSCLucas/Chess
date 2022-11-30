@@ -27,9 +27,10 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.koerber.ausbildung.chess.Field;
-import com.koerber.ausbildung.chess.History;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -45,7 +46,7 @@ public class GuiFrame {
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
 
-  public static JList<String> historyList = new JList<String>();
+  public static JList<String>    historyList            = new JList<String>();
   private static JLabel          player1Label;
 
   private static JLabel          player2Label;
@@ -113,7 +114,7 @@ public class GuiFrame {
           Field.turnLock();
           Gui.clearHistory();
           highlightActivePlayer();
-          Gui.showCurrentGameState(currentGameStateLabels);
+          Gui.showCurrentGameState();
         }
       }
     };
@@ -150,6 +151,15 @@ public class GuiFrame {
     // Build Scroll pane for displaying history entries
     JScrollPane historyScrollPane = new JScrollPane();
     GridBagConstraints gbcHistoryScrollPane = GuiUtility.setGridBag(true, true, 0, 4, 6);
+    ListSelectionListener lsl = new ListSelectionListener() {
+
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        // TODO Auto-generated method stub
+        Gui.jumpToSelectedFEN(historyList.getSelectedValue());
+      }
+    };
+    historyList.addListSelectionListener(lsl);
     historyScrollPane.getViewport().setView(historyList);
     historyScrollPane.setOpaque(true);
     contentPane.add(historyScrollPane, gbcHistoryScrollPane);
@@ -298,7 +308,7 @@ public class GuiFrame {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
       }
     }
-    Gui.showCurrentGameState(currentGameStateLabels);
+    Gui.showCurrentGameState();
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
 

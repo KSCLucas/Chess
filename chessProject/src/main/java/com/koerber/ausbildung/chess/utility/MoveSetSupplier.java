@@ -12,11 +12,11 @@ import java.util.List;
 public abstract class MoveSetSupplier {
 
   /**
-   * Provides {@code pawnMoveSet}.
+   * Provides {@code pawnMoveSet} white.
    * 
    * @return pawnMoveSet
    */
-  public static List<MoveVector> getPawnMoveSet() {
+  public static List<MoveVector> getPawnWhiteMoveSet() {
     MoveVector vector1 = new MoveVector(0, 1);
     MoveVector vector2 = new MoveVector(0, 2);
     MoveVector vector3 = new MoveVector(1, 1);
@@ -34,7 +34,31 @@ public abstract class MoveSetSupplier {
 
     return pawnMoveSet;
   }
+  
+  /**
+   * Provides {@code pawnMoveSet} black.
+   * 
+   * @return pawnMoveSet
+   */
+  public static List<MoveVector> getPawnBlackMoveSet() {
+    MoveVector vector1 = new MoveVector(0, -1);
+    MoveVector vector2 = new MoveVector(0, -2);
+    MoveVector vector3 = new MoveVector(-1, -1);
+    MoveVector vector4 = new MoveVector(1, 0);
+    MoveVector vector5 = new MoveVector(-1, 0);
+    MoveVector vector6 = new MoveVector(1, -1);
 
+    List<MoveVector> pawnMoveSet = new ArrayList<>();
+    pawnMoveSet.add(vector1);
+    pawnMoveSet.add(vector2);
+    pawnMoveSet.add(vector3);
+    pawnMoveSet.add(vector4);
+    pawnMoveSet.add(vector5);
+    pawnMoveSet.add(vector6);
+
+    return pawnMoveSet;
+  }
+  
   /**
    * Provides {@code kingMoveSet}.
    * 

@@ -23,13 +23,12 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean      isInCheck         = false;
-  private boolean      isCheckmate       = false;
-  private boolean      canCastleShort    = false;
-  private boolean      canCastleLong     = false;
-  private boolean      hasMoved          = false;
-  private List<String> attackKeys        = new ArrayList<>();
-  private List<Piece>  potentialSaviours = new ArrayList<>();
+  private boolean      isInCheck      = false;
+  private boolean      isCheckmate    = false;
+  private boolean      canCastleShort = false;
+  private boolean      canCastleLong  = false;
+  private boolean      hasMoved       = false;
+  private List<String> attackKeys     = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -86,36 +85,12 @@ public class King extends Piece {
     this.hasMoved = hasMoved;
   }
 
-  public List<Piece> getPotentialSaviours() {
-    return potentialSaviours;
-  }
-
-  public void setPotentialSaviours(List<Piece> potentialSaviours) {
-    this.potentialSaviours = potentialSaviours;
-  }
-
   public List<String> getAttackKeys() {
     return attackKeys;
   }
 
   public void setAttackKeys(List<String> attackFields) {
     this.attackKeys = attackFields;
-  }
-
-  /**
-   * Adds a {@code potentialSaviour} to internal list {@code potentialSaviours}.
-   * 
-   * @param potentialSaviour
-   */
-  public void addPotentialSaviour(Piece potentialSaviour) {
-    getPotentialSaviours().add(potentialSaviour);
-  }
-
-  /**
-   * Emptys the list {@code potentialSaviours}.
-   */
-  public void clearPotentialSaviours() {
-    getPotentialSaviours().clear();
   }
 
   /**
@@ -321,6 +296,12 @@ public class King extends Piece {
     return opposingMoveMaps;
   }
 
+  /**
+   * Limits the {@code legalMoveMap} of all {@code Pieces} of the same colour to
+   * save the {@code King}.
+   * 
+   * @param currentGameState
+   */
   private void saveTheKing(Map<String, Piece> currentGameState) {
     if(!getAttackKeys().isEmpty()) {
       // Get all Pieces of the same colour except the King
@@ -349,6 +330,9 @@ public class King extends Piece {
         }
         if(saveKeyFound) {
           currentPiece.setLegalMoveMap(saveMap);
+        }
+        else {
+          currentPiece.getLegalMoveMap().clear();
         }
         currentPiece.setMoveable(false);
       }

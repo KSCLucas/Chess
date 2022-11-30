@@ -54,8 +54,6 @@ public class Gui {
 
   }
 
- 
-
   /**
    * Resets the score before the last move of the game.
    */
@@ -66,8 +64,33 @@ public class Gui {
   /**
    * Displays the game state selected in the history.
    */
-  public void jumpToSelectedFEN() {
-
+  public static void jumpToSelectedFEN(String entryFen) {
+    
+    for(Entry<String,Piece> entry : Field.getCurrentGameState().entrySet()) {
+      
+      entry.getValue().setMoveable(false);
+    }
+    
+    int turn = 0;
+    try {
+      turn = entryFen.charAt(0) - 49;
+    }
+    catch(NullPointerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    for(JLabel label : GuiFrame.currentGameStateLabels) {
+      label.setIcon(null);
+    }
+    Map<String, Piece> historyMap = Converter.convertFENToMap(History.getFenOfTurn(turn));
+    System.out.println(historyMap);
+    for(Entry<String, Piece> entry : historyMap.entrySet()) {
+      if(entry.getValue() != null) {
+        int columnAsNumber = entry.getKey().charAt(0) - 64;
+        int rowAsNumber = entry.getKey().charAt(1) - 48;
+        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+      }
+    }
   }
 
   /**
@@ -123,20 +146,9 @@ public class Gui {
    * (start position -> target position | sprite of hit figure).
    */
   public static void createNewHistroyEntry() {
-    // DefaultListModel<String> model = new DefaultListModel<>();
-    // History fen = new History();
-    // fen.addEntry(
-    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    // fen.addEntry(
-    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    //
-    // for(int i = 0; i < fen.getFens().size(); i++) {
-    // model.addElement(fen.getFenOfTurn(i));
-    // }
-    // historyList.setModel(model);
     History.historyEntryList.add(Converter.convertFENToHistory());
     DefaultListModel<String> model = new DefaultListModel<>();
-    for (String entry : History.historyEntryList) {
+    for(String entry : History.historyEntryList) {
       model.addElement(entry);
     }
     GuiFrame.historyList.setModel(model);
@@ -150,13 +162,14 @@ public class Gui {
     DefaultListModel<String> model = new DefaultListModel<>();
     GuiFrame.historyList.setModel(model);
   }
+
   /**
    * Dispays {@code currentGameState} on chessboard.
    * 
    * @return
    */
-  public static void showCurrentGameState(JLabel[] currentGameStateLabels) {
-    for(JLabel label : currentGameStateLabels) {
+  public static void showCurrentGameState() {
+    for(JLabel label : GuiFrame.currentGameStateLabels) {
       label.setIcon(null);
     }
     Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
@@ -164,7 +177,7 @@ public class Gui {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
 
       }
 

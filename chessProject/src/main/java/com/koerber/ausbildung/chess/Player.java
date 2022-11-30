@@ -1,6 +1,10 @@
 package com.koerber.ausbildung.chess;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 
 /**
  * represents Player having a name, a colour, a score and the opponents taken
@@ -11,10 +15,10 @@ import java.util.ArrayList;
  * @since 19.10.2022
  */
 public class Player {
-  private String               name;
-  private char          colour;
-  private int                  score;
-  private ArrayList<Character> takenPiece;
+  private String      name;
+  private ChessColour colour;
+  private int         score;
+  private List<Piece> takenPieces = new ArrayList<>();
   public String getName() {
     return name;
   }
@@ -23,11 +27,11 @@ public class Player {
     this.name = name;
   }
 
-  public char getColour() {
+  public ChessColour getColour() {
     return colour;
   }
 
-  public void setColour(char colour) {
+  public void setColour(ChessColour colour) {
     this.colour = colour;
   }
 
@@ -39,36 +43,24 @@ public class Player {
     this.score = score;
   }
 
-  public ArrayList<Character> getTakenPiece() {
-    return takenPiece;
-  }
-
-  public void setTakenPiece(ArrayList<Character> takenPiece) {
-    this.takenPiece = takenPiece;
+  public List<Piece> getTakenPieces() {
+    return takenPieces;
   }
 
   /**
    * adds taken Pieces to this.takenPiece and opens increaseScore
    * 
    * @param Object Piece
-   * @return void
-   * @throws
+   * @throws IllegalArgumentException if piece is not on map
    * @comment base-structure
-   * @author Toni Gropper
    */
-  public void addTakenPiece(Object Piece) {
-  }
-
-  /**
-   * this.score + int; int-Wert is equivalent to Piece-Wert
-   * 
-   * @param int
-   * @return void
-   * @throws
-   * @comment base-structure
-   * @author Toni Gropper
-   */
-  public void increaseScore(int score) {
+  public void addTakenPiece(Piece piece) {
+    if(piece.getPosition() != "xy") {
+      throw new IllegalArgumentException("piece is on map");
+    }
+    takenPieces.add(piece);
+    // raise score
+    this.score = this.score + piece.getValue();
   }
 
   /**
@@ -76,12 +68,11 @@ public class Player {
    * 
    * @param void
    * @return void
-   * @throws
    * @comment base-structure
-   * @author Toni Gropper
    */
   public void setToInit() {
-
+    setScore(0);
+    takenPieces.clear();
   }
 
 }

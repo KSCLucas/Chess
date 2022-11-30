@@ -220,8 +220,10 @@ public class King extends Piece {
               if(currentGameState.get(fieldKey) == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
-                  // Add key to trail
-                  fields.add(fieldKey);
+                  if(!kingInLineVector) {
+                    // Add key to trail
+                    fields.add(fieldKey);
+                  }
                 }
               }
               // Check for this King
@@ -242,6 +244,7 @@ public class King extends Piece {
               }
               else {
                 allyPieceDetected = true;
+                currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
               }
             }
             else {

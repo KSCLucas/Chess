@@ -2,6 +2,8 @@ package com.koerber.ausbildung.chess.gui;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -23,7 +25,8 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class Gui {
 
-  private String posClickedPiece;
+  private String    posClickedPiece;
+  public static int historyCounter;
 
   /**
    * Constructor for GUI class.
@@ -62,28 +65,12 @@ public class Gui {
   }
 
   /**
-   * Displays the game state selected in the history.
+   * Generates label map to show game state
+   * 
+   * @param turn
    */
-  public static void jumpToSelectedFEN(String entryFen) {
-    
-    for(Entry<String,Piece> entry : Field.getCurrentGameState().entrySet()) {
-      
-      entry.getValue().setMoveable(false);
-    }
-    
-    int turn = 0;
-    try {
-      turn = entryFen.charAt(0) - 49;
-    }
-    catch(NullPointerException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    for(JLabel label : GuiFrame.currentGameStateLabels) {
-      label.setIcon(null);
-    }
+  private static void generateMap(int turn) {
     Map<String, Piece> historyMap = Converter.convertFENToMap(History.getFenOfTurn(turn));
-    System.out.println(historyMap);
     for(Entry<String, Piece> entry : historyMap.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
@@ -91,26 +78,71 @@ public class Gui {
         GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
       }
     }
+    for(Entry<String, Piece> entry : historyMap.entrySet()) {
+
+      entry.getValue().setMoveable(false);
+    }
+  }
+
+  /**
+   * Clears {@code currentGameStateLabels}
+   */
+  private static void clearLabels() {
+    for(JLabel label : GuiFrame.currentGameStateLabels) {
+      label.setIcon(null);
+    }
+  }
+
+  /**
+   * Displays the game state selected in the history.
+   */
+  public static void jumpToSelectedFEN(String entryFen) {
+    if(entryFen != null) {
+      Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
+      matcher.find();
+      int turn = Integer.valueOf(matcher.group()) - 1;
+      Gui.historyCounter = turn;
+      System.out.println(historyCounter);
+
+      clearLabels();
+      generateMap(turn);
+    }
   }
 
   /**
    * Goes from the history display back to the active game.
    */
-  public void jumptToLiveGame() {
-
+  public static void jumptToLiveGame() {
+    showCurrentGameState();
   }
 
   /**
    * Goes one (1) step/move forward in history.
    */
-  public void forwardInHistory() {
-
+  public static void forwardInHistory() {
+    if(!(historyCounter >= History.historyEntryList.size() - 1)) {
+      historyCounter++;
+      int turn = historyCounter;
+      GuiFrame.historyList.setSelectedIndex(turn);
+      clearLabels();
+      generateMap(turn);
+      System.out.println(historyCounter);
+    }
   }
 
   /**
    * Goes back one (1) step/move in history.
    */
-  public void backwardInHistory() {
+  public static void backwardInHistory() {
+
+    if(historyCounter > 0) {
+      historyCounter--;
+      int turn = historyCounter;
+      clearLabels();
+      generateMap(turn);
+      GuiFrame.historyList.setSelectedIndex(turn);
+
+    }
 
   }
 
@@ -150,6 +182,7 @@ public class Gui {
     DefaultListModel<String> model = new DefaultListModel<>();
     for(String entry : History.historyEntryList) {
       model.addElement(entry);
+      System.out.println(History.historyEntryList);
     }
     GuiFrame.historyList.setModel(model);
   }
@@ -169,9 +202,7 @@ public class Gui {
    * @return
    */
   public static void showCurrentGameState() {
-    for(JLabel label : GuiFrame.currentGameStateLabels) {
-      label.setIcon(null);
-    }
+    clearLabels();
     Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {

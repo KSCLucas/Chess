@@ -134,9 +134,26 @@ public class GuiFrame {
     historyPanelTop.setLayout(new GridLayout(0, 2, 0, 0));
 
     JButton backwardsInHistoryButton = new JButton("BACK");
+    ActionListener backInHistory = new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Gui.backwardInHistory();
+      }
+    };
+    backwardsInHistoryButton.addActionListener(backInHistory);
     historyPanelTop.add(backwardsInHistoryButton);
 
     JButton forwardsInHistoryButton = new JButton("FORWARD ");
+    ActionListener forwardInHistory = new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Gui.forwardInHistory();
+
+      }
+    };
+    forwardsInHistoryButton.addActionListener(forwardInHistory);
     historyPanelTop.add(forwardsInHistoryButton);
 
     // Builds bottom part of history side
@@ -146,6 +163,16 @@ public class GuiFrame {
     historyPanelBot.setLayout(new GridLayout(0, 1, 0, 0));
 
     JButton currentGameButton = new JButton("CURRENT GAME");
+    ActionListener jumpToLiveGame = new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Gui.jumptToLiveGame();
+        // TODO Auto-generated method stub
+        
+      }
+    };
+    currentGameButton.addActionListener(jumpToLiveGame);
     historyPanelBot.add(currentGameButton);
 
     // Build Scroll pane for displaying history entries
@@ -155,7 +182,6 @@ public class GuiFrame {
 
       @Override
       public void valueChanged(ListSelectionEvent e) {
-        // TODO Auto-generated method stub
         Gui.jumpToSelectedFEN(historyList.getSelectedValue());
       }
     };

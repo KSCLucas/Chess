@@ -91,7 +91,6 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             GuiFrame.highlightActivePlayer();
             Field.turnLock();
             History.addEntry(Converter.convertMapToFEN(Field.getCurrentGameState()));
-            System.out.println(History.getFenOfTurn(Field.getCurrentTurn()-2));
             Gui.createNewHistroyEntry();
             
           }

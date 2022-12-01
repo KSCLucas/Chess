@@ -268,8 +268,10 @@ public class King extends Piece {
                 }
               }
               else {
+                if(!allyPieceDetected) {
+                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                }
                 allyPieceDetected = true;
-                currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
               }
             }
             else {
@@ -316,10 +318,6 @@ public class King extends Piece {
       }
       opposingMoveMaps.add(currentPiece.getLegalMoveMap());
     }
-    // If !attackKeys.isEmpty(), create legalMoveMaps of Pieces of the same
-    // colour as King and check whether or not at least one key is present.
-    // Set moveable of all other Pieces, which cannot help the king, of the same
-    // colour to false
     godSaveTheKing(currentGameState);
     return opposingMoveMaps;
   }
@@ -427,7 +425,6 @@ public class King extends Piece {
    * Checks, if {@code King} is in checkmate.
    */
   public void checkForCheckmate() {
-    // TODO add checkForCheckmate implementation
     if(isInCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
       setCheckmate(true);
       System.out.println("Checkmate");

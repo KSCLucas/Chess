@@ -1,7 +1,5 @@
 package com.koerber.ausbildung.chess.utility;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -28,15 +26,13 @@ public class Converter {
 
   private static String startPosition;
   private static String targetPosition;
-  
-  
+
   /**
    * converts TreeMap containing objects to a string in FEN notation and creates
    * a value ### for empty keys*
    * 
    * @param Map
    * @return String
-   * @author Toni Gropper
    */
   public static String convertMapToFEN(Map<String, Piece> currentGameState) {
 
@@ -78,9 +74,7 @@ public class Converter {
    * 
    * @param String
    * @return Map
-   * @throws
    * @comment base-structure
-   * @author Toni Gropper
    */
   public static Map<String, Piece> convertFENToMap(String gameState) {
 
@@ -114,8 +108,6 @@ public class Converter {
    * @param String pieceId, String pos, char castleside
    * @return Object Piece
    * @throws IllegalArgumentException
-   * @comment
-   * @author Toni Gropper
    */
   public static Piece getNewPiece(String pieceId, String pos, char castleSideSide) {
     String pieceType = pieceId.substring(0, 1);
@@ -159,14 +151,13 @@ public class Converter {
    * 
    * @param String, String
    * @return String
-   * @throws
    * @comment Grundgerüst
-   * @author Toni Gropper
    */
   public static String convertFENToHistory() {
     String takenPieceId = "";
 
-    String historyEntry = (Field.getCurrentTurn()-1) + "  " + startPosition + "  >>>  " + targetPosition + "  " + takenPieceId;
+    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  " + targetPosition + "  "
+        + takenPieceId;
     return historyEntry;
   }
 }

@@ -67,7 +67,6 @@ public class Player {
    * resets all attributes to initialization values
    * 
    * @param void
-   * @return void
    * @comment base-structure
    */
   public void setToInit() {

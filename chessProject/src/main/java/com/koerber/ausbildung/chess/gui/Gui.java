@@ -1,11 +1,14 @@
 package com.koerber.ausbildung.chess.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
@@ -24,7 +27,8 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class Gui {
 
-  private String posClickedPiece;
+  private String    posClickedPiece;
+  public static int historyCounter;
 
   /**
    * Constructor for GUI class.
@@ -56,45 +60,108 @@ public class Gui {
   }
 
   /**
-   * Sets all game pieces to initial pos, clears history, resets player data
-   * (points, pieces beaten, NOT color and name).
+   * Resets the score before the last move of the game.
    */
-  public void startNewGame() {
-
+  public static void undoLastTurn() {
+    String temp = History.historyEntryList.get(History.historyEntryList.size() - 1);
+    String[] splitList = temp.split(" ");
+    String startKey = splitList[1];
+    String targetKey = splitList[3];
+    Field.getCurrentGameState().put(startKey, Field.getCurrentGameState().get(targetKey));
+    Field.getCurrentGameState().remove(targetKey);
+    Field.decreaseCurrentTurn();
+    History.historyEntryList.remove(History.historyEntryList.size() - 1);
+    History.removeLastTurn();
+    // TODO: player zurücksetzen
   }
 
   /**
-   * Resets the score before the last move of the game.
+   * Generates label map to show game state
+   * 
+   * @param turn
    */
-  public void undoLastTurn() {
+  private static void generateMap(int turn) {
 
+    Map<String, Piece> historyMap = Converter.convertFENToMap(History.getFenOfTurn(turn));
+    for(Entry<String, Piece> entry : historyMap.entrySet()) {
+      if(entry.getValue() != null) {
+        int columnAsNumber = entry.getKey().charAt(0) - 64;
+        int rowAsNumber = entry.getKey().charAt(1) - 48;
+        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+      }
+    }
+    for(Entry<String, Piece> entry : historyMap.entrySet()) {
+
+      entry.getValue().setMoveable(false);
+    }
+  }
+
+  /**
+   * Clears {@code currentGameStateLabels}
+   */
+  private static void clearLabels() {
+    for(JLabel label : GuiFrame.currentGameStateLabels) {
+      label.setIcon(null);
+    }
   }
 
   /**
    * Displays the game state selected in the history.
    */
-  public void jumpToSelectedFEN() {
+  public static void jumpToSelectedFEN(String entryFen) {
+    if(entryFen != null) {
+      clearLegalMoveMap();
+      Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
+      matcher.find();
+      int turn = Integer.valueOf(matcher.group()) - 1;
+      Gui.historyCounter = turn;
+      clearLabels();
+      generateMap(turn);
 
+    }
   }
 
   /**
    * Goes from the history display back to the active game.
    */
-  public void jumptToLiveGame() {
-
+  public static void jumptToLiveGame() {
+    clearLegalMoveMap();
+    showCurrentGameState();
+    GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn() - 2);
   }
 
   /**
    * Goes one (1) step/move forward in history.
    */
-  public void forwardInHistory() {
+  public static void forwardInHistory() {
+    clearLegalMoveMap();
+    if(!(historyCounter >= History.historyEntryList.size() - 1)) {
+      historyCounter++;
+      int turn = historyCounter;
+      GuiFrame.historyJList.setSelectedIndex(turn);
+      clearLabels();
+      generateMap(turn);
+    }
+  }
 
+  private static void clearLegalMoveMap() {
+    Field.getCurrentGameState().entrySet().stream().forEach(x -> x.getValue().getLegalMoveMap().clear());
   }
 
   /**
    * Goes back one (1) step/move in history.
    */
-  public void backwardInHistory() {
+  public static void backwardInHistory() {
+    clearLegalMoveMap();
+
+    if(historyCounter > 0) {
+      historyCounter--;
+      int turn = historyCounter;
+      clearLabels();
+      generateMap(turn);
+      GuiFrame.historyJList.setSelectedIndex(turn);
+
+    }
 
   }
 
@@ -130,23 +197,22 @@ public class Gui {
    * (start position -> target position | sprite of hit figure).
    */
   public static void createNewHistroyEntry() {
-    // DefaultListModel<String> model = new DefaultListModel<>();
-    // History fen = new History();
-    // fen.addEntry(
-    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    // fen.addEntry(
-    // "r1wn1wb1wq1wk1wb2wn2wr2w/p1wp2wp3wp4wp5wp6wp7wp8w/########################/########################/########################/########################/p1bp2bp3bp4bp5bp6bp7bp8b/r1bn1bb1bq1bk1bb2bn2br2b/1.w.###");
-    //
-    // for(int i = 0; i < fen.getFens().size(); i++) {
-    // model.addElement(fen.getFenOfTurn(i));
-    // }
-    // historyList.setModel(model);
     History.historyEntryList.add(Converter.convertFENToHistory());
     DefaultListModel<String> model = new DefaultListModel<>();
-    for (String entry : History.historyEntryList) {
+    for(String entry : History.historyEntryList) {
       model.addElement(entry);
     }
-    GuiFrame.historyList.setModel(model);
+    GuiFrame.historyJList.setModel(model);
+  }
+
+  /**
+   * Clears history field
+   */
+  public static void clearHistory() {
+    History.historyEntryList.clear();
+    History.fens.clear();
+    DefaultListModel<String> model = new DefaultListModel<>();
+    GuiFrame.historyJList.setModel(model);
   }
 
   /**
@@ -154,16 +220,14 @@ public class Gui {
    * 
    * @return
    */
-  public static void showCurrentGameState(JLabel[] currentGameStateLabels) {
-    for(JLabel label : currentGameStateLabels) {
-      label.setIcon(null);
-    }
+  public static void showCurrentGameState() {
+    clearLabels();
     Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
 
       }
 

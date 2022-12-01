@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class History {
 
-  private List<String>       fens             = new ArrayList<>();
+  public static List<String> fens             = new ArrayList<>();
 
-  public static List<String> historyEntryList = new ArrayList<>();
+  public static List<String>  historyEntryList = new ArrayList<>();
 
   public List<String> getFens() {
     return fens;
@@ -25,15 +25,17 @@ public class History {
    * adds new FEN-String to the ArrayList with fens.add() .
    * 
    * @param String
+   * @return void
+   * @throws
    * @comment fens.add have examples, need to be conected with converter. gets
    *          from converter fen-Strings. maybe create a converter-Object
    */
 
-  public void addEntry(String fen) {
+  public static void addEntry(String fen) {
     fens.add(fen);
   }
 
-  public void removeLastTurn() {
+  public static void removeLastTurn() {
     fens.remove(fens.size() - 1);
   }
 
@@ -45,11 +47,18 @@ public class History {
    * @return String
    * @throws IndexOutOfBoundsException
    * @comment base-structure
+   * @author Toni Gropper
    */
-  public String getFenOfTurn(int posEntry) {
+  public static String getFenOfTurn(int posEntry) {
     if(fens.size() - 1 < posEntry) {
       throw new IndexOutOfBoundsException(posEntry);
     }
     return fens.get(posEntry);
   }
 }
+
+// main method
+// History myHistory = new History();
+// myHistory.addEntry("fen");
+// System.out.println(myHistory.getFens());
+// System.out.println(myHistory.getEntryAtIndex(4));

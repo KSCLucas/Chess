@@ -1,7 +1,6 @@
 package com.koerber.ausbildung.chess.utility;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.koerber.ausbildung.chess.Field;
@@ -33,6 +32,7 @@ public class Converter {
    * 
    * @param Map
    * @return String
+   * @author Toni Gropper
    */
   public static String convertMapToFEN(Map<String, Piece> currentGameState) {
 
@@ -74,7 +74,9 @@ public class Converter {
    * 
    * @param String
    * @return Map
+   * @throws
    * @comment base-structure
+   * @author Toni Gropper
    */
   public static Map<String, Piece> convertFENToMap(String gameState) {
 
@@ -91,15 +93,15 @@ public class Converter {
 
           Piece newPiece = getNewPiece(value, fieldKey, '1');
           posOfPiece.put(fieldKey, newPiece);
-          rows = rows.substring(3);
         }
+        rows = rows.substring(3);
 
         column++;
       }
     }
-    for(Entry<String, Piece> entry : posOfPiece.entrySet()) {
-      System.out.println(entry);
-    }
+    // for(Entry<String, Piece> entry : posOfPiece.entrySet()) {
+    // System.out.println(entry);
+    // }
     return posOfPiece;
 
   }
@@ -108,6 +110,8 @@ public class Converter {
    * @param String pieceId, String pos, char castleside
    * @return Object Piece
    * @throws IllegalArgumentException
+   * @comment
+   * @author Toni Gropper
    */
   public static Piece getNewPiece(String pieceId, String pos, char castleSideSide) {
     String pieceType = pieceId.substring(0, 1);
@@ -151,13 +155,17 @@ public class Converter {
    * 
    * @param String, String
    * @return String
+   * @throws
    * @comment Grundgerüst
+   * @author Toni Gropper
    */
   public static String convertFENToHistory() {
     String takenPieceId = "";
 
-    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  " + targetPosition + "  "
-        + takenPieceId;
+    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  "
+        + targetPosition /*
+                          * + "  " + takenPieceId
+                          */;
     return historyEntry;
   }
 }

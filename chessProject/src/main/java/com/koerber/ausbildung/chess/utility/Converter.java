@@ -1,7 +1,6 @@
 package com.koerber.ausbildung.chess.utility;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.koerber.ausbildung.chess.Field;

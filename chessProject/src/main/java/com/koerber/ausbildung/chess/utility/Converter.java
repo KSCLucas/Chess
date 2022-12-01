@@ -162,8 +162,10 @@ public class Converter {
   public static String convertFENToHistory() {
     String takenPieceId = "";
 
-    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  " + targetPosition + "  "
-        + takenPieceId;
+    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  "
+        + targetPosition /*
+                          * + "  " + takenPieceId
+                          */;
     return historyEntry;
   }
 }

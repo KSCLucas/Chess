@@ -80,7 +80,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
             dragLabel.setIcon(null);
             ((JPanel)dragLabel.getParent()).updateUI();
-            
+
             event.dropComplete(true);
             GuiFrame.clearLegalMoveMap();
             Gui.showCurrentGameState();
@@ -92,7 +92,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             Field.turnLock();
             History.addEntry(Converter.convertMapToFEN(Field.getCurrentGameState()));
             Gui.createNewHistroyEntry();
-            
+            GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn()-2);
           }
           else {
             event.rejectDrop();

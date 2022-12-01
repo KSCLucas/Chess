@@ -88,12 +88,13 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             GuiFrame.highlightActivePlayer();
             Field.turnLock();
             Field.getCurrentGameState().entrySet().stream()
-            .filter(x -> x.getValue() instanceof King && x.getValue()
-                .getColour() == (Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
-            .forEach(x -> {
-              King king = (King)x.getValue();
-              king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
-            });
+                .filter(x -> x.getValue() instanceof King && x.getValue()
+                    .getColour() == (Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
+                .forEach(x -> {
+                  King king = (King)x.getValue();
+                  king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+                  king.checkForCheckmate();
+                });
           }
           else {
             event.rejectDrop();

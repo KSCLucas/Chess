@@ -320,7 +320,7 @@ public class King extends Piece {
     // colour as King and check whether or not at least one key is present.
     // Set moveable of all other Pieces, which cannot help the king, of the same
     // colour to false
-    saveTheKing(currentGameState);
+    godSaveTheKing(currentGameState);
     return opposingMoveMaps;
   }
 
@@ -330,8 +330,10 @@ public class King extends Piece {
    * 
    * @param currentGameState
    */
-  private void saveTheKing(Map<String, Piece> currentGameState) {
+  private void godSaveTheKing(Map<String, Piece> currentGameState) {
     if(!getAttackKeys().isEmpty()) {
+      // Empty saviourPieces
+      clearSaviourPieces();
       // Get all Pieces of the same colour except the King
       Map<String, Piece> piecesOfSameColour = currentGameState.entrySet().stream()
           .filter(x -> x.getValue().getColour() == getColour() && !(x.getValue() instanceof King))
@@ -358,6 +360,7 @@ public class King extends Piece {
         }
         if(saveKeyFound) {
           currentPiece.setLegalMoveMap(saveMap);
+          addSaviourPiece(currentPiece);
         }
         else {
           currentPiece.getLegalMoveMap().clear();
@@ -425,6 +428,9 @@ public class King extends Piece {
    */
   public void checkForCheckmate() {
     // TODO add checkForCheckmate implementation
-
+    if(isInCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
+      setCheckmate(true);
+      System.out.println("Checkmate");
+    }
   }
 }

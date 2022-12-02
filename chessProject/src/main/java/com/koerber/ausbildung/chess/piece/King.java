@@ -144,13 +144,15 @@ public class King extends Piece {
    * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
    * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and
    * {@code canCastleLong} to {@code true}, if castleing is possible.
+   * 
+   * @param currentGameState
    */
-  public void checkForCastle() {
+  public void checkForCastle(Map<String, Piece> currentGameState) {
     // TODO add checkForCastle implementation
   }
 
   /**
-   * Builds and returned a special List of {@ MoveVectors}
+   * Builds and returned a special list of {@ MoveVectors}
    * 
    * @param inverseMoveVector
    * @param pawnColour
@@ -195,6 +197,7 @@ public class King extends Piece {
       currentPiece.getLegalMoveMap().clear();
       // Distinguish between Pawn and other Pieces
       if(currentPiece instanceof Pawn) {
+        // Get map with only attack vectors
         for(int i = 2; i <= 5; i += 3) {
           int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
           int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
@@ -211,6 +214,7 @@ public class King extends Piece {
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
                 && currentGameState.get(fieldKey) instanceof King) {
               currentPiece.getLegalMoveMap().put(fieldKey, getId());
+              getAttackKeys().add(currentPiece.getPosition());
             }
             // Check for Piece of Kings colour
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
@@ -223,8 +227,8 @@ public class King extends Piece {
         // Loop over every move vector in moveSet
         for(MoveVector moveVector : currentPiece.getMoveSet()) {
           // Track Pieceposition and trail
-          List<String> fields = new ArrayList<>();
-          fields.add(currentPiece.getPosition());
+          List<String> tempFields = new ArrayList<>();
+          tempFields.add(currentPiece.getPosition());
           // Reset moveability criteria
           int opposingPieceCount = 0;
           boolean allyPieceDetected = false;
@@ -247,7 +251,7 @@ public class King extends Piece {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
                   if(!kingInLineVector) {
                     // Add key to trail
-                    fields.add(fieldKey);
+                    tempFields.add(fieldKey);
                   }
                 }
               }
@@ -262,7 +266,9 @@ public class King extends Piece {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
                 }
-                opposingPieceCount++;
+                if(!kingInLineVector) {
+                  opposingPieceCount++;
+                }
                 if(encounterKey.equals(NOT_ON_FIELD)) {
                   encounterKey = fieldKey;
                 }
@@ -279,8 +285,9 @@ public class King extends Piece {
               // Set moveability and availableMoveVectors
               // Check for kingInLine to set moveability or availableMoveVectors
               if(opposingPieceCount == 1 && kingInLineVector) {
-                // Empty availableMoveVectors
+                // Empty availableMoveVectors and legalMoveMap
                 currentGameState.get(encounterKey).emptyAvailableMoveVectors();
+                currentGameState.get(encounterKey).getLegalMoveMap().clear();
                 // Get inverse vector
                 MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
                 boolean moveVectorFound = false;
@@ -307,9 +314,9 @@ public class King extends Piece {
               }
               else {
                 // Check for check
-                if(opposingPieceCount == 0 && kingInLineVector) {
+                if(opposingPieceCount == 0 && kingInLineVector && !allyPieceDetected) {
                   setInCheck(true);
-                  setAttackKeys(fields);
+                  getAttackKeys().addAll(tempFields);
                 }
               }
             }

@@ -20,9 +20,11 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class Pawn extends Piece {
 
-  private boolean isEnPassentable = false;
-  private boolean isPromotable    = false;
-  private boolean hasMoved        = false;
+  private boolean isEnPassentable      = false;
+  private boolean isPromotable         = false;
+  private boolean hasMoved             = false;
+
+  private boolean enPassantTakeBlocked = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -61,6 +63,14 @@ public class Pawn extends Piece {
 
   public void setHasMoved(boolean hasMoved) {
     this.hasMoved = hasMoved;
+  }
+
+  public boolean isEnPassantTakeBlocked() {
+    return enPassantTakeBlocked;
+  }
+
+  public void setEnPassantTakeBlocked(boolean enPassantTakeBlocked) {
+    this.enPassantTakeBlocked = enPassantTakeBlocked;
   }
 
   /**
@@ -181,15 +191,17 @@ public class Pawn extends Piece {
           }
         }
         case 3, 4 -> {
-          // Check for en-passant take
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-          String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
-          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn pawn
-              && pawn.getColour() != getColour() && pawn.isEnPassentable()) {
-            int posNumberForEnPassant = getColour() == ChessColour.BLACK ? posNumber - 1 : posNumber + 1;
-            String enPassantFieldKey = getFieldKey(posLetterAsNumber, posNumberForEnPassant);
-            getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+          if(!isEnPassantTakeBlocked()) {
+            // Check for en-passant take
+            posLetterAsNumber += moveVector.getX();
+            posNumber += moveVector.getY();
+            String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+            if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn pawn
+                && pawn.getColour() != getColour() && pawn.isEnPassentable()) {
+              int posNumberForEnPassant = getColour() == ChessColour.BLACK ? posNumber - 1 : posNumber + 1;
+              String enPassantFieldKey = getFieldKey(posLetterAsNumber, posNumberForEnPassant);
+              getLegalMoveMap().put(enPassantFieldKey, HIT_STRING);
+            }
           }
         }
         }

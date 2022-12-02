@@ -237,7 +237,7 @@ public class King extends Piece {
           boolean allyPieceDetected = false;
           boolean allyPieceInfrontKingDetected = false;
           String encounterKey = NOT_ON_FIELD;
-          boolean kingInLineVector = false;
+          boolean kingInLine = false;
           int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
           int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
           // Change content of legalMoveMap based on move vector i and
@@ -253,7 +253,7 @@ public class King extends Piece {
               if(currentGameState.get(fieldKey) == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
-                  if(!kingInLineVector) {
+                  if(!kingInLine) {
                     // Add key to trail
                     trail.add(fieldKey);
                   }
@@ -263,14 +263,14 @@ public class King extends Piece {
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
                   && currentGameState.get(fieldKey) instanceof King) {
                 currentPiece.getLegalMoveMap().put(fieldKey, getId());
-                kingInLineVector = true;
+                kingInLine = true;
               }
               // Check for Piece of Kings colour
               else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
                 }
-                if(!kingInLineVector) {
+                if(!kingInLine) {
                   opposingPieceCount++;
                 }
                 if(encounterKey.equals(NOT_ON_FIELD)) {
@@ -282,16 +282,15 @@ public class King extends Piece {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
                 }
                 allyPieceDetected = true;
-                if(!kingInLineVector) {
+                if(!kingInLine) {
                   allyPieceInfrontKingDetected = true;
                 }
               }
             }
             else {
               repeatLoop = false;
-              // Set moveability and availableMoveVectors
               // Check for kingInLine to set moveability or availableMoveVectors
-              if(opposingPieceCount == 1 && kingInLineVector) {
+              if(opposingPieceCount == 1 && kingInLine) {
                 // Empty availableMoveVectors and legalMoveMap
                 currentGameState.get(encounterKey).emptyAvailableMoveVectors();
                 currentGameState.get(encounterKey).getLegalMoveMap().clear();
@@ -321,18 +320,30 @@ public class King extends Piece {
               }
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
-          // Check for check
-          if(opposingPieceCount == 0 && kingInLineVector && !allyPieceInfrontKingDetected) {
-            setInCheck(true);
-            getAttackKeys().addAll(trail);
-          }
-          // TODO reset check somewhere but not here
+          checkForCheck(trail, opposingPieceCount, allyPieceInfrontKingDetected, kingInLine);
         }
       }
       opposingMoveMaps.add(currentPiece.getLegalMoveMap());
     }
     godSaveTheKing(currentGameState);
     return opposingMoveMaps;
+  }
+
+  /**
+   * Checks, whether or not the {@code King} is in check and sets the value
+   * accordingly. Adds trail to {@code attackKeys}.
+   * 
+   * @param trail
+   * @param opposingPieceCount
+   * @param allyPieceInfrontKingDetected
+   * @param kingInLine
+   */
+  private void checkForCheck(List<String> trail, int opposingPieceCount, boolean allyPieceInfrontKingDetected,
+      boolean kingInLine) {
+    if(opposingPieceCount == 0 && kingInLine && !allyPieceInfrontKingDetected) {
+      setInCheck(true);
+      getAttackKeys().addAll(trail);
+    }
   }
 
   /**

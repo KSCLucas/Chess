@@ -227,8 +227,8 @@ public class King extends Piece {
         // Loop over every move vector in moveSet
         for(MoveVector moveVector : currentPiece.getMoveSet()) {
           // Track Pieceposition and trail
-          List<String> tempFields = new ArrayList<>();
-          tempFields.add(currentPiece.getPosition());
+          List<String> trail = new ArrayList<>();
+          trail.add(currentPiece.getPosition());
           // Reset moveability criteria
           int opposingPieceCount = 0;
           boolean allyPieceDetected = false;
@@ -251,7 +251,7 @@ public class King extends Piece {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
                   if(!kingInLineVector) {
                     // Add key to trail
-                    tempFields.add(fieldKey);
+                    trail.add(fieldKey);
                   }
                 }
               }
@@ -312,15 +312,16 @@ public class King extends Piece {
                   currentGameState.get(encounterKey).setMoveable(false);
                 }
               }
-              else {
-                // Check for check
-                if(opposingPieceCount == 0 && kingInLineVector && !allyPieceDetected) {
-                  setInCheck(true);
-                  getAttackKeys().addAll(tempFields);
-                }
-              }
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
+          // Check for check
+          if(opposingPieceCount == 0 && kingInLineVector && !allyPieceDetected) {
+            setInCheck(true);
+            getAttackKeys().addAll(trail);
+          }
+          else {
+            setInCheck(false);
+          }
         }
       }
       opposingMoveMaps.add(currentPiece.getLegalMoveMap());

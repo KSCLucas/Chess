@@ -186,6 +186,8 @@ public class King extends Piece {
         .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
     // Reset attackKey list
     clearAttackKeys();
+    // Reset inCheck
+    setInCheck(false);
     // Filter for every opposing piece
     Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
         .filter(x -> x.getValue().getColour() != getColour())
@@ -430,7 +432,6 @@ public class King extends Piece {
     for(String key : keys) {
       getLegalMoveMap().remove(key);
     }
-//    checkForCheckmate();
   }
 
   /**

@@ -207,7 +207,7 @@ public class King extends Piece {
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber)) {
             // Check for EmptyPiece
-            if(currentGameState.get(fieldKey) == null) {
+            if(currentGameState.get(fieldKey) == null || currentGameState.get(fieldKey).getColour() == currentPiece.getColour()) {
               currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
             }
             // Check for this King

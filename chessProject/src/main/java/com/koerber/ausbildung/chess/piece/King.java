@@ -232,6 +232,7 @@ public class King extends Piece {
           // Reset moveability criteria
           int opposingPieceCount = 0;
           boolean allyPieceDetected = false;
+          boolean allyPieceInfrontKingDetected = false;
           String encounterKey = NOT_ON_FIELD;
           boolean kingInLineVector = false;
           int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
@@ -278,6 +279,9 @@ public class King extends Piece {
                   currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
                 }
                 allyPieceDetected = true;
+                if(!kingInLineVector) {
+                  allyPieceInfrontKingDetected = true;
+                }
               }
             }
             else {
@@ -315,7 +319,7 @@ public class King extends Piece {
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
           // Check for check
-          if(opposingPieceCount == 0 && kingInLineVector && !allyPieceDetected) {
+          if(opposingPieceCount == 0 && kingInLineVector && !allyPieceInfrontKingDetected) {
             setInCheck(true);
             getAttackKeys().addAll(trail);
           }

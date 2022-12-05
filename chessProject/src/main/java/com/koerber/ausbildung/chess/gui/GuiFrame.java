@@ -47,10 +47,8 @@ public class GuiFrame {
   public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
-
   public static JList<String>    historyJList           = new JList<String>();
   private static JLabel          player1Label;
-
   private static JLabel          player2Label;
   /**
    * Launch the application.
@@ -120,9 +118,8 @@ public class GuiFrame {
           Field.resetCurrentTurn();
           Field.turnLock();
           Gui.clearHistory();
-
           highlightActivePlayer();
-          Gui.showCurrentGameState();
+          Gui.showCurrentGameState(Field.getCurrentGameState());
         }
       }
     };
@@ -135,7 +132,6 @@ public class GuiFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.undoLastTurn();
-
       }
     };
     backButton.addActionListener(backListener);
@@ -167,7 +163,6 @@ public class GuiFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.forwardInHistory();
-
       }
     };
     forwardsInHistoryButton.addActionListener(forwardInHistory);
@@ -184,8 +179,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame();
-        // TODO Auto-generated method stub
+        Gui.jumptToLiveGame(Field.getCurrentGameState());
 
       }
     };
@@ -354,7 +348,7 @@ public class GuiFrame {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
       }
     }
-    Gui.showCurrentGameState();
+    Gui.showCurrentGameState(Field.getCurrentGameState());
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
 

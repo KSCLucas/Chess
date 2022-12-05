@@ -1,7 +1,5 @@
 package com.koerber.ausbildung.chess.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -111,7 +109,6 @@ public class Gui {
    */
   public static void jumpToSelectedFEN(String entryFen) {
     if(entryFen != null) {
-      clearLegalMoveMap();
       Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
       matcher.find();
       int turn = Integer.valueOf(matcher.group()) - 1;
@@ -125,9 +122,8 @@ public class Gui {
   /**
    * Goes from the history display back to the active game.
    */
-  public static void jumptToLiveGame() {
-    clearLegalMoveMap();
-    showCurrentGameState();
+  public static void jumptToLiveGame(Map<String, Piece> activeGameState) {
+    showCurrentGameState(activeGameState);
     GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn() - 2);
   }
 
@@ -135,26 +131,24 @@ public class Gui {
    * Goes one (1) step/move forward in history.
    */
   public static void forwardInHistory() {
-    clearLegalMoveMap();
     if(!(historyCounter >= History.historyEntryList.size() - 1)) {
       historyCounter++;
       int turn = historyCounter;
-      GuiFrame.historyJList.setSelectedIndex(turn);
       clearLabels();
-      generateMap(turn);
+      GuiFrame.historyJList.setSelectedIndex(turn);
+      if(turn == History.historyEntryList.size()) {
+        showCurrentGameState(Field.getCurrentGameState());
+      }
+      else {
+        generateMap(turn);
+      }
     }
-  }
-
-  private static void clearLegalMoveMap() {
-    Field.getCurrentGameState().entrySet().stream().forEach(x -> x.getValue().getLegalMoveMap().clear());
   }
 
   /**
    * Goes back one (1) step/move in history.
    */
   public static void backwardInHistory() {
-    clearLegalMoveMap();
-
     if(historyCounter > 0) {
       historyCounter--;
       int turn = historyCounter;
@@ -221,9 +215,9 @@ public class Gui {
    * 
    * @return
    */
-  public static void showCurrentGameState() {
+  public static void showCurrentGameState(Map<String, Piece> gameState) {
     clearLabels();
-    Map<String, Piece> currentGameStateTemp = Field.getCurrentGameState();
+    Map<String, Piece> currentGameStateTemp = gameState;
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;

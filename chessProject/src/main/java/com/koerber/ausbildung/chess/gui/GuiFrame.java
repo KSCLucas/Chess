@@ -119,7 +119,7 @@ public class GuiFrame {
           field.initializeMap();
           field.resetCurrentTurn();
           field.turnLock();
-          Gui.clearHistory();
+          Gui.clearHistory(history);
           highlightActivePlayer(field);
           Gui.showCurrentGameState(field.getCurrentGameState());
         }
@@ -133,7 +133,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.undoLastTurn();
+        Gui.undoLastTurn(field, history);
       }
     };
     backButton.addActionListener(backListener);
@@ -153,7 +153,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.backwardInHistory();
+        Gui.backwardInHistory(history);
       }
     };
     backwardsInHistoryButton.addActionListener(backInHistory);
@@ -164,7 +164,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.forwardInHistory();
+        Gui.forwardInHistory(field, history);
       }
     };
     forwardsInHistoryButton.addActionListener(forwardInHistory);
@@ -181,7 +181,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame(field.getCurrentGameState());
+        Gui.jumptToLiveGame(field.getCurrentGameState(), field);
 
       }
     };
@@ -195,7 +195,7 @@ public class GuiFrame {
 
       @Override
       public void valueChanged(ListSelectionEvent e) {
-        Gui.jumpToSelectedFEN(historyJList.getSelectedValue());
+        Gui.jumpToSelectedFEN(historyJList.getSelectedValue(), history);
       }
     };
     historyJList.addListSelectionListener(lsl);
@@ -296,13 +296,13 @@ public class GuiFrame {
 
       @Override
       public void mousePressed(MouseEvent e) {
-        if((history.historyEntryList.size() - 1) == historyJList.getSelectedIndex()) {
+        if((history.getHistoryEntryList().size() - 1) == historyJList.getSelectedIndex()) {
           String position = e.getComponent().getName();
           if(field.getCurrentGameState().get(position) != null) {
             clearLegalMoveMap();
             Converter.setStartPosition(position);
             Gui.highlightLegalMove(legalMoveLabels, field.getCurrentGameState().get(position),
-                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE, field);
           }
         }
       }

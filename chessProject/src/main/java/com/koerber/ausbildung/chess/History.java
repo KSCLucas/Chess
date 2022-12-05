@@ -13,10 +13,22 @@ import java.util.List;
  */
 public class History {
 
-  public List<String> fens             = new ArrayList<>();
-  public List<String> historyEntryList = new ArrayList<>();
+  private List<String> fens             = new ArrayList<>();
+  private List<String> historyEntryList = new ArrayList<>();
   public List<String> getFens() {
     return fens;
+  }
+
+  public List<String> getHistoryEntryList() {
+    return historyEntryList;
+  }
+
+  public void setHistoryEntryList(List<String> historyEntryList) {
+    this.historyEntryList = historyEntryList;
+  }
+
+  public void setFens(List<String> fens) {
+    this.fens = fens;
   }
 
   /**

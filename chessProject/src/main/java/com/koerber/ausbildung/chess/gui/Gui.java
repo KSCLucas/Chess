@@ -61,16 +61,16 @@ public class Gui {
   /**
    * Resets the score before the last move of the game.
    */
-  public static void undoLastTurn() {
-    String temp = History.historyEntryList.get(History.historyEntryList.size() - 1);
+  public static void undoLastTurn(Field field, History history) {
+    String temp = history.getHistoryEntryList().get(history.getHistoryEntryList().size() - 1);
     String[] splitList = temp.split(" ");
     String startKey = splitList[1];
     String targetKey = splitList[3];
-    Field.getCurrentGameState().put(startKey, Field.getCurrentGameState().get(targetKey));
-    Field.getCurrentGameState().remove(targetKey);
-    Field.decreaseCurrentTurn();
-    History.historyEntryList.remove(History.historyEntryList.size() - 1);
-    History.removeLastTurn();
+    field.getCurrentGameState().put(startKey, field.getCurrentGameState().get(targetKey));
+    field.getCurrentGameState().remove(targetKey);
+    field.decreaseCurrentTurn();
+    history.getHistoryEntryList().remove(history.getHistoryEntryList().size() - 1);
+    history.removeLastTurn();
     // TODO: player zurücksetzen
   }
 
@@ -79,9 +79,9 @@ public class Gui {
    * 
    * @param turn
    */
-  private static void generateMap(int turn) {
+  private static void generateMap(int turn, History history) {
 
-    Map<String, Piece> historyMap = Converter.convertFENToMap(History.getFenOfTurn(turn));
+    Map<String, Piece> historyMap = Converter.convertFENToMap(history.getFenOfTurn(turn));
     for(Entry<String, Piece> entry : historyMap.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
@@ -107,14 +107,14 @@ public class Gui {
   /**
    * Displays the game state selected in the history.
    */
-  public static void jumpToSelectedFEN(String entryFen) {
+  public static void jumpToSelectedFEN(String entryFen, History history) {
     if(entryFen != null) {
       Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
       matcher.find();
       int turn = Integer.valueOf(matcher.group()) - 1;
       Gui.historyCounter = turn;
       clearLabels();
-      generateMap(turn);
+      generateMap(turn, history);
 
     }
   }
@@ -122,25 +122,25 @@ public class Gui {
   /**
    * Goes from the history display back to the active game.
    */
-  public static void jumptToLiveGame(Map<String, Piece> activeGameState) {
+  public static void jumptToLiveGame(Map<String, Piece> activeGameState, Field field) {
     showCurrentGameState(activeGameState);
-    GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn() - 2);
+    GuiFrame.historyJList.setSelectedIndex(field.getCurrentTurn() - 2);
   }
 
   /**
    * Goes one (1) step/move forward in history.
    */
-  public static void forwardInHistory() {
-    if(!(historyCounter >= History.historyEntryList.size() - 1)) {
+  public static void forwardInHistory(Field field, History history) {
+    if(!(historyCounter >= history.getHistoryEntryList().size() - 1)) {
       historyCounter++;
       int turn = historyCounter;
       clearLabels();
       GuiFrame.historyJList.setSelectedIndex(turn);
-      if(turn == History.historyEntryList.size()) {
-        showCurrentGameState(Field.getCurrentGameState());
+      if(turn == history.getHistoryEntryList().size()) {
+        showCurrentGameState(field.getCurrentGameState());
       }
       else {
-        generateMap(turn);
+        generateMap(turn, history);
       }
     }
   }
@@ -148,12 +148,12 @@ public class Gui {
   /**
    * Goes back one (1) step/move in history.
    */
-  public static void backwardInHistory() {
+  public static void backwardInHistory(History history) {
     if(historyCounter > 0) {
       historyCounter--;
       int turn = historyCounter;
       clearLabels();
-      generateMap(turn);
+      generateMap(turn, history);
       GuiFrame.historyJList.setSelectedIndex(turn);
 
     }
@@ -191,10 +191,10 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public static void createNewHistroyEntry() {
-    History.historyEntryList.add(Converter.convertFENToHistory());
+  public static void createNewHistroyEntry(History history) {
+    history.getHistoryEntryList().add(Converter.convertFENToHistory());
     DefaultListModel<String> model = new DefaultListModel<>();
-    for(String entry : History.historyEntryList) {
+    for(String entry : history.getHistoryEntryList()) {
       model.addElement(entry);
     }
     GuiFrame.historyJList.setModel(model);
@@ -203,9 +203,9 @@ public class Gui {
   /**
    * Clears history field
    */
-  public static void clearHistory() {
-    History.historyEntryList.clear();
-    History.fens.clear();
+  public static void clearHistory(History history) {
+    history.getHistoryEntryList().clear();
+    history.getHistoryEntryList().clear();
     DefaultListModel<String> model = new DefaultListModel<>();
     GuiFrame.historyJList.setModel(model);
   }
@@ -237,10 +237,10 @@ public class Gui {
    * @return
    */
 
-  public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour) {
+  public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour, Field field) {
     if(!(piece instanceof King)) {
       try {
-        piece.createLegalMoveMap(Field.getCurrentGameState());
+        piece.createLegalMoveMap(field.getCurrentGameState());
       }
       catch(PieceOutOfBoundsException e) {
         e.printStackTrace();

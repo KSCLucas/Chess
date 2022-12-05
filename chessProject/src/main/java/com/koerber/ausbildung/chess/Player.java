@@ -19,6 +19,7 @@ public class Player {
   private ChessColour colour;
   private int         score;
   private List<Piece> takenPieces = new ArrayList<>();
+  
   public String getName() {
     return name;
   }

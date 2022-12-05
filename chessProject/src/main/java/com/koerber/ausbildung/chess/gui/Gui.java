@@ -23,29 +23,9 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  * GUI class provides the entire GUI. It communicates with the Field & Player
  * class.
  * 
- * @author Lucas Noack
+ * @author Lucas Noack, PKamps
  */
 public class Gui {
-
-  private String    posClickedPiece;
-  public static int historyCounter;
-
-  /**
-   * Constructor for GUI class.
-   * 
-   * @param String
-   */
-  public Gui(String posClickedPiece) {
-    this.posClickedPiece = posClickedPiece;
-  }
-
-  public String getPosClickedPiece() {
-    return posClickedPiece;
-  }
-
-  public void setPosClickedPiece(String posClickedPiece) {
-    this.posClickedPiece = posClickedPiece;
-  }
 
   /**
    * Converts HashMap Keyvalue to LabelArray Index.
@@ -56,7 +36,6 @@ public class Gui {
    */
   protected static int getIndex(int columnValue, int rowValue) {
     return (columnValue + (-8 * rowValue) + 63);
-
   }
 
   /**
@@ -113,10 +92,9 @@ public class Gui {
       Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
       matcher.find();
       int turn = Integer.valueOf(matcher.group()) - 1;
-      Gui.historyCounter = turn;
+      history.setHistoryCounter(turn);
       clearLabels(currentGameStateLabels);
       generateMap(turn, history, currentGameStateLabels);
-
     }
   }
 
@@ -132,9 +110,9 @@ public class Gui {
    * Goes one (1) step/move forward in history.
    */
   public static void forwardInHistory(Field field, History history, GuiFrame window) {
-    if(!(historyCounter >= history.getHistoryEntryList().size() - 1)) {
-      historyCounter++;
-      int turn = historyCounter;
+    if(!(history.getHistoryCounter() >= history.getHistoryEntryList().size() - 1)) {
+      history.setHistoryCounter(history.getHistoryCounter() + 1);
+      int turn = history.getHistoryCounter();
       clearLabels(window.getCurrentGameStateLabels());
       window.getHistoryJList().setSelectedIndex(turn);
       if(turn == history.getHistoryEntryList().size()) {
@@ -150,42 +128,15 @@ public class Gui {
    * Goes back one (1) step/move in history.
    */
   public static void backwardInHistory(History history, GuiFrame window) {
-    if(historyCounter > 0) {
-      historyCounter--;
-      int turn = historyCounter;
+    if(history.getHistoryCounter() > 0) {
+      history.setHistoryCounter(history.getHistoryCounter() - 1);
+      int turn = history.getHistoryCounter();
       clearLabels(window.getCurrentGameStateLabels());
       generateMap(turn, history, window.getCurrentGameStateLabels());
       window.getHistoryJList().setSelectedIndex(turn);
 
     }
 
-  }
-
-  /**
-   * Based on the {@code Field.currentGameState} hashmap, the position and
-   * sprite of the game pieces are read out and displayed on the respective
-   * field.
-   */
-  public void hashmapToGameState() {
-
-  }
-
-  /**
-   * Returns coordinates of the clicked (drag) field as string.
-   * 
-   * @return String
-   */
-  public String getClickedFieldString() {
-    return null;
-  }
-
-  /**
-   * Returns coordinates of the released click (drop) field as string.
-   * 
-   * @return String
-   */
-  public String getReleasedFieldString() {
-    return null;
   }
 
   /**
@@ -213,8 +164,6 @@ public class Gui {
 
   /**
    * Dispays {@code currentGameState} on chessboard.
-   * 
-   * @return
    */
   public static void showCurrentGameState(Map<String, Piece> gameState, JLabel[] currentGameStateLabels) {
     clearLabels(currentGameStateLabels);
@@ -232,9 +181,6 @@ public class Gui {
   /**
    * Colors the fields according to the {@code Piece.legalMoveMap} green (may
    * move), red (hit) or not at all (may not move).
-   * 
-   * @return
-   * @return
    */
 
   public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour, Field field) {
@@ -269,14 +215,14 @@ public class Gui {
    * 
    * @comment game lock = every move illegal
    */
-  public void showWinnerPopup() {
+  public static void showWinnerPopup() {
 
   }
 
   /**
    * Displays the sprite of the beaten game pieces in the player area.
    */
-  public void displayTakenPieces() {
+  public static void displayTakenPieces() {
 
   }
 

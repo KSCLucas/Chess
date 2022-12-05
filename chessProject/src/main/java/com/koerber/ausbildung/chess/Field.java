@@ -30,7 +30,6 @@ public class Field {
   private Map<String, Piece> currentGameState = new TreeMap<>();
   private int                currentTurn      = 1;
   private ChessColour        winner           = ChessColour.NONE;
-
   public Map<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
@@ -128,7 +127,7 @@ public class Field {
   }
 
   /**
-   * Checks, if a player has won and sets {@code whoWinner} to
+   * Checks, if a player has won and sets {@code winner} to
    * {@code ChessColour.WHITE} or {@code ChessColour.BLACK}, calls the GUI
    * method {@code showWinnerPopup}. If none of the Kings are in checkmate then
    * {@code whoWinner = ChessColour.NONE} is set.

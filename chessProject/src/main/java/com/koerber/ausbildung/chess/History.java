@@ -15,6 +15,7 @@ public class History {
 
   private List<String> fens             = new ArrayList<>();
   private List<String> historyEntryList = new ArrayList<>();
+  private int          historyCounter;
   public List<String> getFens() {
     return fens;
   }
@@ -29,6 +30,14 @@ public class History {
 
   public void setFens(List<String> fens) {
     this.fens = fens;
+  }
+
+  public int getHistoryCounter() {
+    return historyCounter;
+  }
+
+  public void setHistoryCounter(int historyCounter) {
+    this.historyCounter = historyCounter;
   }
 
   /**

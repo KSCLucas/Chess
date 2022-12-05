@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.gui;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,7 +31,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
-import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -50,36 +48,7 @@ public class GuiFrame {
   private JList<String>          historyJList           = new JList<String>();
   private JLabel                 player1Label;
   private JLabel                 player2Label;
-  /**
-   * Launch the application.
-   */
-  public static void main(String[] args) {
-    Field field = new Field();
-    History history = new History();
-    field.initializeMap();
-    field.turnLock();
-    field.getCurrentGameState().entrySet().stream()
-        .filter(x -> x.getValue() instanceof King && x.getValue().getColour() == ChessColour.WHITE).forEach(x -> {
-          King king = (King)x.getValue();
-          king.checkForCheckAndCreateLegalMoveMap(field.getCurrentGameState());
-        });
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          GuiFrame window = new GuiFrame(field, history);
-          window.frame.setVisible(true);
-          window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());
-        }
-        catch(Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
 
-  /**
-   * Create the application.
-   */
   public GuiFrame(Field field, History history) {
     initialize(field, history);
   }
@@ -122,6 +91,14 @@ public class GuiFrame {
 
   public void setPlayer2Label(JLabel player2Label) {
     this.player2Label = player2Label;
+  }
+
+  public JFrame getFrame() {
+    return frame;
+  }
+
+  public void setFrame(JFrame frame) {
+    this.frame = frame;
   }
 
   /**

@@ -160,7 +160,8 @@ public class Converter {
    * @author Toni Gropper
    */
   public static String convertFENToHistory(Field field) {
-    String takenPieceId = "";
+    // String takenPieceId = "";
+    // TODO implement takenPieceId logic
 
     String historyEntry = (field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  "
         + targetPosition /*

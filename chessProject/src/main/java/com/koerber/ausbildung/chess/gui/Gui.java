@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -16,6 +17,7 @@ import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
+import com.koerber.ausbildung.chess.utility.OnlyOneWinnerException;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
@@ -267,10 +269,15 @@ public class Gui {
   /**
    * Displays the winner as a popup and lures the game, only history viewable.
    * 
+   * @throws OnlyOneWinnerException
    * @comment game lock = every move illegal
    */
-  public void showWinnerPopup() {
-
+  public static void showWinnerPopup() throws OnlyOneWinnerException {
+    Field.checkForWinner();
+    if(Field.getWhoWinner() == ChessColour.BLACK || Field.getWhoWinner() == ChessColour.WHITE) {
+      JFrame jFrame = new JFrame();
+      JOptionPane.showMessageDialog(jFrame, "Player " + Field.getWhoWinner() + " won!");
+    }
   }
 
   /**

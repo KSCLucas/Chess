@@ -54,6 +54,7 @@ public class GuiFrame {
    * Launch the application.
    */
   public static void main(String[] args) {
+
     Field.initializeMap();
     Field.turnLock();
     Field.getCurrentGameState().entrySet().stream()

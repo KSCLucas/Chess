@@ -7,6 +7,11 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -468,6 +473,8 @@ public class King extends Piece {
     if(isInCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
       setCheckmate(true);
       System.out.println("Checkmate");
+        
+    
     }
   }
 }

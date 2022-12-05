@@ -102,6 +102,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
                   king.checkForCheckmate();
                 });
+            Gui.showWinnerPopup();
           }
           else {
             event.rejectDrop();

@@ -84,7 +84,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
 
             event.dropComplete(true);
             GuiFrame.clearLegalMoveMap();
-            Gui.showCurrentGameState();
+            Gui.showCurrentGameState(Field.getCurrentGameState());
             dropPanel.updateUI();
             Pawn.resetEnPassant(Field.getCurrentGameState(),
                 Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);

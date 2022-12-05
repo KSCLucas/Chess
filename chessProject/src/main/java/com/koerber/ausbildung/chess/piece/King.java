@@ -289,35 +289,7 @@ public class King extends Piece {
             }
             else {
               repeatLoop = false;
-              // Check for kingInLine to set moveability or availableMoveVectors
-              if(opposingPieceCount == 1 && kingInLine) {
-                // Empty availableMoveVectors and legalMoveMap
-                currentGameState.get(encounterKey).emptyAvailableMoveVectors();
-                currentGameState.get(encounterKey).getLegalMoveMap().clear();
-                // Get inverse vector
-                MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
-                boolean moveVectorFound = false;
-                for(MoveVector vector : currentGameState.get(encounterKey).getMoveSet()) {
-                  if(vector.equals(inverseMoveVector)) {
-                    moveVectorFound = true;
-                  }
-                }
-                if(moveVectorFound) {
-                  // Look for instance of Pawn
-                  if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
-                    // Give Pawn a special availableMoveSet
-                    pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector, pawn.getColour()));
-                  }
-                  else {
-                    // Set availableMoveVectors to inverseMoveVector
-                    currentGameState.get(encounterKey).getAvailableMoveVectors().add(inverseMoveVector);
-                  }
-                }
-                else {
-                  // Set moveable false
-                  currentGameState.get(encounterKey).setMoveable(false);
-                }
-              }
+              enableBlock(currentGameState, moveVector, opposingPieceCount, encounterKey, kingInLine);
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
           checkForCheck(trail, opposingPieceCount, allyPieceInfrontKingDetected, kingInLine);
@@ -327,6 +299,50 @@ public class King extends Piece {
     }
     godSaveTheKing(currentGameState);
     return opposingMoveMaps;
+  }
+
+  /**
+   * Sets {@code moveable = false} of the {@code Piece} with {@code position} of
+   * {@ encounterKey}, if it is the only {@code Piece} in between the
+   * {@code currentPiece} and {@code King}.
+   * 
+   * @param currentGameState
+   * @param moveVector
+   * @param opposingPieceCount
+   * @param encounterKey
+   * @param kingInLine
+   */
+  private void enableBlock(Map<String, Piece> currentGameState, MoveVector moveVector, int opposingPieceCount,
+      String encounterKey, boolean kingInLine) {
+    // Check for kingInLine to set moveability or availableMoveVectors
+    if(opposingPieceCount == 1 && kingInLine) {
+      // Empty availableMoveVectors and legalMoveMap
+      currentGameState.get(encounterKey).emptyAvailableMoveVectors();
+      currentGameState.get(encounterKey).getLegalMoveMap().clear();
+      // Get inverse vector
+      MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
+      boolean moveVectorFound = false;
+      for(MoveVector vector : currentGameState.get(encounterKey).getMoveSet()) {
+        if(vector.equals(inverseMoveVector)) {
+          moveVectorFound = true;
+        }
+      }
+      if(moveVectorFound) {
+        // Look for instance of Pawn
+        if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
+          // Give Pawn a special availableMoveSet
+          pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector, pawn.getColour()));
+        }
+        else {
+          // Set availableMoveVectors to inverseMoveVector
+          currentGameState.get(encounterKey).getAvailableMoveVectors().add(inverseMoveVector);
+        }
+      }
+      else {
+        // Set moveable false
+        currentGameState.get(encounterKey).setMoveable(false);
+      }
+    }
   }
 
   /**

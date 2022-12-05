@@ -70,7 +70,7 @@ public class Pawn extends Piece {
    * @param currentGameState
    * @param colour
    */
-  public static void resetEnPassant(Map<String, Piece> currentGameState, ChessColour colour) {
+  public void resetEnPassant(Map<String, Piece> currentGameState, ChessColour colour) {
     for(Entry<String, Piece> entry : currentGameState.entrySet()) {
       if(entry.getValue() instanceof Pawn pawn && pawn.getColour() != colour) {
         pawn.setEnPassentable(false);

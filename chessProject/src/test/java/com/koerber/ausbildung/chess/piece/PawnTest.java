@@ -359,7 +359,7 @@ class PawnTest {
     testCurrentGameState.put("A2", testPawn1);
     testCurrentGameState.put("C7", testPawn2);
 
-    Pawn.resetEnPassant(testCurrentGameState, ChessColour.WHITE);
+    testPawn2.resetEnPassant(testCurrentGameState, ChessColour.BLACK);
 
     assertEquals(false, testPawn1.isEnPassentable());
     assertEquals(true, testPawn2.isEnPassentable());

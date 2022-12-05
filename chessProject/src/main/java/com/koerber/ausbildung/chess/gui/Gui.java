@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
@@ -79,14 +80,14 @@ public class Gui {
    * 
    * @param turn
    */
-  private static void generateMap(int turn, History history) {
+  private static void generateMap(int turn, History history, JLabel[] currentGameStateLabels) {
 
     Map<String, Piece> historyMap = Converter.convertFENToMap(history.getFenOfTurn(turn));
     for(Entry<String, Piece> entry : historyMap.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
       }
     }
     for(Entry<String, Piece> entry : historyMap.entrySet()) {
@@ -98,8 +99,8 @@ public class Gui {
   /**
    * Clears {@code currentGameStateLabels}
    */
-  private static void clearLabels() {
-    for(JLabel label : GuiFrame.currentGameStateLabels) {
+  private static void clearLabels(JLabel[] currentGameStateLabels) {
+    for(JLabel label : currentGameStateLabels) {
       label.setIcon(null);
     }
   }
@@ -107,14 +108,14 @@ public class Gui {
   /**
    * Displays the game state selected in the history.
    */
-  public static void jumpToSelectedFEN(String entryFen, History history) {
+  public static void jumpToSelectedFEN(String entryFen, History history, JLabel[] currentGameStateLabels) {
     if(entryFen != null) {
       Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
       matcher.find();
       int turn = Integer.valueOf(matcher.group()) - 1;
       Gui.historyCounter = turn;
-      clearLabels();
-      generateMap(turn, history);
+      clearLabels(currentGameStateLabels);
+      generateMap(turn, history, currentGameStateLabels);
 
     }
   }
@@ -122,25 +123,25 @@ public class Gui {
   /**
    * Goes from the history display back to the active game.
    */
-  public static void jumptToLiveGame(Map<String, Piece> activeGameState, Field field) {
-    showCurrentGameState(activeGameState);
-    GuiFrame.historyJList.setSelectedIndex(field.getCurrentTurn() - 2);
+  public static void jumptToLiveGame(Map<String, Piece> activeGameState, Field field, GuiFrame window) {
+    showCurrentGameState(activeGameState, window.getCurrentGameStateLabels());
+    window.getHistoryJList().setSelectedIndex(field.getCurrentTurn() - 2);
   }
 
   /**
    * Goes one (1) step/move forward in history.
    */
-  public static void forwardInHistory(Field field, History history) {
+  public static void forwardInHistory(Field field, History history, GuiFrame window) {
     if(!(historyCounter >= history.getHistoryEntryList().size() - 1)) {
       historyCounter++;
       int turn = historyCounter;
-      clearLabels();
-      GuiFrame.historyJList.setSelectedIndex(turn);
+      clearLabels(window.getCurrentGameStateLabels());
+      window.getHistoryJList().setSelectedIndex(turn);
       if(turn == history.getHistoryEntryList().size()) {
-        showCurrentGameState(field.getCurrentGameState());
+        showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
       }
       else {
-        generateMap(turn, history);
+        generateMap(turn, history, window.getCurrentGameStateLabels());
       }
     }
   }
@@ -148,13 +149,13 @@ public class Gui {
   /**
    * Goes back one (1) step/move in history.
    */
-  public static void backwardInHistory(History history) {
+  public static void backwardInHistory(History history, GuiFrame window) {
     if(historyCounter > 0) {
       historyCounter--;
       int turn = historyCounter;
-      clearLabels();
-      generateMap(turn, history);
-      GuiFrame.historyJList.setSelectedIndex(turn);
+      clearLabels(window.getCurrentGameStateLabels());
+      generateMap(turn, history, window.getCurrentGameStateLabels());
+      window.getHistoryJList().setSelectedIndex(turn);
 
     }
 
@@ -191,23 +192,23 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public static void createNewHistroyEntry(Field field, History history) {
+  public static void createNewHistroyEntry(Field field, History history, JList<String> historyJList) {
     history.getHistoryEntryList().add(Converter.convertFENToHistory(field));
     DefaultListModel<String> model = new DefaultListModel<>();
     for(String entry : history.getHistoryEntryList()) {
       model.addElement(entry);
     }
-    GuiFrame.historyJList.setModel(model);
+    historyJList.setModel(model);
   }
 
   /**
    * Clears history field
    */
-  public static void clearHistory(History history) {
+  public static void clearHistory(History history, JList<String> historyJList) {
     history.getHistoryEntryList().clear();
     history.getFens().clear();
     DefaultListModel<String> model = new DefaultListModel<>();
-    GuiFrame.historyJList.setModel(model);
+    historyJList.setModel(model);
   }
 
   /**
@@ -215,17 +216,16 @@ public class Gui {
    * 
    * @return
    */
-  public static void showCurrentGameState(Map<String, Piece> gameState) {
-    clearLabels();
+  public static void showCurrentGameState(Map<String, Piece> gameState, JLabel[] currentGameStateLabels) {
+    clearLabels(currentGameStateLabels);
     Map<String, Piece> currentGameStateTemp = gameState;
     for(Entry<String, Piece> entry : currentGameStateTemp.entrySet()) {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        GuiFrame.currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
 
       }
-
     }
   }
 

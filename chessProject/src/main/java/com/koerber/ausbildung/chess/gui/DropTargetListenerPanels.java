@@ -20,15 +20,17 @@ import com.koerber.ausbildung.chess.utility.Converter;
 
 public class DropTargetListenerPanels extends DropTargetAdapter {
 
-  private DropTarget    dropTarget;
-  private JPanel        dropPanel;
-  private final Field   field;
-  private final History history;
+  private DropTarget     dropTarget;
+  private JPanel         dropPanel;
+  private final Field    field;
+  private final History  history;
+  private final GuiFrame window;
 
-  public DropTargetListenerPanels(JPanel p, Field field, History history) {
+  public DropTargetListenerPanels(JPanel p, Field field, History history, GuiFrame window) {
     this.dropPanel = p;
     this.field = field;
     this.history = history;
+    this.window = window;
     setDropTarget(new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null));
   }
 
@@ -59,19 +61,18 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
             dragLabel.setIcon(null);
             ((JPanel)dragLabel.getParent()).updateUI();
-
             event.dropComplete(true);
-            GuiFrame.clearLegalMoveMap();
-            Gui.showCurrentGameState(field.getCurrentGameState());
+            window.clearLegalMoveMap(window.getLegalMoveLabels());
+            Gui.showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
             dropPanel.updateUI();
             Pawn.resetEnPassant(field.getCurrentGameState(),
                 field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
             field.increaseCurrentTurn();
-            GuiFrame.highlightActivePlayer(field);
+            window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());
             field.turnLock();
             history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
-            Gui.createNewHistroyEntry(field, history);
-            GuiFrame.historyJList.setSelectedIndex(field.getCurrentTurn() - 2);
+            Gui.createNewHistroyEntry(field, history, window.getHistoryJList());
+            window.getHistoryJList().setSelectedIndex(field.getCurrentTurn() - 2);
             field.getCurrentGameState().entrySet().stream()
                 .filter(x -> x.getValue() instanceof King && x.getValue()
                     .getColour() == (field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))

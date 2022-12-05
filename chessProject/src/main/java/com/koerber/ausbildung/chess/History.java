@@ -13,12 +13,31 @@ import java.util.List;
  */
 public class History {
 
-  public static List<String> fens             = new ArrayList<>();
-
-  public static List<String>  historyEntryList = new ArrayList<>();
-
+  private List<String> fens             = new ArrayList<>();
+  private List<String> historyEntryList = new ArrayList<>();
+  private int          historyCounter;
   public List<String> getFens() {
     return fens;
+  }
+
+  public List<String> getHistoryEntryList() {
+    return historyEntryList;
+  }
+
+  public void setHistoryEntryList(List<String> historyEntryList) {
+    this.historyEntryList = historyEntryList;
+  }
+
+  public void setFens(List<String> fens) {
+    this.fens = fens;
+  }
+
+  public int getHistoryCounter() {
+    return historyCounter;
+  }
+
+  public void setHistoryCounter(int historyCounter) {
+    this.historyCounter = historyCounter;
   }
 
   /**
@@ -31,11 +50,11 @@ public class History {
    *          from converter fen-Strings. maybe create a converter-Object
    */
 
-  public static void addEntry(String fen) {
+  public void addEntry(String fen) {
     fens.add(fen);
   }
 
-  public static void removeLastTurn() {
+  public void removeLastTurn() {
     fens.remove(fens.size() - 1);
   }
 
@@ -49,16 +68,10 @@ public class History {
    * @comment base-structure
    * @author Toni Gropper
    */
-  public static String getFenOfTurn(int posEntry) {
+  public String getFenOfTurn(int posEntry) {
     if(fens.size() - 1 < posEntry) {
       throw new IndexOutOfBoundsException(posEntry);
     }
     return fens.get(posEntry);
   }
 }
-
-// main method
-// History myHistory = new History();
-// myHistory.addEntry("fen");
-// System.out.println(myHistory.getFens());
-// System.out.println(myHistory.getEntryAtIndex(4));

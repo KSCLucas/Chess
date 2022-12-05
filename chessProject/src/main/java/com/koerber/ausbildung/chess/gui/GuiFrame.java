@@ -2,7 +2,6 @@ package com.koerber.ausbildung.chess.gui;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,61 +31,80 @@ import javax.swing.event.ListSelectionListener;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
-import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
 
 public class GuiFrame {
 
-  private JFrame                 frame;
   public static final String     X_LABEL                = "ABCDEFGH";
   public static final Color      LIGHT_BROWN            = new Color(205, 133, 63);
   public static final Color      LIGHT_GREEN            = new Color(144, 238, 144, 127);
   public static final Color      LIGHT_RED              = new Color(255, 75, 75, 127);
   public static final LineBorder BLACK_BORDER           = new LineBorder(Color.BLACK);
-  public static JLabel[]         currentGameStateLabels = new JLabel[64];
-  private static JLabel[]        legalMoveLabels        = new JLabel[64];
-  public static JList<String>    historyJList           = new JList<String>();
-  private static JLabel          player1Label;
-  private static JLabel          player2Label;
-  /**
-   * Launch the application.
-   */
-  public static void main(String[] args) {
+  private JFrame                 frame;
+  private JLabel[]               currentGameStateLabels = new JLabel[64];
+  private JLabel[]               legalMoveLabels        = new JLabel[64];
+  private JList<String>          historyJList           = new JList<String>();
+  private JLabel                 player1Label;
+  private JLabel                 player2Label;
 
-    Field.initializeMap();
-    Field.turnLock();
-    Field.getCurrentGameState().entrySet().stream()
-        .filter(x -> x.getValue() instanceof King && x.getValue().getColour() == ChessColour.WHITE).forEach(x -> {
-          King king = (King)x.getValue();
-          king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
-        });
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          GuiFrame window = new GuiFrame();
-          window.frame.setVisible(true);
-          highlightActivePlayer();
-        }
-        catch(Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
+  public GuiFrame(Field field, History history) {
+    initialize(field, history);
   }
 
-  /**
-   * Create the application.
-   */
-  public GuiFrame() {
-    initialize();
+  public JLabel[] getCurrentGameStateLabels() {
+    return currentGameStateLabels;
+  }
+
+  public void setCurrentGameStateLabels(JLabel[] currentGameStateLabels) {
+    this.currentGameStateLabels = currentGameStateLabels;
+  }
+
+  public JLabel[] getLegalMoveLabels() {
+    return legalMoveLabels;
+  }
+
+  public void setLegalMoveLabels(JLabel[] legalMoveLabels) {
+    this.legalMoveLabels = legalMoveLabels;
+  }
+
+  public JList<String> getHistoryJList() {
+    return historyJList;
+  }
+
+  public void setHistoryJList(JList<String> historyJList) {
+    this.historyJList = historyJList;
+  }
+
+  public JLabel getPlayer1Label() {
+    return player1Label;
+  }
+
+  public void setPlayer1Label(JLabel player1Label) {
+    this.player1Label = player1Label;
+  }
+
+  public JLabel getPlayer2Label() {
+    return player2Label;
+  }
+
+  public void setPlayer2Label(JLabel player2Label) {
+    this.player2Label = player2Label;
+  }
+
+  public JFrame getFrame() {
+    return frame;
+  }
+
+  public void setFrame(JFrame frame) {
+    this.frame = frame;
   }
 
   /**
    * Initialize the contents of the frame.
    */
-  private void initialize() {
+  private void initialize(Field field, History history) {
 
     frame = new JFrame();
     Container contentPane = frame.getContentPane();
@@ -115,12 +133,13 @@ public class GuiFrame {
             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
             IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
         if(whiteName == JOptionPane.YES_OPTION) {
-          Field.initializeMap();
-          Field.resetCurrentTurn();
-          Field.turnLock();
-          Gui.clearHistory();
-          highlightActivePlayer();
-          Gui.showCurrentGameState(Field.getCurrentGameState());
+          field.initializeMap();
+          field.resetCurrentTurn();
+          field.turnLock();
+          Gui.clearHistory(history, getHistoryJList());
+          highlightActivePlayer(field, getPlayer1Label(), getPlayer2Label());
+          Gui.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
+          field.setWinner(null);
         }
       }
     };
@@ -132,7 +151,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.undoLastTurn();
+        Gui.undoLastTurn(field, history);
       }
     };
     backButton.addActionListener(backListener);
@@ -152,7 +171,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.backwardInHistory();
+        Gui.backwardInHistory(history, GuiFrame.this);
       }
     };
     backwardsInHistoryButton.addActionListener(backInHistory);
@@ -163,7 +182,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.forwardInHistory();
+        Gui.forwardInHistory(field, history, GuiFrame.this);
       }
     };
     forwardsInHistoryButton.addActionListener(forwardInHistory);
@@ -180,7 +199,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame(Field.getCurrentGameState());
+        Gui.jumptToLiveGame(field.getCurrentGameState(), field, GuiFrame.this);
 
       }
     };
@@ -194,7 +213,7 @@ public class GuiFrame {
 
       @Override
       public void valueChanged(ListSelectionEvent e) {
-        Gui.jumpToSelectedFEN(historyJList.getSelectedValue());
+        Gui.jumpToSelectedFEN(historyJList.getSelectedValue(), history, currentGameStateLabels);
       }
     };
     historyJList.addListSelectionListener(lsl);
@@ -262,16 +281,6 @@ public class GuiFrame {
       legalMoveLabels[i].setText("");
       chessBoardMiddleLayer.add(legalMoveLabels[i]);
     }
-    // Calls highlightLegalMove and adds build labels to middle Layer
-    // Field testField = new Field();
-    // testField.initializeMap();
-    //
-    // JLabel[] legalMoveLabels =
-    // Gui.highlightLegalMove(testField.getCurrentGameState().get("A2"),
-    // testField.getCurrentGameState());
-    // for(int i = 0; i < legalMoveLabels.length; i++) {
-    // chessBoardMiddleLayer.add(legalMoveLabels[i]);
-    // }
 
     /**
      * Initializes top layer. Top layer displays currentGameState (images) and
@@ -295,13 +304,13 @@ public class GuiFrame {
 
       @Override
       public void mousePressed(MouseEvent e) {
-        if((History.historyEntryList.size() - 1) == historyJList.getSelectedIndex()) {
+        if((history.getHistoryEntryList().size() - 1) == historyJList.getSelectedIndex()) {
           String position = e.getComponent().getName();
-          if(Field.getCurrentGameState().get(position) != null) {
-            clearLegalMoveMap();
+          if(field.getCurrentGameState().get(position) != null) {
+            clearLegalMoveMap(getLegalMoveLabels());
             Converter.setStartPosition(position);
-            Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position),
-                Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+            Gui.highlightLegalMove(legalMoveLabels, field.getCurrentGameState().get(position),
+                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE, field);
           }
         }
       }
@@ -349,7 +358,7 @@ public class GuiFrame {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
       }
     }
-    Gui.showCurrentGameState(Field.getCurrentGameState());
+    Gui.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
 
@@ -390,7 +399,7 @@ public class GuiFrame {
       DragSource dragSourcePanels = new DragSource();
       dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
           dragListenerPanels);
-      new DropTargetListenerPanels(topLayerPanels[j]);
+      new DropTargetListenerPanels(topLayerPanels[j], field, history, this);
       TransferHandler dnd = new TransferHandler() {
         /**
          * 
@@ -552,15 +561,15 @@ public class GuiFrame {
     Gui.askForPlayerName(player1Label, player2Label);
   }
 
-  public static void clearLegalMoveMap() {
+  public void clearLegalMoveMap(JLabel[] legalMoveLabels) {
     for(JLabel label : legalMoveLabels) {
       label.setBackground(null);
       label.setOpaque(false);
     }
   }
 
-  public static void highlightActivePlayer() {
-    if(Field.getCurrentTurn() % 2 == 0) {
+  public void highlightActivePlayer(Field field, JLabel player1Label, JLabel player2Label) {
+    if(field.getCurrentTurn() % 2 == 0) {
       player2Label.setBorder(new LineBorder(Color.green, 5));
       player1Label.setBorder(null);
     }

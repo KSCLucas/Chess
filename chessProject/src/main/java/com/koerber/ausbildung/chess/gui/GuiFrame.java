@@ -54,19 +54,21 @@ public class GuiFrame {
    * Launch the application.
    */
   public static void main(String[] args) {
-    Field.initializeMap();
-    Field.turnLock();
-    Field.getCurrentGameState().entrySet().stream()
+    Field field = new Field();
+    History history = new History();
+    field.initializeMap();
+    field.turnLock();
+    field.getCurrentGameState().entrySet().stream()
         .filter(x -> x.getValue() instanceof King && x.getValue().getColour() == ChessColour.WHITE).forEach(x -> {
           King king = (King)x.getValue();
-          king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+          king.checkForCheckAndCreateLegalMoveMap(field.getCurrentGameState());
         });
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          GuiFrame window = new GuiFrame();
+          GuiFrame window = new GuiFrame(field, history);
           window.frame.setVisible(true);
-          highlightActivePlayer();
+          highlightActivePlayer(field);
         }
         catch(Exception e) {
           e.printStackTrace();
@@ -78,14 +80,14 @@ public class GuiFrame {
   /**
    * Create the application.
    */
-  public GuiFrame() {
-    initialize();
+  public GuiFrame(Field field, History history) {
+    initialize(field, history);
   }
 
   /**
    * Initialize the contents of the frame.
    */
-  private void initialize() {
+  private void initialize(Field field, History history) {
 
     frame = new JFrame();
     Container contentPane = frame.getContentPane();
@@ -114,12 +116,12 @@ public class GuiFrame {
             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
             IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
         if(whiteName == JOptionPane.YES_OPTION) {
-          Field.initializeMap();
-          Field.resetCurrentTurn();
-          Field.turnLock();
+          field.initializeMap();
+          field.resetCurrentTurn();
+          field.turnLock();
           Gui.clearHistory();
-          highlightActivePlayer();
-          Gui.showCurrentGameState(Field.getCurrentGameState());
+          highlightActivePlayer(field);
+          Gui.showCurrentGameState(field.getCurrentGameState());
         }
       }
     };
@@ -179,7 +181,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame(Field.getCurrentGameState());
+        Gui.jumptToLiveGame(field.getCurrentGameState());
 
       }
     };
@@ -294,13 +296,13 @@ public class GuiFrame {
 
       @Override
       public void mousePressed(MouseEvent e) {
-        if((History.historyEntryList.size() - 1) == historyJList.getSelectedIndex()) {
+        if((history.historyEntryList.size() - 1) == historyJList.getSelectedIndex()) {
           String position = e.getComponent().getName();
-          if(Field.getCurrentGameState().get(position) != null) {
+          if(field.getCurrentGameState().get(position) != null) {
             clearLegalMoveMap();
             Converter.setStartPosition(position);
-            Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position),
-                Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+            Gui.highlightLegalMove(legalMoveLabels, field.getCurrentGameState().get(position),
+                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
           }
         }
       }
@@ -348,7 +350,7 @@ public class GuiFrame {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
       }
     }
-    Gui.showCurrentGameState(Field.getCurrentGameState());
+    Gui.showCurrentGameState(field.getCurrentGameState());
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
 
@@ -558,8 +560,8 @@ public class GuiFrame {
     }
   }
 
-  public static void highlightActivePlayer() {
-    if(Field.getCurrentTurn() % 2 == 0) {
+  public static void highlightActivePlayer(Field field) {
+    if(field.getCurrentTurn() % 2 == 0) {
       player2Label.setBorder(new LineBorder(Color.green, 5));
       player1Label.setBorder(null);
     }

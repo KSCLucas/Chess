@@ -70,7 +70,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             GuiFrame.highlightActivePlayer(field);
             field.turnLock();
             history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
-            Gui.createNewHistroyEntry(history);
+            Gui.createNewHistroyEntry(field, history);
             GuiFrame.historyJList.setSelectedIndex(field.getCurrentTurn() - 2);
             field.getCurrentGameState().entrySet().stream()
                 .filter(x -> x.getValue() instanceof King && x.getValue()

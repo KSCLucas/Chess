@@ -159,10 +159,10 @@ public class Converter {
    * @comment Grundgerüst
    * @author Toni Gropper
    */
-  public static String convertFENToHistory() {
+  public static String convertFENToHistory(Field field) {
     String takenPieceId = "";
 
-    String historyEntry = (Field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  "
+    String historyEntry = (field.getCurrentTurn() - 1) + "  " + startPosition + "  >>>  "
         + targetPosition /*
                           * + "  " + takenPieceId
                           */;

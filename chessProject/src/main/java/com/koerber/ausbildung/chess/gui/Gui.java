@@ -191,8 +191,8 @@ public class Gui {
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
    */
-  public static void createNewHistroyEntry(History history) {
-    history.getHistoryEntryList().add(Converter.convertFENToHistory());
+  public static void createNewHistroyEntry(Field field, History history) {
+    history.getHistoryEntryList().add(Converter.convertFENToHistory(field));
     DefaultListModel<String> model = new DefaultListModel<>();
     for(String entry : history.getHistoryEntryList()) {
       model.addElement(entry);
@@ -205,7 +205,7 @@ public class Gui {
    */
   public static void clearHistory(History history) {
     history.getHistoryEntryList().clear();
-    history.getHistoryEntryList().clear();
+    history.getFens().clear();
     DefaultListModel<String> model = new DefaultListModel<>();
     GuiFrame.historyJList.setModel(model);
   }

@@ -189,12 +189,11 @@ public class GuiFrame {
     historyPanelTop.setLayout(new GridLayout(0, 2, 0, 0));
 
     JButton backwardsInHistoryButton = new JButton("BACK");
-    GuiFrame thisFrame = this;
     ActionListener backInHistory = new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.backwardInHistory(history, thisFrame);
+        Gui.backwardInHistory(history, GuiFrame.this);
       }
     };
     backwardsInHistoryButton.addActionListener(backInHistory);
@@ -205,7 +204,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.forwardInHistory(field, history, thisFrame);
+        Gui.forwardInHistory(field, history, GuiFrame.this);
       }
     };
     forwardsInHistoryButton.addActionListener(forwardInHistory);
@@ -222,7 +221,7 @@ public class GuiFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame(field.getCurrentGameState(), field, thisFrame);
+        Gui.jumptToLiveGame(field.getCurrentGameState(), field, GuiFrame.this);
 
       }
     };

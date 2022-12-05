@@ -65,8 +65,11 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             window.clearLegalMoveMap(window.getLegalMoveLabels());
             Gui.showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
             dropPanel.updateUI();
-            Pawn.resetEnPassant(field.getCurrentGameState(),
-                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+            field.getCurrentGameState().entrySet().stream().filter(x -> x.getValue() instanceof Pawn).forEach(x -> {
+              Pawn pawn = (Pawn)x.getValue();
+              pawn.resetEnPassant(field.getCurrentGameState(),
+                  field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+            });
             field.increaseCurrentTurn();
             window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());
             field.turnLock();

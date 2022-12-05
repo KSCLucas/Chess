@@ -15,7 +15,7 @@ public class History {
 
   public static List<String> fens             = new ArrayList<>();
 
-  public static List<String>  historyEntryList = new ArrayList<>();
+  public static List<String> historyEntryList = new ArrayList<>();
 
   public List<String> getFens() {
     return fens;
@@ -25,8 +25,6 @@ public class History {
    * adds new FEN-String to the ArrayList with fens.add() .
    * 
    * @param String
-   * @return void
-   * @throws
    * @comment fens.add have examples, need to be conected with converter. gets
    *          from converter fen-Strings. maybe create a converter-Object
    */
@@ -47,7 +45,6 @@ public class History {
    * @return String
    * @throws IndexOutOfBoundsException
    * @comment base-structure
-   * @author Toni Gropper
    */
   public static String getFenOfTurn(int posEntry) {
     if(fens.size() - 1 < posEntry) {

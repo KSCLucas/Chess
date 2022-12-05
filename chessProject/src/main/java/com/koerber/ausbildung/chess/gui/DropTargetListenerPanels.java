@@ -20,42 +20,20 @@ import com.koerber.ausbildung.chess.utility.Converter;
 
 public class DropTargetListenerPanels extends DropTargetAdapter {
 
-  private DropTarget dropTarget;
-  private JPanel     dropPanel;
+  private DropTarget    dropTarget;
+  private JPanel        dropPanel;
+  private final Field   field;
+  private final History history;
 
-  public DropTargetListenerPanels(JPanel p) {
+  public DropTargetListenerPanels(JPanel p, Field field, History history) {
     this.dropPanel = p;
+    this.field = field;
+    this.history = history;
     setDropTarget(new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null));
   }
 
   @Override
   public void drop(DropTargetDropEvent event) {
-    // try {
-    // Transferable tr = event.getTransferable();
-    //
-    // if(event.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-    //
-    // JLabel dragLabel = (JLabel)tr.getTransferData(DataFlavor.imageFlavor);
-    // Icon ico = dragLabel.getIcon();
-    // System.out.println(dragLabel.getName());
-    // dragLabel.getName();
-    // if(ico != null) {
-    // ((JLabel)dropPanel.getComponent(0)).setIcon(ico);
-    // dragLabel.setIcon(null);
-    // ((JPanel)dragLabel.getParent()).updateUI();
-    //
-    // event.dropComplete(true);
-    // dropPanel.updateUI();
-    // }
-    // }
-    // else {
-    // event.rejectDrop();
-    // }
-    // }
-    // catch(Exception e) {
-    // e.printStackTrace();
-    // event.rejectDrop();
-    // }
     try {
       Transferable tr = event.getTransferable();
       if(event.isDataFlavorSupported(DataFlavor.imageFlavor)) {
@@ -65,9 +43,9 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         String targetPosition = dropLabel.getName();
         Converter.setTargetPosition(targetPosition);
         boolean moveSuccessful = false;
-        if(Field.getCurrentGameState().get(startPosition) != null) {
-          moveSuccessful = Field.getCurrentGameState().get(startPosition).movePiece(Field.getCurrentGameState(),
-              targetPosition, Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+        if(field.getCurrentGameState().get(startPosition) != null) {
+          moveSuccessful = field.getCurrentGameState().get(startPosition).movePiece(field.getCurrentGameState(),
+              targetPosition, field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
         }
         else {
           event.rejectDrop();
@@ -84,22 +62,22 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
 
             event.dropComplete(true);
             GuiFrame.clearLegalMoveMap();
-            Gui.showCurrentGameState(Field.getCurrentGameState());
+            Gui.showCurrentGameState(field.getCurrentGameState());
             dropPanel.updateUI();
-            Pawn.resetEnPassant(Field.getCurrentGameState(),
-                Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
-            Field.increaseCurrentTurn();
-            GuiFrame.highlightActivePlayer();
-            Field.turnLock();
-            History.addEntry(Converter.convertMapToFEN(Field.getCurrentGameState()));
-            Gui.createNewHistroyEntry();
-            GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn() - 2);
-            Field.getCurrentGameState().entrySet().stream()
+            Pawn.resetEnPassant(field.getCurrentGameState(),
+                field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+            field.increaseCurrentTurn();
+            GuiFrame.highlightActivePlayer(field);
+            field.turnLock();
+            history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
+            Gui.createNewHistroyEntry(history);
+            GuiFrame.historyJList.setSelectedIndex(field.getCurrentTurn() - 2);
+            field.getCurrentGameState().entrySet().stream()
                 .filter(x -> x.getValue() instanceof King && x.getValue()
-                    .getColour() == (Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
+                    .getColour() == (field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
                 .forEach(x -> {
                   King king = (King)x.getValue();
-                  king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+                  king.checkForCheckAndCreateLegalMoveMap(field.getCurrentGameState());
                   king.checkForCheckmate();
                 });
           }

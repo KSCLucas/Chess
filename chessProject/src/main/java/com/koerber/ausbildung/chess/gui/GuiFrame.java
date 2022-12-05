@@ -391,7 +391,7 @@ public class GuiFrame {
       DragSource dragSourcePanels = new DragSource();
       dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
           dragListenerPanels);
-      new DropTargetListenerPanels(topLayerPanels[j]);
+      new DropTargetListenerPanels(topLayerPanels[j], field, history);
       TransferHandler dnd = new TransferHandler() {
         /**
          * 

@@ -18,9 +18,9 @@ public class Rook extends Piece {
 
   public static final char CASTLE_SIDE_SHORT = 's';
   public static final char CASTLE_SIDE_LONG  = 'l';
-  private char      castleSide;
-  private boolean   canCastle         = false;
-  private boolean   hasMoved          = false;
+  private char             castleSide;
+  private boolean          canCastle         = false;
+  private boolean          hasMoved          = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -69,9 +69,9 @@ public class Rook extends Piece {
   }
 
   /**
-   * Checks all tiles next to the {@code Rook}, if {@code hasMoved} =
-   * {@code false}. Sets {@code canCastle} = {@code true}, if every tile between
-   * {@code King} and {@code Rook} is an {@code EmptyPiece}.
+   * Checks all tiles next to the {@code Rook}, if {@code hasMoved = false}.
+   * Sets {@code canCastle = true}, if every tile between {@code King} and
+   * {@code Rook} is an {@code EmptyPiece}.
    * 
    * @param currentGameState
    */
@@ -88,8 +88,7 @@ public class Rook extends Piece {
       int castleSideMultiplier = 1;
       do {
         String fieldKey = getFieldKey(posLetterAsNumber + castleSideModifier * castleSideMultiplier, posNumber);
-        if(currentGameState.get(fieldKey) instanceof King king
-            && king.getColour() == getColour()) {
+        if(currentGameState.get(fieldKey) instanceof King king && king.getColour() == getColour()) {
           setCanCastle(true);
           repeatable = false;
         }

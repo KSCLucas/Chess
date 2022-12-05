@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
@@ -66,7 +67,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         boolean moveSuccessful = false;
         if(Field.getCurrentGameState().get(startPosition) != null) {
           moveSuccessful = Field.getCurrentGameState().get(startPosition).movePiece(Field.getCurrentGameState(),
-              targetPosition);
+              targetPosition, Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
         }
         else {
           event.rejectDrop();
@@ -92,7 +93,15 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             Field.turnLock();
             History.addEntry(Converter.convertMapToFEN(Field.getCurrentGameState()));
             Gui.createNewHistroyEntry();
-            GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn()-2);
+            GuiFrame.historyJList.setSelectedIndex(Field.getCurrentTurn() - 2);
+            Field.getCurrentGameState().entrySet().stream()
+                .filter(x -> x.getValue() instanceof King && x.getValue()
+                    .getColour() == (Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
+                .forEach(x -> {
+                  King king = (King)x.getValue();
+                  king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+                  king.checkForCheckmate();
+                });
           }
           else {
             event.rejectDrop();

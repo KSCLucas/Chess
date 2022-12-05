@@ -32,6 +32,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -47,7 +48,7 @@ public class GuiFrame {
   public static JLabel[]         currentGameStateLabels = new JLabel[64];
   private static JLabel[]        legalMoveLabels        = new JLabel[64];
 
-  public static JList<String>    historyJList            = new JList<String>();
+  public static JList<String>    historyJList           = new JList<String>();
   private static JLabel          player1Label;
 
   private static JLabel          player2Label;
@@ -57,6 +58,11 @@ public class GuiFrame {
   public static void main(String[] args) {
     Field.initializeMap();
     Field.turnLock();
+    Field.getCurrentGameState().entrySet().stream()
+        .filter(x -> x.getValue() instanceof King && x.getValue().getColour() == ChessColour.WHITE).forEach(x -> {
+          King king = (King)x.getValue();
+          king.checkForCheckAndCreateLegalMoveMap(Field.getCurrentGameState());
+        });
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
@@ -114,7 +120,7 @@ public class GuiFrame {
           Field.resetCurrentTurn();
           Field.turnLock();
           Gui.clearHistory();
-          
+
           highlightActivePlayer();
           Gui.showCurrentGameState();
         }
@@ -125,11 +131,11 @@ public class GuiFrame {
 
     JButton backButton = new JButton("BACK");
     ActionListener backListener = new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.undoLastTurn();
-        
+
       }
     };
     backButton.addActionListener(backListener);
@@ -299,7 +305,8 @@ public class GuiFrame {
           if(Field.getCurrentGameState().get(position) != null) {
             clearLegalMoveMap();
             Converter.setStartPosition(position);
-            Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position));
+            Gui.highlightLegalMove(legalMoveLabels, Field.getCurrentGameState().get(position),
+                Field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
           }
         }
       }

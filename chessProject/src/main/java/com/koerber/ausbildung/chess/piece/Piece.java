@@ -1,5 +1,6 @@
 package com.koerber.ausbildung.chess.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,11 +20,11 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
-  public static final String  TRUE_STRING       = "ttt";
-  public static final String  HIT_STRING        = "hhh";
-  public static final String  NOT_ON_FIELD      = "xy";
-  protected static final int  FIRST_CHAR_INDEX  = 0;
-  protected static final int  SECOND_CHAR_INDEX = 1;
+  public static final String  TRUE_STRING          = "ttt";
+  public static final String  HIT_STRING           = "hhh";
+  public static final String  NOT_ON_FIELD         = "xy";
+  protected static final int  FIRST_CHAR_INDEX     = 0;
+  protected static final int  SECOND_CHAR_INDEX    = 1;
   private String              id;
   private ChessColour         colour;
   private int                 value;
@@ -31,8 +32,9 @@ public abstract class Piece {
   protected String            position;
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
-  private Map<String, String> legalMoveMap      = new TreeMap<>();
-  private boolean             moveable          = true;
+  private List<MoveVector>    availableMoveVectors = new ArrayList<>();
+  private Map<String, String> legalMoveMap         = new TreeMap<>();
+  private boolean             moveable             = true;
 
   /**
    * Parameterized constructor for a {@code Piece}.
@@ -54,6 +56,7 @@ public abstract class Piece {
     this.position = position;
     this.moveSet = moveSet;
     this.icon = icon;
+    availableMoveVectors.addAll(moveSet);
   }
 
   public String getId() {
@@ -116,6 +119,22 @@ public abstract class Piece {
     this.moveable = moveable;
   }
 
+  public List<MoveVector> getAvailableMoveVectors() {
+    return this.availableMoveVectors;
+  }
+
+  public void setAvailableMoveVectors(List<MoveVector> availableMoveVectors) {
+    this.availableMoveVectors = availableMoveVectors;
+  }
+
+  public void emptyAvailableMoveVectors() {
+    getAvailableMoveVectors().clear();
+  }
+
+  public void setAvailableMoveVectorsToMoveSet() {
+    setAvailableMoveVectors(new ArrayList<MoveVector>(getMoveSet()));
+  }
+
   /**
    * Builds {@code fieldKey} given one {@code char} as {@code int} and one
    * {@code int}.
@@ -149,12 +168,14 @@ public abstract class Piece {
    * {@code targetPosition}, it sets {@code position} of that {@code Piece} to
    * {@code HIT_STRING}.
    * 
+   * @param currentGameState
    * @param targetPosition
+   * @param unlockedColour
    * @return {@code true} if move is successful. Otherwise it returns
    *         {@code false}
    */
-  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition) {
-    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition)) {
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
       return false;
     }
     else {
@@ -180,12 +201,12 @@ public abstract class Piece {
     if(getPosition() == null || getPosition().isEmpty()) {
       throw new PieceOutOfBoundsException();
     }
-    // Clear legalMoveMap
-    getLegalMoveMap().clear();
     // Is Piece moveable?
     if(isMoveable()) {
-      // Loop over every move vector in moveSet
-      for(MoveVector moveVector : getMoveSet()) {
+      // Clear legalMoveMap
+      getLegalMoveMap().clear();
+      // Loop over every move vector in availableMoveVectors
+      for(MoveVector moveVector : getAvailableMoveVectors()) {
         int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
         int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
         if(!inFieldBounds(posLetterAsNumber, posNumber)) {

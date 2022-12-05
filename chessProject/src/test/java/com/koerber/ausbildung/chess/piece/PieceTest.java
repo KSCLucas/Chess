@@ -153,7 +153,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, legalTargetPosition);
+    testRook.movePiece(testCurrentGameState, legalTargetPosition, testRook.getColour());
     assertEquals(legalTargetPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(legalTargetPosition).getId());
     assertEquals(null, testCurrentGameState.get("A1"));
@@ -183,7 +183,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, illegalTargetPosition);
+    testRook.movePiece(testCurrentGameState, illegalTargetPosition, testRook.getColour());
     assertEquals(initialPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
@@ -213,7 +213,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, unknownTargetPosition);
+    testRook.movePiece(testCurrentGameState, unknownTargetPosition, testRook.getColour());
     assertEquals(initialPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
@@ -242,7 +242,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, pieceTargetPosition);
+    testRook.movePiece(testCurrentGameState, pieceTargetPosition, testRook.getColour());
     assertEquals(pieceTargetPosition, testRook.getPosition());
   }
 
@@ -275,7 +275,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, enemyPiecePosition);
+    testRook.movePiece(testCurrentGameState, enemyPiecePosition, testRook.getColour());
     assertEquals("r1w", testCurrentGameState.get(enemyPiecePosition).getId());
     assertEquals("xy", opposingTestRook.getPosition());
     assertEquals(null, testCurrentGameState.get(initialPosition));

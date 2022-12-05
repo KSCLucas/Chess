@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
@@ -242,27 +243,29 @@ public class Gui {
    * @return
    */
 
-  public static void highlightLegalMove(JLabel[] labels, Piece piece) {
-
-    try {
-      piece.createLegalMoveMap(Field.getCurrentGameState());
-    }
-    catch(PieceOutOfBoundsException e) {
-      e.printStackTrace();
-    }
-
-    for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
-      if(entry.getValue().equals(Piece.TRUE_STRING)) {
-        int columnAsNumber = entry.getKey().charAt(0) - 64;
-        int rowAsNumber = entry.getKey().charAt(1) - 48;
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+  public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour) {
+    if(!(piece instanceof King)) {
+      try {
+        piece.createLegalMoveMap(Field.getCurrentGameState());
       }
-      if(entry.getValue().equals(Piece.HIT_STRING)) {
-        int columnAsNumber = entry.getKey().charAt(0) - 64;
-        int rowAsNumber = entry.getKey().charAt(1) - 48;
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-        labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+      catch(PieceOutOfBoundsException e) {
+        e.printStackTrace();
+      }
+    }
+    if(piece.getColour() == unlockedColour) {
+      for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
+        if(entry.getValue().equals(Piece.TRUE_STRING)) {
+          int columnAsNumber = entry.getKey().charAt(0) - 64;
+          int rowAsNumber = entry.getKey().charAt(1) - 48;
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+        }
+        if(entry.getValue().equals(Piece.HIT_STRING)) {
+          int columnAsNumber = entry.getKey().charAt(0) - 64;
+          int rowAsNumber = entry.getKey().charAt(1) - 48;
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+        }
       }
     }
   }

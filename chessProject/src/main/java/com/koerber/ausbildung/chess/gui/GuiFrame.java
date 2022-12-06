@@ -102,10 +102,14 @@ public class GuiFrame {
   }
 
   /**
-   * Initialize the contents of the frame.
+   * Initialize the contents of the frame
+   * 
+   * @param field
+   * @param history
    */
   private void initialize(Field field, History history) {
 
+    // builds frame and sets basic information, sets gridbaglayout
     frame = new JFrame();
     Container contentPane = frame.getContentPane();
     frame.setBounds(0, 0, 1920, 1080);
@@ -119,12 +123,13 @@ public class GuiFrame {
     gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     contentPane.setLayout(gridBagLayout);
 
-    // Builds New Game Panel and Buttons
+    // builds new game panel
     JPanel newGamePanel = new JPanel();
     GridBagConstraints gbcNewGamePanel = GuiUtility.setGridBag(true, true, 0, 0, 1);
     contentPane.add(newGamePanel, gbcNewGamePanel);
     newGamePanel.setLayout(new GridLayout(1, 2, 0, 0));
 
+    // build new game button and action listener
     JButton newGameButton = new JButton("NEW GAME");
     ActionListener newGame = new ActionListener() {
       @Override
@@ -133,6 +138,8 @@ public class GuiFrame {
             JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
             IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
         if(whiteName == JOptionPane.YES_OPTION) {
+          // resets map and turn counter, clears history list and jlist, clears
+          // winner
           field.initializeMap();
           field.resetCurrentTurn();
           field.turnLock();
@@ -146,9 +153,9 @@ public class GuiFrame {
     newGameButton.addActionListener(newGame);
     newGamePanel.add(newGameButton);
 
+    // builds back button with action listener
     JButton backButton = new JButton("BACK");
     ActionListener backListener = new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.undoLastTurn(field, history);
@@ -166,9 +173,9 @@ public class GuiFrame {
     contentPane.add(historyPanelTop, gbcHistoryPanelTop);
     historyPanelTop.setLayout(new GridLayout(0, 2, 0, 0));
 
+    // builds backwards in history button with action listener
     JButton backwardsInHistoryButton = new JButton("BACK");
     ActionListener backInHistory = new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.backwardInHistory(history, GuiFrame.this);
@@ -177,9 +184,9 @@ public class GuiFrame {
     backwardsInHistoryButton.addActionListener(backInHistory);
     historyPanelTop.add(backwardsInHistoryButton);
 
+    // builds forwars in history button with action listener
     JButton forwardsInHistoryButton = new JButton("FORWARD ");
     ActionListener forwardInHistory = new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.forwardInHistory(field, history, GuiFrame.this);
@@ -188,31 +195,31 @@ public class GuiFrame {
     forwardsInHistoryButton.addActionListener(forwardInHistory);
     historyPanelTop.add(forwardsInHistoryButton);
 
-    // Builds bottom part of history side
+    // builds bottom part of history side
     JPanel historyPanelBot = new JPanel();
     GridBagConstraints gbcHistoryPanelBot = GuiUtility.setGridBag(true, true, 0, 3, 1);
     contentPane.add(historyPanelBot, gbcHistoryPanelBot);
     historyPanelBot.setLayout(new GridLayout(0, 1, 0, 0));
 
+    // builds current game button with action listener
     JButton currentGameButton = new JButton("CURRENT GAME");
     ActionListener jumpToLiveGame = new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         Gui.jumptToLiveGame(field.getCurrentGameState(), field, GuiFrame.this);
-
       }
     };
     currentGameButton.addActionListener(jumpToLiveGame);
     historyPanelBot.add(currentGameButton);
 
-    // Build Scroll pane for displaying history entries
+    // Build Scroll pane for displaying history entries with list selection
+    // listener
     JScrollPane historyScrollPane = new JScrollPane();
     GridBagConstraints gbcHistoryScrollPane = GuiUtility.setGridBag(true, true, 0, 4, 6);
     ListSelectionListener lsl = new ListSelectionListener() {
-
       @Override
       public void valueChanged(ListSelectionEvent e) {
+        // shows game state of selected history jlist entry
         Gui.jumpToSelectedFEN(historyJList.getSelectedValue(), history, currentGameStateLabels);
       }
     };
@@ -240,8 +247,6 @@ public class GuiFrame {
     JPanel chessBoardBottomLayer = new JPanel();
     chessBoardBottomLayer.setBounds(0, 0, 898, 934);
     chessBoardBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    // chessBoardBottomLayer.setBorder(BLACK_BORDER);
-
     // Add Labels and colors them like a chess board
     JLabel[] labels = new JLabel[65];
     for(int i = 1; i < 65; i++) {
@@ -274,8 +279,7 @@ public class GuiFrame {
     chessBoardMiddleLayer.setOpaque(false);
     chessBoardMiddleLayer.setBounds(0, 0, 898, 934);
     chessBoardMiddleLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    // chessBoardMiddleLayer.setBorder(BLACK_BORDER);
-
+    // initialize legalMoveLabel array with empty labels
     for(int i = 0; i < 64; i++) {
       legalMoveLabels[i] = new JLabel();
       legalMoveLabels[i].setText("");
@@ -291,10 +295,10 @@ public class GuiFrame {
     chessBoardTopLayer.setBounds(0, 0, 898, 934);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(BLACK_BORDER);
-
+    // mouse listener to show legal move map of selected piece
     MouseListener musMusculus = new MouseListener() {
-
       @Override
+      // clears legal move labels after mouse release
       public void mouseReleased(MouseEvent e) {
         for(int l = 0; l < 64; l++) {
           legalMoveLabels[l].setBackground(null);
@@ -303,6 +307,7 @@ public class GuiFrame {
       }
 
       @Override
+      // calculates and shows legal move map of selected piece
       public void mousePressed(MouseEvent e) {
         if((history.getHistoryEntryList().size() - 1) == historyJList.getSelectedIndex()) {
           String position = e.getComponent().getName();
@@ -317,19 +322,18 @@ public class GuiFrame {
 
       @Override
       public void mouseExited(MouseEvent e) {
-
       }
 
       @Override
       public void mouseEntered(MouseEvent e) {
-
       }
 
       @Override
       public void mouseClicked(MouseEvent e) {
       }
     };
-
+    // initializes currentGameStateLabels array (filled with labels named A1 to
+    // H8) and adds mouselistener to it
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
       currentGameStateLabels[i].addMouseListener(musMusculus);
@@ -359,9 +363,9 @@ public class GuiFrame {
       }
     }
     Gui.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
+    // builds jpanels to add currentGameStateLabels
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
-
       topLayerPanels[i] = new JPanel();
       topLayerPanels[i].setOpaque(false);
       topLayerPanels[i].setLayout(new GridLayout(1, 1));
@@ -392,20 +396,15 @@ public class GuiFrame {
       }
       chessBoardTopLayer.add(topLayerPanels[i]);
     }
-
+    // add drag and drop components to jpanels
     for(int j = 0; j < 64; j++) {
-
       DragGestureListenerPanels dragListenerPanels = new DragGestureListenerPanels();
       DragSource dragSourcePanels = new DragSource();
       dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
           dragListenerPanels);
       new DropTargetListenerPanels(topLayerPanels[j], field, history, this);
       TransferHandler dnd = new TransferHandler() {
-        /**
-         * 
-         */
         private static final long serialVersionUID = 1L;
-
         @Override
         public boolean canImport(TransferSupport support) {
           if(!support.isDrop()) {
@@ -422,7 +421,6 @@ public class GuiFrame {
           if(!canImport(support)) {
             return false;
           }
-
           Transferable transferable = support.getTransferable();
           try {
             transferable.getTransferData(DataFlavor.imageFlavor);
@@ -433,10 +431,10 @@ public class GuiFrame {
           }
           return true;
         }
-
       };
       topLayerPanels[j].setTransferHandler(dnd);
     }
+
     /**
      * Initializes layeredPan. Used for layering the chessboard.
      */
@@ -447,7 +445,6 @@ public class GuiFrame {
     layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
     layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
     layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
-    // layeredPane.setBorder(BLACK_BORDER);
 
     // Labels x-axis of chess board (ABCDEFGH)
     JPanel labelXPanel = new JPanel();
@@ -468,9 +465,8 @@ public class GuiFrame {
     GridBagConstraints gbcScoreLabel = GuiUtility.setGridBag(false, false, 3, 1, 1);
     contentPane.add(scoreLabel, gbcScoreLabel);
 
-    int playerNameFontSize = 20;
-
     // Player 2 label (top)
+    int playerNameFontSize = 20;
     player2Label = new JLabel("", JLabel.CENTER);
     player2Label.setOpaque(true);
     player2Label.setForeground(Color.white);
@@ -561,6 +557,11 @@ public class GuiFrame {
     Gui.askForPlayerName(player1Label, player2Label);
   }
 
+  /**
+   * clears legal move map labels
+   * 
+   * @param legalMoveLabels
+   */
   public void clearLegalMoveMap(JLabel[] legalMoveLabels) {
     for(JLabel label : legalMoveLabels) {
       label.setBackground(null);
@@ -568,6 +569,13 @@ public class GuiFrame {
     }
   }
 
+  /**
+   * highlights currently active player based on turn
+   * 
+   * @param field
+   * @param player1Label
+   * @param player2Label
+   */
   public void highlightActivePlayer(Field field, JLabel player1Label, JLabel player2Label) {
     if(field.getCurrentTurn() % 2 == 0) {
       player2Label.setBorder(new LineBorder(Color.green, 5));

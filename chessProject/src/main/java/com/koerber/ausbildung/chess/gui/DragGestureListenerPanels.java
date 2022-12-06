@@ -9,6 +9,12 @@ import java.io.IOException;
 
 import javax.swing.JLabel;
 
+/**
+ * recognizes drag gesture
+ * 
+ * @author LNoack
+ *
+ */
 public class DragGestureListenerPanels implements DragGestureListener {
 
   @Override

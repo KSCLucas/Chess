@@ -140,6 +140,44 @@ public class King extends Piece {
     setHasMoved(true);
   }
 
+  @Override
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour) {
+    if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
+      return false;
+    }
+    else {
+      currentGameState.remove(getPosition());
+      setPosition(targetPosition);
+      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
+        currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
+      }
+      currentGameState.put(targetPosition, this);
+      if(getPosition().equals(getCastleKeyShort())) {
+        int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
+        int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+        currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
+            && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT).forEach(x -> {
+              Rook rook = (Rook)x.getValue();
+              currentGameState.remove(rook.getPosition());
+              rook.setPosition(getFieldKey(posLetterAsNumber + 1, posNumber));
+              currentGameState.put(rook.getPosition(), rook);
+            });
+      }
+      if(getPosition().equals(getCastleKeyLong())) {
+        int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
+        int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+        currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
+            && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_LONG).forEach(x -> {
+              Rook rook = (Rook)x.getValue();
+              currentGameState.remove(rook.getPosition());
+              rook.setPosition(getFieldKey(posLetterAsNumber + 1, posNumber));
+              currentGameState.put(rook.getPosition(), rook);
+            });
+      }
+      return true;
+    }
+  }
+
   /**
    * Checks, if {@code hasMoved} = {@code false} and calls {@code canCastle} of
    * all {@code Rooks} of the same colour. Sets {@code canCastleShort} and

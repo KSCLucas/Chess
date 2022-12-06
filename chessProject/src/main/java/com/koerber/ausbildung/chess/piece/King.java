@@ -25,8 +25,8 @@ public class King extends Piece {
 
   private boolean      isInCheck      = false;
   private boolean      isCheckmate    = false;
-  private boolean      canCastleShort = false;
-  private boolean      canCastleLong  = false;
+  private String       castleKeyShort = null;
+  private String       castleKeyLong  = null;
   private boolean      hasMoved       = false;
   private List<String> attackKeys     = new ArrayList<>();
   private List<Piece>  saviourPieces  = new ArrayList<>();
@@ -62,20 +62,20 @@ public class King extends Piece {
     this.isCheckmate = isCheckmate;
   }
 
-  public boolean isCanCastleShort() {
-    return canCastleShort;
+  public String getCastleKeyShort() {
+    return castleKeyShort;
   }
 
-  public void setCanCastleShort(boolean canCastleShort) {
-    this.canCastleShort = canCastleShort;
+  public void setCastleKeyShort(String castleKeyShort) {
+    this.castleKeyShort = castleKeyShort;
   }
 
-  public boolean isCanCastleLong() {
-    return canCastleLong;
+  public String getCastleKeyLong() {
+    return castleKeyLong;
   }
 
-  public void setCanCastleLong(boolean canCastleLong) {
-    this.canCastleLong = canCastleLong;
+  public void setCastleKeyLong(String castleKeyLong) {
+    this.castleKeyLong = castleKeyLong;
   }
 
   public boolean isHasMoved() {
@@ -445,6 +445,24 @@ public class King extends Piece {
     // Get King legalMoveMap without mergedMoveMap
     try {
       createLegalMoveMap(currentGameState);
+      currentGameState.entrySet().stream()
+          .filter(x -> (x.getValue().getColour() == getColour()) && x.getValue() instanceof Rook).forEach(x -> {
+            Rook rook = (Rook)x.getValue();
+            rook.checkForCastle(currentGameState);
+            // Check for castle and set castleKeys
+            if(!isHasMoved() && !isInCheck() && rook.isCanCastle()) {
+              int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
+              int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+              if(rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT) {
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber - 2, posNumber), TRUE_STRING);
+                setCastleKeyShort(getFieldKey(posLetterAsNumber - 2, posNumber));
+              }
+              if(rook.getCastleSide() == Rook.CASTLE_SIDE_LONG) {
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), TRUE_STRING);
+                setCastleKeyLong(getFieldKey(posLetterAsNumber + 2, posNumber));
+              }
+            }
+          });
     }
     catch(PieceOutOfBoundsException e) {
       e.printStackTrace();
@@ -458,6 +476,21 @@ public class King extends Piece {
     }
     for(String key : keys) {
       getLegalMoveMap().remove(key);
+    }
+    // Remove illegal castleKeys
+    if(getCastleKeyShort() != null) {
+      int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
+      int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+      if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber + 1, posNumber)) == null) {
+        setCastleKeyShort(null);
+      }
+    }
+    if(getCastleKeyLong() != null) {
+      int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
+      int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+      if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber - 1, posNumber)) == null) {
+        getCastleKeyLong();
+      }
     }
   }
 

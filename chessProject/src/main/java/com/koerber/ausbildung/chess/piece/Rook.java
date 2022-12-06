@@ -71,7 +71,7 @@ public class Rook extends Piece {
   /**
    * Checks all tiles next to the {@code Rook}, if {@code hasMoved = false}.
    * Sets {@code canCastle = true}, if every tile between {@code King} and
-   * {@code Rook} is an {@code EmptyPiece}.
+   * {@code Rook} is {@code null}.
    * 
    * @param currentGameState
    */

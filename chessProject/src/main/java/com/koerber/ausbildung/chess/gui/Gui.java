@@ -49,6 +49,9 @@ public class Gui {
 
   /**
    * Resets the score before the last move of the game.
+   * 
+   * @param field object
+   * @param history object
    */
   public static void undoLastTurn(Field field, History history) {
     String temp = history.getHistoryEntryList().get(history.getHistoryEntryList().size() - 1);
@@ -67,6 +70,8 @@ public class Gui {
    * Generates label map to show game state
    * 
    * @param turn
+   * @param history object
+   * @param currentGameStateLabels
    */
   private static void generateMap(int turn, History history, JLabel[] currentGameStateLabels) {
 
@@ -78,6 +83,8 @@ public class Gui {
         currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
       }
     }
+    // set movable false for all pieces, as is shall not be possible while
+    // showing history entries
     for(Entry<String, Piece> entry : historyMap.entrySet()) {
 
       entry.getValue().setMoveable(false);
@@ -86,6 +93,8 @@ public class Gui {
 
   /**
    * Clears {@code currentGameStateLabels}
+   * 
+   * @param currentGameStateLabels
    */
   private static void clearLabels(JLabel[] currentGameStateLabels) {
     for(JLabel label : currentGameStateLabels) {
@@ -95,11 +104,17 @@ public class Gui {
 
   /**
    * Displays the game state selected in the history.
+   * 
+   * @param entryFen
+   * @param history
+   * @param currentGameStateLabels
    */
   public static void jumpToSelectedFEN(String entryFen, History history, JLabel[] currentGameStateLabels) {
     if(entryFen != null) {
+      // gives turn int for selected fen
       Matcher matcher = Pattern.compile("\\d+").matcher(entryFen);
       matcher.find();
+      // -1 to get index
       int turn = Integer.valueOf(matcher.group()) - 1;
       history.setHistoryCounter(turn);
       clearLabels(currentGameStateLabels);
@@ -109,6 +124,10 @@ public class Gui {
 
   /**
    * Goes from the history display back to the active game.
+   * 
+   * @param activeGameState
+   * @param field
+   * @param window
    */
   public static void jumptToLiveGame(Map<String, Piece> activeGameState, Field field, GuiFrame window) {
     showCurrentGameState(activeGameState, window.getCurrentGameStateLabels());
@@ -117,6 +136,10 @@ public class Gui {
 
   /**
    * Goes one (1) step/move forward in history.
+   * 
+   * @param field
+   * @param history
+   * @param window
    */
   public static void forwardInHistory(Field field, History history, GuiFrame window) {
     if(!(history.getHistoryCounter() >= history.getHistoryEntryList().size() - 1)) {
@@ -135,6 +158,9 @@ public class Gui {
 
   /**
    * Goes back one (1) step/move in history.
+   * 
+   * @param history
+   * @param window
    */
   public static void backwardInHistory(History history, GuiFrame window) {
     if(history.getHistoryCounter() > 0) {
@@ -151,6 +177,10 @@ public class Gui {
   /**
    * Takes the position data of the dragged figure and creates history entry
    * (start position -> target position | sprite of hit figure).
+   * 
+   * @param field
+   * @param history
+   * @param historyJList
    */
   public static void createNewHistroyEntry(Field field, History history, JList<String> historyJList) {
     history.getHistoryEntryList().add(Converter.convertFENToHistory(field));
@@ -163,6 +193,9 @@ public class Gui {
 
   /**
    * Clears history field
+   * 
+   * @param history
+   * @param historyJList
    */
   public static void clearHistory(History history, JList<String> historyJList) {
     history.getHistoryEntryList().clear();
@@ -172,7 +205,10 @@ public class Gui {
   }
 
   /**
-   * Dispays {@code currentGameState} on chessboard.
+   * Displays {@code currentGameState} on chessboard.
+   * 
+   * @param gameState
+   * @param currentGameStateLabels
    */
   public static void showCurrentGameState(Map<String, Piece> gameState, JLabel[] currentGameStateLabels) {
     clearLabels(currentGameStateLabels);
@@ -190,10 +226,16 @@ public class Gui {
   /**
    * Colors the fields according to the {@code Piece.legalMoveMap} green (may
    * move), red (hit) or not at all (may not move).
+   * 
+   * @param labels
+   * @param piece
+   * @param unlockedColour
+   * @param field
    */
 
   public static void highlightLegalMove(JLabel[] labels, Piece piece, ChessColour unlockedColour, Field field) {
     if(!(piece instanceof King)) {
+      // build legal move map for selected piece
       try {
         piece.createLegalMoveMap(field.getCurrentGameState());
       }
@@ -203,12 +245,14 @@ public class Gui {
     }
     if(piece.getColour() == unlockedColour) {
       for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
+        // for legal moves color label green
         if(entry.getValue().equals(Piece.TRUE_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
           labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
           labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
         }
+        // for hittable enemies color label red
         if(entry.getValue().equals(Piece.HIT_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
@@ -222,6 +266,7 @@ public class Gui {
   /**
    * Displays the winner as a popup and lures the game, only history viewable.
    * 
+   * @param field
    * @throws OnlyOneWinnerException
    * @comment game lock = every move illegal
    */
@@ -243,6 +288,8 @@ public class Gui {
   /**
    * Asks for player names of the respective pages and occupies Player.name.
    * 
+   * @param player1Label
+   * @param player2Label
    * @comment Default names: WHITE & BLACK
    */
   public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
@@ -264,6 +311,13 @@ public class Gui {
     player2Label.setText(blackName);
   }
 
+  /**
+   * creates a piece object based on int
+   * 
+   * @param choice
+   * @param currentGameState
+   * @param pawn
+   */
   private static void analyseChoice(int choice, Map<String, Piece> currentGameState, Pawn pawn) {
     String positionKey = pawn.getPosition();
     switch(choice) {
@@ -296,15 +350,11 @@ public class Gui {
    * @param pawn
    */
   public static void showPromotionSelection(Component parent, Map<String, Piece> currentGameState, Pawn pawn) {
-    ImageIcon option1 = IconSupplier.getIcon(pawn.getColour(), "knight_small");
-    ImageIcon option2 = IconSupplier.getIcon(pawn.getColour(), "bishop_small");
-    ImageIcon option3 = IconSupplier.getIcon(pawn.getColour(), "rook_small");
-    ImageIcon option4 = IconSupplier.getIcon(pawn.getColour(), "queen_small");
     ImageIcon[] options = new ImageIcon[4];
-    options[0] = option1;
-    options[1] = option2;
-    options[2] = option3;
-    options[3] = option4;
+    options[0] = IconSupplier.getIcon(pawn.getColour(), "knight_small");
+    options[1] = IconSupplier.getIcon(pawn.getColour(), "bishop_small");
+    options[2] = IconSupplier.getIcon(pawn.getColour(), "rook_small");
+    options[3] = IconSupplier.getIcon(pawn.getColour(), "queen_small");
     int choice = JOptionPane.showOptionDialog(parent, "CHOOSE PIECE TO PROMOTE INTO:", "Promotion",
         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[3]);
     analyseChoice(choice, currentGameState, pawn);

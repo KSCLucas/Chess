@@ -1,5 +1,6 @@
 package com.koerber.ausbildung.chess.gui;
 
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -69,6 +70,12 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
               Pawn pawn = (Pawn)x.getValue();
               pawn.resetEnPassant(field.getCurrentGameState(),
                   field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+              pawn.checkForPromotion();
+              if(pawn.isPromotable()) {
+                while(field.getCurrentGameState().get(pawn.getPosition()) instanceof Pawn) {
+                  Gui.showPromotionSelection(window.getFrame(), field.getCurrentGameState(), pawn);
+                }
+              }
             });
             field.increaseCurrentTurn();
             window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());

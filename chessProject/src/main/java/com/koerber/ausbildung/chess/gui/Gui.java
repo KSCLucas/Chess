@@ -1,11 +1,13 @@
 package com.koerber.ausbildung.chess.gui;
 
+import java.awt.Component;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -13,8 +15,13 @@ import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.piece.Bishop;
 import com.koerber.ausbildung.chess.piece.King;
+import com.koerber.ausbildung.chess.piece.Knight;
+import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.piece.Piece;
+import com.koerber.ausbildung.chess.piece.Queen;
+import com.koerber.ausbildung.chess.piece.Rook;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -255,5 +262,51 @@ public class Gui {
     // Modify name labels
     player1Label.setText(whiteName);
     player2Label.setText(blackName);
+  }
+
+  private static void analyseChoice(int choice, Map<String, Piece> currentGameState, Pawn pawn) {
+    String positionKey = pawn.getPosition();
+    switch(choice) {
+    case 0 -> {
+      currentGameState.put(positionKey,
+          new Knight("n3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+    }
+    case 1 -> {
+      currentGameState.put(positionKey,
+          new Bishop("b3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+    }
+    case 2 -> {
+      currentGameState.put(positionKey, new Rook("r3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"),
+          pawn.getColour(), positionKey, Rook.CASTLE_SIDE_SHORT));
+      currentGameState.get(positionKey).setPosition(positionKey);
+    }
+    case 3 -> {
+      currentGameState.put(positionKey,
+          new Queen("q2" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+    }
+    }
+  }
+
+  /**
+   * Displays promotion selection popup and places new {@code Piece} on
+   * {@code currentGameState} on {@code Pawn position}.
+   * 
+   * @param parent
+   * @param currentGameState
+   * @param pawn
+   */
+  public static void showPromotionSelection(Component parent, Map<String, Piece> currentGameState, Pawn pawn) {
+    ImageIcon option1 = IconSupplier.getIcon(pawn.getColour(), "knight_small");
+    ImageIcon option2 = IconSupplier.getIcon(pawn.getColour(), "bishop_small");
+    ImageIcon option3 = IconSupplier.getIcon(pawn.getColour(), "rook_small");
+    ImageIcon option4 = IconSupplier.getIcon(pawn.getColour(), "queen_small");
+    ImageIcon[] options = new ImageIcon[4];
+    options[0] = option1;
+    options[1] = option2;
+    options[2] = option3;
+    options[3] = option4;
+    int choice = JOptionPane.showOptionDialog(parent, "CHOOSE PIECE TO PROMOTE INTO:", "Promotion",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[3]);
+    analyseChoice(choice, currentGameState, pawn);
   }
 }

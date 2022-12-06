@@ -53,6 +53,13 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         if(field.getCurrentGameState().get(startPosition) != null) {
           moveSuccessful = field.getCurrentGameState().get(startPosition).movePiece(field.getCurrentGameState(),
               targetPosition, field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+          if(field.getCurrentGameState().get(targetPosition) instanceof King king) {
+            try {
+              king.castle(field.getCurrentGameState());
+            }
+            catch(Exception e) {
+            }
+          }
         }
         else {
           event.rejectDrop();

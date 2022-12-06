@@ -19,7 +19,7 @@ public class Player {
   private ChessColour colour;
   private int         score;
   private List<Piece> takenPieces = new ArrayList<>();
-  
+
   public String getName() {
     return name;
   }
@@ -49,7 +49,7 @@ public class Player {
   }
 
   /**
-   * adds taken Pieces to this.takenPiece and opens increaseScore
+   * adds taken Pieces to this.takenPiece and increases score
    * 
    * @param Object Piece
    * @throws IllegalArgumentException if piece is not on map

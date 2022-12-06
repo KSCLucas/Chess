@@ -49,6 +49,13 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         if(field.getCurrentGameState().get(startPosition) != null) {
           moveSuccessful = field.getCurrentGameState().get(startPosition).movePiece(field.getCurrentGameState(),
               targetPosition, field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+          if(field.getCurrentGameState().get(targetPosition) instanceof King king) {
+            try {
+              king.castle(field.getCurrentGameState());
+            }
+            catch(Exception e) {
+            }
+          }
         }
         else {
           event.rejectDrop();
@@ -63,9 +70,14 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             dragLabel.setIcon(null);
             ((JPanel)dragLabel.getParent()).updateUI();
             event.dropComplete(true);
+            // everything below happens after a successful drop
+            // clear middle layer / legal move layer
             window.clearLegalMoveMap(window.getLegalMoveLabels());
+            // update top layer / piece sprite layer
             Gui.showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
             dropPanel.updateUI();
+            // sets en passant to false for all opposing pawns & checks for
+            // possible promotion
             field.getCurrentGameState().entrySet().stream().filter(x -> x.getValue() instanceof Pawn).forEach(x -> {
               Pawn pawn = (Pawn)x.getValue();
               pawn.resetEnPassant(field.getCurrentGameState(),
@@ -77,12 +89,19 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                 }
               }
             });
+            // increase turn counter
             field.increaseCurrentTurn();
+            // highlights active player based on turn
             window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());
+            // sets movable to false for all own pieces
             field.turnLock();
+            // add entry to fen-list
             history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
+            // add entry to jlist
             Gui.createNewHistroyEntry(field, history, window.getHistoryJList());
+            // highlights current turn in history jlist
             window.getHistoryJList().setSelectedIndex(field.getCurrentTurn() - 2);
+            // check for checkmate
             field.getCurrentGameState().entrySet().stream()
                 .filter(x -> x.getValue() instanceof King && x.getValue()
                     .getColour() == (field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE))
@@ -91,6 +110,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckAndCreateLegalMoveMap(field.getCurrentGameState());
                   king.checkForCheckmate();
                 });
+            // show winner popup if there is a winner
             Gui.showWinnerPopup(field);
           }
           else {

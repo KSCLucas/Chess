@@ -31,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.Converter;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -49,8 +50,8 @@ public class GuiFrame {
   private JLabel                 player1Label;
   private JLabel                 player2Label;
 
-  public GuiFrame(Field field, History history) {
-    initialize(field, history);
+  public GuiFrame(Field field, History history, Player player1, Player player2) {
+    initialize(field, history, player1, player2);
   }
 
   public JLabel[] getCurrentGameStateLabels() {
@@ -107,7 +108,7 @@ public class GuiFrame {
    * @param field
    * @param history
    */
-  private void initialize(Field field, History history) {
+  private void initialize(Field field, History history, Player player1, Player player2) {
 
     // builds frame and sets basic information, sets gridbaglayout
     frame = new JFrame();
@@ -482,22 +483,21 @@ public class GuiFrame {
     player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
     // Player 2 table
-    JLabel colorP2Label = new JLabel("COLOR");
+    JLabel colorP2Label = new JLabel("COLOR",JLabel.CENTER);
     colorP2Label.setBorder(BLACK_BORDER);
     player2Panel.add(colorP2Label);
-    JLabel colorP2Label2 = new JLabel("BLACK");
+    JLabel colorP2Label2 = new JLabel("BLACK",JLabel.CENTER);
     colorP2Label2.setBorder(BLACK_BORDER);
     player2Panel.add(colorP2Label2);
-    JLabel pointsP2Label = new JLabel("POINTS");
+    JLabel pointsP2Label = new JLabel("POINTS",JLabel.CENTER);
     pointsP2Label.setBorder(BLACK_BORDER);
     player2Panel.add(pointsP2Label);
-    JLabel setPointsP2Label = new JLabel("FILLER");
+    JLabel setPointsP2Label = new JLabel(Integer.toString(player2.getScore()),JLabel.CENTER);
     setPointsP2Label.setBorder(BLACK_BORDER);
-    // TODO Display Points Player 2
     player2Panel.add(setPointsP2Label);
 
     // Player 2 taken pieces label
-    JLabel piecesP2Label = new JLabel("PIECES");
+    JLabel piecesP2Label = new JLabel("PIECES",JLabel.CENTER);
     GridBagConstraints gbcPiecesP2Label = GuiUtility.setGridBag(false, false, 3, 4, 1);
     contentPane.add(piecesP2Label, gbcPiecesP2Label);
 
@@ -525,18 +525,17 @@ public class GuiFrame {
     player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
     // Player 1 table
-    JLabel colorP1Label = new JLabel("COLOR");
+    JLabel colorP1Label = new JLabel("COLOR",JLabel.CENTER);
     colorP1Label.setBorder(BLACK_BORDER);
     player1Panel.add(colorP1Label);
-    JLabel colorP1Label2 = new JLabel("WHITE");
+    JLabel colorP1Label2 = new JLabel("WHITE",JLabel.CENTER);
     colorP1Label2.setBorder(BLACK_BORDER);
     player1Panel.add(colorP1Label2);
-    JLabel pointsP1Label = new JLabel("POINTS");
+    JLabel pointsP1Label = new JLabel("POINTS",JLabel.CENTER);
     pointsP1Label.setBorder(BLACK_BORDER);
     player1Panel.add(pointsP1Label);
-    JLabel setPointsP1Label = new JLabel("FILLER");
+    JLabel setPointsP1Label = new JLabel(Integer.toString(player1.getScore()),JLabel.CENTER);
     setPointsP1Label.setBorder(BLACK_BORDER);
-    // TODO Display Points Player 1
     player1Panel.add(setPointsP1Label);
 
     // Player 1 taken pieces label

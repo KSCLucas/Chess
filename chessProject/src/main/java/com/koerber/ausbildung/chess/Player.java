@@ -49,7 +49,7 @@ public class Player {
   }
 
   /**
-   * adds taken Pieces to this.takenPiece and opens increaseScore
+   * adds taken Pieces to this.takenPiece and increases score
    * 
    * @param Object Piece
    * @throws IllegalArgumentException if piece is not on map

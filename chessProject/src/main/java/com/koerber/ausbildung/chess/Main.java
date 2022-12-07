@@ -11,6 +11,8 @@ public class Main {
   public static void main(String[] args) {
     Field field = new Field();
     History history = new History();
+    Player player1 = new Player();
+    Player player2 = new Player();
     field.initializeMap();
     field.turnLock();
     field.getCurrentGameState().entrySet().stream()
@@ -21,7 +23,7 @@ public class Main {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          GuiFrame window = new GuiFrame(field, history);
+          GuiFrame window = new GuiFrame(field, history, player1, player2);
           window.getFrame().setVisible(true);
           window.highlightActivePlayer(field, window.getPlayer1Label(), window.getPlayer2Label());
         }

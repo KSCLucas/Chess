@@ -20,6 +20,10 @@ public class Player {
   private int         score;
   private List<Piece> takenPieces = new ArrayList<>();
 
+  public Player(String name) {
+    this.name = name;
+  }
+
   public String getName() {
     return name;
   }

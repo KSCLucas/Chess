@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -272,11 +271,10 @@ public class GuiUtility {
    * @throws OnlyOneWinnerException
    * @comment game lock = every move illegal
    */
-  public static void showWinnerPopup(Field field) throws OnlyOneWinnerException {
+  public static void showWinnerPopup(Field field, Component jFrame) throws OnlyOneWinnerException {
     field.checkForWinner();
     if(field.getWinner() == ChessColour.BLACK || field.getWinner() == ChessColour.WHITE) {
-      JFrame jFrame = new JFrame();
-      JOptionPane.showMessageDialog(jFrame, "Player " + field.getWinner() + " won!");
+      JOptionPane.showMessageDialog(jFrame, field.getWinner() + " won!");
     }
   }
 
@@ -308,23 +306,25 @@ public class GuiUtility {
    * @param player2Label
    * @comment Default names: WHITE & BLACK
    */
-  public static void askForPlayerName(JLabel player1Label, JLabel player2Label) {
+  public static String askForPlayerNameWhite() {
     int maxNameLength = 16;
-    // Ask for player names
     String whiteName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (WHITE):", "Player Name White",
         JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.WHITE, "knight_small"), null, null);
-    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):", "Player Name Black",
-        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
-    // Check for nameing conditions
     if(whiteName == null || whiteName.isEmpty() || whiteName.isBlank() || whiteName.length() > maxNameLength) {
       whiteName = "WHITE";
     }
+    return whiteName;
+  }
+
+  public static String askForPlayerNameBlack() {
+    int maxNameLength = 16;
+    String blackName = (String)JOptionPane.showInputDialog(null, "ENTER PLAYER NAME (BLACK):", "Player Name Black",
+        JOptionPane.PLAIN_MESSAGE, IconSupplier.getIcon(ChessColour.BLACK, "knight_small"), null, null);
+    // Check for nameing conditions
     if(blackName == null || blackName.isEmpty() || blackName.isBlank() || blackName.length() > maxNameLength) {
       blackName = "BLACK";
     }
-    // Modify name labels
-    player1Label.setText(whiteName);
-    player2Label.setText(blackName);
+    return blackName;
   }
 
   /**

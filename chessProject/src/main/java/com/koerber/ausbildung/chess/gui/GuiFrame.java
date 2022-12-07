@@ -290,7 +290,7 @@ public class GuiFrame {
 
     // Player 2 label (top)
     int playerNameFontSize = 20;
-    player2Label = new JLabel("", JLabel.CENTER);
+    player2Label = new JLabel(player2.getName(), JLabel.CENTER);
     player2Label.setOpaque(true);
     player2Label.setForeground(Color.white);
     player2Label.setBackground(Color.black);
@@ -337,7 +337,7 @@ public class GuiFrame {
     }
 
     // Player 1 label (bottom)
-    player1Label = new JLabel("", JLabel.CENTER);
+    player1Label = new JLabel(player1.getName(), JLabel.CENTER);
     player1Label.setOpaque(true);
     player1Label.setBackground(Color.white);
     player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
@@ -380,9 +380,6 @@ public class GuiFrame {
       player1TakenPiecesLabels[i] = new JLabel();
       piecesP1Panel.add(player1TakenPiecesLabels[i]);
     }
-
-    // Get PlayerNames
-    GuiUtility.askForPlayerName(player1Label, player2Label);
   }
 
   /**

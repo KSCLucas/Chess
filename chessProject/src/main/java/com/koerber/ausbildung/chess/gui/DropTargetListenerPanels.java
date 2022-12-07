@@ -126,9 +126,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             // show winner popup if there is a winner
             GuiUtility.showScore(window.getPlayer1ScoreLabel(), window.getPlayer1TakenPiecesLabels(),player1);
             GuiUtility.showScore(window.getPlayer2ScoreLabel(),window.getPlayer2TakenPiecesLabels(), player2);
-//            player1.setScore(player1.getScore() + 1);
-//            player2.setScore(player2.getScore() + 1);
-            GuiUtility.showWinnerPopup(field);
+            GuiUtility.showWinnerPopup(field, window.getFrame());
           }
           else {
             event.rejectDrop();

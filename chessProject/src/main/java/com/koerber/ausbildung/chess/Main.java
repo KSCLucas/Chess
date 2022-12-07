@@ -3,6 +3,7 @@ package com.koerber.ausbildung.chess;
 import java.awt.EventQueue;
 
 import com.koerber.ausbildung.chess.gui.GuiFrame;
+import com.koerber.ausbildung.chess.gui.GuiUtility;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 
@@ -11,8 +12,8 @@ public class Main {
   public static void main(String[] args) {
     Field field = new Field();
     History history = new History();
-    Player player1 = new Player();
-    Player player2 = new Player();
+    Player player1 = new Player(GuiUtility.askForPlayerNameWhite());
+    Player player2 = new Player(GuiUtility.askForPlayerNameBlack());
     field.initializeMap();
     field.turnLock();
     field.getCurrentGameState().entrySet().stream()

@@ -19,7 +19,7 @@ public class Player {
   private ChessColour colour;
   private int         score;
   private List<Piece> takenPieces = new ArrayList<>();
-  
+
   public String getName() {
     return name;
   }
@@ -56,12 +56,12 @@ public class Player {
    * @comment base-structure
    */
   public void addTakenPiece(Piece piece) {
-    if(piece.getPosition() != "xy") {
-      throw new IllegalArgumentException("piece is on map");
+    if(piece.getPosition().equals(Piece.NOT_ON_FIELD)) {
+      takenPieces.add(piece);
+      // raise score
+      this.score = this.score + piece.getValue();
     }
-    takenPieces.add(piece);
-    // raise score
-    this.score = this.score + piece.getValue();
+    throw new IllegalArgumentException("piece is on map");
   }
 
   /**

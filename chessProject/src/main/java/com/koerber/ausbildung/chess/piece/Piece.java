@@ -183,10 +183,12 @@ public abstract class Piece {
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
+
       }
       currentGameState.put(targetPosition, this);
       return true;
     }
+
   }
 
   /**

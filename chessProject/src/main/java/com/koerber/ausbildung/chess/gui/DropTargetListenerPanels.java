@@ -100,7 +100,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             // sets movable to false for all own pieces
             field.turnLock();
             // add entry to fen-list
-            history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
+            history.getFens().add((Converter.convertMapToFEN(field.getCurrentGameState())));
             // add entry to jlist
             GuiUtility.createNewHistroyEntry(field, history, window.getHistoryJList());
             // highlights current turn in history jlist

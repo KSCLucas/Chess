@@ -246,7 +246,7 @@ public class GuiUtility {
     if(piece.getColour() == unlockedColour) {
       for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
         // for legal moves color label green
-        if(entry.getValue().equals(Piece.TRUE_STRING)) {
+        if(entry.getValue().equals(Piece.MOVE_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
           labels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
@@ -322,21 +322,17 @@ public class GuiUtility {
     String positionKey = pawn.getPosition();
     switch(choice) {
     case 0 -> {
-      currentGameState.put(positionKey,
-          new Knight("n3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+      currentGameState.put(positionKey, new Knight(3, pawn.getColour(), positionKey));
     }
     case 1 -> {
-      currentGameState.put(positionKey,
-          new Bishop("b3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+      currentGameState.put(positionKey, new Bishop(3, pawn.getColour(), positionKey));
     }
     case 2 -> {
-      currentGameState.put(positionKey, new Rook("r3" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"),
-          pawn.getColour(), positionKey, Rook.CASTLE_SIDE_SHORT));
+      currentGameState.put(positionKey, new Rook(3, pawn.getColour(), positionKey, Rook.CASTLE_SIDE_SHORT));
       currentGameState.get(positionKey).setPosition(positionKey);
     }
     case 3 -> {
-      currentGameState.put(positionKey,
-          new Queen("q2" + (pawn.getColour() == ChessColour.WHITE ? "w" : "b"), pawn.getColour(), positionKey));
+      currentGameState.put(positionKey, new Queen(2, pawn.getColour(), positionKey));
     }
     }
   }

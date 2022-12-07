@@ -18,7 +18,7 @@ public class Rook extends Piece {
 
   public static final char CASTLE_SIDE_SHORT = 's';
   public static final char CASTLE_SIDE_LONG  = 'l';
-  private char             castleSide;
+  private final char       castleSide;
   private boolean          canCastle         = false;
   private boolean          hasMoved          = false;
 
@@ -27,23 +27,19 @@ public class Rook extends Piece {
    * {@code icon}, {@code isMoveRepeatable}, {@code castleSide},
    * {@code canCastle} and {@code hasMoved}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    * @param castleSide
    */
-  public Rook(String id, ChessColour colour, String position, char castleSide) {
-    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(),
+  public Rook(int idNum, ChessColour colour, String position, char castleSide) {
+    super(idNum, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(),
         IconSupplier.getIcon(colour, "rook_small"));
     this.castleSide = castleSide;
   }
 
   public char getCastleSide() {
     return castleSide;
-  }
-
-  public void setCastleSide(char castleSide) {
-    this.castleSide = castleSide;
   }
 
   public boolean isCanCastle() {
@@ -76,8 +72,8 @@ public class Rook extends Piece {
    * @param currentGameState
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
-    int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-    int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+    int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+    int posNumber = getPosNumber(getPosition());
     // Check for basic castle conditions
     if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
       // Determine the castle side

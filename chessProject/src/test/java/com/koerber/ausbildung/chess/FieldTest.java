@@ -165,7 +165,7 @@ class FieldTest {
     catch(OnlyOneWinnerException e) {
       e.printStackTrace();
     }
-    assertEquals(ChessColour.NONE, testField.getWinner());
+    assertEquals(null, testField.getWinner());
   }
 
   /**

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.ChessPieceValue;
@@ -23,13 +22,13 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean      isInCheck      = false;
-  private boolean      isCheckmate    = false;
-  private String       castleKeyShort = null;
-  private String       castleKeyLong  = null;
-  private boolean      hasMoved       = false;
-  private List<String> attackKeys     = new ArrayList<>();
-  private List<Piece>  saviourPieces  = new ArrayList<>();
+  private boolean      inCheck       = false;
+  private boolean      checkmate     = false;
+  private String       castleKeyShort;
+  private String       castleKeyLong;
+  private boolean      hasMoved      = false;
+  private List<String> attackKeys    = new ArrayList<>();
+  private List<Piece>  saviourPieces = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -37,29 +36,29 @@ public class King extends Piece {
    * {@code isCheckmate}, {@code canCastleShort}, {@code canCastleLong} and
    * {@code hasMoved}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    */
-  public King(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(),
+  public King(int idNum, ChessColour colour, String position) {
+    super(idNum, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(),
         IconSupplier.getIcon(colour, "king_small"));
   }
 
   public boolean isInCheck() {
-    return isInCheck;
+    return inCheck;
   }
 
   public void setInCheck(boolean isInCheck) {
-    this.isInCheck = isInCheck;
+    this.inCheck = isInCheck;
   }
 
   public boolean isCheckmate() {
-    return isCheckmate;
+    return checkmate;
   }
 
   public void setCheckmate(boolean isCheckmate) {
-    this.isCheckmate = isCheckmate;
+    this.checkmate = isCheckmate;
   }
 
   public String getCastleKeyShort() {
@@ -102,38 +101,6 @@ public class King extends Piece {
     this.saviourPieces = saviourPieces;
   }
 
-  /**
-   * Adds a {@code attackFields} to internal list {@code attackFields}.
-   * 
-   * @param key
-   */
-  public void addAttackKeys(String key) {
-    getAttackKeys().add(key);
-  }
-
-  /**
-   * Emptys the list {@code attackFields}.
-   */
-  public void clearAttackKeys() {
-    getAttackKeys().clear();
-  }
-
-  /**
-   * Adds a {@code Piece} to internal list {@code saviourPieces}.
-   * 
-   * @param piece
-   */
-  public void addSaviourPiece(Piece piece) {
-    getSaviourPieces().add(piece);
-  }
-
-  /**
-   * Emptys the list {@code saviourPieces}.
-   */
-  public void clearSaviourPieces() {
-    getSaviourPieces().clear();
-  }
-
   @Override
   public void setPosition(String position) {
     this.position = position;
@@ -148,8 +115,8 @@ public class King extends Piece {
    */
   public void castle(Map<String, Piece> currentGameState) {
     if(getPosition().equals(getCastleKeyShort())) {
-      int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyShort());
+      int posNumber = getPosNumber(getCastleKeyShort());
       currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
           && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT).forEach(x -> {
             Rook rook = (Rook)x.getValue();
@@ -159,8 +126,8 @@ public class King extends Piece {
           });
     }
     if(getPosition().equals(getCastleKeyLong())) {
-      int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyLong());
+      int posNumber = getPosNumber(getCastleKeyLong());
       currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
           && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_LONG).forEach(x -> {
             Rook rook = (Rook)x.getValue();
@@ -182,12 +149,22 @@ public class King extends Piece {
     List<MoveVector> tempMoves = pawnColour == ChessColour.WHITE ? MoveSetSupplier.getPawnWhiteMoveSet()
         : MoveSetSupplier.getPawnBlackMoveSet();
     List<MoveVector> availableMoveVectors = new ArrayList<>();
+    int firstEqualIndex = -1;
     for(int i = 0; i < 6; i++) {
-      if(!tempMoves.get(i).equals(inverseMoveVector)) {
-        availableMoveVectors.add(new MoveVector(0, 0));
+      if(tempMoves.get(i).equals(inverseMoveVector)) {
+        availableMoveVectors.add(inverseMoveVector);
+        if(firstEqualIndex == -1) {
+          firstEqualIndex = i;
+        }
       }
       else {
-        availableMoveVectors.add(inverseMoveVector);
+        if(firstEqualIndex == 0) {
+          availableMoveVectors.add(new MoveVector(tempMoves.get(i).getX(), tempMoves.get(i).getY()));
+          firstEqualIndex = -1;
+        }
+        else {
+          availableMoveVectors.add(new MoveVector(0, 0));
+        }
       }
     }
     return availableMoveVectors;
@@ -205,42 +182,34 @@ public class King extends Piece {
     currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
         .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
     // Reset attackKey list
-    clearAttackKeys();
+    getAttackKeys().clear();
     // Reset inCheck
     setInCheck(false);
     // Filter for every opposing piece
-    Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
-        .filter(x -> x.getValue().getColour() != getColour())
-        .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+    List<Piece> opposingPieces = currentGameState.entrySet().stream()
+        .filter(x -> x.getValue().getColour() != getColour()).map(x -> x.getValue()).toList();
     List<Map<String, String>> opposingMoveMaps = new ArrayList<>();
-    for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
-      Piece currentPiece = entry.getValue();
+    for(Piece currentPiece : opposingPieces) {
       // Clear legalMoveMap
       currentPiece.getLegalMoveMap().clear();
       // Distinguish between Pawn and other Pieces
       if(currentPiece instanceof Pawn) {
         // Get map with only attack vectors
         for(int i = 2; i <= 5; i += 3) {
-          int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
-          int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
+          int posLetterAsNumber = getPosLetterAsNumber(currentPiece.getPosition());
+          int posNumber = getPosNumber(currentPiece.getPosition());
           MoveVector currentMoveVector = currentPiece.getMoveSet().get(i);
           posLetterAsNumber += currentMoveVector.getX();
           posNumber += currentMoveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          Piece detected = currentGameState.get(fieldKey);
           if(inFieldBounds(posLetterAsNumber, posNumber)) {
             // Check for EmptyPiece
-            if(currentGameState.get(fieldKey) == null
-                || currentGameState.get(fieldKey).getColour() == currentPiece.getColour()) {
-              currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
-            }
-            // Check for this King
-            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
-                && currentGameState.get(fieldKey) instanceof King) {
-              currentPiece.getLegalMoveMap().put(fieldKey, getId());
-              getAttackKeys().add(currentPiece.getPosition());
+            if(detected == null || detected.getColour() == currentPiece.getColour()) {
+              currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
             }
             // Check for Piece of Kings colour
-            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
+            else if(detected.getColour() != currentPiece.getColour()) {
               currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
             }
           }
@@ -258,8 +227,8 @@ public class King extends Piece {
           boolean allyPieceInfrontKingDetected = false;
           String encounterKey = NOT_ON_FIELD;
           boolean kingInLine = false;
-          int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
-          int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
+          int posLetterAsNumber = getPosLetterAsNumber(currentPiece.getPosition());
+          int posNumber = getPosNumber(currentPiece.getPosition());
           // Change content of legalMoveMap based on move vector i and
           // currentGameState
           boolean repeatLoop = true;
@@ -267,12 +236,13 @@ public class King extends Piece {
             posLetterAsNumber += moveVector.getX();
             posNumber += moveVector.getY();
             String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+            Piece detected = currentGameState.get(fieldKey);
             // Check for fieldKey still on Field
             if(inFieldBounds(posLetterAsNumber, posNumber)) {
               // Check for EmptyPiece
-              if(currentGameState.get(fieldKey) == null) {
+              if(detected == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
-                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                  currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                   if(!kingInLine) {
                     // Add key to trail
                     trail.add(fieldKey);
@@ -280,13 +250,12 @@ public class King extends Piece {
                 }
               }
               // Check for this King
-              else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
-                  && currentGameState.get(fieldKey) instanceof King) {
+              else if(detected.getColour() != currentPiece.getColour() && detected instanceof King) {
                 currentPiece.getLegalMoveMap().put(fieldKey, getId());
                 kingInLine = true;
               }
               // Check for Piece of Kings colour
-              else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
+              else if(detected.getColour() != currentPiece.getColour()) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
                 }
@@ -298,8 +267,8 @@ public class King extends Piece {
                 }
               }
               else {
-                if(!allyPieceDetected) {
-                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                if(!allyPieceDetected && opposingPieceCount < 1) {
+                  currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                 }
                 allyPieceDetected = true;
                 if(!kingInLine) {
@@ -309,7 +278,8 @@ public class King extends Piece {
             }
             else {
               repeatLoop = false;
-              enableBlock(currentGameState, moveVector, opposingPieceCount, encounterKey, kingInLine);
+              enableBlock(currentGameState, moveVector, opposingPieceCount, encounterKey, kingInLine,
+                  allyPieceInfrontKingDetected);
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
           checkForCheck(trail, opposingPieceCount, allyPieceInfrontKingDetected, kingInLine);
@@ -333,34 +303,35 @@ public class King extends Piece {
    * @param kingInLine
    */
   private void enableBlock(Map<String, Piece> currentGameState, MoveVector moveVector, int opposingPieceCount,
-      String encounterKey, boolean kingInLine) {
+      String encounterKey, boolean kingInLine, boolean allyPieceInfrontKingDetected) {
     // Check for kingInLine to set moveability or availableMoveVectors
-    if(opposingPieceCount == 1 && kingInLine) {
+    if(opposingPieceCount == 1 && kingInLine && !allyPieceInfrontKingDetected) {
+      Piece currentPiece = currentGameState.get(encounterKey);
       // Empty availableMoveVectors and legalMoveMap
-      currentGameState.get(encounterKey).emptyAvailableMoveVectors();
-      currentGameState.get(encounterKey).getLegalMoveMap().clear();
+      currentPiece.getAvailableMoveVectors().clear();
+      currentPiece.getLegalMoveMap().clear();
       // Get inverse vector
       MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
       boolean moveVectorFound = false;
-      for(MoveVector vector : currentGameState.get(encounterKey).getMoveSet()) {
+      for(MoveVector vector : currentPiece.getMoveSet()) {
         if(vector.equals(inverseMoveVector)) {
           moveVectorFound = true;
         }
       }
       if(moveVectorFound) {
         // Look for instance of Pawn
-        if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
+        if(currentPiece instanceof Pawn pawn) {
           // Give Pawn a special availableMoveSet
           pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector, pawn.getColour()));
         }
         else {
           // Set availableMoveVectors to inverseMoveVector
-          currentGameState.get(encounterKey).getAvailableMoveVectors().add(inverseMoveVector);
+          currentPiece.getAvailableMoveVectors().add(inverseMoveVector);
         }
       }
       else {
         // Set moveable false
-        currentGameState.get(encounterKey).setMoveable(false);
+        currentPiece.setMoveable(false);
       }
     }
   }
@@ -391,14 +362,13 @@ public class King extends Piece {
   private void godSaveTheKing(Map<String, Piece> currentGameState) {
     if(!getAttackKeys().isEmpty()) {
       // Empty saviourPieces
-      clearSaviourPieces();
+      getSaviourPieces().clear();
       // Get all Pieces of the same colour except the King
-      Map<String, Piece> piecesOfSameColour = currentGameState.entrySet().stream()
+      List<Piece> piecesOfSameColour = currentGameState.entrySet().stream()
           .filter(x -> x.getValue().getColour() == getColour() && !(x.getValue() instanceof King))
-          .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+          .map(x -> x.getValue()).toList();
       // Check whether or not at least one key is present
-      for(Entry<String, Piece> entry : piecesOfSameColour.entrySet()) {
-        Piece currentPiece = entry.getValue();
+      for(Piece currentPiece : piecesOfSameColour) {
         boolean saveKeyFound = false;
         Map<String, String> saveMap = new TreeMap<>();
         try {
@@ -418,7 +388,7 @@ public class King extends Piece {
         }
         if(saveKeyFound) {
           currentPiece.setLegalMoveMap(saveMap);
-          addSaviourPiece(currentPiece);
+          getSaviourPieces().add(currentPiece);
         }
         else {
           currentPiece.getLegalMoveMap().clear();
@@ -471,14 +441,14 @@ public class King extends Piece {
             rook.checkForCastle(currentGameState);
             // Check for castle and set castleKeys
             if(!isHasMoved() && !isInCheck() && rook.isCanCastle()) {
-              int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-              int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+              int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+              int posNumber = getPosNumber(getPosition());
               if(rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT) {
-                getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), TRUE_STRING);
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), MOVE_STRING);
                 setCastleKeyShort(getFieldKey(posLetterAsNumber + 2, posNumber));
               }
               if(rook.getCastleSide() == Rook.CASTLE_SIDE_LONG) {
-                getLegalMoveMap().put(getFieldKey(posLetterAsNumber - 2, posNumber), TRUE_STRING);
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber - 2, posNumber), MOVE_STRING);
                 setCastleKeyLong(getFieldKey(posLetterAsNumber - 2, posNumber));
               }
             }
@@ -499,16 +469,16 @@ public class King extends Piece {
     }
     // Remove illegal castleKeys
     if(getCastleKeyShort() != null) {
-      int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyShort());
+      int posNumber = getPosNumber(getCastleKeyShort());
       if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber - 1, posNumber)) == null) {
         getLegalMoveMap().remove(getCastleKeyShort());
         setCastleKeyShort(null);
       }
     }
     if(getCastleKeyLong() != null) {
-      int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyLong());
+      int posNumber = getPosNumber(getCastleKeyLong());
       if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber + 1, posNumber)) == null) {
         getLegalMoveMap().remove(getCastleKeyLong());
         setCastleKeyLong(null);
@@ -520,7 +490,7 @@ public class King extends Piece {
    * Checks, if {@code King} is in checkmate.
    */
   public void checkForCheckmate() {
-    if(isInCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
+    if(inCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
       setCheckmate(true);
     }
   }

@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IdSupplier;
 import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -20,7 +21,7 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public abstract class Piece {
 
-  public static final String  TRUE_STRING          = "ttt";
+  public static final String  MOVE_STRING          = "ttt";
   public static final String  HIT_STRING           = "hhh";
   public static final String  NOT_ON_FIELD         = "xy";
   protected static final int  FIRST_CHAR_INDEX     = 0;
@@ -28,7 +29,7 @@ public abstract class Piece {
   private String              id;
   private ChessColour         colour;
   private int                 value;
-  private boolean             isMoveRepeatable;
+  private boolean             moveRepeatable;
   protected String            position;
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
@@ -39,7 +40,7 @@ public abstract class Piece {
   /**
    * Parameterized constructor for a {@code Piece}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param value
    * @param isMoveRepeatable
@@ -47,12 +48,12 @@ public abstract class Piece {
    * @param moveSet
    * @param icon
    */
-  public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
+  public Piece(int idNum, ChessColour colour, int value, boolean isMoveRepeatable, String position,
       List<MoveVector> moveSet, ImageIcon icon) {
-    this.id = id;
+    this.id = IdSupplier.getId(this, idNum, colour);
     this.colour = colour;
     this.value = value;
-    this.isMoveRepeatable = isMoveRepeatable;
+    this.moveRepeatable = isMoveRepeatable;
     this.position = position;
     this.moveSet = moveSet;
     this.icon = icon;
@@ -80,7 +81,7 @@ public abstract class Piece {
   }
 
   public boolean isMoveRepeatable() {
-    return isMoveRepeatable;
+    return moveRepeatable;
   }
 
   public String getPosition() {
@@ -125,10 +126,6 @@ public abstract class Piece {
 
   public void setAvailableMoveVectors(List<MoveVector> availableMoveVectors) {
     this.availableMoveVectors = availableMoveVectors;
-  }
-
-  public void emptyAvailableMoveVectors() {
-    getAvailableMoveVectors().clear();
   }
 
   public void setAvailableMoveVectorsToMoveSet() {
@@ -207,8 +204,8 @@ public abstract class Piece {
       getLegalMoveMap().clear();
       // Loop over every move vector in availableMoveVectors
       for(MoveVector moveVector : getAvailableMoveVectors()) {
-        int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-        int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+        int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+        int posNumber = getPosNumber(getPosition());
         if(!inFieldBounds(posLetterAsNumber, posNumber)) {
           throw new PieceOutOfBoundsException();
         }
@@ -223,7 +220,7 @@ public abstract class Piece {
             // Check for EmptyPiece
             String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
             if(currentGameState.get(fieldKey) == null) {
-              getLegalMoveMap().put(fieldKey, TRUE_STRING);
+              getLegalMoveMap().put(fieldKey, MOVE_STRING);
             }
             // Check for opposing Piece
             else if(currentGameState.get(fieldKey).getColour() != getColour()) {
@@ -240,5 +237,19 @@ public abstract class Piece {
         } while(isMoveRepeatable() && repeatLoop);
       }
     }
+  }
+
+  /**
+   * @return posNumber
+   */
+  protected int getPosNumber(String position) {
+    return Character.getNumericValue(position.charAt(SECOND_CHAR_INDEX));
+  }
+
+  /**
+   * @return posLetterAsNumber
+   */
+  protected char getPosLetterAsNumber(String position) {
+    return position.charAt(FIRST_CHAR_INDEX);
   }
 }

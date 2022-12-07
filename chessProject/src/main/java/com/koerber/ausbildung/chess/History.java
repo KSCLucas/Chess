@@ -40,18 +40,6 @@ public class History {
     this.historyCounter = historyCounter;
   }
 
-  /**
-   * adds new FEN-String to the ArrayList with fens.add() .
-   * 
-   * @param String
-   * @comment fens.add have examples, need to be conected with converter. gets
-   *          from converter fen-Strings. maybe create a converter-Object
-   */
-
-  public void addEntry(String fen) {
-    fens.add(fen);
-  }
-
   public void removeLastTurn() {
     fens.remove(fens.size() - 1);
   }

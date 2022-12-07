@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.ChessPieceValue;
@@ -177,12 +176,10 @@ public class King extends Piece {
     // Reset inCheck
     setInCheck(false);
     // Filter for every opposing piece
-    Map<String, Piece> opposingPieces = currentGameState.entrySet().stream()
-        .filter(x -> x.getValue().getColour() != getColour())
-        .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+    List<Piece> opposingPieces = currentGameState.entrySet().stream()
+        .filter(x -> x.getValue().getColour() != getColour()).map(x -> x.getValue()).toList();
     List<Map<String, String>> opposingMoveMaps = new ArrayList<>();
-    for(Entry<String, Piece> entry : opposingPieces.entrySet()) {
-      Piece currentPiece = entry.getValue();
+    for(Piece currentPiece : opposingPieces) {
       // Clear legalMoveMap
       currentPiece.getLegalMoveMap().clear();
       // Distinguish between Pawn and other Pieces
@@ -200,12 +197,6 @@ public class King extends Piece {
             if(currentGameState.get(fieldKey) == null
                 || currentGameState.get(fieldKey).getColour() == currentPiece.getColour()) {
               currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
-            }
-            // Check for this King
-            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
-                && currentGameState.get(fieldKey) instanceof King) {
-              currentPiece.getLegalMoveMap().put(fieldKey, getId());
-              getAttackKeys().add(currentPiece.getPosition());
             }
             // Check for Piece of Kings colour
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
@@ -361,12 +352,11 @@ public class King extends Piece {
       // Empty saviourPieces
       getSaviourPieces().clear();
       // Get all Pieces of the same colour except the King
-      Map<String, Piece> piecesOfSameColour = currentGameState.entrySet().stream()
+      List<Piece> piecesOfSameColour = currentGameState.entrySet().stream()
           .filter(x -> x.getValue().getColour() == getColour() && !(x.getValue() instanceof King))
-          .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
+          .map(x -> x.getValue()).toList();
       // Check whether or not at least one key is present
-      for(Entry<String, Piece> entry : piecesOfSameColour.entrySet()) {
-        Piece currentPiece = entry.getValue();
+      for(Piece currentPiece : piecesOfSameColour) {
         boolean saveKeyFound = false;
         Map<String, String> saveMap = new TreeMap<>();
         try {

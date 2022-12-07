@@ -156,7 +156,7 @@ public class Pawn extends Piece {
           posNumber += moveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
           if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
-            getLegalMoveMap().put(fieldKey, TRUE_STRING);
+            getLegalMoveMap().put(fieldKey, MOVE_STRING);
           }
         }
         case 1 -> {
@@ -167,7 +167,7 @@ public class Pawn extends Piece {
           if(inFieldBounds(posLetterAsNumber, posNumber)
               && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - colourModifier))
               && currentGameState.get(fieldKey) == null && !isHasMoved()) {
-            getLegalMoveMap().put(fieldKey, TRUE_STRING);
+            getLegalMoveMap().put(fieldKey, MOVE_STRING);
           }
         }
         case 2, 5 -> {

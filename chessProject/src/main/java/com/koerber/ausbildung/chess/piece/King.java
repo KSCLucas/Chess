@@ -25,8 +25,8 @@ public class King extends Piece {
 
   private boolean      isInCheck      = false;
   private boolean      isCheckmate    = false;
-  private String       castleKeyShort = null;
-  private String       castleKeyLong  = null;
+  private String       castleKeyShort;
+  private String       castleKeyLong;
   private boolean      hasMoved       = false;
   private List<String> attackKeys     = new ArrayList<>();
   private List<Piece>  saviourPieces  = new ArrayList<>();
@@ -231,7 +231,7 @@ public class King extends Piece {
             // Check for EmptyPiece
             if(currentGameState.get(fieldKey) == null
                 || currentGameState.get(fieldKey).getColour() == currentPiece.getColour()) {
-              currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+              currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
             }
             // Check for this King
             else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
@@ -272,7 +272,7 @@ public class King extends Piece {
               // Check for EmptyPiece
               if(currentGameState.get(fieldKey) == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
-                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                  currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                   if(!kingInLine) {
                     // Add key to trail
                     trail.add(fieldKey);
@@ -299,7 +299,7 @@ public class King extends Piece {
               }
               else {
                 if(!allyPieceDetected) {
-                  currentPiece.getLegalMoveMap().put(fieldKey, TRUE_STRING);
+                  currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                 }
                 allyPieceDetected = true;
                 if(!kingInLine) {
@@ -474,11 +474,11 @@ public class King extends Piece {
               int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
               int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
               if(rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT) {
-                getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), TRUE_STRING);
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), MOVE_STRING);
                 setCastleKeyShort(getFieldKey(posLetterAsNumber + 2, posNumber));
               }
               if(rook.getCastleSide() == Rook.CASTLE_SIDE_LONG) {
-                getLegalMoveMap().put(getFieldKey(posLetterAsNumber - 2, posNumber), TRUE_STRING);
+                getLegalMoveMap().put(getFieldKey(posLetterAsNumber - 2, posNumber), MOVE_STRING);
                 setCastleKeyLong(getFieldKey(posLetterAsNumber - 2, posNumber));
               }
             }

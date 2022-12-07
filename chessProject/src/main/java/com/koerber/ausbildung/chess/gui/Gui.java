@@ -246,7 +246,7 @@ public class Gui {
     if(piece.getColour() == unlockedColour) {
       for(Map.Entry<String, String> entry : piece.getLegalMoveMap().entrySet()) {
         // for legal moves color label green
-        if(entry.getValue().equals(Piece.TRUE_STRING)) {
+        if(entry.getValue().equals(Piece.MOVE_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
           labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);

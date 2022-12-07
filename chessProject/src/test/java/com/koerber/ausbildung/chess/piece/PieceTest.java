@@ -108,7 +108,7 @@ class PieceTest {
       }
     }
 
-    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", ChessColour.NONE, "A2");
+    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", null, "A2");
     testEmpty.setPosition("A1");
 
     Map<String, String> correctMap = new TreeMap<>();

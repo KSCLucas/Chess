@@ -49,8 +49,8 @@ class RookTest {
   }
 
   /**
-   * Builds {@code Rook} object with initial test values. All fields between Rook
-   * and King are an {@code EmptyPiece}. It is expected that
+   * Builds {@code Rook} object with initial test values. All fields between
+   * Rook and King are an {@code EmptyPiece}. It is expected that
    * {@code Rook.canCastle = true}.
    * 
    * @tests {@code checkForCastle()}
@@ -64,10 +64,7 @@ class RookTest {
     Rook testRookShortSide = ObjectFactoryForTest.getRook();
     testRookShortSide.setPosition("H1");
     testRookShortSide.setHasMoved(false);
-    Rook testRookLongSide = ObjectFactoryForTest.getRook();
-    testRookLongSide.setId("r2w");
-    testRookLongSide.setCastleSide('l');
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -76,13 +73,10 @@ class RookTest {
     }
     testCurrentGameState.put("E1", king);
     testCurrentGameState.put("H1", testRookShortSide);
-    testCurrentGameState.put("A1", testRookLongSide);
-    
+
     testRookShortSide.checkForCastle(testCurrentGameState);
-    testRookLongSide.checkForCastle(testCurrentGameState);
-    
+
     assertEquals(true, testRookShortSide.isCanCastle());
-    assertEquals(true, testRookLongSide.isCanCastle());
   }
 
   /**
@@ -100,12 +94,9 @@ class RookTest {
     king.setHasMoved(false);
     Rook testRookShortSide = ObjectFactoryForTest.getRook();
     testRookShortSide.setPosition("H1");
-    Rook testRookLongSide = ObjectFactoryForTest.getRook();
-    testRookLongSide.setId("r2w");
-    testRookLongSide.setCastleSide('l');
     Queen queen = ObjectFactoryForTest.getQueen();
     queen.setPosition("D1");
-    
+
     Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
     for(int i = Field.LEFT_BOUND; i <= Field.RIGHT_BOUND; i++) {
       for(int j = Field.LOWER_BOUND; j <= Field.UPPER_BOUND; j++) {
@@ -114,13 +105,10 @@ class RookTest {
     }
     testCurrentGameState.put("E1", king);
     testCurrentGameState.put("H1", testRookShortSide);
-    testCurrentGameState.put("A1", testRookLongSide);
     testCurrentGameState.put("D1", queen);
-    
+
     testRookShortSide.checkForCastle(testCurrentGameState);
-    testRookLongSide.checkForCastle(testCurrentGameState);
-    
+
     assertEquals(false, testRookShortSide.isCanCastle());
-    assertEquals(false, testRookLongSide.isCanCastle());
   }
 }

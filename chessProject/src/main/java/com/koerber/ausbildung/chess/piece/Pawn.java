@@ -29,12 +29,12 @@ public class Pawn extends Piece {
    * {@code icon}, {@code isMoveRepeatable}, {@code moveSet},
    * {@code isEnPassantable}, {@code isPromotable} and {@code hasMoved}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    */
-  public Pawn(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.PAWN.value, false, position,
+  public Pawn(int idNum, ChessColour colour, String position) {
+    super(idNum, colour, ChessPieceValue.PAWN.value, false, position,
         colour == ChessColour.WHITE ? MoveSetSupplier.getPawnWhiteMoveSet() : MoveSetSupplier.getPawnBlackMoveSet(),
         IconSupplier.getIcon(colour, "pawn_small"));
   }

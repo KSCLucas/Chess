@@ -56,11 +56,11 @@ public abstract class IdSupplier {
    * and {@code class} of it.
    * 
    * @param piece
-   * @param num
+   * @param idNum
    * @param pieceColour
    * @return String id
    */
-  public static String getId(Piece piece, int num, ChessColour pieceColour) {
-    return getClassString(piece) + num + (pieceColour == ChessColour.WHITE ? COLOUR_WHITE_STRING : COLOUR_BLACK_STRING);
+  public static String getId(Piece piece, int idNum, ChessColour pieceColour) {
+    return getClassString(piece) + idNum + (pieceColour == ChessColour.WHITE ? COLOUR_WHITE_STRING : COLOUR_BLACK_STRING);
   }
 }

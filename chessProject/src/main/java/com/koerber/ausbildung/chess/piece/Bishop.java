@@ -17,12 +17,12 @@ public class Bishop extends Piece {
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
    * {@code icon}, {@code isMoveRepeatable} and {@code moveSet}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    */
-  public Bishop(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.BISHOP.value, true, position, MoveSetSupplier.getBishopMoveSet(),
+  public Bishop(int idNum, ChessColour colour, String position) {
+    super(idNum, colour, ChessPieceValue.BISHOP.value, true, position, MoveSetSupplier.getBishopMoveSet(),
         IconSupplier.getIcon(colour, "bishop_small"));
   }
 }

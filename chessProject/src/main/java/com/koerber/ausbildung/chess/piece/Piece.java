@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.IdSupplier;
 import com.koerber.ausbildung.chess.utility.MoveVector;
 import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
@@ -39,7 +40,7 @@ public abstract class Piece {
   /**
    * Parameterized constructor for a {@code Piece}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param value
    * @param isMoveRepeatable
@@ -47,9 +48,9 @@ public abstract class Piece {
    * @param moveSet
    * @param icon
    */
-  public Piece(String id, ChessColour colour, int value, boolean isMoveRepeatable, String position,
+  public Piece(int idNum, ChessColour colour, int value, boolean isMoveRepeatable, String position,
       List<MoveVector> moveSet, ImageIcon icon) {
-    this.id = id;
+    this.id = IdSupplier.getId(this, idNum, colour);
     this.colour = colour;
     this.value = value;
     this.isMoveRepeatable = isMoveRepeatable;

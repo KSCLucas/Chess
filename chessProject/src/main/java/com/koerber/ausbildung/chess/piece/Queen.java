@@ -17,12 +17,12 @@ public class Queen extends Piece {
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
    * {@code icon}, {@code isMoveRepeatable} and {@code moveSet}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    */
-  public Queen(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.QUEEN.value, true, position, MoveSetSupplier.getQueenMoveSet(),
+  public Queen(int idNum, ChessColour colour, String position) {
+    super(idNum, colour, ChessPieceValue.QUEEN.value, true, position, MoveSetSupplier.getQueenMoveSet(),
         IconSupplier.getIcon(colour, "queen_small"));
   }
 }

@@ -59,18 +59,18 @@ public class Field {
     getCurrentGameState().clear();
     // Create white pawns
     for(int i = 1; i < 9; i++) {
-      Pawn pawn = new Pawn("p" + i + "w", ChessColour.WHITE, Character.toString(64 + i) + "2");
+      Pawn pawn = new Pawn(i, ChessColour.WHITE, Character.toString(64 + i) + "2");
       getCurrentGameState().put(pawn.getPosition(), pawn);
     }
     // Create other white pieces
-    Rook rookW1 = new Rook("r1w", ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
-    Rook rookW2 = new Rook("r2w", ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
-    Knight knightW1 = new Knight("n1w", ChessColour.WHITE, "B1");
-    Knight knightW2 = new Knight("n2w", ChessColour.WHITE, "G1");
-    Bishop bishopW1 = new Bishop("b1w", ChessColour.WHITE, "C1");
-    Bishop bishopW2 = new Bishop("b2w", ChessColour.WHITE, "F1");
-    Queen queenW = new Queen("q1w", ChessColour.WHITE, "D1");
-    King kingW = new King("k1w", ChessColour.WHITE, "E1");
+    Rook rookW1 = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+    Rook rookW2 = new Rook(2, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+    Knight knightW1 = new Knight(1, ChessColour.WHITE, "B1");
+    Knight knightW2 = new Knight(2, ChessColour.WHITE, "G1");
+    Bishop bishopW1 = new Bishop(1, ChessColour.WHITE, "C1");
+    Bishop bishopW2 = new Bishop(2, ChessColour.WHITE, "F1");
+    Queen queenW = new Queen(1, ChessColour.WHITE, "D1");
+    King kingW = new King(1, ChessColour.WHITE, "E1");
     getCurrentGameState().put(rookW1.getPosition(), rookW1);
     getCurrentGameState().put(rookW2.getPosition(), rookW2);
     getCurrentGameState().put(knightW1.getPosition(), knightW1);
@@ -81,18 +81,18 @@ public class Field {
     getCurrentGameState().put(kingW.getPosition(), kingW);
     // Create black pawns
     for(int i = 1; i < 9; i++) {
-      Pawn pawn = new Pawn("p" + i + "b", ChessColour.BLACK, Character.toString(64 + i) + "7");
+      Pawn pawn = new Pawn(i, ChessColour.BLACK, Character.toString(64 + i) + "7");
       getCurrentGameState().put(pawn.getPosition(), pawn);
     }
     // Create other black pieces
-    Rook rookB1 = new Rook("r1b", ChessColour.BLACK, "A8", Rook.CASTLE_SIDE_LONG);
-    Rook rookB2 = new Rook("r2b", ChessColour.BLACK, "H8", Rook.CASTLE_SIDE_SHORT);
-    Knight knightB1 = new Knight("n1b", ChessColour.BLACK, "B8");
-    Knight knightB2 = new Knight("n2b", ChessColour.BLACK, "G8");
-    Bishop bishopB1 = new Bishop("b1b", ChessColour.BLACK, "C8");
-    Bishop bishopB2 = new Bishop("b2b", ChessColour.BLACK, "F8");
-    Queen queenB = new Queen("q1b", ChessColour.BLACK, "D8");
-    King kingB = new King("k1b", ChessColour.BLACK, "E8");
+    Rook rookB1 = new Rook(1, ChessColour.BLACK, "A8", Rook.CASTLE_SIDE_LONG);
+    Rook rookB2 = new Rook(2, ChessColour.BLACK, "H8", Rook.CASTLE_SIDE_SHORT);
+    Knight knightB1 = new Knight(1, ChessColour.BLACK, "B8");
+    Knight knightB2 = new Knight(2, ChessColour.BLACK, "G8");
+    Bishop bishopB1 = new Bishop(1, ChessColour.BLACK, "C8");
+    Bishop bishopB2 = new Bishop(2, ChessColour.BLACK, "F8");
+    Queen queenB = new Queen(1, ChessColour.BLACK, "D8");
+    King kingB = new King(1, ChessColour.BLACK, "E8");
     getCurrentGameState().put(rookB1.getPosition(), rookB1);
     getCurrentGameState().put(rookB2.getPosition(), rookB2);
     getCurrentGameState().put(knightB1.getPosition(), knightB1);

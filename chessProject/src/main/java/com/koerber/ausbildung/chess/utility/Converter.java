@@ -91,7 +91,7 @@ public class Converter {
         String value = rows.substring(0, 3);
         if(!value.equals("###")) {
 
-          Piece newPiece = getNewPiece(value, fieldKey, '1');
+          Piece newPiece = getNewPiece(value, fieldKey, Rook.CASTLE_SIDE_SHORT);
           posOfPiece.put(fieldKey, newPiece);
         }
         rows = rows.substring(3);
@@ -116,30 +116,30 @@ public class Converter {
   public static Piece getNewPiece(String pieceId, String pos, char castleSideSide) {
     String pieceType = pieceId.substring(0, 1);
     String pieceColour = pieceId.substring(2, 3);
-    ChessColour colour = "w".equals(pieceColour) ? ChessColour.WHITE : ChessColour.BLACK;
-    if("p".equals(pieceType)) {
+    ChessColour colour = IdSupplier.COLOUR_WHITE_STRING.equals(pieceColour) ? ChessColour.WHITE : ChessColour.BLACK;
+    if(IdSupplier.PAWN_ID_LETTER.equals(pieceType)) {
 
-      Pawn pawn = new Pawn(pieceId, colour, pos);
+      Pawn pawn = new Pawn(9, colour, pos);
       return pawn;
     }
-    else if("r".equals(pieceType)) {
-      Rook rook = new Rook(pieceId, colour, pos, 'l');
+    else if(IdSupplier.ROOK_ID_LETTER.equals(pieceType)) {
+      Rook rook = new Rook(3, colour, pos, 'l');
       return rook;
     }
-    else if("n".equals(pieceType)) {
-      Knight knight = new Knight(pieceId, colour, pos);
+    else if(IdSupplier.KNIGHT_ID_LETTER.equals(pieceType)) {
+      Knight knight = new Knight(3, colour, pos);
       return knight;
     }
-    else if("b".equals(pieceType)) {
-      Bishop bishop = new Bishop(pieceId, colour, pos);
+    else if(IdSupplier.BISHOP_ID_LETTER.equals(pieceType)) {
+      Bishop bishop = new Bishop(3, colour, pos);
       return bishop;
     }
-    else if("q".equals(pieceType)) {
-      Queen queen = new Queen(pieceId, colour, pos);
+    else if(IdSupplier.QUEEN_ID_LETTER.equals(pieceType)) {
+      Queen queen = new Queen(2, colour, pos);
       return queen;
     }
-    else if("k".equals(pieceType)) {
-      King king = new King(pieceId, colour, pos);
+    else if(IdSupplier.KING_ID_LETTER.equals(pieceType)) {
+      King king = new King(2, colour, pos);
       return king;
     }
     else {

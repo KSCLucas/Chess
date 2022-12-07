@@ -37,12 +37,12 @@ public class King extends Piece {
    * {@code isCheckmate}, {@code canCastleShort}, {@code canCastleLong} and
    * {@code hasMoved}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    */
-  public King(String id, ChessColour colour, String position) {
-    super(id, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(),
+  public King(int idNum, ChessColour colour, String position) {
+    super(idNum, colour, ChessPieceValue.KING.value, false, position, MoveSetSupplier.getKingMoveSet(),
         IconSupplier.getIcon(colour, "king_small"));
   }
 

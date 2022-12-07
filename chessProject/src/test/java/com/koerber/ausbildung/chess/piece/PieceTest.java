@@ -103,12 +103,12 @@ class PieceTest {
   void createLegalMoveMapEmptyMovesetTest() {
     class EmptyMoveSetPiece extends Piece {
 
-      public EmptyMoveSetPiece(String id, ChessColour colour, String position) {
+      public EmptyMoveSetPiece(int id, ChessColour colour, String position) {
         super(id, colour, 0, true, position, new ArrayList<MoveVector>(), null);
       }
     }
 
-    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece("###", null, "A2");
+    EmptyMoveSetPiece testEmpty = new EmptyMoveSetPiece(999, null, "A2");
     testEmpty.setPosition("A1");
 
     Map<String, String> correctMap = new TreeMap<>();

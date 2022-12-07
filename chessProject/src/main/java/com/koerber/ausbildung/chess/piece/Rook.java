@@ -27,13 +27,13 @@ public class Rook extends Piece {
    * {@code icon}, {@code isMoveRepeatable}, {@code castleSide},
    * {@code canCastle} and {@code hasMoved}.
    * 
-   * @param id
+   * @param idNum
    * @param colour
    * @param position
    * @param castleSide
    */
-  public Rook(String id, ChessColour colour, String position, char castleSide) {
-    super(id, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(),
+  public Rook(int idNum, ChessColour colour, String position, char castleSide) {
+    super(idNum, colour, ChessPieceValue.ROOK.value, true, position, MoveSetSupplier.getRookMoveSet(),
         IconSupplier.getIcon(colour, "rook_small"));
     this.castleSide = castleSide;
   }

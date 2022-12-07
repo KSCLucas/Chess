@@ -49,14 +49,14 @@ public class Player {
   }
 
   /**
-   * adds taken Pieces to this.takenPiece and increases score
+   * adds taken Pieces to this.takenPiece and opens increaseScore
    * 
    * @param Object Piece
    * @throws IllegalArgumentException if piece is not on map
    * @comment base-structure
    */
   public void addTakenPiece(Piece piece) {
-    if(piece.getPosition().equals(Piece.NOT_ON_FIELD)) {
+    if(piece.getPosition().equals(Piece.HIT_STRING)) {
       takenPieces.add(piece);
       // raise score
       this.score = this.score + piece.getValue();

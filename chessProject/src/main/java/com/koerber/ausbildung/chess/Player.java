@@ -56,12 +56,9 @@ public class Player {
    * @comment base-structure
    */
   public void addTakenPiece(Piece piece) {
-    if(piece.getPosition().equals(Piece.HIT_STRING)) {
-      takenPieces.add(piece);
-      // raise score
-      this.score = this.score + piece.getValue();
-    }
-    throw new IllegalArgumentException("piece is on map");
+    takenPieces.add(piece);
+    // raise score
+    this.score = this.score + piece.getValue();
   }
 
   /**

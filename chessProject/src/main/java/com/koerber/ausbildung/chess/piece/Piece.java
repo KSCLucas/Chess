@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.IdSupplier;
 import com.koerber.ausbildung.chess.utility.MoveVector;
@@ -171,7 +172,8 @@ public abstract class Piece {
    * @return {@code true} if move is successful. Otherwise it returns
    *         {@code false}
    */
-  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour) {
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour,
+      Player player) {
     if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
       return false;
     }
@@ -179,6 +181,9 @@ public abstract class Piece {
       currentGameState.remove(getPosition());
       setPosition(targetPosition);
       if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
+        if(player != null) {
+          player.addTakenPiece(currentGameState.get(targetPosition));
+        }
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
 
       }

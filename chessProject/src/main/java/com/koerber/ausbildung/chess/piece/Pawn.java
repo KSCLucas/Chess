@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.koerber.ausbildung.chess.Field;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.utility.ChessColour;
 import com.koerber.ausbildung.chess.utility.ChessPieceValue;
 import com.koerber.ausbildung.chess.utility.IconSupplier;
@@ -106,7 +107,8 @@ public class Pawn extends Piece {
   }
 
   @Override
-  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour) {
+  public boolean movePiece(Map<String, Piece> currentGameState, String targetPosition, ChessColour unlockedColour,
+      Player player) {
     if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
       return false;
     }
@@ -120,11 +122,17 @@ public class Pawn extends Piece {
       String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
       if(currentGameState.get(fieldKey) instanceof Pawn enPassantablePawn) {
         if(enPassantablePawn.isEnPassentable() && enPassantablePawn.getColour() != getColour()) {
+          if(player != null) {
+            player.addTakenPiece(currentGameState.get(targetPosition));
+          }
           enPassantablePawn.setPosition(NOT_ON_FIELD);
           currentGameState.remove(fieldKey);
         }
       }
       if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING) && currentGameState.get(targetPosition) != null) {
+        if(player != null) {
+          player.addTakenPiece(currentGameState.get(targetPosition));
+        }
         currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
       }
       currentGameState.put(targetPosition, this);

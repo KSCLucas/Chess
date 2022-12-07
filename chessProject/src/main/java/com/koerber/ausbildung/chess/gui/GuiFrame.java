@@ -51,6 +51,10 @@ public class GuiFrame {
   private JLabel                 player1Label;
   private JLabel                 player2Label;
 
+  private JLabel                 player1ScoreLabel;
+
+  private JLabel                 player2ScoreLabel;
+
   public GuiFrame(Field field, History history, Player player1, Player player2) {
     initialize(field, history, player1, player2);
   }
@@ -95,6 +99,22 @@ public class GuiFrame {
     this.player2Label = player2Label;
   }
 
+  public JLabel getPlayer1ScoreLabel() {
+    return player1ScoreLabel;
+  }
+
+  public void setPlayer1ScoreLabel(JLabel player1ScoreLabel) {
+    this.player1ScoreLabel = player1ScoreLabel;
+  }
+
+  public JLabel getPlayer2ScoreLabel() {
+    return player2ScoreLabel;
+  }
+
+  public void setPlayer2ScoreLabel(JLabel player2ScoreLabel) {
+    this.player2ScoreLabel = player2ScoreLabel;
+  }
+
   public JFrame getFrame() {
     return frame;
   }
@@ -131,7 +151,7 @@ public class GuiFrame {
     contentPane.add(newGamePanel, gbcNewGamePanel);
     newGamePanel.setLayout(new GridLayout(1, 2, 0, 0));
 
-    createNewGameButtonWithActionListener(field, history, newGamePanel);
+    createNewGameButtonWithActionListener(field, history, newGamePanel, player1, player2);
 
     createBackButtonWithActionListener(field, history, newGamePanel);
 
@@ -275,9 +295,9 @@ public class GuiFrame {
     JLabel pointsP2Label = new JLabel("POINTS", JLabel.CENTER);
     pointsP2Label.setBorder(BLACK_BORDER);
     player2Panel.add(pointsP2Label);
-    JLabel setPointsP2Label = new JLabel(Integer.toString(player2.getScore()), JLabel.CENTER);
-    setPointsP2Label.setBorder(BLACK_BORDER);
-    player2Panel.add(setPointsP2Label);
+    player2ScoreLabel = new JLabel("0", JLabel.CENTER);
+    player2ScoreLabel.setBorder(BLACK_BORDER);
+    player2Panel.add(player2ScoreLabel);
 
     // Player 2 taken pieces label
     JLabel piecesP2Label = new JLabel("PIECES", JLabel.CENTER);
@@ -316,9 +336,9 @@ public class GuiFrame {
     JLabel pointsP1Label = new JLabel("POINTS", JLabel.CENTER);
     pointsP1Label.setBorder(BLACK_BORDER);
     player1Panel.add(pointsP1Label);
-    JLabel setPointsP1Label = new JLabel(Integer.toString(player1.getScore()), JLabel.CENTER);
-    setPointsP1Label.setBorder(BLACK_BORDER);
-    player1Panel.add(setPointsP1Label);
+    player1ScoreLabel = new JLabel("0", JLabel.CENTER);
+    player1ScoreLabel.setBorder(BLACK_BORDER);
+    player1Panel.add(player1ScoreLabel);
 
     // Player 1 taken pieces label
     JLabel piecesP1Label = new JLabel("PIECES");
@@ -343,7 +363,8 @@ public class GuiFrame {
    * @param history
    * @param newGamePanel
    */
-  private void createNewGameButtonWithActionListener(Field field, History history, JPanel newGamePanel) {
+  private void createNewGameButtonWithActionListener(Field field, History history, JPanel newGamePanel, Player player1,
+      Player player2) {
     JButton newGameButton = new JButton("NEW GAME");
     ActionListener newGame = new ActionListener() {
       @Override
@@ -361,6 +382,11 @@ public class GuiFrame {
           highlightActivePlayer(field, getPlayer1Label(), getPlayer2Label());
           GuiUtility.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
           field.setWinner(null);
+          player1.setToInit();
+          player2.setToInit();
+          GuiUtility.showScore(player1ScoreLabel, player1);
+          GuiUtility.showScore(player2ScoreLabel, player2);
+          
         }
       }
     };

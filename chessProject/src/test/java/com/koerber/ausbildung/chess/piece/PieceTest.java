@@ -153,7 +153,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, legalTargetPosition, testRook.getColour());
+    testRook.movePiece(testCurrentGameState, legalTargetPosition, testRook.getColour(), null);
     assertEquals(legalTargetPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(legalTargetPosition).getId());
     assertEquals(null, testCurrentGameState.get("A1"));
@@ -183,7 +183,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, illegalTargetPosition, testRook.getColour());
+    testRook.movePiece(testCurrentGameState, illegalTargetPosition, testRook.getColour(), null);
     assertEquals(initialPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
@@ -213,7 +213,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, unknownTargetPosition, testRook.getColour());
+    testRook.movePiece(testCurrentGameState, unknownTargetPosition, testRook.getColour(), null);
     assertEquals(initialPosition, testRook.getPosition());
     assertEquals("r1w", testCurrentGameState.get(testRook.getPosition()).getId());
   }
@@ -242,7 +242,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, pieceTargetPosition, testRook.getColour());
+    testRook.movePiece(testCurrentGameState, pieceTargetPosition, testRook.getColour(), null);
     assertEquals(pieceTargetPosition, testRook.getPosition());
   }
 
@@ -275,7 +275,7 @@ class PieceTest {
     }
     catch(PieceOutOfBoundsException e) {
     }
-    testRook.movePiece(testCurrentGameState, enemyPiecePosition, testRook.getColour());
+    testRook.movePiece(testCurrentGameState, enemyPiecePosition, testRook.getColour(), null);
     assertEquals("r1w", testCurrentGameState.get(enemyPiecePosition).getId());
     assertEquals("xy", opposingTestRook.getPosition());
     assertEquals(null, testCurrentGameState.get(initialPosition));

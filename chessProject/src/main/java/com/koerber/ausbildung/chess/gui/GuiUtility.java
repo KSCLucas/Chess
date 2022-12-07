@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.piece.Bishop;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Knight;
@@ -285,7 +286,9 @@ public class GuiUtility {
 
   }
   
- 
+  public static void showScore (JLabel label, Player player) {
+    label.setText(Integer.toString(player.getScore()));
+  }
 
   /**
    * Asks for player names of the respective pages and occupies Player.name.

@@ -60,7 +60,8 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
         boolean moveSuccessful = false;
         if(field.getCurrentGameState().get(startPosition) != null) {
           moveSuccessful = field.getCurrentGameState().get(startPosition).movePiece(field.getCurrentGameState(),
-              targetPosition, field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE);
+              targetPosition, field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE,
+              field.getCurrentTurn() % 2 == 0 ? player2 : player1);
           if(field.getCurrentGameState().get(targetPosition) instanceof King king) {
             try {
               king.castle(field.getCurrentGameState());
@@ -123,8 +124,10 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckmate();
                 });
             // show winner popup if there is a winner
-            player1.setScore(player1.getScore() + 1);
-            player2.setScore(player2.getScore() + 1);
+            GuiUtility.showScore(window.getPlayer1ScoreLabel(), player1);
+            GuiUtility.showScore(window.getPlayer2ScoreLabel(), player2);
+//            player1.setScore(player1.getScore() + 1);
+//            player2.setScore(player2.getScore() + 1);
             GuiUtility.showWinnerPopup(field);
           }
           else {

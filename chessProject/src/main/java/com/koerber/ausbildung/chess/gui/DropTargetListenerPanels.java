@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.koerber.ausbildung.chess.Field;
 import com.koerber.ausbildung.chess.History;
+import com.koerber.ausbildung.chess.Player;
 import com.koerber.ausbildung.chess.piece.King;
 import com.koerber.ausbildung.chess.piece.Pawn;
 import com.koerber.ausbildung.chess.utility.ChessColour;
@@ -31,11 +32,18 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
   private final History  history;
   private final GuiFrame window;
 
-  public DropTargetListenerPanels(JPanel p, Field field, History history, GuiFrame window) {
+  private final Player   player1;
+
+  private final Player   player2;
+
+  public DropTargetListenerPanels(JPanel p, Field field, History history, GuiFrame window, Player player1,
+      Player player2) {
     this.dropPanel = p;
     this.field = field;
     this.history = history;
     this.window = window;
+    this.player1 = player1;
+    this.player2 = player2;
     setDropTarget(new DropTarget(p, DnDConstants.ACTION_COPY, this, true, null));
   }
 
@@ -115,6 +123,8 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckmate();
                 });
             // show winner popup if there is a winner
+            player1.setScore(player1.getScore() + 1);
+            player2.setScore(player2.getScore() + 1);
             GuiUtility.showWinnerPopup(field);
           }
           else {

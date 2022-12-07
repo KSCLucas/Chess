@@ -217,7 +217,7 @@ public class GuiFrame {
     createDragAndDropLabels(musMusculus);
     GuiUtility.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
     JPanel[] topLayerPanels = createDragAndDropPanels(chessBoardTopLayer);
-    addDragAndDropLogicToPanels(field, history, topLayerPanels);
+    addDragAndDropLogicToPanels(field, history, topLayerPanels, player1, player2);
 
     /**
      * Initializes layeredPan. Used for layering the chessboard.
@@ -621,13 +621,14 @@ public class GuiFrame {
    * @param history
    * @param topLayerPanels
    */
-  private void addDragAndDropLogicToPanels(Field field, History history, JPanel[] topLayerPanels) {
+  private void addDragAndDropLogicToPanels(Field field, History history, JPanel[] topLayerPanels, Player player1,
+      Player player2) {
     for(int j = 0; j < 64; j++) {
       DragGestureListenerPanels dragListenerPanels = new DragGestureListenerPanels();
       DragSource dragSourcePanels = new DragSource();
       dragSourcePanels.createDefaultDragGestureRecognizer(currentGameStateLabels[j], DnDConstants.ACTION_COPY,
           dragListenerPanels);
-      new DropTargetListenerPanels(topLayerPanels[j], field, history, this);
+      new DropTargetListenerPanels(topLayerPanels[j], field, history, this, player1, player2);
       TransferHandler dnd = new TransferHandler() {
         private static final long serialVersionUID = 1L;
         @Override

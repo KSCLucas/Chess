@@ -284,6 +284,8 @@ public class GuiUtility {
   public static void displayTakenPieces() {
 
   }
+  
+ 
 
   /**
    * Asks for player names of the respective pages and occupies Player.name.

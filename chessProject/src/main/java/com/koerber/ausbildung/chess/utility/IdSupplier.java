@@ -8,6 +8,12 @@ import com.koerber.ausbildung.chess.piece.Piece;
 import com.koerber.ausbildung.chess.piece.Queen;
 import com.koerber.ausbildung.chess.piece.Rook;
 
+/**
+ * Supplies constants for {@code class} and {@code colour} of type
+ * {@code String}. Provides {@code id} related methods.
+ * 
+ * @author PKamps
+ */
 public abstract class IdSupplier {
 
   public static final String PAWN_ID_LETTER      = "p";
@@ -45,6 +51,15 @@ public abstract class IdSupplier {
     return classString;
   }
 
+  /**
+   * Builds an {@code Id} for a {@code Piece} depending on the {@code colour}
+   * and {@code class} of it.
+   * 
+   * @param piece
+   * @param num
+   * @param pieceColour
+   * @return String id
+   */
   public static String getId(Piece piece, int num, ChessColour pieceColour) {
     return getClassString(piece) + num + (pieceColour == ChessColour.WHITE ? COLOUR_WHITE_STRING : COLOUR_BLACK_STRING);
   }

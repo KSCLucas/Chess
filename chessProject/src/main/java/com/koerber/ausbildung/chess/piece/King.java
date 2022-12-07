@@ -192,14 +192,14 @@ public class King extends Piece {
           posLetterAsNumber += currentMoveVector.getX();
           posNumber += currentMoveVector.getY();
           String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+          Piece detected = currentGameState.get(fieldKey);
           if(inFieldBounds(posLetterAsNumber, posNumber)) {
             // Check for EmptyPiece
-            if(currentGameState.get(fieldKey) == null
-                || currentGameState.get(fieldKey).getColour() == currentPiece.getColour()) {
+            if(detected == null || detected.getColour() == currentPiece.getColour()) {
               currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
             }
             // Check for Piece of Kings colour
-            else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
+            else if(detected.getColour() != currentPiece.getColour()) {
               currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
             }
           }
@@ -226,10 +226,11 @@ public class King extends Piece {
             posLetterAsNumber += moveVector.getX();
             posNumber += moveVector.getY();
             String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+            Piece detected = currentGameState.get(fieldKey);
             // Check for fieldKey still on Field
             if(inFieldBounds(posLetterAsNumber, posNumber)) {
               // Check for EmptyPiece
-              if(currentGameState.get(fieldKey) == null) {
+              if(detected == null) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                   if(!kingInLine) {
@@ -239,13 +240,12 @@ public class King extends Piece {
                 }
               }
               // Check for this King
-              else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()
-                  && currentGameState.get(fieldKey) instanceof King) {
+              else if(detected.getColour() != currentPiece.getColour() && detected instanceof King) {
                 currentPiece.getLegalMoveMap().put(fieldKey, getId());
                 kingInLine = true;
               }
               // Check for Piece of Kings colour
-              else if(currentGameState.get(fieldKey).getColour() != currentPiece.getColour()) {
+              else if(detected.getColour() != currentPiece.getColour()) {
                 if(opposingPieceCount < 1 && !allyPieceDetected) {
                   currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
                 }
@@ -295,31 +295,32 @@ public class King extends Piece {
       String encounterKey, boolean kingInLine) {
     // Check for kingInLine to set moveability or availableMoveVectors
     if(opposingPieceCount == 1 && kingInLine) {
+      Piece currentPiece = currentGameState.get(encounterKey);
       // Empty availableMoveVectors and legalMoveMap
-      currentGameState.get(encounterKey).getAvailableMoveVectors().clear();
-      currentGameState.get(encounterKey).getLegalMoveMap().clear();
+      currentPiece.getAvailableMoveVectors().clear();
+      currentPiece.getLegalMoveMap().clear();
       // Get inverse vector
       MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
       boolean moveVectorFound = false;
-      for(MoveVector vector : currentGameState.get(encounterKey).getMoveSet()) {
+      for(MoveVector vector : currentPiece.getMoveSet()) {
         if(vector.equals(inverseMoveVector)) {
           moveVectorFound = true;
         }
       }
       if(moveVectorFound) {
         // Look for instance of Pawn
-        if(currentGameState.get(encounterKey) instanceof Pawn pawn) {
+        if(currentPiece instanceof Pawn pawn) {
           // Give Pawn a special availableMoveSet
           pawn.setAvailableMoveVectors(getAvailableMoveVectorsForPawn(inverseMoveVector, pawn.getColour()));
         }
         else {
           // Set availableMoveVectors to inverseMoveVector
-          currentGameState.get(encounterKey).getAvailableMoveVectors().add(inverseMoveVector);
+          currentPiece.getAvailableMoveVectors().add(inverseMoveVector);
         }
       }
       else {
         // Set moveable false
-        currentGameState.get(encounterKey).setMoveable(false);
+        currentPiece.setMoveable(false);
       }
     }
   }

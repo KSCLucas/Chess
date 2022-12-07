@@ -151,11 +151,12 @@ public class Pawn extends Piece {
         posLetterAsNumber += moveVector.getX();
         posNumber += moveVector.getY();
         String fieldKey = Character.toString(posLetterAsNumber) + posNumber;
+        Piece detected = currentGameState.get(fieldKey);
         // Distinguish between move-only, take-only and check-only
         switch(i) {
         case 0 -> {
           // Single move
-          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) == null) {
+          if(inFieldBounds(posLetterAsNumber, posNumber) && detected == null) {
             getLegalMoveMap().put(fieldKey, MOVE_STRING);
           }
         }
@@ -163,20 +164,19 @@ public class Pawn extends Piece {
           // Double move
           if(inFieldBounds(posLetterAsNumber, posNumber)
               && getLegalMoveMap().containsKey(Character.toString(posLetterAsNumber) + (posNumber - colourModifier))
-              && currentGameState.get(fieldKey) == null && !isHasMoved()) {
+              && detected == null && !isHasMoved()) {
             getLegalMoveMap().put(fieldKey, MOVE_STRING);
           }
         }
         case 2, 5 -> {
           // Take
-          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) != null
-              && currentGameState.get(fieldKey).getColour() != getColour()) {
+          if(inFieldBounds(posLetterAsNumber, posNumber) && detected != null && detected.getColour() != getColour()) {
             getLegalMoveMap().put(fieldKey, HIT_STRING);
           }
         }
         case 3, 4 -> {
           // Check for en-passant take
-          if(inFieldBounds(posLetterAsNumber, posNumber) && currentGameState.get(fieldKey) instanceof Pawn pawn
+          if(inFieldBounds(posLetterAsNumber, posNumber) && detected instanceof Pawn pawn
               && pawn.getColour() != getColour() && pawn.isEnPassentable()) {
             int posNumberForEnPassant = getColour() == ChessColour.BLACK ? posNumber - 1 : posNumber + 1;
             String enPassantFieldKey = getFieldKey(posLetterAsNumber, posNumberForEnPassant);

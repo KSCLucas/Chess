@@ -29,7 +29,7 @@ public class Field {
   public static final char   RIGHT_BOUND      = 'H';
   private Map<String, Piece> currentGameState = new TreeMap<>();
   private int                currentTurn      = 1;
-  private ChessColour        winner           = null;
+  private ChessColour        winner;
   public Map<String, Piece> getCurrentGameState() {
     return currentGameState;
   }
@@ -62,11 +62,6 @@ public class Field {
       Pawn pawn = new Pawn("p" + i + "w", ChessColour.WHITE, Character.toString(64 + i) + "2");
       getCurrentGameState().put(pawn.getPosition(), pawn);
     }
-    // Create black pawns
-    for(int i = 1; i < 9; i++) {
-      Pawn pawn = new Pawn("p" + i + "b", ChessColour.BLACK, Character.toString(64 + i) + "7");
-      getCurrentGameState().put(pawn.getPosition(), pawn);
-    }
     // Create other white pieces
     Rook rookW1 = new Rook("r1w", ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
     Rook rookW2 = new Rook("r2w", ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
@@ -84,6 +79,11 @@ public class Field {
     getCurrentGameState().put(bishopW2.getPosition(), bishopW2);
     getCurrentGameState().put(queenW.getPosition(), queenW);
     getCurrentGameState().put(kingW.getPosition(), kingW);
+    // Create black pawns
+    for(int i = 1; i < 9; i++) {
+      Pawn pawn = new Pawn("p" + i + "b", ChessColour.BLACK, Character.toString(64 + i) + "7");
+      getCurrentGameState().put(pawn.getPosition(), pawn);
+    }
     // Create other black pieces
     Rook rookB1 = new Rook("r1b", ChessColour.BLACK, "A8", Rook.CASTLE_SIDE_LONG);
     Rook rookB2 = new Rook("r2b", ChessColour.BLACK, "H8", Rook.CASTLE_SIDE_SHORT);

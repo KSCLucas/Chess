@@ -34,7 +34,7 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  * 
  * @author Lucas Noack, PKamps
  */
-public class Gui {
+public class GuiUtility {
 
   /**
    * Converts HashMap Keyvalue to LabelArray Index.
@@ -80,7 +80,7 @@ public class Gui {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        currentGameStateLabels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
       }
     }
     // set movable false for all pieces, as is shall not be possible while
@@ -217,7 +217,7 @@ public class Gui {
       if(entry.getValue() != null) {
         int columnAsNumber = entry.getKey().charAt(0) - 64;
         int rowAsNumber = entry.getKey().charAt(1) - 48;
-        currentGameStateLabels[Gui.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
+        currentGameStateLabels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setIcon(entry.getValue().getIcon());
 
       }
     }
@@ -249,15 +249,15 @@ public class Gui {
         if(entry.getValue().equals(Piece.TRUE_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
-          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
+          labels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_GREEN);
         }
         // for hittable enemies color label red
         if(entry.getValue().equals(Piece.HIT_STRING)) {
           int columnAsNumber = entry.getKey().charAt(0) - 64;
           int rowAsNumber = entry.getKey().charAt(1) - 48;
-          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
-          labels[Gui.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
+          labels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setOpaque(true);
+          labels[GuiUtility.getIndex(columnAsNumber, rowAsNumber)].setBackground(GuiFrame.LIGHT_RED);
         }
       }
     }

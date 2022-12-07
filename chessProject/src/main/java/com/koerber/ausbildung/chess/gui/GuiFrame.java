@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -126,105 +127,41 @@ public class GuiFrame {
 
     // builds new game panel
     JPanel newGamePanel = new JPanel();
-    GridBagConstraints gbcNewGamePanel = GuiUtility.setGridBag(true, true, 0, 0, 1);
+    GridBagConstraints gbcNewGamePanel = setGridBag(true, true, 0, 0, 1);
     contentPane.add(newGamePanel, gbcNewGamePanel);
     newGamePanel.setLayout(new GridLayout(1, 2, 0, 0));
 
-    // build new game button and action listener
-    JButton newGameButton = new JButton("NEW GAME");
-    ActionListener newGame = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        int whiteName = JOptionPane.showOptionDialog(frame, "RESTART GAME?", "Start New Game",
-            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
-            IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
-        if(whiteName == JOptionPane.YES_OPTION) {
-          // resets map and turn counter, clears history list and jlist, clears
-          // winner
-          field.initializeMap();
-          field.resetCurrentTurn();
-          field.turnLock();
-          Gui.clearHistory(history, getHistoryJList());
-          highlightActivePlayer(field, getPlayer1Label(), getPlayer2Label());
-          Gui.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
-          field.setWinner(null);
-        }
-      }
-    };
-    newGameButton.addActionListener(newGame);
-    newGamePanel.add(newGameButton);
+    createNewGameButtonWithActionListener(field, history, newGamePanel);
 
-    // builds back button with action listener
-    JButton backButton = new JButton("BACK");
-    ActionListener backListener = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Gui.undoLastTurn(field, history);
-      }
-    };
-    backButton.addActionListener(backListener);
-    newGamePanel.add(backButton);
+    createBackButtonWithActionListener(field, history, newGamePanel);
+
     JLabel historyLabel = new JLabel("HISTORY");
-    GridBagConstraints gbcHistoryPanel = GuiUtility.setGridBag(true, false, 0, 1, 1);
+    GridBagConstraints gbcHistoryPanel = setGridBag(true, false, 0, 1, 1);
     contentPane.add(historyLabel, gbcHistoryPanel);
 
     // Builds top part of history side
     JPanel historyPanelTop = new JPanel();
-    GridBagConstraints gbcHistoryPanelTop = GuiUtility.setGridBag(true, true, 0, 2, 1);
+    GridBagConstraints gbcHistoryPanelTop = setGridBag(true, true, 0, 2, 1);
     contentPane.add(historyPanelTop, gbcHistoryPanelTop);
     historyPanelTop.setLayout(new GridLayout(0, 2, 0, 0));
 
-    // builds backwards in history button with action listener
-    JButton backwardsInHistoryButton = new JButton("BACK");
-    ActionListener backInHistory = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Gui.backwardInHistory(history, GuiFrame.this);
-      }
-    };
-    backwardsInHistoryButton.addActionListener(backInHistory);
-    historyPanelTop.add(backwardsInHistoryButton);
+    createBackInHistoryButtonWithActionListener(history, historyPanelTop);
 
-    // builds forwars in history button with action listener
-    JButton forwardsInHistoryButton = new JButton("FORWARD ");
-    ActionListener forwardInHistory = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Gui.forwardInHistory(field, history, GuiFrame.this);
-      }
-    };
-    forwardsInHistoryButton.addActionListener(forwardInHistory);
-    historyPanelTop.add(forwardsInHistoryButton);
+    createForwardsInHistoryButtonWithActionListener(field, history, historyPanelTop);
 
     // builds bottom part of history side
     JPanel historyPanelBot = new JPanel();
-    GridBagConstraints gbcHistoryPanelBot = GuiUtility.setGridBag(true, true, 0, 3, 1);
+    GridBagConstraints gbcHistoryPanelBot = setGridBag(true, true, 0, 3, 1);
     contentPane.add(historyPanelBot, gbcHistoryPanelBot);
     historyPanelBot.setLayout(new GridLayout(0, 1, 0, 0));
 
-    // builds current game button with action listener
-    JButton currentGameButton = new JButton("CURRENT GAME");
-    ActionListener jumpToLiveGame = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        Gui.jumptToLiveGame(field.getCurrentGameState(), field, GuiFrame.this);
-      }
-    };
-    currentGameButton.addActionListener(jumpToLiveGame);
-    historyPanelBot.add(currentGameButton);
+    createCurrentGameButtonWithActionListener(field, historyPanelBot);
 
     // Build Scroll pane for displaying history entries with list selection
     // listener
     JScrollPane historyScrollPane = new JScrollPane();
-    GridBagConstraints gbcHistoryScrollPane = GuiUtility.setGridBag(true, true, 0, 4, 6);
-    ListSelectionListener lsl = new ListSelectionListener() {
-      @Override
-      public void valueChanged(ListSelectionEvent e) {
-        // shows game state of selected history jlist entry
-        Gui.jumpToSelectedFEN(historyJList.getSelectedValue(), history, currentGameStateLabels);
-      }
-    };
-    historyJList.addListSelectionListener(lsl);
+    GridBagConstraints gbcHistoryScrollPane = setGridBag(true, true, 0, 4, 6);
+    createListSelectionListenerForHistory(history);
     historyScrollPane.getViewport().setView(historyJList);
     historyScrollPane.setOpaque(true);
     contentPane.add(historyScrollPane, gbcHistoryScrollPane);
@@ -233,7 +170,7 @@ public class GuiFrame {
 
     // Labels y-axis of chess board (12345678)
     JPanel labelYPanel = new JPanel();
-    GridBagConstraints gbcLabelYPanel = GuiUtility.setGridBag(true, false, 1, 1, 8);
+    GridBagConstraints gbcLabelYPanel = setGridBag(true, false, 1, 1, 8);
     gbcLabelYPanel.anchor = GridBagConstraints.EAST;
     gbcLabelYPanel.fill = GridBagConstraints.VERTICAL;
     contentPane.add(labelYPanel, gbcLabelYPanel);
@@ -248,29 +185,7 @@ public class GuiFrame {
     JPanel chessBoardBottomLayer = new JPanel();
     chessBoardBottomLayer.setBounds(0, 0, 898, 934);
     chessBoardBottomLayer.setLayout(new GridLayout(8, 8, 0, 0));
-    // Add Labels and colors them like a chess board
-    JLabel[] labels = new JLabel[65];
-    for(int i = 1; i < 65; i++) {
-      labels[i] = new JLabel();
-      labels[i].setOpaque(true);
-      if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(LIGHT_BROWN);
-        }
-        else {
-          labels[i].setBackground(Color.white);
-        }
-      }
-      if((i > 8 && i <= 16) || (i > 24 && i <= 32) || (i > 40 && i <= 48) || (i > 56 && i <= 64)) {
-        if(i % 2 == 0) {
-          labels[i].setBackground(Color.white);
-        }
-        else {
-          labels[i].setBackground(LIGHT_BROWN);
-        }
-      }
-      chessBoardBottomLayer.add(labels[i]);
-    }
+    createChessboardLabels(chessBoardBottomLayer);
 
     /**
      * Initializes middle layer. Middle layer displays legalMoveMap of the
@@ -296,7 +211,291 @@ public class GuiFrame {
     chessBoardTopLayer.setBounds(0, 0, 898, 934);
     chessBoardTopLayer.setLayout(new GridLayout(8, 8, 0, 0));
     chessBoardTopLayer.setBorder(BLACK_BORDER);
-    // mouse listener to show legal move map of selected piece
+    MouseListener musMusculus = createMouseListenerForTopLayer(field, history);
+    // initializes currentGameStateLabels array (filled with labels named A1 to
+    // H8) and adds mouselistener to it
+    createDragAndDropLabels(musMusculus);
+    GuiUtility.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
+    JPanel[] topLayerPanels = createDragAndDropPanels(chessBoardTopLayer);
+    addDragAndDropLogicToPanels(field, history, topLayerPanels);
+
+    /**
+     * Initializes layeredPan. Used for layering the chessboard.
+     */
+    JLayeredPane layeredPane = new JLayeredPane();
+    layeredPane.setBounds(0, 0, 908, 908);
+    GridBagConstraints gbcLayeredPane = setGridBag(true, true, 2, 1, 8);
+    contentPane.add(layeredPane, gbcLayeredPane);
+    layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
+    layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
+    layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
+
+    // Labels x-axis of chess board (ABCDEFGH)
+    JPanel labelXPanel = new JPanel();
+    GridBagConstraints gbcLabelXPanel = setGridBag(false, true, 2, 9, 1);
+    contentPane.add(labelXPanel, gbcLabelXPanel);
+    labelXPanel.setLayout(new GridLayout(0, 8, 0, 0));
+    JLabel[] xLabels = new JLabel[8];
+    for(int i = 0; i < 8; i++) {
+      xLabels[i] = new JLabel(X_LABEL.substring(i, i + 1));
+      xLabels[i].setVerticalAlignment(SwingConstants.CENTER);
+      xLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+      labelXPanel.add(xLabels[i]);
+    }
+
+    // SCORE Label
+    JLabel scoreLabel = new JLabel("SCORE");
+    scoreLabel.setFont(new Font(null, Font.BOLD, 20));
+    GridBagConstraints gbcScoreLabel = setGridBag(false, false, 3, 1, 1);
+    contentPane.add(scoreLabel, gbcScoreLabel);
+
+    // Player 2 label (top)
+    int playerNameFontSize = 20;
+    player2Label = new JLabel("", JLabel.CENTER);
+    player2Label.setOpaque(true);
+    player2Label.setForeground(Color.white);
+    player2Label.setBackground(Color.black);
+    player2Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
+    GridBagConstraints gbcPlayer2Label = setGridBag(false, true, 3, 2, 1);
+    contentPane.add(player2Label, gbcPlayer2Label);
+
+    // Player 2 panel
+    JPanel player2Panel = new JPanel();
+    GridBagConstraints gbcPlayer2Panel = setGridBag(true, true, 3, 3, 1);
+    contentPane.add(player2Panel, gbcPlayer2Panel);
+    player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
+
+    // Player 2 table
+    JLabel colorP2Label = new JLabel("COLOR", JLabel.CENTER);
+    colorP2Label.setBorder(BLACK_BORDER);
+    player2Panel.add(colorP2Label);
+    JLabel colorP2Label2 = new JLabel("BLACK", JLabel.CENTER);
+    colorP2Label2.setBorder(BLACK_BORDER);
+    player2Panel.add(colorP2Label2);
+    JLabel pointsP2Label = new JLabel("POINTS", JLabel.CENTER);
+    pointsP2Label.setBorder(BLACK_BORDER);
+    player2Panel.add(pointsP2Label);
+    JLabel setPointsP2Label = new JLabel(Integer.toString(player2.getScore()), JLabel.CENTER);
+    setPointsP2Label.setBorder(BLACK_BORDER);
+    player2Panel.add(setPointsP2Label);
+
+    // Player 2 taken pieces label
+    JLabel piecesP2Label = new JLabel("PIECES", JLabel.CENTER);
+    GridBagConstraints gbcPiecesP2Label = setGridBag(false, false, 3, 4, 1);
+    contentPane.add(piecesP2Label, gbcPiecesP2Label);
+
+    // Player 2 taken pieces panel
+    JPanel piecesP2Panel = new JPanel();
+    // TODO add piece sprites
+    GridBagConstraints gbcPiecesP2Panel = setGridBag(true, true, 3, 5, 1);
+    contentPane.add(piecesP2Panel, gbcPiecesP2Panel);
+    piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
+    piecesP2Panel.setLayout(new GridLayout(4, 4));
+
+    // Player 1 label (bottom)
+    player1Label = new JLabel("", JLabel.CENTER);
+    player1Label.setOpaque(true);
+    player1Label.setBackground(Color.white);
+    player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
+    GridBagConstraints gbcPlayer1Label = setGridBag(false, true, 3, 6, 1);
+    contentPane.add(player1Label, gbcPlayer1Label);
+
+    // Player 1 panel
+    JPanel player1Panel = new JPanel();
+    GridBagConstraints gbcPlayer1Panel = setGridBag(true, true, 3, 7, 1);
+    contentPane.add(player1Panel, gbcPlayer1Panel);
+    player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
+
+    // Player 1 table
+    JLabel colorP1Label = new JLabel("COLOR", JLabel.CENTER);
+    colorP1Label.setBorder(BLACK_BORDER);
+    player1Panel.add(colorP1Label);
+    JLabel colorP1Label2 = new JLabel("WHITE", JLabel.CENTER);
+    colorP1Label2.setBorder(BLACK_BORDER);
+    player1Panel.add(colorP1Label2);
+    JLabel pointsP1Label = new JLabel("POINTS", JLabel.CENTER);
+    pointsP1Label.setBorder(BLACK_BORDER);
+    player1Panel.add(pointsP1Label);
+    JLabel setPointsP1Label = new JLabel(Integer.toString(player1.getScore()), JLabel.CENTER);
+    setPointsP1Label.setBorder(BLACK_BORDER);
+    player1Panel.add(setPointsP1Label);
+
+    // Player 1 taken pieces label
+    JLabel piecesP1Label = new JLabel("PIECES");
+    GridBagConstraints gbcPiecesP1Label = setGridBag(false, false, 3, 8, 1);
+    contentPane.add(piecesP1Label, gbcPiecesP1Label);
+
+    JPanel piecesP1Panel = new JPanel();
+    // TODO add piece sprites
+    GridBagConstraints gbcPiecesP1Panel = setGridBag(true, true, 3, 9, 1);
+    contentPane.add(piecesP1Panel, gbcPiecesP1Panel);
+    piecesP1Panel.setLayout(new GridLayout(2, 2, 0, 0));
+    piecesP1Panel.setLayout(new GridLayout(4, 4));
+
+    // Get PlayerNames
+    GuiUtility.askForPlayerName(player1Label, player2Label);
+  }
+
+  /**
+   * build new game button and action listener
+   * 
+   * @param field
+   * @param history
+   * @param newGamePanel
+   */
+  private void createNewGameButtonWithActionListener(Field field, History history, JPanel newGamePanel) {
+    JButton newGameButton = new JButton("NEW GAME");
+    ActionListener newGame = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int whiteName = JOptionPane.showOptionDialog(frame, "RESTART GAME?", "Start New Game",
+            JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+            IconSupplier.getIcon(ChessColour.BLACK, "knight_crying"), null, null);
+        if(whiteName == JOptionPane.YES_OPTION) {
+          // resets map and turn counter, clears history list and jlist, clears
+          // winner
+          field.initializeMap();
+          field.resetCurrentTurn();
+          field.turnLock();
+          GuiUtility.clearHistory(history, getHistoryJList());
+          highlightActivePlayer(field, getPlayer1Label(), getPlayer2Label());
+          GuiUtility.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
+          field.setWinner(null);
+        }
+      }
+    };
+    newGameButton.addActionListener(newGame);
+    newGamePanel.add(newGameButton);
+  }
+
+  /**
+   * builds back button with action listener
+   * 
+   * @param field
+   * @param history
+   * @param newGamePanel
+   */
+  private void createBackButtonWithActionListener(Field field, History history, JPanel newGamePanel) {
+    JButton backButton = new JButton("BACK");
+    ActionListener backListener = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        GuiUtility.undoLastTurn(field, history);
+      }
+    };
+    backButton.addActionListener(backListener);
+    newGamePanel.add(backButton);
+  }
+
+  /**
+   * builds backwards in history button with action listener
+   * 
+   * @param history
+   * @param historyPanelTop
+   */
+  private void createBackInHistoryButtonWithActionListener(History history, JPanel historyPanelTop) {
+    JButton backwardsInHistoryButton = new JButton("BACK");
+    ActionListener backInHistory = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        GuiUtility.backwardInHistory(history, GuiFrame.this);
+      }
+    };
+    backwardsInHistoryButton.addActionListener(backInHistory);
+    historyPanelTop.add(backwardsInHistoryButton);
+  }
+
+  /**
+   * builds forwars in history button with action listener
+   * 
+   * @param field
+   * @param history
+   * @param historyPanelTop
+   */
+  private void createForwardsInHistoryButtonWithActionListener(Field field, History history, JPanel historyPanelTop) {
+    JButton forwardsInHistoryButton = new JButton("FORWARD ");
+    ActionListener forwardInHistory = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        GuiUtility.forwardInHistory(field, history, GuiFrame.this);
+      }
+    };
+    forwardsInHistoryButton.addActionListener(forwardInHistory);
+    historyPanelTop.add(forwardsInHistoryButton);
+  }
+
+  /**
+   * builds current game button with action listener
+   * 
+   * @param field
+   * @param historyPanelBot
+   */
+  private void createCurrentGameButtonWithActionListener(Field field, JPanel historyPanelBot) {
+    JButton currentGameButton = new JButton("CURRENT GAME");
+    ActionListener jumpToLiveGame = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        GuiUtility.jumptToLiveGame(field.getCurrentGameState(), field, GuiFrame.this);
+      }
+    };
+    currentGameButton.addActionListener(jumpToLiveGame);
+    historyPanelBot.add(currentGameButton);
+  }
+
+  /**
+   * creates list selection listener for history jlist
+   * 
+   * @param history
+   */
+  private void createListSelectionListenerForHistory(History history) {
+    ListSelectionListener lsl = new ListSelectionListener() {
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        // shows game state of selected history jlist entry
+        GuiUtility.jumpToSelectedFEN(historyJList.getSelectedValue(), history, currentGameStateLabels);
+      }
+    };
+    historyJList.addListSelectionListener(lsl);
+  }
+
+  /**
+   * Add Labels and colors them like a chess board
+   * 
+   * @param chessBoardBottomLayer
+   */
+  private void createChessboardLabels(JPanel chessBoardBottomLayer) {
+    JLabel[] labels = new JLabel[65];
+    for(int i = 1; i < 65; i++) {
+      labels[i] = new JLabel();
+      labels[i].setOpaque(true);
+      if((i > 0 && i <= 8) || (i > 16 && i <= 24) || (i > 32 && i <= 40) || (i > 48 && i <= 56)) {
+        if(i % 2 == 0) {
+          labels[i].setBackground(LIGHT_BROWN);
+        }
+        else {
+          labels[i].setBackground(Color.white);
+        }
+      }
+      if((i > 8 && i <= 16) || (i > 24 && i <= 32) || (i > 40 && i <= 48) || (i > 56 && i <= 64)) {
+        if(i % 2 == 0) {
+          labels[i].setBackground(Color.white);
+        }
+        else {
+          labels[i].setBackground(LIGHT_BROWN);
+        }
+      }
+      chessBoardBottomLayer.add(labels[i]);
+    }
+  }
+
+  /**
+   * mouse listener to show legal move map of selected piece
+   * 
+   * @param field
+   * @param history
+   * @return
+   */
+  private MouseListener createMouseListenerForTopLayer(Field field, History history) {
     MouseListener musMusculus = new MouseListener() {
       @Override
       // clears legal move labels after mouse release
@@ -315,7 +514,7 @@ public class GuiFrame {
           if(field.getCurrentGameState().get(position) != null) {
             clearLegalMoveMap(getLegalMoveLabels());
             Converter.setStartPosition(position);
-            Gui.highlightLegalMove(legalMoveLabels, field.getCurrentGameState().get(position),
+            GuiUtility.highlightLegalMove(legalMoveLabels, field.getCurrentGameState().get(position),
                 field.getCurrentTurn() % 2 == 0 ? ChessColour.BLACK : ChessColour.WHITE, field);
           }
         }
@@ -333,8 +532,16 @@ public class GuiFrame {
       public void mouseClicked(MouseEvent e) {
       }
     };
-    // initializes currentGameStateLabels array (filled with labels named A1 to
-    // H8) and adds mouselistener to it
+    return musMusculus;
+  }
+
+  /**
+   * creates drag and drop labels for the top layer and add mouse listener to
+   * them
+   * 
+   * @param musMusculus
+   */
+  private void createDragAndDropLabels(MouseListener musMusculus) {
     for(int i = 0; i < 64; i++) {
       currentGameStateLabels[i] = new JLabel();
       currentGameStateLabels[i].addMouseListener(musMusculus);
@@ -363,8 +570,15 @@ public class GuiFrame {
         currentGameStateLabels[i].setName(GuiFrame.X_LABEL.substring(i - 56, i - 55) + 1);
       }
     }
-    Gui.showCurrentGameState(field.getCurrentGameState(), getCurrentGameStateLabels());
-    // builds jpanels to add currentGameStateLabels
+  }
+
+  /**
+   * builds jpanels to add currentGameStateLabels
+   * 
+   * @param chessBoardTopLayer
+   * @return
+   */
+  private JPanel[] createDragAndDropPanels(JPanel chessBoardTopLayer) {
     JPanel[] topLayerPanels = new JPanel[64];
     for(int i = 0; i < 64; i++) {
       topLayerPanels[i] = new JPanel();
@@ -397,7 +611,17 @@ public class GuiFrame {
       }
       chessBoardTopLayer.add(topLayerPanels[i]);
     }
-    // add drag and drop components to jpanels
+    return topLayerPanels;
+  }
+
+  /**
+   * add drag and drop components to jpanels
+   * 
+   * @param field
+   * @param history
+   * @param topLayerPanels
+   */
+  private void addDragAndDropLogicToPanels(Field field, History history, JPanel[] topLayerPanels) {
     for(int j = 0; j < 64; j++) {
       DragGestureListenerPanels dragListenerPanels = new DragGestureListenerPanels();
       DragSource dragSourcePanels = new DragSource();
@@ -435,123 +659,32 @@ public class GuiFrame {
       };
       topLayerPanels[j].setTransferHandler(dnd);
     }
+  }
 
-    /**
-     * Initializes layeredPan. Used for layering the chessboard.
-     */
-    JLayeredPane layeredPane = new JLayeredPane();
-    layeredPane.setBounds(0, 0, 908, 908);
-    GridBagConstraints gbcLayeredPane = GuiUtility.setGridBag(true, true, 2, 1, 8);
-    contentPane.add(layeredPane, gbcLayeredPane);
-    layeredPane.add(chessBoardBottomLayer, Integer.valueOf(0));
-    layeredPane.add(chessBoardMiddleLayer, Integer.valueOf(1));
-    layeredPane.add(chessBoardTopLayer, Integer.valueOf(2));
-
-    // Labels x-axis of chess board (ABCDEFGH)
-    JPanel labelXPanel = new JPanel();
-    GridBagConstraints gbcLabelXPanel = GuiUtility.setGridBag(false, true, 2, 9, 1);
-    contentPane.add(labelXPanel, gbcLabelXPanel);
-    labelXPanel.setLayout(new GridLayout(0, 8, 0, 0));
-    JLabel[] xLabels = new JLabel[8];
-    for(int i = 0; i < 8; i++) {
-      xLabels[i] = new JLabel(X_LABEL.substring(i, i + 1));
-      xLabels[i].setVerticalAlignment(SwingConstants.CENTER);
-      xLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
-      labelXPanel.add(xLabels[i]);
+  /**
+   * GridBagContraints Builder
+   * 
+   * @param rightInset
+   * @param fill
+   * @param xPos
+   * @param yPos
+   * @param height
+   * @return
+   */
+  private GridBagConstraints setGridBag(boolean rightInset, boolean fill, int xPos, int yPos, int height) {
+    GridBagConstraints tempGridBag = new GridBagConstraints();
+    int rightInsetInt = 0;
+    if(rightInset) {
+      rightInsetInt = 5;
     }
-
-    // SCORE Label
-    JLabel scoreLabel = new JLabel("SCORE");
-    scoreLabel.setFont(new Font(null, Font.BOLD, 20));
-    GridBagConstraints gbcScoreLabel = GuiUtility.setGridBag(false, false, 3, 1, 1);
-    contentPane.add(scoreLabel, gbcScoreLabel);
-
-    // Player 2 label (top)
-    int playerNameFontSize = 20;
-    player2Label = new JLabel("", JLabel.CENTER);
-    player2Label.setOpaque(true);
-    player2Label.setForeground(Color.white);
-    player2Label.setBackground(Color.black);
-    player2Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
-    GridBagConstraints gbcPlayer2Label = GuiUtility.setGridBag(false, true, 3, 2, 1);
-    contentPane.add(player2Label, gbcPlayer2Label);
-
-    // Player 2 panel
-    JPanel player2Panel = new JPanel();
-    GridBagConstraints gbcPlayer2Panel = GuiUtility.setGridBag(true, true, 3, 3, 1);
-    contentPane.add(player2Panel, gbcPlayer2Panel);
-    player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
-
-    // Player 2 table
-    JLabel colorP2Label = new JLabel("COLOR", JLabel.CENTER);
-    colorP2Label.setBorder(BLACK_BORDER);
-    player2Panel.add(colorP2Label);
-    JLabel colorP2Label2 = new JLabel("BLACK", JLabel.CENTER);
-    colorP2Label2.setBorder(BLACK_BORDER);
-    player2Panel.add(colorP2Label2);
-    JLabel pointsP2Label = new JLabel("POINTS", JLabel.CENTER);
-    pointsP2Label.setBorder(BLACK_BORDER);
-    player2Panel.add(pointsP2Label);
-    JLabel setPointsP2Label = new JLabel(Integer.toString(player2.getScore()), JLabel.CENTER);
-    setPointsP2Label.setBorder(BLACK_BORDER);
-    player2Panel.add(setPointsP2Label);
-
-    // Player 2 taken pieces label
-    JLabel piecesP2Label = new JLabel("PIECES", JLabel.CENTER);
-    GridBagConstraints gbcPiecesP2Label = GuiUtility.setGridBag(false, false, 3, 4, 1);
-    contentPane.add(piecesP2Label, gbcPiecesP2Label);
-
-    // Player 2 taken pieces panel
-    JPanel piecesP2Panel = new JPanel();
-    // TODO add piece sprites
-    GridBagConstraints gbcPiecesP2Panel = GuiUtility.setGridBag(true, true, 3, 5, 1);
-    contentPane.add(piecesP2Panel, gbcPiecesP2Panel);
-    piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
-    piecesP2Panel.setLayout(new GridLayout(4, 4));
-
-    // Player 1 label (bottom)
-    player1Label = new JLabel("", JLabel.CENTER);
-    player1Label.setOpaque(true);
-    player1Label.setBackground(Color.white);
-    player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
-    GridBagConstraints gbcPlayer1Label = GuiUtility.setGridBag(false, true, 3, 6, 1);
-    contentPane.add(player1Label, gbcPlayer1Label);
-
-    // Player 1 panel
-    JPanel player1Panel = new JPanel();
-    GridBagConstraints gbcPlayer1Panel = GuiUtility.setGridBag(true, true, 3, 7, 1);
-    contentPane.add(player1Panel, gbcPlayer1Panel);
-    player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
-
-    // Player 1 table
-    JLabel colorP1Label = new JLabel("COLOR", JLabel.CENTER);
-    colorP1Label.setBorder(BLACK_BORDER);
-    player1Panel.add(colorP1Label);
-    JLabel colorP1Label2 = new JLabel("WHITE", JLabel.CENTER);
-    colorP1Label2.setBorder(BLACK_BORDER);
-    player1Panel.add(colorP1Label2);
-    JLabel pointsP1Label = new JLabel("POINTS", JLabel.CENTER);
-    pointsP1Label.setBorder(BLACK_BORDER);
-    player1Panel.add(pointsP1Label);
-    JLabel setPointsP1Label = new JLabel(Integer.toString(player1.getScore()), JLabel.CENTER);
-    setPointsP1Label.setBorder(BLACK_BORDER);
-    player1Panel.add(setPointsP1Label);
-
-    // Player 1 taken pieces label
-    JLabel piecesP1Label = new JLabel("PIECES");
-    GridBagConstraints gbcPiecesP1Label = GuiUtility.setGridBag(false, false, 3, 8, 1);
-    contentPane.add(piecesP1Label, gbcPiecesP1Label);
-
-    // Player 1 taken pieces panel
-    JPanel piecesP1Panel = new JPanel();
-    // TODO add piece sprites
-    GridBagConstraints gbcPiecesP1Panel = GuiUtility.setGridBag(true, true, 3, 9, 1);
-    contentPane.add(piecesP1Panel, gbcPiecesP1Panel);
-    piecesP1Panel.setLayout(new GridLayout(2, 2, 0, 0));
-    piecesP1Panel.setLayout(new GridLayout(4, 4));
-
-    // Get PlayerNames
-    Gui.askForPlayerName(player1Label, player2Label);
+    tempGridBag.insets = new Insets(5, 5, 5, rightInsetInt);
+    if(fill) {
+      tempGridBag.fill = GridBagConstraints.BOTH;
+    }
+    tempGridBag.gridx = xPos;
+    tempGridBag.gridy = yPos;
+    tempGridBag.gridheight = height;
+    return tempGridBag;
   }
 
   /**
@@ -583,4 +716,5 @@ public class GuiFrame {
       player2Label.setBorder(null);
     }
   }
+
 }

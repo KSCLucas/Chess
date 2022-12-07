@@ -71,7 +71,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             // clear middle layer / legal move layer
             window.clearLegalMoveMap(window.getLegalMoveLabels());
             // update top layer / piece sprite layer
-            Gui.showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
+            GuiUtility.showCurrentGameState(field.getCurrentGameState(), window.getCurrentGameStateLabels());
             dropPanel.updateUI();
             // sets en passant to false for all opposing pawns & checks for
             // possible promotion
@@ -82,7 +82,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
               pawn.checkForPromotion();
               if(pawn.isPromotable()) {
                 while(field.getCurrentGameState().get(pawn.getPosition()) instanceof Pawn) {
-                  Gui.showPromotionSelection(window.getFrame(), field.getCurrentGameState(), pawn);
+                  GuiUtility.showPromotionSelection(window.getFrame(), field.getCurrentGameState(), pawn);
                 }
               }
             });
@@ -95,7 +95,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
             // add entry to fen-list
             history.addEntry(Converter.convertMapToFEN(field.getCurrentGameState()));
             // add entry to jlist
-            Gui.createNewHistroyEntry(field, history, window.getHistoryJList());
+            GuiUtility.createNewHistroyEntry(field, history, window.getHistoryJList());
             // highlights current turn in history jlist
             window.getHistoryJList().setSelectedIndex(field.getCurrentTurn() - 2);
             // check for checkmate
@@ -108,7 +108,7 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckmate();
                 });
             // show winner popup if there is a winner
-            Gui.showWinnerPopup(field);
+            GuiUtility.showWinnerPopup(field);
           }
           else {
             event.rejectDrop();

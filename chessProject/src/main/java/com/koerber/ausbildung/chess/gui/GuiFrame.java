@@ -114,7 +114,7 @@ public class GuiFrame {
     Container contentPane = frame.getContentPane();
     frame.setBounds(0, 0, 1920, 1080);
     frame.setTitle("CHESS");
-    frame.setIconImage(IconSupplier.getIcon(ChessColour.NONE, "chess_logo").getImage());
+    frame.setIconImage(IconSupplier.getIcon(null, "chess_logo").getImage());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[]{499, 32, 908, 450};

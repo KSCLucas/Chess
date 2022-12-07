@@ -23,8 +23,8 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean      isInCheck      = false;
-  private boolean      isCheckmate    = false;
+  private boolean      inCheck      = false;
+  private boolean      checkmate    = false;
   private String       castleKeyShort;
   private String       castleKeyLong;
   private boolean      hasMoved       = false;
@@ -47,19 +47,19 @@ public class King extends Piece {
   }
 
   public boolean isInCheck() {
-    return isInCheck;
+    return inCheck;
   }
 
   public void setInCheck(boolean isInCheck) {
-    this.isInCheck = isInCheck;
+    this.inCheck = isInCheck;
   }
 
   public boolean isCheckmate() {
-    return isCheckmate;
+    return checkmate;
   }
 
   public void setCheckmate(boolean isCheckmate) {
-    this.isCheckmate = isCheckmate;
+    this.checkmate = isCheckmate;
   }
 
   public String getCastleKeyShort() {
@@ -520,7 +520,7 @@ public class King extends Piece {
    * Checks, if {@code King} is in checkmate.
    */
   public void checkForCheckmate() {
-    if(isInCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
+    if(inCheck && getLegalMoveMap().isEmpty() && getSaviourPieces().isEmpty()) {
       setCheckmate(true);
     }
   }

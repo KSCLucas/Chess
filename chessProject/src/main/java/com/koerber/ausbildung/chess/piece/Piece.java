@@ -29,7 +29,7 @@ public abstract class Piece {
   private String              id;
   private ChessColour         colour;
   private int                 value;
-  private boolean             isMoveRepeatable;
+  private boolean             moveRepeatable;
   protected String            position;
   private List<MoveVector>    moveSet;
   private ImageIcon           icon;
@@ -53,7 +53,7 @@ public abstract class Piece {
     this.id = IdSupplier.getId(this, idNum, colour);
     this.colour = colour;
     this.value = value;
-    this.isMoveRepeatable = isMoveRepeatable;
+    this.moveRepeatable = isMoveRepeatable;
     this.position = position;
     this.moveSet = moveSet;
     this.icon = icon;
@@ -81,7 +81,7 @@ public abstract class Piece {
   }
 
   public boolean isMoveRepeatable() {
-    return isMoveRepeatable;
+    return moveRepeatable;
   }
 
   public String getPosition() {

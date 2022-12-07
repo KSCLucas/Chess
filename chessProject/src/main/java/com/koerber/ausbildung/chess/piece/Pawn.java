@@ -20,9 +20,9 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class Pawn extends Piece {
 
-  private boolean isEnPassentable = false;
-  private boolean isPromotable    = false;
-  private boolean hasMoved        = false;
+  private boolean enPassantable = false;
+  private boolean promotable    = false;
+  private boolean hasMoved      = false;
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -40,19 +40,19 @@ public class Pawn extends Piece {
   }
 
   public boolean isEnPassentable() {
-    return isEnPassentable;
+    return enPassantable;
   }
 
   public void setEnPassentable(boolean isEnPassentable) {
-    this.isEnPassentable = isEnPassentable;
+    this.enPassantable = isEnPassentable;
   }
 
   public boolean isPromotable() {
-    return isPromotable;
+    return promotable;
   }
 
   public void setPromotable(boolean isPromotable) {
-    this.isPromotable = isPromotable;
+    this.promotable = isPromotable;
   }
 
   public boolean isHasMoved() {

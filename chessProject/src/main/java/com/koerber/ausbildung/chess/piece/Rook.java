@@ -18,7 +18,7 @@ public class Rook extends Piece {
 
   public static final char CASTLE_SIDE_SHORT = 's';
   public static final char CASTLE_SIDE_LONG  = 'l';
-  private char             castleSide;
+  private final char       castleSide;
   private boolean          canCastle         = false;
   private boolean          hasMoved          = false;
 
@@ -40,10 +40,6 @@ public class Rook extends Piece {
 
   public char getCastleSide() {
     return castleSide;
-  }
-
-  public void setCastleSide(char castleSide) {
-    this.castleSide = castleSide;
   }
 
   public boolean isCanCastle() {

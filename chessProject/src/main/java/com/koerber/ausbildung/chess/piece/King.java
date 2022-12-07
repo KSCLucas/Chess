@@ -149,12 +149,22 @@ public class King extends Piece {
     List<MoveVector> tempMoves = pawnColour == ChessColour.WHITE ? MoveSetSupplier.getPawnWhiteMoveSet()
         : MoveSetSupplier.getPawnBlackMoveSet();
     List<MoveVector> availableMoveVectors = new ArrayList<>();
+    int firstEqualIndex = -1;
     for(int i = 0; i < 6; i++) {
-      if(!tempMoves.get(i).equals(inverseMoveVector)) {
-        availableMoveVectors.add(new MoveVector(0, 0));
+      if(tempMoves.get(i).equals(inverseMoveVector)) {
+        availableMoveVectors.add(inverseMoveVector);
+        if(firstEqualIndex == -1) {
+          firstEqualIndex = i;
+        }
       }
       else {
-        availableMoveVectors.add(inverseMoveVector);
+        if(firstEqualIndex == 0) {
+          availableMoveVectors.add(new MoveVector(tempMoves.get(i).getX(), tempMoves.get(i).getY()));
+          firstEqualIndex = -1;
+        }
+        else {
+          availableMoveVectors.add(new MoveVector(0, 0));
+        }
       }
     }
     return availableMoveVectors;
@@ -257,7 +267,7 @@ public class King extends Piece {
                 }
               }
               else {
-                if(!allyPieceDetected) {
+                if(!allyPieceDetected && opposingPieceCount < 1) {
                   currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
                 }
                 allyPieceDetected = true;
@@ -268,7 +278,8 @@ public class King extends Piece {
             }
             else {
               repeatLoop = false;
-              enableBlock(currentGameState, moveVector, opposingPieceCount, encounterKey, kingInLine);
+              enableBlock(currentGameState, moveVector, opposingPieceCount, encounterKey, kingInLine,
+                  allyPieceInfrontKingDetected);
             }
           } while(currentPiece.isMoveRepeatable() && repeatLoop);
           checkForCheck(trail, opposingPieceCount, allyPieceInfrontKingDetected, kingInLine);
@@ -292,9 +303,9 @@ public class King extends Piece {
    * @param kingInLine
    */
   private void enableBlock(Map<String, Piece> currentGameState, MoveVector moveVector, int opposingPieceCount,
-      String encounterKey, boolean kingInLine) {
+      String encounterKey, boolean kingInLine, boolean allyPieceInfrontKingDetected) {
     // Check for kingInLine to set moveability or availableMoveVectors
-    if(opposingPieceCount == 1 && kingInLine) {
+    if(opposingPieceCount == 1 && kingInLine && !allyPieceInfrontKingDetected) {
       Piece currentPiece = currentGameState.get(encounterKey);
       // Empty availableMoveVectors and legalMoveMap
       currentPiece.getAvailableMoveVectors().clear();

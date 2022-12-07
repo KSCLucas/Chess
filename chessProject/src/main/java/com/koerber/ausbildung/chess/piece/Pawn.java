@@ -97,7 +97,7 @@ public class Pawn extends Piece {
    */
   public void checkForPromotion() {
     if(!(getPosition() == null || getPosition().isEmpty())) {
-      int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+      int posNumber = getPosNumber(getPosition());
       if(posNumber == Field.LOWER_BOUND && getColour() == ChessColour.BLACK
           || posNumber == Field.UPPER_BOUND && getColour() == ChessColour.WHITE) {
         setPromotable(true);
@@ -145,8 +145,8 @@ public class Pawn extends Piece {
       for(int i = 0; i < getAvailableMoveVectors().size(); i++) {
         // Set posLetterAsNumber and posNumber
         int colourModifier = getColour() == ChessColour.BLACK ? -1 : 1;
-        int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-        int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+        int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+        int posNumber = getPosNumber(getPosition());
         MoveVector moveVector = getAvailableMoveVectors().get(i);
         // Distinguish between move-only, take-only and check-only
         switch(i) {

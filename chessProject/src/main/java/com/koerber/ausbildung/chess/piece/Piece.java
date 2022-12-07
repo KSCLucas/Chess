@@ -204,8 +204,8 @@ public abstract class Piece {
       getLegalMoveMap().clear();
       // Loop over every move vector in availableMoveVectors
       for(MoveVector moveVector : getAvailableMoveVectors()) {
-        int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-        int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+        int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+        int posNumber = getPosNumber(getPosition());
         if(!inFieldBounds(posLetterAsNumber, posNumber)) {
           throw new PieceOutOfBoundsException();
         }
@@ -237,5 +237,19 @@ public abstract class Piece {
         } while(isMoveRepeatable() && repeatLoop);
       }
     }
+  }
+
+  /**
+   * @return posNumber
+   */
+  protected int getPosNumber(String position) {
+    return Character.getNumericValue(position.charAt(SECOND_CHAR_INDEX));
+  }
+
+  /**
+   * @return posLetterAsNumber
+   */
+  protected char getPosLetterAsNumber(String position) {
+    return position.charAt(FIRST_CHAR_INDEX);
   }
 }

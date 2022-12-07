@@ -72,8 +72,8 @@ public class Rook extends Piece {
    * @param currentGameState
    */
   public void checkForCastle(Map<String, Piece> currentGameState) {
-    int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-    int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+    int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+    int posNumber = getPosNumber(getPosition());
     // Check for basic castle conditions
     if(inFieldBounds(posLetterAsNumber, posNumber) && !isHasMoved()) {
       // Determine the castle side

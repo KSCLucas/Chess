@@ -115,8 +115,8 @@ public class King extends Piece {
    */
   public void castle(Map<String, Piece> currentGameState) {
     if(getPosition().equals(getCastleKeyShort())) {
-      int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyShort());
+      int posNumber = getPosNumber(getCastleKeyShort());
       currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
           && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT).forEach(x -> {
             Rook rook = (Rook)x.getValue();
@@ -126,8 +126,8 @@ public class King extends Piece {
           });
     }
     if(getPosition().equals(getCastleKeyLong())) {
-      int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyLong());
+      int posNumber = getPosNumber(getCastleKeyLong());
       currentGameState.entrySet().stream().filter(x -> (x.getValue().getColour() == getColour())
           && x.getValue() instanceof Rook rook && rook.getCastleSide() == Rook.CASTLE_SIDE_LONG).forEach(x -> {
             Rook rook = (Rook)x.getValue();
@@ -186,8 +186,8 @@ public class King extends Piece {
       if(currentPiece instanceof Pawn) {
         // Get map with only attack vectors
         for(int i = 2; i <= 5; i += 3) {
-          int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
-          int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
+          int posLetterAsNumber = getPosLetterAsNumber(currentPiece.getPosition());
+          int posNumber = getPosNumber(currentPiece.getPosition());
           MoveVector currentMoveVector = currentPiece.getMoveSet().get(i);
           posLetterAsNumber += currentMoveVector.getX();
           posNumber += currentMoveVector.getY();
@@ -217,8 +217,8 @@ public class King extends Piece {
           boolean allyPieceInfrontKingDetected = false;
           String encounterKey = NOT_ON_FIELD;
           boolean kingInLine = false;
-          int posLetterAsNumber = currentPiece.getPosition().charAt(FIRST_CHAR_INDEX);
-          int posNumber = Character.getNumericValue(currentPiece.getPosition().charAt(SECOND_CHAR_INDEX));
+          int posLetterAsNumber = getPosLetterAsNumber(currentPiece.getPosition());
+          int posNumber = getPosNumber(currentPiece.getPosition());
           // Change content of legalMoveMap based on move vector i and
           // currentGameState
           boolean repeatLoop = true;
@@ -429,8 +429,8 @@ public class King extends Piece {
             rook.checkForCastle(currentGameState);
             // Check for castle and set castleKeys
             if(!isHasMoved() && !isInCheck() && rook.isCanCastle()) {
-              int posLetterAsNumber = getPosition().charAt(FIRST_CHAR_INDEX);
-              int posNumber = Character.getNumericValue(getPosition().charAt(SECOND_CHAR_INDEX));
+              int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+              int posNumber = getPosNumber(getPosition());
               if(rook.getCastleSide() == Rook.CASTLE_SIDE_SHORT) {
                 getLegalMoveMap().put(getFieldKey(posLetterAsNumber + 2, posNumber), MOVE_STRING);
                 setCastleKeyShort(getFieldKey(posLetterAsNumber + 2, posNumber));
@@ -457,16 +457,16 @@ public class King extends Piece {
     }
     // Remove illegal castleKeys
     if(getCastleKeyShort() != null) {
-      int posLetterAsNumber = getCastleKeyShort().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyShort().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyShort());
+      int posNumber = getPosNumber(getCastleKeyShort());
       if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber - 1, posNumber)) == null) {
         getLegalMoveMap().remove(getCastleKeyShort());
         setCastleKeyShort(null);
       }
     }
     if(getCastleKeyLong() != null) {
-      int posLetterAsNumber = getCastleKeyLong().charAt(FIRST_CHAR_INDEX);
-      int posNumber = Character.getNumericValue(getCastleKeyLong().charAt(SECOND_CHAR_INDEX));
+      int posLetterAsNumber = getPosLetterAsNumber(getCastleKeyLong());
+      int posNumber = getPosNumber(getCastleKeyLong());
       if(getLegalMoveMap().get(getFieldKey(posLetterAsNumber + 1, posNumber)) == null) {
         getLegalMoveMap().remove(getCastleKeyLong());
         setCastleKeyLong(null);

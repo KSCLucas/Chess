@@ -17,14 +17,14 @@ class HistoryTest {
   private History setUpHistory() {
     History history = new History();
 
-    history.addEntry(FIRST_TURN);
-    history.addEntry("StringBsp1");
-    history.addEntry("StringBsp2");
-    history.addEntry("StringBsp3");
-    history.addEntry("StringBsp4");
-    history.addEntry("StringBsp5");
-    history.addEntry("StringBsp6");
-    history.addEntry(LAST_TURN);
+    history.getFens().add(FIRST_TURN);
+    history.getFens().add("StringBsp1");
+    history.getFens().add("StringBsp2");
+    history.getFens().add("StringBsp3");
+    history.getFens().add("StringBsp4");
+    history.getFens().add("StringBsp5");
+    history.getFens().add("StringBsp6");
+    history.getFens().add(LAST_TURN);
     return history;
   }
 
@@ -34,7 +34,7 @@ class HistoryTest {
     History history = new History();
     List<String> fens = history.getFens();
     assertTrue(fens.isEmpty());
-    history.addEntry(FIRST_TURN);
+    history.getFens().add(FIRST_TURN);
     assertEquals(1, fens.size());
     assertTrue(fens.contains(FIRST_TURN));
   }

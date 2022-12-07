@@ -23,13 +23,13 @@ import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
  */
 public class King extends Piece {
 
-  private boolean      inCheck      = false;
-  private boolean      checkmate    = false;
+  private boolean      inCheck       = false;
+  private boolean      checkmate     = false;
   private String       castleKeyShort;
   private String       castleKeyLong;
-  private boolean      hasMoved       = false;
-  private List<String> attackKeys     = new ArrayList<>();
-  private List<Piece>  saviourPieces  = new ArrayList<>();
+  private boolean      hasMoved      = false;
+  private List<String> attackKeys    = new ArrayList<>();
+  private List<Piece>  saviourPieces = new ArrayList<>();
 
   /**
    * Calls parameterized constructor of {@code Piece} and sets {@code value},
@@ -100,38 +100,6 @@ public class King extends Piece {
 
   public void setSaviourPieces(List<Piece> saviourPieces) {
     this.saviourPieces = saviourPieces;
-  }
-
-  /**
-   * Adds a {@code attackFields} to internal list {@code attackFields}.
-   * 
-   * @param key
-   */
-  public void addAttackKeys(String key) {
-    getAttackKeys().add(key);
-  }
-
-  /**
-   * Emptys the list {@code attackFields}.
-   */
-  public void clearAttackKeys() {
-    getAttackKeys().clear();
-  }
-
-  /**
-   * Adds a {@code Piece} to internal list {@code saviourPieces}.
-   * 
-   * @param piece
-   */
-  public void addSaviourPiece(Piece piece) {
-    getSaviourPieces().add(piece);
-  }
-
-  /**
-   * Emptys the list {@code saviourPieces}.
-   */
-  public void clearSaviourPieces() {
-    getSaviourPieces().clear();
   }
 
   @Override
@@ -205,7 +173,7 @@ public class King extends Piece {
     currentGameState.entrySet().stream().filter(x -> x.getValue().getColour() == getColour())
         .forEach(x -> x.getValue().setAvailableMoveVectorsToMoveSet());
     // Reset attackKey list
-    clearAttackKeys();
+    getAttackKeys().clear();
     // Reset inCheck
     setInCheck(false);
     // Filter for every opposing piece
@@ -337,7 +305,7 @@ public class King extends Piece {
     // Check for kingInLine to set moveability or availableMoveVectors
     if(opposingPieceCount == 1 && kingInLine) {
       // Empty availableMoveVectors and legalMoveMap
-      currentGameState.get(encounterKey).emptyAvailableMoveVectors();
+      currentGameState.get(encounterKey).getAvailableMoveVectors().clear();
       currentGameState.get(encounterKey).getLegalMoveMap().clear();
       // Get inverse vector
       MoveVector inverseMoveVector = new MoveVector(-1 * moveVector.getX(), -1 * moveVector.getY());
@@ -391,7 +359,7 @@ public class King extends Piece {
   private void godSaveTheKing(Map<String, Piece> currentGameState) {
     if(!getAttackKeys().isEmpty()) {
       // Empty saviourPieces
-      clearSaviourPieces();
+      getSaviourPieces().clear();
       // Get all Pieces of the same colour except the King
       Map<String, Piece> piecesOfSameColour = currentGameState.entrySet().stream()
           .filter(x -> x.getValue().getColour() == getColour() && !(x.getValue() instanceof King))
@@ -418,7 +386,7 @@ public class King extends Piece {
         }
         if(saveKeyFound) {
           currentPiece.setLegalMoveMap(saveMap);
-          addSaviourPiece(currentPiece);
+          getSaviourPieces().add(currentPiece);
         }
         else {
           currentPiece.getLegalMoveMap().clear();

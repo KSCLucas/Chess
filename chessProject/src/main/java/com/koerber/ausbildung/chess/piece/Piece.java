@@ -128,10 +128,6 @@ public abstract class Piece {
     this.availableMoveVectors = availableMoveVectors;
   }
 
-  public void emptyAvailableMoveVectors() {
-    getAvailableMoveVectors().clear();
-  }
-
   public void setAvailableMoveVectorsToMoveSet() {
     setAvailableMoveVectors(new ArrayList<MoveVector>(getMoveSet()));
   }

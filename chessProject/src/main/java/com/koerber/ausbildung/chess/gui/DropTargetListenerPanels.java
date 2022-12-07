@@ -124,8 +124,8 @@ public class DropTargetListenerPanels extends DropTargetAdapter {
                   king.checkForCheckmate();
                 });
             // show winner popup if there is a winner
-            GuiUtility.showScore(window.getPlayer1ScoreLabel(), player1);
-            GuiUtility.showScore(window.getPlayer2ScoreLabel(), player2);
+            GuiUtility.showScore(window.getPlayer1ScoreLabel(), window.getPlayer1TakenPiecesLabels(),player1);
+            GuiUtility.showScore(window.getPlayer2ScoreLabel(),window.getPlayer2TakenPiecesLabels(), player2);
 //            player1.setScore(player1.getScore() + 1);
 //            player2.setScore(player2.getScore() + 1);
             GuiUtility.showWinnerPopup(field);

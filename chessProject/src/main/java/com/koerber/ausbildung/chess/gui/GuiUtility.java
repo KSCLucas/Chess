@@ -1,6 +1,7 @@
 package com.koerber.ausbildung.chess.gui;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -282,12 +283,22 @@ public class GuiUtility {
   /**
    * Displays the sprite of the beaten game pieces in the player area.
    */
-  public static void displayTakenPieces() {
+  public static void displayTakenPieces(JLabel[] takenPiecesLabels, Player player) {
+    int i = 0;
+    for(Piece piece : player.getTakenPieces()) {
+      Image tempImage = piece.getIcon().getImage();
+      Image smallImage = tempImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+      ImageIcon smallIcon = new ImageIcon(smallImage);
+      takenPiecesLabels[i].setIcon(smallIcon);
+      takenPiecesLabels[i].setOpaque(true);
+      i++;
+    }
 
   }
-  
-  public static void showScore (JLabel label, Player player) {
+
+  public static void showScore(JLabel label, JLabel[] takenPiecesLabels, Player player) {
     label.setText(Integer.toString(player.getScore()));
+    displayTakenPieces(takenPiecesLabels, player);
   }
 
   /**

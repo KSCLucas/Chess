@@ -55,6 +55,9 @@ public class GuiFrame {
 
   private JLabel                 player2ScoreLabel;
 
+  private JLabel[]               player1TakenPiecesLabels;
+  private JLabel[]               player2TakenPiecesLabels;
+
   public GuiFrame(Field field, History history, Player player1, Player player2) {
     initialize(field, history, player1, player2);
   }
@@ -113,6 +116,22 @@ public class GuiFrame {
 
   public void setPlayer2ScoreLabel(JLabel player2ScoreLabel) {
     this.player2ScoreLabel = player2ScoreLabel;
+  }
+
+  public JLabel[] getPlayer1TakenPiecesLabels() {
+    return player1TakenPiecesLabels;
+  }
+
+  public void setPlayer1TakenPiecesLabels(JLabel[] player1TakenPiecesLabels) {
+    this.player1TakenPiecesLabels = player1TakenPiecesLabels;
+  }
+
+  public JLabel[] getPlayer2TakenPiecesLabels() {
+    return player2TakenPiecesLabels;
+  }
+
+  public void setPlayer2TakenPiecesLabels(JLabel[] player2TakenPiecesLabels) {
+    this.player2TakenPiecesLabels = player2TakenPiecesLabels;
   }
 
   public JFrame getFrame() {
@@ -264,9 +283,9 @@ public class GuiFrame {
     }
 
     // SCORE Label
-    JLabel scoreLabel = new JLabel("SCORE");
+    JLabel scoreLabel = new JLabel("");
     scoreLabel.setFont(new Font(null, Font.BOLD, 20));
-    GridBagConstraints gbcScoreLabel = setGridBag(false, false, 3, 1, 1);
+    GridBagConstraints gbcScoreLabel = setGridBag(false, false, 3, 0, 1);
     contentPane.add(scoreLabel, gbcScoreLabel);
 
     // Player 2 label (top)
@@ -276,12 +295,12 @@ public class GuiFrame {
     player2Label.setForeground(Color.white);
     player2Label.setBackground(Color.black);
     player2Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
-    GridBagConstraints gbcPlayer2Label = setGridBag(false, true, 3, 2, 1);
+    GridBagConstraints gbcPlayer2Label = setGridBag(false, true, 3, 1, 1);
     contentPane.add(player2Label, gbcPlayer2Label);
 
     // Player 2 panel
     JPanel player2Panel = new JPanel();
-    GridBagConstraints gbcPlayer2Panel = setGridBag(true, true, 3, 3, 1);
+    GridBagConstraints gbcPlayer2Panel = setGridBag(true, true, 3, 2, 1);
     contentPane.add(player2Panel, gbcPlayer2Panel);
     player2Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
@@ -301,28 +320,33 @@ public class GuiFrame {
 
     // Player 2 taken pieces label
     JLabel piecesP2Label = new JLabel("PIECES", JLabel.CENTER);
-    GridBagConstraints gbcPiecesP2Label = setGridBag(false, false, 3, 4, 1);
+    GridBagConstraints gbcPiecesP2Label = setGridBag(false, false, 3, 3, 1);
     contentPane.add(piecesP2Label, gbcPiecesP2Label);
 
     // Player 2 taken pieces panel
     JPanel piecesP2Panel = new JPanel();
     // TODO add piece sprites
-    GridBagConstraints gbcPiecesP2Panel = setGridBag(true, true, 3, 5, 1);
+    GridBagConstraints gbcPiecesP2Panel = setGridBag(true, true, 3, 4, 1);
     contentPane.add(piecesP2Panel, gbcPiecesP2Panel);
     piecesP2Panel.setLayout(new GridLayout(2, 2, 0, 0));
-    piecesP2Panel.setLayout(new GridLayout(4, 4));
+    piecesP2Panel.setLayout(new GridLayout(2, 8));
+    player2TakenPiecesLabels = new JLabel[16];
+    for(int i = 0; i < 16; i++) {
+      player2TakenPiecesLabels[i] = new JLabel();
+      piecesP2Panel.add(player2TakenPiecesLabels[i]);
+    }
 
     // Player 1 label (bottom)
     player1Label = new JLabel("", JLabel.CENTER);
     player1Label.setOpaque(true);
     player1Label.setBackground(Color.white);
     player1Label.setFont(new Font(null, Font.PLAIN, playerNameFontSize));
-    GridBagConstraints gbcPlayer1Label = setGridBag(false, true, 3, 6, 1);
+    GridBagConstraints gbcPlayer1Label = setGridBag(false, true, 3, 5, 1);
     contentPane.add(player1Label, gbcPlayer1Label);
 
     // Player 1 panel
     JPanel player1Panel = new JPanel();
-    GridBagConstraints gbcPlayer1Panel = setGridBag(true, true, 3, 7, 1);
+    GridBagConstraints gbcPlayer1Panel = setGridBag(true, true, 3, 6, 1);
     contentPane.add(player1Panel, gbcPlayer1Panel);
     player1Panel.setLayout(new GridLayout(2, 2, 0, 0));
 
@@ -342,15 +366,20 @@ public class GuiFrame {
 
     // Player 1 taken pieces label
     JLabel piecesP1Label = new JLabel("PIECES");
-    GridBagConstraints gbcPiecesP1Label = setGridBag(false, false, 3, 8, 1);
+    GridBagConstraints gbcPiecesP1Label = setGridBag(false, false, 3, 7, 1);
     contentPane.add(piecesP1Label, gbcPiecesP1Label);
 
     JPanel piecesP1Panel = new JPanel();
     // TODO add piece sprites
-    GridBagConstraints gbcPiecesP1Panel = setGridBag(true, true, 3, 9, 1);
+    GridBagConstraints gbcPiecesP1Panel = setGridBag(true, true, 3, 8, 1);
     contentPane.add(piecesP1Panel, gbcPiecesP1Panel);
     piecesP1Panel.setLayout(new GridLayout(2, 2, 0, 0));
-    piecesP1Panel.setLayout(new GridLayout(4, 4));
+    piecesP1Panel.setLayout(new GridLayout(2, 8));
+    player1TakenPiecesLabels = new JLabel[16];
+    for(int i = 0; i < 16; i++) {
+      player1TakenPiecesLabels[i] = new JLabel();
+      piecesP1Panel.add(player1TakenPiecesLabels[i]);
+    }
 
     // Get PlayerNames
     GuiUtility.askForPlayerName(player1Label, player2Label);
@@ -384,9 +413,14 @@ public class GuiFrame {
           field.setWinner(null);
           player1.setToInit();
           player2.setToInit();
-          GuiUtility.showScore(player1ScoreLabel, player1);
-          GuiUtility.showScore(player2ScoreLabel, player2);
-          
+          GuiUtility.showScore(player1ScoreLabel, player1TakenPiecesLabels, player1);
+          GuiUtility.showScore(player2ScoreLabel, player2TakenPiecesLabels, player2);
+          for(JLabel label : player1TakenPiecesLabels) {
+            label.setIcon(null);
+          }
+          for(JLabel label : player2TakenPiecesLabels) {
+            label.setIcon(null);
+          }
         }
       }
     };

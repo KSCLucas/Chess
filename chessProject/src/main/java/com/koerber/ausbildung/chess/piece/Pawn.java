@@ -123,7 +123,7 @@ public class Pawn extends Piece {
       if(currentGameState.get(fieldKey) instanceof Pawn enPassantablePawn) {
         if(enPassantablePawn.isEnPassentable() && enPassantablePawn.getColour() != getColour()) {
           if(player != null) {
-            player.addTakenPiece(currentGameState.get(targetPosition));
+            player.addTakenPiece(currentGameState.get(fieldKey));
           }
           enPassantablePawn.setPosition(NOT_ON_FIELD);
           currentGameState.remove(fieldKey);

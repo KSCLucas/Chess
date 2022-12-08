@@ -172,7 +172,7 @@ public class GuiFrame {
 
     createNewGameButtonWithActionListener(field, history, newGamePanel, player1, player2);
 
-    createBackButtonWithActionListener(field, history, newGamePanel);
+    // createBackButtonWithActionListener(field, history, newGamePanel);
 
     JLabel historyLabel = new JLabel("HISTORY");
     GridBagConstraints gbcHistoryPanel = setGridBag(true, false, 0, 1, 1);
@@ -425,24 +425,25 @@ public class GuiFrame {
     newGamePanel.add(newGameButton);
   }
 
-  /**
-   * builds back button with action listener
-   * 
-   * @param field
-   * @param history
-   * @param newGamePanel
-   */
-  private void createBackButtonWithActionListener(Field field, History history, JPanel newGamePanel) {
-    JButton backButton = new JButton("BACK");
-    ActionListener backListener = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        GuiUtility.undoLastTurn(field, history);
-      }
-    };
-    backButton.addActionListener(backListener);
-    newGamePanel.add(backButton);
-  }
+  // /**
+  // * builds back button with action listener
+  // *
+  // * @param field
+  // * @param history
+  // * @param newGamePanel
+  // */
+  // private void createBackButtonWithActionListener(Field field, History
+  // history, JPanel newGamePanel) {
+  // JButton backButton = new JButton("BACK");
+  // ActionListener backListener = new ActionListener() {
+  // @Override
+  // public void actionPerformed(ActionEvent e) {
+  // GuiUtility.undoLastTurn(field, history);
+  // }
+  // };
+  // backButton.addActionListener(backListener);
+  // newGamePanel.add(backButton);
+  // }
 
   /**
    * builds backwards in history button with action listener

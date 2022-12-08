@@ -210,7 +210,12 @@ public class King extends Piece {
             }
             // Check for Piece of Kings colour
             else if(detected.getColour() != currentPiece.getColour()) {
-              currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+              if(detected instanceof King) {
+                getAttackKeys().add(currentPiece.getPosition());
+              }
+              else {
+                currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
+              }
             }
           }
         }

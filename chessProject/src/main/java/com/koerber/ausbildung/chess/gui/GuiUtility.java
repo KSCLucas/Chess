@@ -274,7 +274,7 @@ public class GuiUtility {
   public static void showWinnerPopup(Field field, Component jFrame) throws OnlyOneWinnerException {
     field.checkForWinner();
     if(field.getWinner() == ChessColour.BLACK || field.getWinner() == ChessColour.WHITE) {
-      JOptionPane.showMessageDialog(jFrame, field.getWinner() + " won!");
+      JOptionPane.showMessageDialog(jFrame, field.getWinner() + " won!", "Winner", JOptionPane.INFORMATION_MESSAGE);
     }
   }
 

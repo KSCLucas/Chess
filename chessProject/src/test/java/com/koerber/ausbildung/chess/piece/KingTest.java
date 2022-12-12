@@ -197,7 +197,13 @@ class KingTest {
   @Test
   @DisplayName("checkForCeckmateSuccess")
   void checkForCeckmateSuccessTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+
+    testKing.setInCheck(true);
+
+    testKing.checkForCheckmate();
+
+    assertEquals(true, testKing.isCheckmate());
   }
 
   /**
@@ -209,6 +215,12 @@ class KingTest {
   @Test
   @DisplayName("checkForCheckmateFailure")
   void checkForCheckmateFailureTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+
+    testKing.setInCheck(false);
+
+    testKing.checkForCheckmate();
+
+    assertEquals(false, testKing.isCheckmate());
   }
 }

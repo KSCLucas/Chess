@@ -177,20 +177,16 @@ public abstract class Piece {
     if(targetPosition == null || !getLegalMoveMap().containsKey(targetPosition) || getColour() != unlockedColour) {
       return false;
     }
-    else {
-      currentGameState.remove(getPosition());
-      setPosition(targetPosition);
-      if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
-        if(player != null) {
-          player.addTakenPiece(currentGameState.get(targetPosition));
-        }
-        currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
-
+    currentGameState.remove(getPosition());
+    setPosition(targetPosition);
+    if(getLegalMoveMap().get(targetPosition).equals(HIT_STRING)) {
+      if(player != null) {
+        player.addTakenPiece(currentGameState.get(targetPosition));
       }
-      currentGameState.put(targetPosition, this);
-      return true;
+      currentGameState.get(targetPosition).setPosition(NOT_ON_FIELD);
     }
-
+    currentGameState.put(targetPosition, this);
+    return true;
   }
 
   /**
@@ -206,43 +202,41 @@ public abstract class Piece {
       throw new PieceOutOfBoundsException();
     }
     // Is Piece moveable?
-    if(isMoveable()) {
-      // Clear legalMoveMap
-      getLegalMoveMap().clear();
-      // Loop over every move vector in availableMoveVectors
-      for(MoveVector moveVector : getAvailableMoveVectors()) {
-        int posLetterAsNumber = getPosLetterAsNumber(getPosition());
-        int posNumber = getPosNumber(getPosition());
-        if(!inFieldBounds(posLetterAsNumber, posNumber)) {
-          throw new PieceOutOfBoundsException();
-        }
-        // Change content of legalMoveMap based on move vector i and
-        // currentGameState
-        boolean repeatLoop = true;
-        do {
-          posLetterAsNumber += moveVector.getX();
-          posNumber += moveVector.getY();
-          // Check for fieldKey still on Field
-          if(inFieldBounds(posLetterAsNumber, posNumber)) {
-            // Check for EmptyPiece
-            String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
-            if(currentGameState.get(fieldKey) == null) {
-              getLegalMoveMap().put(fieldKey, MOVE_STRING);
-            }
-            // Check for opposing Piece
-            else if(currentGameState.get(fieldKey).getColour() != getColour()) {
-              getLegalMoveMap().put(fieldKey, HIT_STRING);
-              repeatLoop = false;
-            }
-            else {
-              repeatLoop = false;
-            }
-          }
-          else {
-            repeatLoop = false;
-          }
-        } while(isMoveRepeatable() && repeatLoop);
+    if(!isMoveable()) {
+      return;
+    }
+    // Clear legalMoveMap
+    getLegalMoveMap().clear();
+    // Loop over every move vector in availableMoveVectors
+    for(MoveVector moveVector : getAvailableMoveVectors()) {
+      int posLetterAsNumber = getPosLetterAsNumber(getPosition());
+      int posNumber = getPosNumber(getPosition());
+      if(!inFieldBounds(posLetterAsNumber, posNumber)) {
+        throw new PieceOutOfBoundsException();
       }
+      // Change content of legalMoveMap based on move vector i and
+      // currentGameState
+      boolean loop = true;
+      do {
+        posLetterAsNumber += moveVector.getX();
+        posNumber += moveVector.getY();
+        String fieldKey = getFieldKey(posLetterAsNumber, posNumber);
+        if(!inFieldBounds(posLetterAsNumber, posNumber)) {
+          loop = false;
+        }
+        // Check for empty field
+        else if(currentGameState.get(fieldKey) == null) {
+          getLegalMoveMap().put(fieldKey, MOVE_STRING);
+        }
+        // Check for opposing Piece
+        else if(currentGameState.get(fieldKey).getColour() != getColour()) {
+          getLegalMoveMap().put(fieldKey, HIT_STRING);
+          loop = false;
+        }
+        else {
+          loop = false;
+        }
+      } while(isMoveRepeatable() && loop);
     }
   }
 

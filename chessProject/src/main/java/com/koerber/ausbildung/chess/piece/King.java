@@ -240,12 +240,12 @@ public class King extends Piece {
           }
         }
         // Check for this King
-        else if(detectedPiece.getColour() != currentPiece.getColour() && detectedPiece instanceof King) {
+        else if(detectedPieceNotNullAndDifferentColour(detectedPiece, currentPiece) && detectedPiece instanceof King) {
           currentPiece.getLegalMoveMap().put(fieldKey, getId());
           kingInLine = true;
         }
         // Check for Piece of Kings colour
-        else if(detectedPiece.getColour() != currentPiece.getColour()) {
+        else if(detectedPieceNotNullAndDifferentColour(detectedPiece, currentPiece)) {
           if(opposingPieceCount < 1 && !allyPieceDetected) {
             currentPiece.getLegalMoveMap().put(fieldKey, HIT_STRING);
           }
@@ -256,7 +256,7 @@ public class King extends Piece {
             encounterKey = fieldKey;
           }
         }
-        else {
+        else if(detectedPiece != null) {
           if(!allyPieceDetected && opposingPieceCount < 1) {
             currentPiece.getLegalMoveMap().put(fieldKey, MOVE_STRING);
           }
@@ -271,6 +271,16 @@ public class King extends Piece {
           allyPieceInfrontKingDetected);
       checkForCheck(trail, opposingPieceCount, allyPieceInfrontKingDetected, kingInLine);
     }
+  }
+
+  /**
+   * @param detectedPiece
+   * @param currentPiece
+   * @return {@code true}, if {@code detectedPiece} is not {@code null} and has
+   *         a different {@code colour} as {@code currentPiece}.
+   */
+  private boolean detectedPieceNotNullAndDifferentColour(Piece detectedPiece, Piece currentPiece) {
+    return detectedPiece != null && (detectedPiece.getColour() != currentPiece.getColour());
   }
 
   /**
@@ -348,7 +358,6 @@ public class King extends Piece {
       }
     }
     else {
-      // Set moveable false
       currentPiece.setMoveable(false);
     }
   }

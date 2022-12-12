@@ -1,7 +1,6 @@
 package com.koerber.ausbildung.chess.piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
 import com.koerber.ausbildung.chess.utility.ChessColour;
+import com.koerber.ausbildung.chess.utility.PieceOutOfBoundsException;
 
 /**
  * Tests the {@code King} class.
@@ -171,9 +171,52 @@ class KingTest {
    * @tests {@code checkForCheck()}
    */
   @Test
-  @DisplayName("checkForCeckSuccess")
-  void checkForCeckSuccessTest() {
-    fail("Not yet implemented");
+  @DisplayName("checkForCheckSuccess")
+  void checkForCheckSuccessTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E3");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(true, testKing.isInCheck());
+  }
+
+  /**
+   * Builds a {@code King} object with initial test values and puts it in check.
+   * One expects {@code King.isInCheck = true}.
+   * 
+   * @tests {@code checkForCheck()}
+   */
+  @Test
+  @DisplayName("checkForCheckJumpInFront")
+  void checkForCheckJumpInFrontTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "C3");
+    Knight testKnight = new Knight(1, ChessColour.WHITE, "B1");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("C3", opposingTestQueen);
+    testCurrentGameState.put("B1", testKnight);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    try {
+      testKnight.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+
+    Map<String, String> testReferenceMap = new TreeMap<>();
+    testReferenceMap.put("C3", Piece.HIT_STRING);
+    testReferenceMap.put("D2", Piece.MOVE_STRING);
+
+    assertEquals(true, testKing.isInCheck());
+    assertEquals(testReferenceMap, testKnight.getLegalMoveMap());
   }
 
   /**
@@ -185,7 +228,136 @@ class KingTest {
   @Test
   @DisplayName("checkForCheckFailure")
   void checkForCheckFailureTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E3");
+    Pawn testPawn = new Pawn(1, ChessColour.WHITE, "E2");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+    testCurrentGameState.put("E2", testPawn);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(false, testKing.isInCheck());
+  }
+
+  /**
+   * Builds a {@code King} object with initial test values and does not put it
+   * in check. One expects {@code King.isInCheck = false}.
+   * 
+   * @tests {@code checkForCheck()}
+   */
+  @Test
+  @DisplayName("checkForCheckFailureWithTwoOpposingPieces")
+  void checkForCheckFailureWithTwoOpposingPiecesTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E3");
+    Pawn opposingPawn = new Pawn(1, ChessColour.BLACK, "E2");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+    testCurrentGameState.put("E2", opposingPawn);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(false, testKing.isInCheck());
+  }
+
+  /**
+   * Builds a {@code King} object with initial test values and does not put it
+   * in check. One expects {@code King.isInCheck = false}.
+   * 
+   * @tests {@code checkForCheck()}
+   */
+  @Test
+  @DisplayName("checkForCheckFailureWithAlliedRookInFront")
+  void checkForCheckFailureWithAlliedRookInFrontTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E3");
+    Rook testRook = new Rook(1, ChessColour.WHITE, "E2", Rook.CASTLE_SIDE_LONG);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+    testCurrentGameState.put("E2", testRook);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    try {
+      testRook.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+
+    assertEquals(false, testKing.isInCheck());
+    assertEquals(Piece.HIT_STRING, testRook.getLegalMoveMap().get("E3"));
+  }
+
+  /**
+   * Builds a {@code King} object with initial test values and does not put it
+   * in check. One expects {@code King.isInCheck = false}.
+   * 
+   * @tests {@code checkForCheck()}
+   */
+  @Test
+  @DisplayName("checkForCheckFailureBlock")
+  void checkForCheckFailureBlockTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E3");
+    Bishop testBishop = new Bishop(1, ChessColour.WHITE, "E2");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+    testCurrentGameState.put("E2", testBishop);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    try {
+      testBishop.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+
+    assertEquals(false, testKing.isInCheck());
+    assertEquals(new TreeMap<String, String>(), testBishop.getLegalMoveMap());
+  }
+
+  /**
+   * Builds a {@code King} object with initial test values and does not put it
+   * in check. One expects {@code King.isInCheck = false}.
+   * 
+   * @tests {@code checkForCheck()}
+   */
+  @Test
+  @DisplayName("checkForCheckNoEnPassant")
+  void checkForCheckNoEnPassantTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Queen opposingTestQueen = new Queen(1, ChessColour.BLACK, "E7");
+    Pawn testPawn = new Pawn(1, ChessColour.WHITE, "E5");
+    Pawn opposingTestPawn = new Pawn(1, ChessColour.BLACK, "F7");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("E3", opposingTestQueen);
+    testCurrentGameState.put("E5", testPawn);
+    testCurrentGameState.put("F7", opposingTestPawn);
+
+    opposingTestPawn.setPosition("F5");
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    try {
+      testPawn.createLegalMoveMap(testCurrentGameState);
+    }
+    catch(PieceOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+
+    assertEquals(false, testKing.isInCheck());
+    assertEquals(null, testPawn.getLegalMoveMap().get("F6"));
+    assertEquals(Piece.MOVE_STRING, testPawn.getLegalMoveMap().get("E6"));
+    assertEquals(true, opposingTestPawn.isEnPassentable());
   }
 
   /**
@@ -196,7 +368,7 @@ class KingTest {
    */
   @Test
   @DisplayName("checkForCeckmateSuccess")
-  void checkForCeckmateSuccessTest() {
+  void checkForCheckmateSuccessTest() {
     King testKing = new King(1, ChessColour.WHITE, "E1");
 
     testKing.setInCheck(true);

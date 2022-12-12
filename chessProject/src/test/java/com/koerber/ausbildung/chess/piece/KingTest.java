@@ -1,11 +1,16 @@
 package com.koerber.ausbildung.chess.piece;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.koerber.ausbildung.chess.ObjectFactoryForTest;
+import com.koerber.ausbildung.chess.utility.ChessColour;
 
 /**
  * Tests the {@code King} class.
@@ -41,7 +46,6 @@ class KingTest {
   void checkForFirstMoveFailureTest() {
     King testKing = ObjectFactoryForTest.getKing();
     assertEquals(false, testKing.isHasMoved());
-
   }
 
   /**
@@ -54,7 +58,21 @@ class KingTest {
   @Test
   @DisplayName("checkForCastleBothSidesSuccess")
   void checkForCastleBothSidesSuccessTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookLong = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+    Rook testRookShort = new Rook(2, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("A1", testRookLong);
+    testCurrentGameState.put("H1", testRookShort);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(true, testRookLong.isCanCastle());
+    assertEquals(true, testRookShort.isCanCastle());
+    assertEquals("G1", testKing.getCastleKeyShort());
+    assertEquals("C1", testKing.getCastleKeyLong());
   }
 
   /**
@@ -67,7 +85,23 @@ class KingTest {
   @Test
   @DisplayName("checkForCastleLongSideSuccess")
   void checkForCastleLongSideSuccessTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookLong = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+    Rook testRookShort = new Rook(2, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+    Knight testKnight = new Knight(1, ChessColour.WHITE, "G1");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("A1", testRookLong);
+    testCurrentGameState.put("H1", testRookShort);
+    testCurrentGameState.put("G1", testKnight);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(true, testRookLong.isCanCastle());
+    assertEquals(false, testRookShort.isCanCastle());
+    assertEquals(null, testKing.getCastleKeyShort());
+    assertEquals("C1", testKing.getCastleKeyLong());
   }
 
   /**
@@ -80,7 +114,23 @@ class KingTest {
   @Test
   @DisplayName("checkForCastleShortSideSuccess")
   void checkForCastleShortSideSuccessTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookLong = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+    Rook testRookShort = new Rook(2, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+    Knight testKnight = new Knight(1, ChessColour.WHITE, "B1");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("A1", testRookLong);
+    testCurrentGameState.put("H1", testRookShort);
+    testCurrentGameState.put("B1", testKnight);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(false, testRookLong.isCanCastle());
+    assertEquals(true, testRookShort.isCanCastle());
+    assertEquals("G1", testKing.getCastleKeyShort());
+    assertEquals(null, testKing.getCastleKeyLong());
   }
 
   /**
@@ -93,7 +143,25 @@ class KingTest {
   @Test
   @DisplayName("checkForCastleFailure")
   void checkForCastleFailureTest() {
-    fail("Not yet implemented");
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookLong = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+    Rook testRookShort = new Rook(2, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+    Knight testKnightLong = new Knight(1, ChessColour.WHITE, "B1");
+    Knight testKnightShort = new Knight(2, ChessColour.WHITE, "G1");
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("A1", testRookLong);
+    testCurrentGameState.put("H1", testRookShort);
+    testCurrentGameState.put("B1", testKnightLong);
+    testCurrentGameState.put("G1", testKnightShort);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+
+    assertEquals(false, testRookLong.isCanCastle());
+    assertEquals(false, testRookShort.isCanCastle());
+    assertEquals(null, testKing.getCastleKeyShort());
+    assertEquals(null, testKing.getCastleKeyLong());
   }
 
   /**

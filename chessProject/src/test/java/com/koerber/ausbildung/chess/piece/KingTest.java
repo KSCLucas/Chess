@@ -134,6 +134,64 @@ class KingTest {
   }
 
   /**
+   * Builds a {@code King} and a {@code Rook} with
+   * {@code castleSide = Rook.CASTLE_SIDE_LONG} and calls {@code castle}.
+   * Expects {@code King} and {@code Rook} on their respective {@code position}.
+   */
+  @Test
+  @DisplayName("castleLongSuccess")
+  void castleLongSuccessTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookLong = new Rook(1, ChessColour.WHITE, "A1", Rook.CASTLE_SIDE_LONG);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("A1", testRookLong);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    testKing.setPosition("C1");
+    testCurrentGameState.put("C1", testKing);
+    testCurrentGameState.remove("E1");
+    try {
+      testKing.castle(testCurrentGameState);
+    }
+    catch(Exception e) {
+    }
+
+    assertEquals(testRookLong.toString(), testCurrentGameState.get("D1").toString());
+    assertEquals(testKing.toString(), testCurrentGameState.get("C1").toString());
+  }
+
+  /**
+   * Builds a {@code King} and a {@code Rook} with
+   * {@code castleSide = Rook.CASTLE_SIDE_SHORT} and calls {@code castle}.
+   * Expects {@code King} and {@code Rook} on their respective {@code position}.
+   */
+  @Test
+  @DisplayName("castleShortSuccess")
+  void castleShortSuccessTest() {
+    King testKing = new King(1, ChessColour.WHITE, "E1");
+    Rook testRookShort = new Rook(1, ChessColour.WHITE, "H1", Rook.CASTLE_SIDE_SHORT);
+
+    Map<String, Piece> testCurrentGameState = new TreeMap<String, Piece>();
+    testCurrentGameState.put("E1", testKing);
+    testCurrentGameState.put("H1", testRookShort);
+
+    testKing.checkForCheckAndCreateLegalMoveMap(testCurrentGameState);
+    testKing.setPosition("G1");
+    testCurrentGameState.put("G1", testKing);
+    testCurrentGameState.remove("E1");
+    try {
+      testKing.castle(testCurrentGameState);
+    }
+    catch(Exception e) {
+    }
+
+    assertEquals(testRookShort.toString(), testCurrentGameState.get("F1").toString());
+    assertEquals(testKing.toString(), testCurrentGameState.get("G1").toString());
+  }
+
+  /**
    * Builds a {@code King} object with initial test values. Sets mock tower
    * value to {@code false} for {@code Rook.canCastleSide = 's' / 'l'}. One
    * expects: {@code King.canCastleShort = false & King.canCastleLong = false}.
